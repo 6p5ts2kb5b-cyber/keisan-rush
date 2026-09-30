@@ -548,6 +548,88 @@ body.fever{animation:feverc 1.4s linear infinite}
 .note{font-weight:900;color:#e0467a}
 .cbtns{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
 @media (max-height:700px){.itab small{display:none}.sheet{padding:7px 10px;gap:5px}.btn.go{font-size:16px;padding:8px 12px}}
+/* ===== にっぽん旅 ===== */
+#japanScr{position:fixed;inset:0;display:flex;flex-direction:column;max-width:560px;margin:0 auto;padding-inline:12px;padding-block:8px 10px;box-sizing:border-box;gap:8px}
+.jtabs .tab small{font-size:10px;opacity:.8}
+#jmap{background:#7fd3e8}
+#jmap .pref{cursor:pointer;transition:opacity .2s}#jmap .pref:hover rect:first-child{filter:brightness(1.08)}
+#jmap .pref.off{opacity:.28;cursor:default}#jmap .pref:focus{outline:none}#jmap .pref:focus-visible rect:first-child{stroke:#2a6fd6;stroke-width:2.6}
+#jmap .ring{animation:ringsp 1.2s linear infinite}@keyframes ringsp{to{stroke-dashoffset:-16}}
+.jsheet{max-height:40vh;overflow-y:auto}
+.stcard{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:6px}
+.spot{position:relative;border:2px dashed var(--line);border-radius:12px;padding:6px 4px;background:var(--cream);display:flex;flex-direction:column;align-items:center;gap:1px;font:800 11px var(--body);color:var(--ink);cursor:pointer;min-height:86px}
+.spot b{font-size:12px;line-height:1.2;text-align:center}.spot small{font-size:10px;color:var(--muted);text-align:center;line-height:1.25}
+.spot .se{font-size:24px;line-height:1.1}.spot img{width:34px;height:34px;border-radius:8px;object-fit:cover}
+.spot .go{font-size:10px;color:#e0467a;margin-top:auto}
+.spot.done{border-style:solid;border-color:#e0467a;background:#fff3f6}
+.spot.my{border-color:#39bcd6}
+.spot .stp{position:absolute;right:3px;top:3px;width:22px;height:22px;border-radius:50%;border:2px solid #e0467a;color:#e0467a;font-size:10px;display:grid;place-items:center;transform:rotate(-14deg);background:#fff}
+.spot:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.qzbox .dexhead h2{font-size:18px}
+.qzdots{display:flex;gap:8px;justify-content:center}.qzdots i{width:14px;height:14px;border-radius:50%;background:#e6dcc6;border:2px solid #fff}
+.qzdots i.ok{background:var(--lime)}.qzdots i.ng{background:var(--red)}.qzdots i.cur{background:#fff;border-color:var(--ink)}
+.qztag{text-align:center;font:800 12px var(--body);color:var(--muted)}
+.qzq{background:var(--panel);border-radius:16px;padding:16px 12px;font:900 18px/1.5 var(--display);color:var(--ink);text-align:center;box-shadow:0 3px 0 rgba(90,65,40,.2)}
+.qzq b{color:#e0467a}
+.qzc{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qzc button{min-height:58px;border-radius:14px;border:2px solid var(--wood);background:var(--cream);font:900 14px/1.3 var(--body);color:var(--ink);box-shadow:0 4px 0 rgba(90,65,40,.25);display:flex;align-items:center;gap:8px;padding:8px 10px;text-align:left;cursor:pointer}
+.qzc button i{font-style:normal;background:var(--ink);color:#fff;border-radius:8px;min-width:22px;text-align:center;font-size:12px;flex:none}
+.qzc button:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(90,65,40,.25)}
+.qzc button.ok{background:#dff7d5;border-color:#3f8f35}.qzc button.ng{background:#ffe0e0;border-color:#ec5b5b}.qzc button:disabled{cursor:default}
+.qzc button:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.qzmsg{text-align:center;font:800 14px/1.5 var(--body);color:var(--ink);min-height:1.5em}.qzmsg small{color:var(--muted)}
+.okt{color:#2f9e3a}.ngt{color:#d8394b}
+.qznext{font-size:18px;padding:10px 20px;align-self:center}
+.qzres{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;color:var(--ink)}
+.qzres p{margin:0;font-weight:800}
+.qzbig{font:900 20px var(--display);color:var(--wood2)}
+.jstamp{width:150px;height:150px;border-radius:50%;border:6px double #e0467a;color:#e0467a;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--display);transform:rotate(-12deg);animation:stampIn .5s cubic-bezier(.2,1.6,.4,1) both;background:rgba(255,255,255,.75)}
+.jstamp small{font:900 11px var(--body)}.jstamp b{font-size:20px;line-height:1.2;max-width:128px;text-align:center}.jstamp span{font-size:14px}
+@keyframes stampIn{from{transform:scale(2.4) rotate(-30deg);opacity:0}to{transform:scale(1) rotate(-12deg);opacity:1}}
+.rw{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.rwi{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:6px 10px;display:flex;flex-direction:column;align-items:center;min-width:84px;animation:qin .4s .3s both}
+.rwi .fe{font-size:30px;line-height:1.1}.rwi .ic{width:56px;height:56px}.rwi .ic svg{width:100%;height:100%}.rwi b{font:900 13px var(--body)}.rwi small{font-size:11px;color:var(--muted);font-weight:800}
+.conq{font:900 18px var(--display);color:#c78a00;animation:qin .5s .5s both}
+.flist{display:flex;flex-wrap:wrap;gap:6px}
+.fd{display:flex;align-items:center;gap:4px;background:var(--cream);border:2px solid var(--line);border-radius:12px;padding:5px 9px;font:800 12px var(--body);color:var(--ink);cursor:pointer}
+div.fd{cursor:default}.fd span{font-size:20px}.fd small{color:var(--muted)}.fd .ic{width:30px;height:30px;display:inline-block}.fd .ic svg{width:100%;height:100%}
+.fd:disabled{opacity:.5;cursor:default}.fd:focus-visible{outline:3px solid var(--cyan)}
+#foodBody{display:flex;flex-direction:column;gap:10px;overflow-y:auto}
+.vfood{display:flex;flex-direction:column;gap:6px}
+.evo{display:flex;gap:6px}.evo span{flex:1;text-align:center;font:800 11px var(--body);border-radius:99px;padding:3px 0;background:#e6dcc6;color:var(--muted)}
+.evo span.on:nth-child(1){background:#39bcd6;color:#fff}.evo span.on:nth-child(2){background:#b86bff;color:#fff}.evo span.on:nth-child(3){background:#ffc93c;color:#6b4a12}
+.evbar{height:8px;border-radius:99px;background:#e6dcc6;overflow:hidden}.evbar i{display:block;height:100%;background:linear-gradient(90deg,#39bcd6,#b86bff,#ffc93c);transition:width .4s}
+.evn{font-size:11px;color:var(--muted);font-weight:800}
+.jobs{background:var(--panel);border-radius:14px;padding:8px 10px;display:flex;flex-direction:column;gap:6px}
+.jobs>small{font-size:12px;color:var(--muted);font-weight:800;line-height:1.5}
+.jh{font:900 14px var(--display);color:var(--wood2)}.jh small{font:800 11px var(--body);color:var(--muted)}
+.jrow{display:flex;align-items:center;gap:8px}.jrow .ic{width:38px;height:38px;flex:none}.jrow .ic svg{width:100%;height:100%}
+.jt{min-width:0;flex:1;display:flex;flex-direction:column}.jt b{font:900 13px var(--body);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.jt small{font-size:10.5px;color:var(--muted);font-weight:800}
+.jrow select{font:800 13px var(--body);border:2px solid var(--wood);border-radius:10px;padding:5px;background:var(--cream);color:var(--ink);max-width:150px}
+.mcircle{position:absolute;left:50%;top:52%;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;border:3px dashed #b86bff;box-shadow:0 0 26px #b86bff,inset 0 0 26px #b86bff;animation:mspin 4s linear infinite;pointer-events:none;z-index:2}
+.mcircle i{position:absolute;inset:18px;border-radius:50%;border:2px solid rgba(255,215,90,.8)}.mcircle i+i{inset:44px;border:2px dotted #fff;transform:rotate(45deg)}
+.mcircle.go{animation:mspin .6s linear infinite;box-shadow:0 0 60px #ffd23f,inset 0 0 60px #fff}.mcircle.fade{opacity:0;transition:opacity .8s}
+@keyframes mspin{to{transform:rotate(360deg)}}
+.phbox{overflow-y:auto}
+.phlead{margin:0;font:800 13px/1.5 var(--body);color:var(--ink)}
+.phshot{display:block;text-align:center;font-size:20px;padding:12px}
+.phprev{display:flex;gap:10px;align-items:center}.phprev img{width:110px;height:110px;object-fit:cover;border-radius:14px;border:3px solid #fff;box-shadow:0 3px 0 rgba(90,65,40,.25);flex:none}
+.phai{display:flex;flex-direction:column;gap:6px;min-width:0}.phaimsg{font:800 13px/1.5 var(--body);color:var(--ink)}.phaimsg small{color:var(--muted)}
+.phnote{font-size:11px;color:var(--muted);font-weight:800}
+.phform{display:flex;flex-direction:column;gap:8px;background:var(--panel);border-radius:14px;padding:10px}
+.phform label{display:flex;flex-direction:column;gap:3px;font:800 12px var(--body);color:var(--muted);flex:1;min-width:0}
+.phform input,.phform select{font:800 15px var(--body);border:2px solid var(--wood);border-radius:10px;padding:7px;background:#fff;color:var(--ink);min-width:0}
+.phrow{display:flex;gap:8px}
+.phkinds{display:flex;gap:6px;flex-wrap:wrap}.phkinds button,.phemo button{font:800 13px var(--body);border:2px solid var(--line);background:var(--cream);color:var(--ink);border-radius:99px;padding:6px 10px;cursor:pointer}
+.phkinds button[aria-pressed="true"],.phemo button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.phemo{display:flex;gap:4px;flex-wrap:wrap}.phemo button{font-size:18px;padding:3px 7px}
+.mylist{display:flex;flex-direction:column;gap:6px}
+.myit{display:flex;align-items:center;gap:8px;background:var(--panel);border-radius:12px;padding:5px 8px}.myit img{width:42px;height:42px;border-radius:9px;object-fit:cover;flex:none}
+.myit span{flex:1;min-width:0;display:flex;flex-direction:column}.myit b{font:900 13px var(--body);color:var(--ink)}.myit small{font-size:11px;color:var(--muted);font-weight:800}
+.lbl2{font:900 13px var(--display);color:var(--wood2)}
+.itabs{grid-template-columns:repeat(7,minmax(0,1fr))!important}.itab.jt{background:#fff0f4}
+.pn .jb{margin-right:1px}
+#phSave{font-size:19px;padding:10px 16px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -614,6 +696,12 @@ body.fever{animation:feverc 1.4s linear infinite}
   <div class="mapwrap" id="mapwrap"></div>
   <div class="sheet" id="sheet"></div>
 </div>
+<div id="japanScr" hidden>
+  <div class="mhead"><div style="min-width:0"><small id="jSub"></small><h1>🗾 にっぽん旅</h1></div><div class="sp"><button class="pill" id="jFood" aria-label="たべもの">🍙 <span id="jFoodN">0</span></button><button class="pill" id="jPhoto" aria-label="しゃしんモード">📷</button><button class="pill" id="jDex" aria-label="こんちゅうずかん">📖</button><button class="pill" id="jIsl" aria-label="島マップに もどる">🏝 島</button></div></div>
+  <div class="tabs jtabs" id="jtabs"></div>
+  <div class="mapwrap" id="jmap"></div>
+  <div class="sheet jsheet" id="jsheet"></div>
+</div>
 <div id="banner"></div>
 <div id="dim"></div>
 <div id="cutin"><div class="band"><div class="ci" id="ciCh"></div><div class="tx"><small id="ciSub">必殺技！</small><b id="ciName"></b></div></div></div>
@@ -621,7 +709,7 @@ body.fever{animation:feverc 1.4s linear infinite}
 <div class="ov" id="title">
   <div class="box">
     <div class="logo">けいさん<br>ラッシュ<small>小1 → 小6 そうふくしゅう</small></div>
-    <p class="tag">6つの島を めぐる 計算RPG！ 計算に正解して 昆虫の戦士と ぼうけんしよう。</p>
+    <p class="tag">6つの島を めぐる 計算RPG！ 🗾 にっぽん旅の スタンプラリーや 📷 しゃしんモードも あるよ。</p>
     <div class="dex" id="dex"></div>
     <div class="files" id="files"></div>
     <div class="namebox" id="namebox" hidden><b id="nameTitle">なまえを いれてね</b><input id="nameIn" type="text" maxlength="8" autocomplete="off" placeholder="なまえ（8もじまで）" aria-label="なまえ"><small id="nameErr" class="nerr"></small>
@@ -637,10 +725,12 @@ body.fever{animation:feverc 1.4s linear infinite}
   <div class="slots" id="vSlots"></div>
   <div class="vmsg" id="vMsg"></div>
   <div class="items" id="vItems"></div>
+  <div class="lbl" id="vFoodL">🍙 ごはん（たべさせて しんか！）</div><div class="vfood" id="vFood"></div>
 </div></div>
 <div class="ov" id="partyOv" hidden><div class="pbox">
   <div class="dexhead"><h2>パーティ へんせい</h2><span class="cnt" id="pcnt"></span><button class="xbtn" id="pClose">けってい</button></div>
   <div class="slots4" id="slots4"></div>
+  <div class="jobs" id="jobs"></div>
   <div class="tabs" id="ptabs"></div>
   <div class="clist" id="clist"></div>
 </div></div>
@@ -668,6 +758,33 @@ body.fever{animation:feverc 1.4s linear infinite}
   <div class="grid" id="dexGrid"></div>
 </div></div>
 
+<div class="ov" id="quizOv" hidden><div class="gbox qzbox">
+  <div class="dexhead"><h2 id="qzTitle"></h2><button class="xbtn" id="qzClose">とじる</button></div>
+  <div class="qzdots" id="qzDots"></div><div class="qztag" id="qzTag"></div>
+  <div class="qzq" id="qzQ"></div>
+  <div class="qzc" id="qzC"></div>
+  <div class="qzmsg" id="qzMsg" role="status" aria-live="polite"></div>
+  <button class="btn qznext" id="qzNext" hidden>つぎへ</button>
+  <div class="qzres" id="qzRes" hidden></div>
+</div></div>
+<div class="ov" id="foodOv" hidden><div class="gbox">
+  <div class="dexhead"><h2>🍙 たべもの</h2><button class="xbtn" id="foodClose">とじる</button></div>
+  <div id="foodBody"></div>
+</div></div>
+<div class="ov" id="photoOv" hidden><div class="gbox phbox">
+  <div class="dexhead"><h2>📷 しゃしんモード</h2><button class="xbtn" id="phClose">とじる</button></div>
+  <p class="phlead">しゃしんを とって、きみだけの「オリジナル名産」を スタンプカードに ついか しよう！ くだもの・こんちゅう・たてものが よみとれるよ。</p>
+  <label class="btn phshot">📸 しゃしんを とる・えらぶ<input type="file" id="phFile" accept="image/*" capture="environment" hidden></label>
+  <div class="phprev" id="phPrevW" hidden><img id="phPrev" alt="とった しゃしん"><div class="phai"><button class="btn2" id="phAI" hidden>🔍 AIで よみとる</button><small class="phnote" id="phAInote">AIよみとりは Claudeの アプリで ひらいたときに つかえるよ。ここでは しゅるいと なまえを えらんでね。</small><div id="phAImsg" class="phaimsg" role="status" aria-live="polite"></div></div></div>
+  <div class="phform" id="phForm" hidden>
+    <div class="phkinds" id="phKinds" aria-label="しゅるい"><button data-k="f">🍎 くだもの・たべもの</button><button data-k="i">🐞 こんちゅう</button><button data-k="p">🏯 たてもの・ばしょ</button></div>
+    <label>なまえ<input id="phName" maxlength="16" autocomplete="off" placeholder="れい：もも"></label>
+    <div class="phemo" id="phEmo" aria-label="えもじ"></div>
+    <div class="phrow"><label>とどうふけん<select id="phPref"></select></label><label>しちょうそん<input id="phCity" maxlength="10" autocomplete="off" placeholder="れい：川越市"></label></div>
+    <button class="btn" id="phSave">スタンプカードに とうろく！</button><small class="nerr" id="phErr"></small>
+  </div>
+  <div class="lbl2">きみの オリジナル名産</div><div class="mylist" id="phList"></div>
+</div></div>
 <script>
 (()=>{
 const $=id=>document.getElementById(id);
@@ -1159,7 +1276,7 @@ const MEM=new Map();
 const rawGet=k=>{try{const v=canSave?localStorage.getItem(k):MEM.get(k);return v==null?null:JSON.parse(v)}catch(e){return null}};
 const rawSet=(k,v)=>{const j=JSON.stringify(v);if(canSave){try{localStorage.setItem(k,j)}catch(e){}}else MEM.set(k,j)};
 const rawDel=k=>{if(canSave){try{localStorage.removeItem(k)}catch(e){}}else MEM.delete(k)};
-const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best'];
+const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots'];
 let SAVES=rawGet(SK),CUR=0;
 if(!Array.isArray(SAVES)||SAVES.length!==5){SAVES=[null,null,null,null,null];
   if(SLOTKEYS.some(k=>rawGet(k)!=null)){SLOTKEYS.forEach(k=>{const v=rawGet(k);if(v!=null)rawSet('kr_s0_'+k,v)});SAVES[0]={name:'ぼうけんしゃ',at:Date.now()}}rawSet(SK,SAVES)}
@@ -1469,7 +1586,8 @@ function buildFig(kind,obj,eq,withStage){const b=new Bld();let E,arch,st,rar=0;
   if(kind==='p')(PARTNER[obj.id].items||['scarf']).forEach(id=>item3(b,id,A));
   if(eq)Object.values(eq).forEach(id=>{if(ITEM[id])item3(b,id,A)});
   if(rar>=4&&!(eq&&eq.aura)){b.to([0,.03,0],.95,.025,0,3,0,2);if(rar===5){b.to([0,.03,0],1.15,.02,0,18,0,2);b.e([.9,1.8,.3],[.05,.05,.05],3,0,1).e([.7,2.4,-.3],[.04,.04,.04],3,0,1)}}
-  b.scale([0,.82,.92,1.02][st]);
+  const evo=(eq&&eq._evo)||0;if(evo){const mt=[0,10,19,18][evo];b.to([0,.03,0],.72+.12*evo,.03,0,mt,0,2);if(evo>=2)b.to([0,.03,0],.9+.14*evo,.018,0,mt,0,2);if(evo>=3){b.e([.75,1.5,.2],[.05,.05,.05],18,0,1).e([-.7,1.9,-.2],[.04,.04,.04],18,0,1)}}
+  b.scale([0,.82,.92,1.02][st]*(1+.07*evo));
   const bd=b.bounds();
   if(withStage){b.e([0,-.09,0],[1.45,.09,1.45],21,0,2).to([0,0,0],1.42,.022,0,22,0,2)}
   const M=mats3(E);M.c[22]=lin(E.mc);
@@ -1680,7 +1798,7 @@ function INS2D(k,E,m){const q=E.q||{},body=`<ellipse cx="50" cy="62" rx="20" ry=
 ARCH.senshi=ARCH.avatar;ANCH.senshi=ANCH.avatar;
 Object.keys(I3).forEach(k=>{ARCH[k]=(E,st,m)=>INS2D(k,E,m);ANCH[k]={h:[50,24],f:[50,34],b:[50,50],w:[74,66],fs:.55}});
 let R3V=null;
-function insArt(ch){const eq=ch.eq&&Object.keys(ch.eq).length?ch.eq:null,k='m'+ch.mon.no+(eq?JSON.stringify(eq):''),u=THUMB[k]||THUMB['m'+ch.mon.no];return u?imgSvg(u,ch.name):esvg(ch.mon)}
+function insArt(ch){const eq=ch.eq&&Object.keys(ch.eq).length?ch.eq:null,k='m'+ch.mon.no+(eq?JSON.stringify(eq):''),u=THUMB[k]||(eq&&eq._evo&&R3T?thumbOf('m',ch.mon,eq):null)||THUMB['m'+ch.mon.no];return u?imgSvg(u,ch.name):esvg(ch.mon)}
 function refreshArt(){try{if(!$('title').hidden)drawDex();if(S&&S.party&&!$('app').hidden){drawParty();if(S.foe&&!S.foe.dead)drawEnemy()}
   if(!$('mapScr').hidden)drawMap();if(!$('partyOv').hidden)drawParty2();if(!$('dexOv').hidden)drawDexUI();if(!$('viewOv').hidden)drawViewer()}catch(e){console.error(e)}}
 function genThumbs(){if(!R3T)return;const q=[...CHARS.map(c=>['p',c]),...MONS.map(m=>['m',m])];let i=0;
@@ -1729,7 +1847,7 @@ function openViewer(no){const st=stockOf(no);if(!st.length)return;V.no=no;V.u=st
       R3V.draw({yaw:V.ang*Math.PI/180,pitch:V.pitch,bg:1,time:t,bob:Math.sin(t*1.8)*.035,dist:V.zoom*1.0,dy:.05})}
     else $('spin').style.transform=`rotateX(-8deg) rotateY(${V.ang}deg)`;V.raf=requestAnimationFrame(loop)};loop();
   setTimeout(()=>$('vClose').focus(),30)}
-function drawStage(){const mon=vMon(),eq=vInst().eq,N=10,dz=1.7;let h='';
+function drawStage(){const mon=vMon(),eq=eqx(vInst()),N=10,dz=1.7;let h='';
   if(R3V){R3V.set(buildFig('m',mon,eq,true));return}
   const front=figure(mon,eq,'normal'),back=figure(mon,eq,'back'),mid=figure(mon,eq,'back',true);
   for(let i=0;i<N;i++){const z=(i-(N-1)/2)*dz;
@@ -1739,14 +1857,14 @@ function drawStage(){const mon=vMon(),eq=vInst().eq,N=10,dz=1.7;let h='';
   $('spin').innerHTML=h}
 function drawViewer(){const mon=vMon(),inst=vInst(),list=stockOf(mon.no);
   $('vNo').textContent=`${mon.sp?'SP':'No.'+String(mon.no).padStart(3,'0')} ・ ${starStr(mon.rar)} ・ ${EL6[elOfMon(mon)].i}${EL6[elOfMon(mon)].n} ・ ${mon.type} ・ Lv ${inst.lv||defLv(mon)}`;
-  const nm=$('vName');nm.textContent=mon.name;nm.style.color=RARC[mon.rar];$('vPts').textContent=`💎 ${pts.toLocaleString()}`;
+  const nm=$('vName');nm.textContent=mon.name+'＋'.repeat(inst.evo||0)+(inst.job&&JOBS[inst.job]&&inst.job!=='none'?' '+JOBS[inst.job].i:'');nm.style.color=RARC[mon.rar];$('vPts').textContent=`💎 ${pts.toLocaleString()}`;
   drawStage();
-  $('vStock').innerHTML=list.slice(0,40).map((it,i)=>{const u=thumbOf('m',mon,it.eq);return `<button class="sk" data-u="${it.u}" aria-pressed="${it.u===V.u}">${u?imgSvg(u,mon.name):`<svg viewBox="-10 -10 120 120">${figure(mon,it.eq,'normal',true)}</svg>`}#${i+1}</button>`}).join('');
+  $('vStock').innerHTML=list.slice(0,40).map((it,i)=>{const u=thumbOf('m',mon,eqx(it));return `<button class="sk" data-u="${it.u}" aria-pressed="${it.u===V.u}">${u?imgSvg(u,mon.name):`<svg viewBox="-10 -10 120 120">${figure(mon,it.eq,'normal',true)}</svg>`}#${i+1}${it.evo?'＋'.repeat(it.evo):''}</button>`}).join('');
   $('vSlots').innerHTML=SLOTS.map(([k,l])=>`<button class="slot" data-slot="${k}" aria-pressed="${V.slot===k}">${l}<small>${inst.eq[k]?ITEM[inst.eq[k]].name:'なし'}</small></button>`).join('');
   $('vItems').innerHTML=(inst.eq[V.slot]?`<button class="it" data-off="1"><svg viewBox="-30 -38 60 70"><path d="M-12-12l24 24M12-12l-24 24" stroke="#b9a8ff" stroke-width="4" stroke-linecap="round"/></svg>はずす</button>`:'')+
     ITEMS.filter(i=>i.slot===V.slot).map(i=>{const own=myItems.has(i.id),on=inst.eq[V.slot]===i.id;
       return `<button class="it ${on?'on':''} ${!own&&pts<i.price?'cant':''} ${i.collab?'collab':''}" data-id="${i.id}"><svg viewBox="${i.abs?'0 0 100 100':'-30 -38 60 70'}">${i.draw()}</svg>${i.name}<small class="bn">${bonusTxt(i.id)}</small>
-        ${on?'<span class="own">そうびちゅう</span>':own?'<span class="own">もってる</span>':`<span class="pr">💎 ${i.price.toLocaleString()}</span>`}</button>`}).join('')}
+        ${on?'<span class="own">そうびちゅう</span>':own?'<span class="own">もってる</span>':`<span class="pr">💎 ${i.price.toLocaleString()}</span>`}</button>`}).join('');drawVFood()}
 $('vClose').onclick=()=>{$('viewOv').hidden=true;cancelAnimationFrame(V.raf);drawDexUI()};
 $('vStock').onclick=e=>{const b=e.target.closest('.sk');if(!b)return;V.u=b.dataset.u;drawViewer()};
 $('vSlots').onclick=e=>{const b=e.target.closest('.slot');if(!b)return;V.slot=b.dataset.slot;$('vMsg').textContent='';drawViewer()};
@@ -1792,7 +1910,7 @@ function buildParty(){S.party=partyNow()}
 function drawParty(){if(!S||!S.party)return;const el=$('party');el.style.setProperty('--n',S.party.length);el.className='party n'+S.party.length;
   el.innerHTML=S.party.map(m=>{const hp=Math.max(0,m.hp)/m.s.hp,mp=m.s.mp?m.mp/m.s.mp:0;
     return `<div class="pm ${m.hp<=0?'ko':''} ${S.active===m?'act':''} ${m.guard?'grd':''}" id="pm-${m.id}" style="--c:${m.ch.c}"><span class="pic">${svg(m.ch)}</span>
-     <div class="pin"><div class="pn"><b>${EL6[m.ch.el]?EL6[m.ch.el].i:''}${m.ch.name}</b><small>Lv${m.lv}</small></div>
+     <div class="pin"><div class="pn"><b>${EL6[m.ch.el]?EL6[m.ch.el].i:''}${m.ch.jobI?'<span class="jb">'+m.ch.jobI+'</span>':''}${m.ch.name}</b><small>Lv${m.lv}</small></div>
      <div class="gb hpb"><i style="width:${hp*100}%;background:${hp>.5?'#7cff6b':hp>.25?'#ffd23f':'#ff4d5e'}"></i></div>
      <div class="num">${Math.max(0,m.hp)}<small>/${m.s.hp}</small></div>
      <div class="gb mpb"><i style="width:${mp*100}%"></i></div></div></div>`}).join('')}
@@ -1868,7 +1986,7 @@ $('cmds').addEventListener('click',e=>{const b=e.target.closest('.cmd');if(b&&!b
 function ask(m,k){return new Promise(res=>{const g=GRADES[S.gi],u=S.boss?pick(g.units):g.units[S.ui];S.q=u[1]();S.input='';S.lock=false;S.phase='q';S.qres=res;
   $('cmds').hidden=true;$('qwrap').hidden=false;$('card').className='card';
   const q=$('q');q.innerHTML=S.q.html+(S.q.ne?'':' <span>=</span>');q.className='q'+(S.q.ne?' long':'');void q.offsetWidth;q.classList.add('qin');
-  const lbl={atk:'こうげき',sp:'ひっさつ',sk:m.ch.skill.name,def:'ぼうぎょ'}[k];
+  const lbl={atk:'こうげき',sp:'ひっさつ',sk:m.ch.skill.name,def:'ぼうぎょ',sm:'しょうかん'}[k];
   $('hint').innerHTML=(S.q.hint?S.q.hint+'<br>':'')+`正解で <b style="color:${tcol(m.ch.c)}">${m.ch.name}の ${lbl}</b> が決まる！`+(S.q.a.includes('/')?' <small>（OKで けってい）</small>':'');
   setMsg(`${m.ch.name}の ${lbl}！ はやく 正解するほど つよくなる！`);drawAns();
   S.thr=2.5+.6*S.q.a.length+(S.q.ne?3:0)+(S.q.a.includes('/')?2:0);S.t0=performance.now();
@@ -1898,6 +2016,13 @@ async function act(m,k,ok){const ch=m.ch,f=S.foe,e=effMul(ch.el,f.el),sm=spdMul(
     await wait(480);const d=dmgCalc(m.s.atk,f.def,2.3*cb/Math.max(1,sm/1.3));hitFoe(d,true);effPop(e);await say(`${ch.name}の ${sk.name}！ <b class="crit">かいしんの いちげき！</b> ${f.mon.name}に <b>${d}</b> の ダメージ！${effTxt(e)}`)}
   else if(sk.type==='poison'){fxShot(m,'#b86bff',1,9);await wait(440);const d=dmgCalc(m.s.atk,f.def,.8*cb);hitFoe(d,false);f.poison=3;drawFoeInfo();effPop(e);
     await say(`${ch.name}の ${sk.name}！ ${st}<b>${d}</b> の ダメージ！ ${f.mon.name}は どくに おかされた！`)}
+  else if(sk.type==='magic'){moveName(sk.name,EL6[ch.el].c);const A=pmC(m),B=center($('enemy'));ring(A.x,A.y,'#b86bff');sBeam(false);
+    for(let i=0;i<5;i++)setTimeout(()=>shoot(A,B,pick([EL6[ch.el].c,'#b86bff','#fff']),11,()=>burst(B.x,B.y,10),{arc:60-i*20,dur:16}),i*90);
+    await wait(760);const d=dmgCalc(m.s.atk,0,2.3*cb);hitFoe(d,sm>=1.8);effPop(e);await say(`${ch.name}は ${sk.name}を となえた！ ${st}まほうが ぼうぎょを つらぬき <b>${d}</b> の ダメージ！${effTxt(e)}`)}
+  else if(sk.type==='sage'){moveName(sk.name,'#e0a800');flash('#fff7c2');const A=pmC(m),B=center($('enemy'));P.push({t:'beam',ax:A.x,ay:A.y,bx:B.x,by:B.y,y:0,l:1,dl:.04,w:26,c:'#ffd23f'});run();
+    await wait(600);const d=dmgCalc(m.s.atk,f.def,1.8*cb);hitFoe(d,false);effPop(e);const h=Math.round(8+m.lv*3+m.s.atk*.3);
+    S.party.forEach(p=>{if(p.hp>0){const add=Math.min(h,p.s.hp-p.hp);p.hp+=add;const c=pmC(p);if(add>0)pop('+'+add,c.x,c.y-8,'#7cff6b',20)}});drawParty();
+    await say(`${ch.name}の ${sk.name}！ ${st}<b>${d}</b> の ダメージ！ さらに みんなの HPが かいふくした！${effTxt(e)}`)}
   else{moveName(sk.name,ch.c);const A=pmC(m),B=center($('enemy'));ring(A.x,A.y,ch.c);sBeam(true);setTimeout(()=>{P.push({t:'beam',ax:A.x,ay:A.y,bx:B.x,by:B.y,y:0,l:1,dl:.035,w:36,c:ch.c});run();quake();flash(ch.c)},260);
     await wait(820);const d=dmgCalc(m.s.atk,f.def,3.0*cb);hitFoe(d,true);effPop(e);await say(`${ch.name}の ${sk.name}！ ${st}${f.mon.name}に <b>${d}</b> の ダメージ！${effTxt(e)}`)}}
 
@@ -1918,7 +2043,7 @@ async function win(){const f=S.foe;f.dead=true;clearTimeout(foeT);drawEnemy('ko'
   capture(f.mon,B,f.lv);await say(`${f.mon.name}を つかまえた！ 💎 +${Math.round(bonus/10)}`,1300);
   await say(`みんなは けいけんち <b>${f.exp}</b> ポイントを かくとく！`,1200);
   for(const p of S.party){const sv=p.kind==='i'?p.inst:(pSave[p.id]||{lv:p.lv,exp:0});if(!sv.lv)sv.lv=p.lv;sv.exp=(sv.exp||0)+f.exp;let up=false;while(sv.exp>=needExp(sv.lv)){sv.exp-=needExp(sv.lv);sv.lv++;up=true}if(p.kind!=='i')pSave[p.id]=sv;
-    if(up){p.lv=sv.lv;p.s=p.kind==='i'?insStats(p.ch.mon,p.lv,p.inst.eq):statsOf(p.ch,p.lv);p.hp=p.s.hp;p.mp=p.s.mp;drawParty();const c=pmC(p);ring(c.x,c.y,'#ffd23f');burst(c.x,c.y,26);
+    if(up){p.lv=sv.lv;p.s=p.kind==='i'?insStats(p.ch.mon,p.lv,p.inst.eq,p.inst):statsOf(p.ch,p.lv);p.hp=p.s.hp;p.mp=p.s.mp;drawParty();const c=pmC(p);ring(c.x,c.y,'#ffd23f');burst(c.x,c.y,26);
       [0,4,7,12].forEach((k,j)=>tone(note(k+5),j*.09,.22,'triangle',.1));await say(`<b style="color:${tcol(p.ch.c)}">${p.ch.name}</b>は レベル <b>${p.lv}</b> に あがった！ HPとMPが ぜんかいふく！`,1600)}}
   savePS();saveBox();
   S.party.forEach(p=>{if(p.hp<=0)p.hp=Math.ceil(p.s.hp*.3);else p.hp=Math.min(p.s.hp,p.hp+Math.ceil(p.s.hp*.2));p.mp=Math.min(p.s.mp,p.mp+3);p.guard=false});drawParty()}
@@ -1932,6 +2057,7 @@ async function battle(){const tok=S.tok;drawTop();
   if(!S.boss&&f.mon.rar>=4){setTimeout(()=>{const B=center($('enemy'));pop(f.mon.av?'アバター 出現!!':f.mon.sp?'CC0コラボ 出現!!':'レア昆虫 出現！',B.x,B.y-60,RARC[f.mon.rar],20);tone(1319,0,.1,'triangle',.08);tone(1760,.1,.25,'triangle',.08)},300)}
   await say(S.boss?`ボス <b>${f.mon.name}</b> が あらわれた！`:`${f.mon.name} が あらわれた！`,1300);
   while(true){if(tok!==S.tok)return;S.guardAll=false;S.party.forEach(p=>p.guard=false);drawParty();
+    await maybeSummon(tok);if(tok!==S.tok)return;if(S.foe.hp<=0){await win();return}
     for(const m of S.party){if(m.hp<=0)continue;const k=await chooseCmd(m);if(tok!==S.tok)return;const ok=await ask(m,k);if(tok!==S.tok)return;
       await act(m,k,ok);S.active=null;drawParty();if(S.foe.hp<=0)break}
     if(S.foe.hp<=0){await win();return}
@@ -2015,11 +2141,19 @@ const ISK={kabuto:{name:'つのなげ',mp:6,type:'big',desc:'ちょう強力な 
 const IPRE={kabuto:'ホーン',kuwa:'シザー',semi:'ソニック',chou:'パウダー',tonbo:'ウイング',kamakiri:'サイス',hachi:'スティング',kamikiri:'ファング',kogane:'シェル',batta:'ジャンプ',ari:'アント',noun:'ナウンズ',avatar:'サイバー'};
 const insMoves=mon=>{const p=IPRE[mon.arch]||'ワイルド';return[`${p}ショット`,`${p}ラッシュ`,`${p}キャノン`,`${p}メテオ`,`ギガ${p}インパクト`]};
 const defLv=mon=>mon.sp?10:1+3*mon.gi;
-function insStats(mon,lv,eq){const R=mon.rar,t=TB[mon.arch]||[1,1,1,1];
+const JOBS={none:{n:'なし',i:'・',m:[1,1,1,1],desc:'しょくぎょう なし（ずっと その昆虫の わざ）'},
+ senshi:{n:'せんし',i:'⚔',m:[1.2,.7,1.15,1.2],desc:'HPと ぼうぎょが たかい。わざ「かぶとわり」',skill:{name:'かぶとわり',mp:5,type:'big',desc:'ちょう強力な いちげき'}},
+ mahou:{n:'まほうつかい',i:'🔮',m:[.85,1.6,1.12,.85],desc:'MPが おおい。ぼうぎょを むしする じゅもん',skill:{name:'ほのおの じゅもん',mp:6,type:'magic',desc:'ぼうぎょを むしする まほう'}},
+ souryo:{n:'そうりょ',i:'✚',m:[1.05,1.4,.85,1.05],desc:'みんなの HPを かいふく できる',skill:{name:'いやしの いのり',mp:5,type:'heal',desc:'みんなの HPを かいふく'}},
+ butou:{n:'ぶとうか',i:'👊',m:[1.05,.7,1.25,.9],desc:'こうげきが たかく かいしんが でやすい',skill:{name:'せいけんづき',mp:4,type:'crit',desc:'かならず かいしん'}},
+ kenja:{n:'けんじゃ',i:'📜',m:[1.1,1.7,1.15,1.05],desc:'こうげきと かいふくを いちどに！ しょうかんも でやすい',skill:{name:'せいなる ひかり',mp:7,type:'sage',desc:'こうげき＋みんな かいふく'}}};
+const eqx=inst=>inst&&inst.evo?{...inst.eq,_evo:inst.evo}:inst?inst.eq:{};
+function insStats(mon,lv,eq,inst){const R=mon.rar,t=TB[mon.arch]||[1,1,1,1];
   let hp=(40+R*8+(6+R)*(lv-1))*t[0],mp=(10+R*2+1.5*(lv-1))*t[1],atk=(9+R*2+(2.2+R*.35)*(lv-1))*t[2],def=(6+R*2+(1.8+R*.3)*(lv-1))*t[3];const k=1+lv/10;
   Object.values(eq||{}).forEach(id=>{const b=IBON[id];if(b){hp+=(b.hp||0)*k;mp+=(b.mp||0)*k;atk+=(b.atk||0)*k;def+=(b.def||0)*k}});
+  if(inst){const ev=1+.15*(inst.evo||0),jm=(JOBS[inst.job]||JOBS.none).m;hp*=ev*jm[0];mp*=ev*jm[1];atk*=ev*jm[2];def*=ev*jm[3]}
   return{hp:Math.round(hp),mp:Math.round(mp),atk:Math.round(atk),def:Math.round(def)}}
-function insCh(mon,inst){return{id:'i_'+inst.u,el:elOfMon(mon),name:mon.name,c:mon.c,motif:mon.type,about:mon.desc,mon,eq:inst.eq,skill:ISK[mon.arch]||ISK.noun,moves:insMoves(mon),draw:m=>mon.draw(m)}}
+function insCh(mon,inst){const J=JOBS[inst.job];return{id:'i_'+inst.u,el:elOfMon(mon),name:mon.name+'＋'.repeat(inst.evo||0),c:mon.c,motif:mon.type,about:mon.desc,mon,eq:eqx(inst),job:inst.job,jobI:J&&inst.job!=='none'?J.i:'',skill:(J&&J.skill)||ISK[mon.arch]||ISK.noun,moves:insMoves(mon),draw:m=>mon.draw(m)}}
 const WEL={jin:'hono',hayato:'mizu',genji:'hikari',zan:'kusa',raika:'denki',zenon:'yami'};CHARS.forEach(c=>{c.moves=MOVES[c.id];c.el=WEL[c.id]});
 owned.add('jin');store.set('kr_friends2',[...owned]);
 // ----- party refs -----
@@ -2029,7 +2163,7 @@ const refEq=(a,b)=>a.k===b.k&&(a.k==='w'?a.id===b.id:a.u===b.u);
 function validRefs(){ptRefs=ptRefs.filter(r=>r.k==='w'?owned.has(r.id):box.some(b=>b.u===r.u)).slice(0,4);if(!ptRefs.length)ptRefs=[{k:'w',id:'jin'}];savePt()}
 function memberFromRef(ref){if(ref.k==='w'){const ch=CHARS.find(c=>c.id===ref.id);return ch&&owned.has(ch.id)?mkMember(ch):null}
   const inst=box.find(b=>b.u===ref.u);if(!inst)return null;const mon=MONS[inst.no-1];if(!mon)return null;if(!inst.lv)inst.lv=defLv(mon);
-  const lv=inst.lv,s=insStats(mon,lv,inst.eq);return{id:'i_'+inst.u,kind:'i',inst,ch:insCh(mon,inst),lv,s,hp:s.hp,mp:s.mp,guard:false}}
+  const lv=inst.lv,s=insStats(mon,lv,inst.eq,inst);return{id:'i_'+inst.u,kind:'i',inst,ch:insCh(mon,inst),lv,s,hp:s.hp,mp:s.mp,guard:false}}
 const partyNow=()=>{validRefs();return ptRefs.map(memberFromRef).filter(Boolean)};
 const avgLvParty=()=>{const p=partyNow();return Math.round(p.reduce((a,m)=>a+m.lv,0)/Math.max(1,p.length))};
 
@@ -2103,7 +2237,7 @@ function islandSvg(gi){const g=GRADES[gi],R=srand(gi*97+13),n=g.units.length,W=3
 function syncMapHud(){$('ptsMap').textContent=pts.toLocaleString();$('dexCnt2').textContent=gotN()}
 const partyIcons=()=>partyNow().map(m=>`<span title="${m.ch.name} Lv${m.lv}">${svg(m.ch)}<i>${m.lv}</i></span>`).join('');
 function drawMap(){const gi=MAP.gi,g=GRADES[gi];$('mSub').textContent=`${slotName()} ・ ${g.n}年生の島 ・ ${clearedN(gi)}/${g.units.length} クリア`;$('mName').textContent=g.isl;
-  $('itabs').innerHTML=GRADES.map((G,i)=>`<button class="itab" data-i="${i}" aria-pressed="${i===gi}" style="--c:${G.c}">${G.n}年<small>${clearedN(i)}/${G.units.length}${stSave[skey(i,-1)]?'👑':''}</small></button>`).join('');
+  $('itabs').innerHTML=GRADES.map((G,i)=>`<button class="itab" data-i="${i}" aria-pressed="${i===gi}" style="--c:${G.c}">${G.n}年<small>${clearedN(i)}/${G.units.length}${stSave[skey(i,-1)]?'👑':''}</small></button>`).join('')+`<button class="itab jt" data-j="1" style="--c:#e0467a" aria-label="にっぽん旅（都道府県スタンプラリー）">🗾<small>日本</small></button>`;
   $('mapwrap').innerHTML=islandSvg(gi);drawSheet();syncMapHud()}
 function drawSheet(){const gi=MAP.gi,g=GRADES[gi],sel=MAP.sel,el=$('sheet');
   const pm=`<div class="pmini" aria-label="いまの パーティ">${partyIcons()}</div><button class="pill" id="toParty">👥 パーティ</button>`;
@@ -2114,7 +2248,7 @@ function drawSheet(){const gi=MAP.gi,g=GRADES[gi],sel=MAP.sel,el=$('sheet');
     <small>${boss?`${elTag(elOfMon(bossMon(gi)))} ${strongVs(elOfMon(bossMon(gi))).map(x=>EL6[x].i+EL6[x].n).join('・')} が ばつぐん！ たんげんは ぜんぶ まざって 出るよ`:'れい：<span class="sq">'+sample+'</span>'}</small></div></div>
    <div class="srow"><span class="stars3">${st?'★'.repeat(st.stars)+'<i>'+'★'.repeat(3-st.stars)+'</i>':'<i>★★★</i>'}</span><small class="rec">おすすめ Lv ${rec} ・ パーティ Lv ${avgLvParty()}</small></div>
    <div class="srow">${pm}<button class="btn go" id="goBtn" ${locked?'disabled':''}>${locked?`あと ${4-clearedN(gi)}つ クリア`:'しゅっぱつ！'}</button></div>`}
-$('itabs').addEventListener('click',e=>{const b=e.target.closest('.itab');if(!b)return;MAP.gi=+b.dataset.i;MAP.sel=null;store.set('kr_isl',MAP.gi);tone(880,0,.06,'triangle',.05);drawMap()});
+$('itabs').addEventListener('click',e=>{const b=e.target.closest('.itab');if(!b)return;if(b.dataset.j){goJapan();return}MAP.gi=+b.dataset.i;MAP.sel=null;store.set('kr_isl',MAP.gi);tone(880,0,.06,'triangle',.05);drawMap()});
 function pickNode(n){MAP.sel=+n.dataset.ui;ensureAudio();tone(1046,0,.07,'triangle',.06);drawMap();const f=$('mapwrap').querySelector(`.node[data-ui="${MAP.sel}"]`);if(f)f.focus({preventScroll:true})}
 $('mapwrap').addEventListener('click',e=>{if(e.target.closest('.ghut')){openGacha(MAP.gi);return}const n=e.target.closest('.node');if(n)pickNode(n)});
 $('mapwrap').addEventListener('keydown',e=>{if(e.target.closest('.ghut')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openGacha(MAP.gi);return}const n=e.target.closest('.node');if(n&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopPropagation();if(MAP.sel===+n.dataset.ui){const g=$('goBtn');if(g&&!g.disabled)g.click()}else pickNode(n)}});
@@ -2125,7 +2259,7 @@ const mute2=$('mute2');const syncMute2=()=>mute2.textContent=muted?'🔇':'🔊'
 // ----- party screen -----
 const PT={tab:'all',list:[]};
 function candList(){const w=CHARS.filter(c=>owned.has(c.id)).map(c=>{const lv=lvOf(c.id);return{ref:{k:'w',id:c.id},ch:c,lv,s:statsOf(c,lv),w:1}});
-  const ins=box.map(b=>{const mon=MONS[b.no-1];if(!mon)return null;const lv=b.lv||defLv(mon);return{ref:{k:'i',u:b.u},ch:insCh(mon,b),lv,s:insStats(mon,lv,b.eq),rar:mon.rar}}).filter(Boolean)
+  const ins=box.map(b=>{const mon=MONS[b.no-1];if(!mon)return null;const lv=b.lv||defLv(mon);return{ref:{k:'i',u:b.u},ch:insCh(mon,b),lv,s:insStats(mon,lv,b.eq,b),rar:mon.rar}}).filter(Boolean)
     .sort((a,b)=>b.lv-a.lv||b.rar-a.rar).slice(0,150);
   return PT.tab==='w'?w:PT.tab==='i'?ins:[...w,...ins]}
 function drawParty2(){validRefs();
@@ -2135,9 +2269,9 @@ function drawParty2(){validRefs();
   $('ptabs').innerHTML=[['all','すべて'],['w','せんし'],['i','つかまえた昆虫']].map(([k,l])=>`<button class="tab" data-t="${k}" aria-pressed="${PT.tab===k}">${l}</button>`).join('');
   PT.list=candList();
   $('clist').innerHTML=PT.list.length?PT.list.map((c,idx)=>{const on=ptRefs.some(r=>refEq(r,c.ref));
-    return `<button class="cc ${on?'on':''}" data-idx="${idx}"><span class="ic">${svg(c.ch)}</span><span class="cct"><b>${c.ch.name}</b><small>Lv ${c.lv} ・ ${EL6[c.ch.el].i}${EL6[c.ch.el].n} ・ ${c.w?c.ch.motif+'の戦士':'★'.repeat(c.rar)}</small>
+    return `<button class="cc ${on?'on':''}" data-idx="${idx}"><span class="ic">${svg(c.ch)}</span><span class="cct"><b>${c.ch.name}</b><small>Lv ${c.lv} ・ ${EL6[c.ch.el].i}${EL6[c.ch.el].n} ・ ${c.w?c.ch.motif+'の戦士':'★'.repeat(c.rar)+(c.ch.job&&c.ch.job!=='none'?' '+JOBS[c.ch.job].i+JOBS[c.ch.job].n:'')}</small>
       <small>HP ${c.s.hp} こう ${c.s.atk} ぼう ${c.s.def}</small><small>とくぎ：${c.ch.skill.name}</small></span>${on?'<em>IN</em>':''}</button>`}).join('')
-    :'<p class="best">まだ いないよ。バトルで 昆虫を つかまえよう！</p>'}
+    :'<p class="best">まだ いないよ。バトルで 昆虫を つかまえよう！</p>';drawJobs()}
 function openParty(){PT.tab='all';drawParty2();$('partyOv').hidden=false;setTimeout(()=>$('pClose').focus(),30)}
 $('clist').addEventListener('click',e=>{const b=e.target.closest('.cc');if(!b)return;const c=PT.list[+b.dataset.idx];const i=ptRefs.findIndex(r=>refEq(r,c.ref));
   if(i>=0){if(ptRefs.length>1)ptRefs.splice(i,1);else{$('pcnt').textContent='1人は ひつようだよ';return}}else if(ptRefs.length<4)ptRefs.push(c.ref);else{$('pcnt').textContent='4人まで だよ';return}
@@ -2169,10 +2303,10 @@ function stageClear(){const g=GRADES[S.gi],acc=S.gok/Math.max(1,S.gtot),stars=ac
    <div class="best">${S.boss?g.isl+'の ボス':g.n+'-'+(S.unit+1)+'「'+g.units[S.unit][0]+'」'}</div>
    ${plist()}${join}${bossNow?'<div class="note">🔓 ボスの みちが ひらいた！</div>':''}
    <div class="stats"><div><b>${S.gok}/${S.gtot}</b><span>正解</span></div><div><b>${S.got}</b><span>つかまえた</span></div><div><b>+${bonus}</b><span>💎ボーナス</span></div></div>
-   <div class="cbtns"><button class="btn2" id="again">もういちど</button><button class="btn" id="toMap">マップへ ▶</button></div>`;
+   <div class="cbtns"><button class="btn2" id="again">もういちど</button><button class="btn2" id="toPt">👥 パーティ</button><button class="btn" id="toMap">マップへ ▶</button></div>`;
   $('clear').hidden=false;
-  $('toMap').onclick=()=>{$('clear').hidden=true;goMap()};$('again').onclick=()=>{$('clear').hidden=true;startStage(S.gi,S.boss?-1:S.unit)};setTimeout(()=>$('toMap').focus(),50)}
-function goMap(){if(S){S.tok=-1;if(skipR)skipR()}document.body.classList.remove('fever');$('app').hidden=true;$('clear').hidden=true;$('title').hidden=true;$('mapScr').hidden=false;drawMap()}
+  $('toMap').onclick=()=>{$('clear').hidden=true;goMap()};$('toPt').onclick=()=>{$('clear').hidden=true;goMap();openParty()};$('again').onclick=()=>{$('clear').hidden=true;startStage(S.gi,S.boss?-1:S.unit)};setTimeout(()=>$('toMap').focus(),50)}
+function goMap(){if(S){S.tok=-1;if(skipR)skipR()}document.body.classList.remove('fever');$('app').hidden=true;$('clear').hidden=true;$('title').hidden=true;$('japanScr').hidden=true;$('mapScr').hidden=false;drawMap()}
 let retreatT=0;$('retreat').onclick=()=>{const b=$('retreat');if(b.dataset.arm){clearTimeout(retreatT);delete b.dataset.arm;b.textContent='◀ 島';goMap();return}
   b.dataset.arm='1';b.textContent='もどる？';retreatT=setTimeout(()=>{delete b.dataset.arm;b.textContent='◀ 島'},2200)};
 
@@ -2261,6 +2395,7 @@ function loadSlot(i){CUR=i;rawSet('kr_cur',i);
   owned=new Set((store.get('kr_friends2')||[]).filter(id=>CHARS.some(c=>c.id===id)));owned.add('jin');store.set('kr_friends2',[...owned]);
   pSave=store.get('kr_party')||{};ptRefs=store.get('kr_pt')||[{k:'w',id:'jin'}];stSave=store.get('kr_stage')||{};
   MAP.gi=Math.min(5,Math.max(0,+(store.get('kr_isl')||0)));MAP.sel=null;G.pulls=0;G.gets=0;G.streak=0;
+  food=store.get('kr_food')||{};stp=store.get('kr_stamp')||{};fixStamp();mySpots=store.get('kr_myspots')||[];JP.sel=null;
   validRefs();dexBtn();addPts(0);touchSlot()}
 const FM={mode:'list',target:-1,del:-1};
 function drawFiles(){const el=$('files');
@@ -2293,6 +2428,293 @@ $('nameIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing){e
 $('homeBtn').onclick=()=>{touchSlot();showTitle()};
 function saveToast(){const d=document.createElement('div');d.className='savet';d.textContent=canSave?'💾 オートセーブ しました':'⚠ このブラウザでは セーブ できません';document.body.appendChild(d);setTimeout(()=>d.remove(),1800)}
 
+// ================= にっぽん旅 (Japan stamp rally) =================
+// ================= JAPAN: 47 prefectures =================
+// region: 0 北海道 1 東北 2 関東 3 中部 4 近畿 5 中国 6 四国 7 九州・沖縄
+// [name, capital(null = skip capital quiz), region, col, row, spots:[[city, famous thing, 'f'(food)|'p'(place), emoji]]]
+const REGIONS=[{n:'北海道',c:'#8fd0ff'},{n:'東北',c:'#9fe0c8'},{n:'関東',c:'#ffd27a'},{n:'中部',c:'#b8e07a'},{n:'近畿',c:'#ffb3c7'},{n:'中国',c:'#c9b3ff'},{n:'四国',c:'#ffc49a'},{n:'九州・沖縄',c:'#9ad8ff'}];
+const PREFS=[
+ ['北海道','札幌市',0,11,0,[['札幌市','さっぽろ雪まつり','p','⛄'],['函館市','五稜郭','p','⭐'],['夕張市','夕張メロン','f','🍈'],['旭川市','旭山動物園','p','🐧']]],
+ ['青森県','青森市',1,11,2,[['青森市','ねぶた祭','p','🏮'],['弘前市','りんご','f','🍎'],['大間町','大間のマグロ','f','🐟']]],
+ ['岩手県','盛岡市',1,11,3,[['盛岡市','わんこそば','f','🥢'],['平泉町','中尊寺金色堂','p','⛩'],['宮古市','浄土ヶ浜','p','🌊']]],
+ ['宮城県','仙台市',1,11,4,[['仙台市','牛タン','f','🍖'],['松島町','日本三景の松島','p','🏝'],['気仙沼市','フカヒレ','f','🦈']]],
+ ['秋田県','秋田市',1,10,3,[['秋田市','竿燈まつり','p','🏮'],['男鹿市','なまはげ','p','👹'],['大館市','きりたんぽ','f','🍢']]],
+ ['山形県','山形市',1,10,4,[['天童市','将棋の駒','p','♟'],['東根市','さくらんぼ','f','🍒'],['米沢市','米沢牛','f','🥩']]],
+ ['福島県','福島市',1,11,5,[['会津若松市','鶴ヶ城','p','🏯'],['喜多方市','喜多方ラーメン','f','🍜'],['福島市','もも','f','🍑']]],
+ ['茨城県','水戸市',2,12,6,[['水戸市','納豆','f','🫘'],['つくば市','宇宙センター','p','🚀'],['ひたちなか市','国営ひたち海浜公園','p','💠']]],
+ ['栃木県','宇都宮市',2,11,6,[['宇都宮市','ぎょうざ','f','🥟'],['日光市','日光東照宮','p','⛩'],['真岡市','いちご','f','🍓']]],
+ ['群馬県','前橋市',2,10,6,[['草津町','草津温泉','p','♨'],['富岡市','富岡製糸場','p','🏭'],['嬬恋村','キャベツ','f','🥬']]],
+ ['埼玉県','さいたま市',2,10,7,[['さいたま市','鉄道博物館','p','🚃'],['川越市','さつまいも','f','🍠'],['秩父市','秩父夜祭','p','🏮'],['草加市','草加せんべい','f','🍘'],['深谷市','深谷ねぎ','f','🧅']]],
+ ['千葉県','千葉市',2,12,7,[['銚子市','しょうゆ','f','🫙'],['成田市','成田国際空港','p','✈'],['八街市','落花生','f','🥜']]],
+ ['東京都',null,2,11,7,[['台東区','浅草の雷門','p','🏮'],['墨田区','東京スカイツリー','p','🗼'],['中央区','もんじゃ焼き','f','🥘'],['小笠原村','世界自然遺産の島々','p','🐬']]],
+ ['神奈川県','横浜市',2,10,8,[['横浜市','横浜中華街','p','🏮'],['鎌倉市','鎌倉の大仏','p','🗿'],['箱根町','箱根温泉','p','♨'],['三浦市','三崎のマグロ','f','🐟']]],
+ ['新潟県','新潟市',3,10,5,[['魚沼市','コシヒカリ','f','🍚'],['佐渡市','トキ','p','🐦'],['燕市','金属洋食器（スプーン）','p','🥄']]],
+ ['富山県','富山市',3,9,5,[['富山市','ます寿司','f','🍣'],['立山町','立山黒部アルペンルート','p','🏔'],['南砺市','五箇山の合掌造り','p','🏡'],['氷見市','寒ブリ','f','🐟']]],
+ ['石川県','金沢市',3,8,5,[['金沢市','兼六園','p','🌲'],['輪島市','輪島塗','p','🥢'],['金沢市','金ぱく','p','✨']]],
+ ['福井県','福井市',3,7,6,[['勝山市','恐竜博物館','p','🦖'],['坂井市','東尋坊','p','🪨'],['鯖江市','めがね','p','👓'],['越前町','越前ガニ','f','🦀']]],
+ ['山梨県','甲府市',3,9,7,[['甲州市','ぶどう','f','🍇'],['甲府市','ほうとう','f','🍲'],['富士河口湖町','河口湖','p','🗻']]],
+ ['長野県','長野市',3,9,6,[['長野市','善光寺','p','⛩'],['松本市','松本城','p','🏯'],['軽井沢町','避暑地の軽井沢','p','🌲'],['安曇野市','わさび','f','🌿']]],
+ ['岐阜県','岐阜市',3,8,6,[['白川村','白川郷','p','🏡'],['高山市','飛騨高山の古い町並み','p','🏘'],['関市','刃物','p','🔪'],['岐阜市','長良川の鵜飼','p','🛶']]],
+ ['静岡県','静岡市',3,9,8,[['牧之原市','お茶','f','🍵'],['浜松市','うなぎ','f','🐟'],['富士宮市','富士宮やきそば','f','🍝'],['熱海市','熱海温泉','p','♨']]],
+ ['愛知県','名古屋市',3,8,7,[['名古屋市','名古屋城のしゃちほこ','p','🏯'],['豊田市','自動車づくり','p','🚗'],['岡崎市','八丁味噌','f','🍲']]],
+ ['三重県','津市',4,8,8,[['伊勢市','伊勢神宮','p','⛩'],['松阪市','松阪牛','f','🥩'],['鳥羽市','真珠','p','🦪']]],
+ ['滋賀県','大津市',4,7,7,[['大津市','琵琶湖','p','🌊'],['彦根市','彦根城','p','🏯'],['甲賀市','信楽焼のたぬき','p','🦝']]],
+ ['京都府','京都市',4,6,7,[['京都市','金閣寺','p','⛩'],['宇治市','宇治茶','f','🍵'],['宮津市','天橋立','p','🌉']]],
+ ['大阪府','大阪市',4,6,8,[['大阪市','たこ焼き','f','🐙'],['堺市','大仙古墳','p','⛰'],['吹田市','太陽の塔','p','🌞']]],
+ ['兵庫県','神戸市',4,5,7,[['神戸市','神戸港','p','⚓'],['姫路市','姫路城','p','🏯'],['明石市','明石焼き','f','🐙'],['南あわじ市','たまねぎ','f','🧅']]],
+ ['奈良県','奈良市',4,7,8,[['奈良市','東大寺の大仏','p','🗿'],['斑鳩町','法隆寺','p','⛩'],['吉野町','吉野の桜','p','🌸']]],
+ ['和歌山県','和歌山市',4,6,9,[['みなべ町','梅干し','f','🟣'],['有田市','みかん','f','🍊'],['白浜町','パンダのいる動物園','p','🐼'],['那智勝浦町','那智の滝','p','💧']]],
+ ['鳥取県','鳥取市',5,4,7,[['鳥取市','鳥取砂丘','p','🐫'],['境港市','ベニズワイガニ','f','🦀'],['米子市','皆生温泉','p','♨']]],
+ ['島根県','松江市',5,3,7,[['出雲市','出雲大社','p','⛩'],['松江市','松江城','p','🏯'],['大田市','石見銀山','p','⛏'],['出雲市','出雲そば','f','🥢']]],
+ ['岡山県','岡山市',5,4,8,[['岡山市','後楽園','p','🌳'],['倉敷市','倉敷美観地区','p','🏘'],['岡山市','きびだんご','f','🍡']]],
+ ['広島県','広島市',5,3,8,[['広島市','原爆ドーム','p','🕊'],['廿日市市','厳島神社','p','⛩'],['呉市','大和ミュージアム','p','🚢'],['広島市','お好み焼き','f','🥞']]],
+ ['山口県','山口市',5,2,8,[['下関市','ふぐ','f','🐡'],['岩国市','錦帯橋','p','🌉'],['美祢市','秋吉台','p','🪨']]],
+ ['徳島県','徳島市',6,6,10,[['徳島市','阿波おどり','p','💃'],['鳴門市','鳴門のうず潮','p','🌀'],['鳴門市','鳴門金時（さつまいも）','f','🍠']]],
+ ['香川県','高松市',6,5,10,[['高松市','讃岐うどん','f','🍜'],['高松市','栗林公園','p','🌳'],['琴平町','金刀比羅宮','p','⛩'],['小豆島町','オリーブ','f','🫒']]],
+ ['愛媛県','松山市',6,4,10,[['松山市','道後温泉','p','♨'],['今治市','今治タオル','p','🧺'],['宇和島市','鯛めし','f','🍚']]],
+ ['高知県','高知市',6,5,11,[['高知市','カツオのたたき','f','🐟'],['高知市','よさこい祭り','p','💃'],['四万十市','四万十川','p','🏞'],['室戸市','室戸岬','p','🌊']]],
+ ['福岡県','福岡市',7,2,9,[['福岡市','博多ラーメン','f','🍜'],['太宰府市','太宰府天満宮','p','⛩'],['北九州市','門司港レトロ','p','⚓'],['福岡市','明太子','f','🌶']]],
+ ['佐賀県','佐賀市',7,1,9,[['有田町','有田焼','p','🏺'],['唐津市','呼子のイカ','f','🦑'],['佐賀市','バルーンフェスタ','p','🎈']]],
+ ['長崎県','長崎市',7,0,9,[['長崎市','ちゃんぽん','f','🍜'],['長崎市','カステラ','f','🍰'],['佐世保市','佐世保バーガー','f','🍔'],['五島市','五島列島','p','🏝']]],
+ ['熊本県','熊本市',7,2,10,[['熊本市','熊本城','p','🏯'],['阿蘇市','阿蘇山','p','🌋'],['熊本市','からしれんこん','f','🟡'],['八代市','い草（たたみ）','p','🟩']]],
+ ['大分県','大分市',7,3,9,[['別府市','別府温泉','p','♨'],['由布市','湯布院','p','♨'],['大分市','関あじ・関さば','f','🐟']]],
+ ['宮崎県','宮崎市',7,3,10,[['宮崎市','マンゴー','f','🥭'],['延岡市','チキン南蛮','f','🍗'],['高千穂町','高千穂峡','p','🏞'],['日南市','鵜戸神宮','p','⛩']]],
+ ['鹿児島県','鹿児島市',7,2,11,[['鹿児島市','桜島','p','🌋'],['屋久島町','屋久杉','p','🌲'],['指宿市','砂むし温泉','p','♨'],['鹿児島市','黒豚','f','🐖']]],
+ ['沖縄県','那覇市',7,0,12,[['那覇市','首里城','p','🏯'],['本部町','美ら海水族館','p','🐋'],['那覇市','ゴーヤーチャンプルー','f','🥒'],['与那国町','ヨナグニサン','p','🦋']]]];
+const EAST=new Set([0,1,2,3]);
+const ROUTES=[['all','日本一周',()=>true],['east','東日本',p=>EAST.has(p[2])],['west','西日本',p=>!EAST.has(p[2])],...REGIONS.map((r,i)=>['r'+i,r.n,p=>p[2]===i])];
+const INSQ=[
+ ['昆虫の あしは なん本？','6本',['4本','8本','10本']],['昆虫の からだは いくつに わかれている？','3つ（あたま・むね・はら）',['2つ','4つ','5つ']],
+ ['昆虫の しょっかくは なん本？','2本',['1本','4本','6本']],['トンボの はねは なん枚？','4枚',['2枚','6枚','8枚']],['ハエや カの はねは なん枚？','2枚',['4枚','6枚','はねは ない']],
+ ['トンボの 幼虫の よびかたは？','ヤゴ',['ボウフラ','アオムシ','ウジ']],['カの 幼虫の よびかたは？','ボウフラ',['ヤゴ','アオムシ','イモムシ']],
+ ['モンシロチョウの 幼虫が よく食べる 葉は？','キャベツ',['サクラ','マツ','イネ']],['アゲハの 幼虫が 食べる 木は？','ミカンのなかま',['クヌギ','マツ','サクラ']],
+ ['カブトムシの 幼虫が 食べるものは？','くさった落ち葉（腐葉土）',['花のみつ','木の実','ほかの虫']],['カブトムシの 成虫が すきな 食べものは？','樹液',['落ち葉','花粉','土']],
+ ['セミの 幼虫は どこで くらす？','土の中',['水の中','葉っぱの上','花の中']],['チョウの 口の かたちは？','ストローのように のびる',['ハサミのよう','ブラシのよう','口は ない']],
+ ['さなぎに ならない 昆虫は？','バッタ',['チョウ','カブトムシ','テントウムシ']],['さなぎに なる 昆虫は？','カブトムシ',['バッタ','セミ','トンボ']],
+ ['ゲンジボタルの 幼虫が くらす ところは？','水の中',['土の中','木の上','花の中']],['ゲンジボタルの 幼虫が 食べるのは？','カワニナ（まき貝）',['葉っぱ','樹液','花のみつ']],
+ ['日本の 国蝶は？','オオムラサキ',['アゲハ','モンシロチョウ','モルフォチョウ']],['ナナホシテントウが 食べるのは？','アブラムシ',['葉っぱ','樹液','花粉']],
+ ['ミツバチが 花の みつから つくるのは？','ハチミツ',['しょうゆ','ジャム','チーズ']],['セミで 鳴くのは？','オス',['メス','オスも メスも','どちらも 鳴かない']],
+ ['スズムシは どうやって 音を 出す？','はねを こすりあわせて',['口で','あしを ならして','おなかを たたいて']],['アリの なかまで 卵を うむのは？','女王アリ',['はたらきアリ','へいたいアリ','オスアリ']],
+ ['カマキリの 卵の かたまりの よびかたは？','卵のう（らんのう）',['さなぎ','まゆ','ぬけがら']],['カイコの まゆから とれるのは？','絹（シルク）',['綿','羊毛','麻']],
+ ['成虫の すがたで 冬を こす 昆虫は？','テントウムシ',['カブトムシ','セミ','スズムシ']],['世界で いちばん 大きい カブトムシは？','ヘラクレスオオカブト',['カブトムシ','コーカサスオオカブト','アトラスオオカブト']],
+ ['世界で いちばん 大きい チョウは？','アレクサンドラトリバネアゲハ',['モンシロチョウ','オオムラサキ','アゲハ']],['ゲンゴロウが すむ ところは？','水の中',['土の中','木の上','砂漠']],
+ ['カブトムシで ツノが あるのは？','オス',['メス','オスも メスも','どちらも ない']]];
+
+const SHORT=n=>n==='北海道'?'北海道':n.replace(/[都府県]$/,'');
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let food=store.get('kr_food')||{},stp=store.get('kr_stamp')||{},mySpots=store.get('kr_myspots')||[];
+const fixStamp=()=>{stp.p=stp.p||{};stp.done=stp.done||{};stp.badge=stp.badge||{}};fixStamp();
+const saveFood=()=>store.set('kr_food',food),saveStamp=()=>store.set('kr_stamp',stp),saveMy=()=>store.set('kr_myspots',mySpots);
+const foodN=()=>Object.values(food).reduce((a,f)=>a+f.n,0);
+function addFood(name,e,n=1){const f=food[name]||(food[name]={e,n:0});f.n+=n;if(e)f.e=e;saveFood()}
+const spotsOf=pi=>[...PREFS[pi][5].map((s,i)=>({s,key:String(i)})),...mySpots.filter(m=>m.pref===pi).map(m=>({s:[m.city,m.name,m.kind==='f'?'f':'p',m.e],key:'m'+m.id,my:m}))];
+const hasSt=(pi,k)=>!!(stp.p[pi]&&stp.p[pi][k]);
+const nStamp=pi=>PREFS[pi][5].filter((s,i)=>hasSt(pi,String(i))).length;
+const baseDone=pi=>nStamp(pi)===PREFS[pi][5].length;
+const totSpots=PREFS.reduce((a,p)=>a+p[5].length,0);
+const allStamps=()=>PREFS.reduce((a,p,i)=>a+nStamp(i),0);
+const JP={route:'all',sel:null};
+const insIcon=mon=>{const u=R3T?thumbOf('m',mon):null;return u?imgSvg(u,mon.name):esvg(mon)};
+function giveIns(mon,lv){const isNew=!dex[mon.no];dex[mon.no]=(dex[mon.no]||0)+1;store.set('kr_dex3',dex);
+  const L=lv||Math.max(defLv(mon),avgLvParty()-2);box.push({u:uid(),no:mon.no,eq:{},lv:L});if(box.length>3000)box.shift();saveBox();dexBtn();return{isNew,lv:L}}
+const JPINS=()=>MONS.filter(m=>m.ins&&/日本/.test(m.region));
+function japanIns(pi,city,minR=1){if(city==='与那国町'){const y=MONS.find(m=>m.name==='ヨナグニサン');if(y&&!dex[y.no])return y}
+  let pool=JPINS().filter(m=>m.rar>=minR);if(PREFS[pi][2]===7){const s=pool.filter(m=>/沖縄|南西|奄美|八重山|台湾|東南/.test(m.region));if(s.length&&Math.random()<.6)pool=s}
+  const w=[0,40,30,18,9,3];let tot=pool.reduce((a,m)=>a+w[m.rar],0),x=Math.random()*tot;for(const m of pool){x-=w[m.rar];if(x<=0)return m}return pool[0]||pick(MONS.filter(m=>m.ins))}
+
+// ----- tile map -----
+function japanSvg(){const T=27,W=13*T,H=13*T,rf=ROUTES.find(r=>r[0]===JP.route)[2];const R=srand(5);
+  let s=`<svg viewBox="-6 -6 ${W+12} ${H+12}" preserveAspectRatio="xMidYMid meet" role="group" aria-label="にほん ちず"><rect x="-6" y="-6" width="${W+12}" height="${H+12}" fill="#7fd3e8"/>`;
+  for(let i=0;i<26;i++){const x=R()*W,y=R()*H;s+=`<path d="M${x.toFixed(0)} ${y.toFixed(0)}q4 -3 8 0q4 3 8 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".45" stroke-linecap="round"/>`}
+  s+=`<text x="4" y="14" font-size="13" font-weight="900" fill="#fff" stroke="#3a8fa8" stroke-width="3" paint-order="stroke" font-family="Zen Maru Gothic,M PLUS Rounded 1c,sans-serif">にっぽん スタンプラリー</text>`;
+  s+=REGIONS.map((r,i)=>`<g transform="translate(${4+(i%2)*62} ${26+Math.floor(i/2)*14})"><rect width="10" height="10" rx="3" fill="${r.c}" stroke="#fff"/><text x="13" y="9" font-size="8.5" font-weight="800" fill="#2c5f6e" font-family="Zen Maru Gothic,sans-serif">${r.n}</text></g>`).join('');
+  let selR='';
+  PREFS.forEach((p,i)=>{const[n,,rg,c,r]=p,big=i===0,w=big?2*T-2:T-2,x=c*T,y=r*T,on=rf(p),n0=nStamp(i),tot=p[5].length,done=stp.done[i],sn=SHORT(n);
+    const fs=big?11:sn.length>=3?6.4:8;
+    s+=`<g class="pref ${on?'':'off'}" data-p="${i}" ${on?'tabindex="0"':''} role="button" aria-label="${n} スタンプ ${n0}/${tot}${done?' せいは':''}" transform="translate(${x} ${y})">
+      <rect width="${w}" height="${w}" rx="5" fill="${REGIONS[rg].c}" stroke="${done?'#e0a800':'#fff'}" stroke-width="${done?2.6:1.4}"/>
+      <text x="${w/2}" y="${w/2+(big?2:1)}" text-anchor="middle" font-size="${fs}" font-weight="900" fill="#3b2c1c" font-family="Zen Maru Gothic,M PLUS Rounded 1c,sans-serif">${sn}</text>
+      <rect x="3" y="${w-6}" width="${w-6}" height="3" rx="1.5" fill="rgba(0,0,0,.13)"/><rect x="3" y="${w-6}" width="${((w-6)*n0/tot).toFixed(1)}" height="3" rx="1.5" fill="#e0467a"/>
+      ${done?`<text x="${w-1}" y="7" font-size="7.5" text-anchor="end">👑</text>`:''}</g>`;
+    if(JP.sel===i)selR=`<rect class="ring" x="${x-3}" y="${y-3}" width="${w+6}" height="${w+6}" rx="7" fill="none" stroke="#ff3d8b" stroke-width="2.4" stroke-dasharray="5 3" pointer-events="none"/>`});
+  return s+selR+'</svg>'}
+function drawJapan(){fixStamp();const rt=ROUTES.find(r=>r[0]===JP.route),inR=PREFS.map((p,i)=>i).filter(i=>rt[2](PREFS[i]));
+  $('jSub').textContent=`${slotName()} ・ スタンプ ${allStamps()}/${totSpots} ・ せいは ${Object.keys(stp.done).length}/47 ・ 💎${pts.toLocaleString()}`;
+  $('jFoodN').textContent=foodN();
+  $('jtabs').innerHTML=ROUTES.map(([k,l,f])=>{const ids=PREFS.map((p,i)=>i).filter(i=>f(PREFS[i])),d=ids.filter(i=>stp.done[i]).length;
+    return `<button class="tab" data-r="${k}" aria-pressed="${JP.route===k}">${stp.badge[k]?'🏅':''}${l} <small>${d}/${ids.length}</small></button>`}).join('');
+  $('jmap').innerHTML=japanSvg();drawJSheet(inR)}
+function drawJSheet(inR){const el=$('jsheet'),pi=JP.sel;
+  if(pi===null||pi===undefined){const rt=ROUTES.find(r=>r[0]===JP.route);
+    el.innerHTML=`<div class="stt"><b>${rt[1]}の たび：県を えらんでね</b><small>市や町を まわって クイズに 2もん いじょう 正解すると スタンプ！ 名産の たべものや 昆虫が もらえるよ。たべものは 昆虫に あげると しんか！</small></div>
+     <div class="srow"><button class="pill" id="jNext">▶ つぎの 県へ</button><button class="pill" id="jPhoto2">📷 しゃしんで 名産を ついか</button></div>`;return}
+  const p=PREFS[pi],sp=spotsOf(pi),rg=REGIONS[p[2]];
+  el.innerHTML=`<div class="srow"><span class="snum" style="background:${tcol(rg.c)}">${rg.n}</span><div class="stt"><b>${p[0]} ${stp.done[pi]?'👑':''}</b><small>${p[1]?'県庁所在地：'+p[1]:'都庁は 新宿区に あるよ'} ・ スタンプ ${nStamp(pi)}/${p[5].length}</small></div><button class="pill" id="jClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
+   <div class="stcard">${sp.map(x=>{const d=hasSt(pi,x.key),[city,thing,k,e]=x.s;
+     return `<button class="spot ${d?'done':''} ${x.my?'my':''}" data-k="${x.key}" aria-label="${city} ${d?thing+' スタンプずみ':'まだ'}">${x.my&&x.my.img?`<img src="${x.my.img}" alt="">`:`<span class="se">${d?e:k==='f'?'🍴':'📍'}</span>`}<b>${esc(city)}</b><small>${d||x.my?esc(thing):'？？？'}</small>${d?'<span class="stp">済</span>':'<span class="go">いく ▶</span>'}</button>`}).join('')}</div>`}
+$('jtabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;JP.route=b.dataset.r;const rf=ROUTES.find(r=>r[0]===JP.route)[2];if(JP.sel!=null&&!rf(PREFS[JP.sel]))JP.sel=null;tone(880,0,.06,'triangle',.05);drawJapan()});
+function pickPref(i){JP.sel=i;ensureAudio();tone(1046,0,.07,'triangle',.06);drawJapan();const f=$('jmap').querySelector(`.pref[data-p="${i}"]`);if(f)f.focus({preventScroll:true})}
+$('jmap').addEventListener('click',e=>{const g=e.target.closest('.pref');if(g&&!g.classList.contains('off'))pickPref(+g.dataset.p)});
+$('jmap').addEventListener('keydown',e=>{const g=e.target.closest('.pref');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pickPref(+g.dataset.p)}});
+$('jsheet').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+  if(t.id==='jClose'){JP.sel=null;drawJapan();return}
+  if(t.id==='jPhoto2'){openPhoto();return}
+  if(t.id==='jNext'){const rf=ROUTES.find(r=>r[0]===JP.route)[2];const nx=PREFS.map((p,i)=>i).find(i=>rf(PREFS[i])&&!stp.done[i]);pickPref(nx===undefined?PREFS.findIndex(rf):nx);return}
+  if(t.dataset.k!=null)openQuiz(JP.sel,t.dataset.k)});
+function goJapan(){if(S){S.tok=-1}$('mapScr').hidden=true;$('app').hidden=true;$('japanScr').hidden=false;drawJapan()}
+$('jIsl').onclick=()=>{$('japanScr').hidden=true;goMap()};$('jDex').onclick=openDex;
+
+// ----- quiz -----
+const QZ={};
+function mkC(ans,pool){const d=[...new Set(pool)].filter(x=>x!==ans).slice(0,3);return shuf([ans,...d])}
+function spotQ(pi,sp){const[city,thing,k]=sp.s,pool=shuf(PREFS.flatMap((p,j)=>j===pi?[]:p[5].filter(x=>x[2]===k).map(x=>x[1])));
+  return{tag:'📍 スポット',q:`<b>${esc(city)}</b>（${PREFS[pi][0]}）で ゆうめいな ${k==='f'?'たべもの':'ばしょ・もの'}は どれ？`,a:thing,c:mkC(thing,pool),note:`${esc(city)}の「${esc(thing)}」を おぼえよう！`}}
+function prefQ(pi){const p=PREFS[pi],t=['reg','rev','rev'];if(p[1])t.push('cap','cap');const ty=pick(t);
+  if(ty==='cap'){const same=shuf(PREFS.filter((x,j)=>j!==pi&&x[1]&&x[2]===p[2]).map(x=>x[1])).slice(0,2),oth=shuf(PREFS.filter((x,j)=>j!==pi&&x[1]).map(x=>x[1]));
+    return{tag:'🏛 けんちょう',q:`<b>${p[0]}</b>の 県庁所在地（けんちょう しょざいち）は？`,a:p[1],c:mkC(p[1],[...same,...oth]),note:`${p[0]}の 県庁所在地は ${p[1]}`}}
+  if(ty==='reg')return{tag:'🗾 ちほう',q:`<b>${p[0]}</b>は どの 地方？`,a:REGIONS[p[2]].n,c:mkC(REGIONS[p[2]].n,shuf(REGIONS.map(r=>r.n))),note:`${p[0]}は ${REGIONS[p[2]].n}地方だよ`};
+  const s=pick(p[5]),same=shuf(PREFS.filter((x,j)=>j!==pi&&x[2]===p[2]).map(x=>x[0])).slice(0,2),oth=shuf(PREFS.filter((x,j)=>j!==pi).map(x=>x[0]));
+  return{tag:'🔎 どこの 名物？',q:`${s[3]}「<b>${s[1]}</b>」で ゆうめいな 都道府県は？`,a:p[0],c:mkC(p[0],[...same,...oth]),note:`${s[1]}は ${p[0]}${s[0]}の 名物`}}
+function insQ(){const[q,a,w]=pick(INSQ);return{tag:'🐞 こんちゅう',q,a,c:shuf([a,...w])}}
+function openQuiz(pi,key){const sp=spotsOf(pi).find(x=>x.key===key);if(!sp)return;ensureAudio();
+  Object.assign(QZ,{pi,sp,i:0,ok:0,res:[],phase:'q',qs:[spotQ(pi,sp),prefQ(pi),insQ()]});
+  $('qzTitle').textContent=`${PREFS[pi][0]} ・ ${sp.s[0]}`;$('quizOv').hidden=false;qzShow()}
+function qzShow(){const q=QZ.qs[QZ.i];QZ.phase='q';
+  $('qzDots').innerHTML=QZ.qs.map((_,j)=>`<i class="${QZ.res[j]===true?'ok':QZ.res[j]===false?'ng':j===QZ.i?'cur':''}"></i>`).join('');
+  $('qzTag').textContent=`${QZ.i+1}もんめ ・ ${q.tag}`;$('qzQ').innerHTML=q.q;$('qzQ').hidden=false;$('qzTag').hidden=false;
+  $('qzC').innerHTML=q.c.map((c,j)=>`<button data-j="${j}"><i>${j+1}</i><span>${esc(c)}</span></button>`).join('');$('qzC').hidden=false;
+  $('qzMsg').innerHTML='';$('qzRes').hidden=true;$('qzNext').hidden=true;setTimeout(()=>{const b=$('qzC').querySelector('button');if(b)b.focus()},30)}
+function qzPick(j){if(QZ.phase!=='q')return;const q=QZ.qs[QZ.i],ok=q.c[j]===q.a;QZ.phase='a';QZ.res[QZ.i]=ok;if(ok)QZ.ok++;
+  [...$('qzC').children].forEach((b,k)=>{b.disabled=true;if(q.c[k]===q.a)b.classList.add('ok');else if(k===j)b.classList.add('ng')});
+  if(ok){sOK(QZ.ok);const c=center($('qzC').children[j]);burst(c.x,c.y,18)}else sNG();
+  $('qzMsg').innerHTML=(ok?'<b class="okt">⭕ せいかい！</b>':`<b class="ngt">❌ ざんねん…</b> こたえは「${esc(q.a)}」`)+(q.note?`<br><small>${q.note}</small>`:'');
+  $('qzDots').children[QZ.i].className=ok?'ok':'ng';
+  $('qzNext').textContent=QZ.i<2?'つぎへ ▶':'けっかを みる ▶';$('qzNext').hidden=false;setTimeout(()=>$('qzNext').focus(),30)}
+$('qzC').addEventListener('click',e=>{const b=e.target.closest('button');if(b)qzPick(+b.dataset.j)});
+$('qzNext').onclick=()=>{if(QZ.phase!=='a')return;if(QZ.i<2){QZ.i++;qzShow()}else qzFinish()};
+$('qzClose').onclick=()=>{$('quizOv').hidden=true;QZ.phase='x';if(!$('japanScr').hidden)drawJapan()};
+function qzFinish(){QZ.phase='r';const{pi,sp,ok}=QZ,p=PREFS[pi],[city,thing,k,e]=sp.s,pass=ok>=2;
+  $('qzC').hidden=true;$('qzNext').hidden=true;$('qzMsg').innerHTML='';$('qzQ').hidden=true;$('qzTag').hidden=true;
+  let h='';
+  if(!pass){h=`<div class="qzbig">${ok}/3 正解… おしい！</div><p>2もん いじょう 正解で スタンプ ゲット！</p>`;sNG()}
+  else{const P=stp.p[pi]||(stp.p[pi]={}),first=!P[sp.key];P[sp.key]=1;
+    h=`<div class="jstamp"><small>${first?'スタンプ ゲット！':'また きたよ！'}</small><b>${esc(city)}</b><span>${SHORT(p[0])}</span></div><div class="qzbig">${ok}/3 正解${ok===3?' パーフェクト！':''}</div><div class="rw">`;
+    if(k==='f'){const n=ok===3?2:1;addFood(thing,e,n);h+=`<div class="rwi"><span class="fe">${e}</span><b>${esc(thing)}</b><small>×${n} ゲット！</small></div>`}
+    else{const mon=japanIns(pi,city,ok===3?2:1),g=giveIns(mon);h+=`<div class="rwi"><span class="ic">${insIcon(mon)}</span><b>${mon.name}</b><small>${g.isNew?'<span class="nw">NEW</span> ':''}${starStr(mon.rar)} Lv${g.lv}</small></div>`}
+    if(first){addPts(50);h+=`<div class="rwi"><span class="fe">💎</span><b>+50</b><small>はじめて ボーナス</small></div>`}
+    h+='</div>';
+    if(!stp.done[pi]&&baseDone(pi)){stp.done[pi]=1;const mon=japanIns(pi,city,3),g=giveIns(mon),fs=p[5].find(x=>x[2]==='f');if(fs)addFood(fs[1],fs[3],2);addPts(500);
+      h+=`<div class="conq">👑 ${p[0]} せいは！</div><div class="rw"><div class="rwi"><span class="ic">${insIcon(mon)}</span><b>${mon.name}</b><small>${starStr(mon.rar)} ${g.isNew?'NEW':''}</small></div>${fs?`<div class="rwi"><span class="fe">${fs[3]}</span><b>${fs[1]}</b><small>×2</small></div>`:''}<div class="rwi"><span class="fe">💎</span><b>+500</b></div></div>`;
+      setTimeout(()=>{banner(`${p[0]} せいは！`,'#e0a800',true);barrage(5,180,true);flash('#ffd23f')},500)}
+    ROUTES.forEach(([rk,rl,rf])=>{if(stp.badge[rk])return;const ids=PREFS.map((x,i)=>i).filter(i=>rf(PREFS[i]));if(ids.every(i=>stp.done[i])){stp.badge[rk]=1;const b=rk==='all'?10000:rk.length<4?3000:1000;addPts(b);
+      h+=`<div class="conq">🏅 ${rl} たっせい！ 💎+${b.toLocaleString()}</div>`;setTimeout(()=>{banner(`${rl} たっせい！`,'#e0467a',true);rain(150)},1400)}});
+    saveStamp();touchSlot();setTimeout(saveToast,700);sFan();rain(60);const c=center($('qzRes'));setTimeout(()=>burst(c.x,c.y,30),200)}
+  h+=`<div class="cbtns"><button class="btn2" id="qzAgain">もういちど</button><button class="btn" id="qzBack">スタンプカードへ</button></div>`;
+  const r=$('qzRes');r.innerHTML=h;r.hidden=false;$('qzAgain').onclick=()=>openQuiz(pi,sp.key);$('qzBack').onclick=()=>$('qzClose').click();setTimeout(()=>$('qzBack').focus(),60)}
+
+// ----- food list -----
+function openFood(){const fl=Object.entries(food).filter(([,f])=>f.n>0),ins=partyNow().filter(m=>m.kind==='i');
+  $('foodBody').innerHTML=(fl.length?`<div class="flist">${fl.map(([n,f])=>`<div class="fd"><span>${f.e}</span>${esc(n)}<small>×${f.n}</small></div>`).join('')}</div>`:'<p class="best">まだ たべものが ないよ。🗾 たべものスポットで クイズに 正解しよう！</p>')+
+   `<div class="lbl">パーティの 昆虫に ごはんを あげる（しんか！）</div>`+(ins.length?`<div class="flist">${ins.map(m=>`<button class="fd feedto" data-u="${m.inst.u}"><span class="ic">${svg(m.ch)}</span>${m.ch.name}<small>しんか ${m.inst.evo||0}/3</small></button>`).join('')}</div>`:'<small>パーティに 昆虫が いないよ。🏝 島マップの「👥 パーティ」で いれよう！ ずかん📖 → 360°で見る からでも あげられるよ。</small>');
+  $('foodOv').hidden=false;setTimeout(()=>$('foodClose').focus(),30)}
+$('foodBody').addEventListener('click',e=>{const b=e.target.closest('.feedto');if(!b)return;const inst=box.find(x=>x.u===b.dataset.u);if(!inst)return;$('foodOv').hidden=true;openViewer(inst.no);V.u=inst.u;drawViewer()});
+$('foodClose').onclick=()=>{$('foodOv').hidden=true;if(!$('japanScr').hidden)drawJapan()};
+$('jFood').onclick=openFood;
+
+// ----- evolution by feeding -----
+const EVO_T=[30,80,150],FRUIT=/[🍎🍏🍐🍊🍋🍌🍉🍇🍓🫐🍈🍒🍑🥭🍍🥝🍠]/u,LIKES={kabuto:1,kuwa:1,kogane:1,kamikiri:1,chou:1,hachi:1,ari:1};
+function drawVFood(){const inst=vInst(),mon=vMon(),el=$('vFood');const show=!!(mon&&mon.ins&&inst);el.hidden=!show;$('vFoodL').hidden=!show;if(!show)return;
+  const ev=inst.evo||0,fp=inst.fp||0,nx=EVO_T[ev],fl=Object.entries(food).filter(([,f])=>f.n>0);
+  el.innerHTML=`<div class="evo">${[1,2,3].map(k=>`<span class="${ev>=k?'on':''}">しんか${k}</span>`).join('')}</div><div class="evbar"><i style="width:${nx?Math.min(100,fp/nx*100):100}%"></i></div>
+   <small class="evn">${nx?`つぎの しんかまで あと <b>${nx-fp}</b>（たべもの 1こ＝10、${LIKES[mon.arch]?'くだものは だいこうぶつで 15！':'たくさん たべよう'}）`:'✨ さいごまで しんか した！ のうりょく ぐーんと アップ！'}</small>
+   <div class="flist">${fl.length?fl.map(([n,f])=>`<button class="fd" data-f="${esc(n)}" ${nx?'':'disabled'}><span>${f.e}</span>${esc(n)}<small>×${f.n}</small></button>`).join(''):'<small>たべものが ないよ。🗾 にっぽん旅で あつめよう！</small>'}</div>`}
+$('vFood').addEventListener('click',e=>{const b=e.target.closest('.fd');if(!b||b.disabled)return;const inst=vInst(),mon=vMon(),f=food[b.dataset.f];if(!f||f.n<=0)return;ensureAudio();
+  f.n--;if(f.n<=0)delete food[b.dataset.f];saveFood();const like=LIKES[mon.arch]&&FRUIT.test(f.e),gain=like?15:10;inst.fp=(inst.fp||0)+gain;let up=0;
+  while(EVO_T[inst.evo||0]&&inst.fp>=EVO_T[inst.evo||0]){inst.evo=(inst.evo||0)+1;up++}saveBox();
+  const c=center($('stage3d'));burst(c.x,c.y,16);tone(988,0,.06,'triangle',.07);tone(1319,.07,.08,'triangle',.07);
+  if(up){const col=['','#39bcd6','#b86bff','#ffc93c'][inst.evo];flash(col);barrage(3,160,true);rain(70);[0,4,7,12,16].forEach((k,j)=>tone(note(k+5),j*.09,.25,'triangle',.1));
+    banner(`${mon.name} しんか！`,col,true);$('vMsg').innerHTML=`<b>${mon.name}${'＋'.repeat(inst.evo)}</b> に しんかした！ のうりょく ×${(1+.15*inst.evo).toFixed(2)}`}
+  else $('vMsg').textContent=`${f.e} ${b.dataset.f}を たべた！${like?' だいこうぶつ！':''} +${gain}`;
+  drawViewer()});
+
+// ----- jobs (DQ-style) -----
+const canKenja=inst=>(inst.lv||1)>=15||(inst.evo||0)>=2;
+function drawJobs(){const el=$('jobs');if(!el)return;const ins=ptRefs.filter(r=>r.k==='i').map(r=>box.find(b=>b.u===r.u)).filter(Boolean);
+  el.innerHTML=`<div class="jh">🎓 しょくぎょう <small>パーティの 昆虫に しょくぎょうを つけよう</small></div>`+(ins.length?ins.map(inst=>{const mon=MONS[inst.no-1],j=JOBS[inst.job||'none'];
+    return `<div class="jrow"><span class="ic">${insArt(insCh(mon,inst))}</span><span class="jt"><b>${mon.name}${'＋'.repeat(inst.evo||0)}</b><small>${j.desc}</small></span><select data-u="${inst.u}" aria-label="${mon.name}の しょくぎょう">${Object.entries(JOBS).map(([k,jj])=>{const lock=k==='kenja'&&!canKenja(inst);
+      return `<option value="${k}" ${(inst.job||'none')===k?'selected':''} ${lock?'disabled':''}>${jj.i} ${jj.n}${lock?'（Lv15 か しんか2）':''}</option>`}).join('')}</select></div>`}).join('')
+    :'<small>つかまえた 昆虫を パーティに いれると、せんし・まほうつかい・そうりょ・ぶとうか・けんじゃ から しょくぎょうを えらべるよ！ したの リストの「つかまえた昆虫」から えらんでね。</small>')}
+$('jobs').addEventListener('change',e=>{const s=e.target.closest('select');if(!s)return;const inst=box.find(b=>b.u===s.dataset.u);if(!inst)return;
+  if(s.value==='none')delete inst.job;else inst.job=s.value;saveBox();ensureAudio();tone(1175,0,.08,'triangle',.07);tone(1568,.08,.1,'triangle',.07);drawParty2()});
+
+// ----- legendary summon event -----
+async function maybeSummon(tok){if(S.summoned||!S.foe||S.foe.hp<=0)return;const sage=S.party.some(p=>p.inst&&(p.inst.job==='kenja'||p.inst.job==='mahou')&&p.hp>0);
+  const ch=(S.boss?.3:S.bi===S.nb-1?.18:.1)+(sage?.1:0);if(Math.random()>ch)return;S.summoned=true;
+  const fld=$('field'),mc=document.createElement('div');mc.className='mcircle';mc.innerHTML='<i></i><i></i>';fld.appendChild(mc);
+  $('dim').className='';void $('dim').offsetWidth;$('dim').className='on';banner('しょうかんの まほうじん！','#8b3dff',true);[0,3,7,10].forEach((k,j)=>tone(note(k),j*.12,.3,'sine',.07));
+  await say('ふしぎな <b style="color:#8b3dff">しょうかんの まほうじん</b> が あらわれた！ 正解すると 伝説の昆虫を よびだせる！',1800);if(tok!==S.tok){mc.remove();return}
+  const m=S.party.find(p=>p.hp>0);const ok=await ask(m,'sm');if(tok!==S.tok){mc.remove();return}
+  if(!ok){mc.classList.add('fade');await say('まほうじんは しずかに きえてしまった…',1400);mc.remove();return}
+  S.phase='anim';const L=pick(MONS.filter(x=>x.ins&&x.rar===5)),lch={mon:L,name:L.name,c:L.c,eq:{}};
+  mc.classList.add('go');flash('#fff');quake();sBeam(true);cutin(lch,'伝説の昆虫 '+L.name,'★ しょうかん ★',true);
+  await wait(RM?300:1500);const B=center($('enemy'));
+  if(!RM){P.push({t:'beam',ax:B.x,ay:-40,bx:B.x,by:B.y,y:0,l:1,dl:.02,w:70,rb:true});run();for(let i=0;i<10;i++)setTimeout(()=>shoot({x:B.x-180+rnd(360),y:-30},B,pick(COLS),13,()=>burst(B.x,B.y,8),{arc:0,dur:12,spread:40}),i*60);barrage(4,160,true)}
+  await wait(RM?100:700);const f=S.foe,d=Math.max(1,Math.round(f.max*(f.boss?.3:.55)*(.9+Math.random()*.2)));hitFoe(d,true);
+  S.party.forEach(p=>{const add=p.hp>0?Math.min(Math.ceil(p.s.hp*.5),p.s.hp-p.hp):Math.ceil(p.s.hp*.3);p.hp+=add;p.mp=Math.min(p.s.mp,p.mp+5)});drawParty();
+  await say(`伝説の昆虫 <b style="color:${RARC[5]}">${L.name}</b> が あらわれた！ 「でんせつの いちげき」！ ${f.mon.name}に <b>${d}</b> の ダメージ！`,1800);
+  await say('さらに 伝説の ちからで みんなの HPと MPが かいふくした！',1400);mc.remove();
+  if(Math.random()<.3&&tok===S.tok){const g=giveIns(L,Math.max(defLv(L),avgLvParty()));await say(`${L.name}は なかまに なりたそうに こちらを みている… <b>${L.name}</b>が なかまに なった！${g.isNew?' ずかんに とうろく！':''}`,1900)}}
+
+// ----- photo mode -----
+const PH={kind:'f',small:null,full:null,no:null,ctl:null};let SAMPLE=null,SIMG=false;
+(async()=>{try{if(window.claude&&typeof claude.use==='function'){const s=await claude.use('sample');if(s){SAMPLE=s;const l=await s.limits().catch(()=>null);SIMG=!!(l&&l.images);phAIState()}}}catch(e){}})();
+const EMO={f:['🍎','🍑','🍇','🍓','🍊','🍈','🍒','🍐','🍌','🍍','🥭','🍠','🍙','🍜','🍣','🍡','🥟','🍘','🧁','🍵'],i:['🐞','🦋','🐝','🪲','🐜','🦗','🪳','🐛','🦟','🪰'],p:['🏯','⛩','🗼','🏰','🌉','🏛','⛪','🗻','🌊','🌸','♨','🎡']};
+function phAIState(){const b=$('phAI');if(!b)return;b.hidden=!(SAMPLE&&SIMG);$('phAInote').hidden=!!(SAMPLE&&SIMG)}
+function phKinds(){[...$('phKinds').children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===PH.kind));const cur=$('phEmo').dataset.sel;
+  $('phEmo').innerHTML=EMO[PH.kind].map((e,i)=>`<button data-e="${e}" aria-pressed="${cur?cur===e:i===0}">${e}</button>`).join('');if(!EMO[PH.kind].includes(cur))$('phEmo').dataset.sel=EMO[PH.kind][0]}
+function openPhoto(){PH.small=null;PH.full=null;PH.no=null;PH.kind='f';$('phPrevW').hidden=true;$('phForm').hidden=true;$('phAImsg').innerHTML='';$('phErr').textContent='';$('phName').value='';$('phCity').value='';$('phFile').value='';
+  $('phPref').innerHTML=PREFS.map((p,i)=>`<option value="${i}" ${i===(JP.sel??10)?'selected':''}>${p[0]}</option>`).join('');$('phEmo').dataset.sel='';phKinds();phAIState();drawMyList();$('photoOv').hidden=false;setTimeout(()=>$('phClose').focus(),30)}
+function shrink(im,max,q){const k=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.naturalWidth*k));c.height=Math.max(1,Math.round(im.naturalHeight*k));
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);return c}
+$('phFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();
+  rd.onload=()=>{const im=new Image();im.onload=()=>{PH.small=shrink(im,160,.7).toDataURL('image/jpeg',.7);PH.full=shrink(im,1024);$('phPrev').src=PH.small;$('phPrevW').hidden=false;$('phForm').hidden=false;$('phAImsg').innerHTML='';PH.no=null;phAIState();
+    if(SAMPLE&&SIMG)$('phAImsg').innerHTML='<small>「AIで よみとる」を おすと、なにが うつっているか しらべるよ</small>';tone(1320,0,.08,'triangle',.07)};
+    im.onerror=()=>{$('phErr').textContent='この しゃしんは よめなかったよ'};im.src=rd.result};rd.readAsDataURL(f)});
+$('phKinds').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;PH.kind=b.dataset.k;phKinds()});
+$('phEmo').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$('phEmo').dataset.sel=b.dataset.e;[...$('phEmo').children].forEach(x=>x.setAttribute('aria-pressed',x===b))});
+$('phAI').onclick=async()=>{if(!SAMPLE||!PH.full)return;const b=$('phAI'),m=$('phAImsg');if(PH.ctl){PH.ctl.abort();return}
+  const blob=await new Promise(r=>PH.full.toBlob(r,'image/jpeg',.85));if(!blob)return;PH.ctl=new AbortController();b.textContent='⏹ やめる';m.innerHTML='🔍 よみとりちゅう… <small>（すこし じかんが かかるよ）</small>';
+  const names=MONS.filter(x=>x.ins).map(x=>x.name).join('、');
+  const prompt=`あなたは小学生向け学習ゲームの「しゃしん はんてい係」です。写真に写っている主なものを1つ判定してください。
+次の形のJSONだけで答えてください:
+{"kind":"fruit か food か insect か building か other","name":"日本語のふつうの名前（例：もも、カブトムシ、東京スカイツリー）","emoji":"合う絵文字1つ","insect_match":"下の昆虫リストに同じ種類があればその名前をそのまま。なければ null","pref":"その名産や建物で有名な都道府県名（はっきりわかるときだけ。例：山梨県）。なければ null","city":"有名な市区町村名（はっきりわかるときだけ）。なければ null","comment":"小学生向けのひとこと（30文字くらい、ひらがな多め）"}
+kind の決め方：くだもの=fruit、そのほかの食べもの=food、昆虫=insect、建物・お城・お寺・タワー・景色=building、それ以外=other。
+昆虫リスト：${names}`;
+  try{const r=await SAMPLE.json(prompt,{images:[blob],signal:PH.ctl.signal,modelTier:'default'});
+    const kind={fruit:'f',food:'f',insect:'i',building:'p'}[r&&r.kind]||'p';PH.kind=kind;const nm=String((r&&r.name)||'').slice(0,16);if(nm)$('phName').value=nm;
+    const em=String((r&&r.emoji)||'').trim();if(em&&[...em].length<=3){if(!EMO[kind].includes(em))EMO[kind].unshift(em);$('phEmo').dataset.sel=em}phKinds();
+    const mt=r&&r.insect_match?MONS.find(x=>x.ins&&x.name===r.insect_match):null;PH.no=kind==='i'&&mt?mt.no:null;
+    const pi=r&&r.pref?PREFS.findIndex(p=>p[0]===r.pref):-1;if(pi>=0)$('phPref').value=pi;if(r&&r.city)$('phCity').value=String(r.city).slice(0,10);
+    m.innerHTML=`<b>${{f:'🍎 たべもの',i:'🐞 こんちゅう',p:'🏯 たてもの・ばしょ'}[kind]}：${esc(nm||'？')}</b>${mt?`<br><span class="eff">ずかんの「${mt.name}」と おなじ しゅるい！ とうろくで ゲット！</span>`:''}${r&&r.comment?`<br><small>${esc(String(r.comment).slice(0,60))}</small>`:''}<br><small>ちがったら てで なおしてね</small>`;sFan()}
+  catch(e){const c=e&&e.code;m.innerHTML=c==='cancelled'?'':c==='not_granted'||c==='sampling_disabled'||c==='images_unavailable'||c==='capability_disabled'?'AIよみとりが つかえないよ。したで しゅるいと なまえを えらんでね':c==='rate_limited'?'いまは こんでいるよ。すこし まってから もういちど':c==='image_rejected'?'この しゃしんは よめなかったよ。べつの しゃしんで ためしてね':c==='refused'?'この しゃしんは はんてい できなかったよ':'うまく よみとれなかった… てで いれてね';
+    if(['not_granted','sampling_disabled','images_unavailable','capability_disabled'].includes(c)){SIMG=false;phAIState()}}
+  finally{PH.ctl=null;b.textContent='🔍 AIで よみとる'}};
+$('phSave').onclick=()=>{const name=$('phName').value.trim().slice(0,16),pi=+$('phPref').value,p=PREFS[pi];if(!PH.small){$('phErr').textContent='さきに しゃしんを とってね';return}if(!name){$('phErr').textContent='なまえを いれてね';return}
+  const city=($('phCity').value.trim()||p[1]||'新宿区').slice(0,10),e=$('phEmo').dataset.sel||EMO[PH.kind][0];
+  if(PH.kind==='i'&&!PH.no){const mt=MONS.find(x=>x.ins&&x.name===name);if(mt)PH.no=mt.no}
+  const it={id:uid(),pref:pi,city,name,kind:PH.kind,e,img:PH.small,no:PH.no,at:Date.now()};mySpots.unshift(it);
+  while(mySpots.length>30){const o=mySpots.pop();if(stp.p[o.pref])delete stp.p[o.pref]['m'+o.id]}
+  try{saveMy()}catch(err){mySpots.shift();$('phErr').textContent='ほぞんが いっぱいだよ。ふるいのを けしてね';return}
+  let msg=`「${name}」を ${p[0]}${city}の オリジナル名産に とうろく！`;
+  if(PH.kind==='f'){addFood(name,e,1);msg+=` ${e}${name}を 1こ ゲット！`}else if(PH.kind==='i'&&PH.no){const mon=MONS[PH.no-1],g=giveIns(mon);msg+=` しゃしんの ${mon.name}を ゲット！${g.isNew?'（NEW）':''}`}else addPts(100),msg+=' 💎+100';
+  touchSlot();saveToast();sFan();rain(50);$('phErr').textContent='';$('phAImsg').innerHTML=`<b class="eff">${msg}</b>`;$('phForm').hidden=true;$('phPrevW').hidden=true;$('phFile').value='';PH.small=null;PH.full=null;PH.no=null;JP.sel=pi;drawMyList()};
+function drawMyList(){$('phList').innerHTML=mySpots.length?mySpots.map(m=>`<div class="myit"><img src="${m.img}" alt=""><span><b>${m.e} ${esc(m.name)}</b><small>${PREFS[m.pref][0]} ${esc(m.city)}${hasSt(m.pref,'m'+m.id)?' ・ スタンプ済':''}</small></span><button class="mini" data-go="${m.id}" aria-label="スタンプカードへ">🗾</button><button class="mini" data-del="${m.id}" aria-label="けす">🗑</button></div>`).join(''):'<small>まだ ないよ。しゃしんを とって とうろくしよう！</small>'}
+$('phList').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.del){const i=mySpots.findIndex(m=>m.id===b.dataset.del);if(i<0)return;if(b.dataset.arm){const o=mySpots.splice(i,1)[0];if(stp.p[o.pref])delete stp.p[o.pref]['m'+o.id];saveMy();saveStamp();drawMyList()}else{b.dataset.arm=1;b.textContent='けす？'}return}
+  if(b.dataset.go){const m=mySpots.find(x=>x.id===b.dataset.go);if(!m)return;$('photoOv').hidden=true;JP.sel=m.pref;JP.route='all';goJapan()}});
+$('phClose').onclick=()=>{if(PH.ctl)PH.ctl.abort();$('photoOv').hidden=true;if(!$('japanScr').hidden)drawJapan()};
+$('jPhoto').onclick=openPhoto;
+
 // ---------- input ----------
 function press(k){if(!S||$('app').hidden||!$('title').hidden||!$('clear').hidden||!$('dexOv').hidden||!$('viewOv').hidden||!$('partyOv').hidden)return;ensureAudio();
   if(S.phase==='cmd'){if(/^[1-4]$/.test(k)&&S.cmdOpts&&S.cmdRes)S.cmdRes(S.cmdOpts[+k-1][0]);return}
@@ -2308,6 +2730,9 @@ $('pad').addEventListener('pointerdown',e=>{const b=e.target.closest('.k');if(!b
 $('pad').addEventListener('click',e=>{const b=e.target.closest('.k');if(b&&e.detail===0)press(b.dataset.k)});
 addEventListener('keydown',e=>{
   if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'))return;
+  if(!$('photoOv').hidden){if(e.key==='Escape')$('phClose').click();return}
+  if(!$('foodOv').hidden){if(e.key==='Escape')$('foodClose').click();return}
+  if(!$('quizOv').hidden){if(e.key==='Escape'){$('qzClose').click();return}if(/^[1-4]$/.test(e.key)&&QZ.phase==='q'){e.preventDefault();qzPick(+e.key-1)}return}
   if(!$('gachaOv').hidden){if(e.key==='Escape'){$('gClose').click();return}if(e.target&&e.target.tagName==='SELECT')return;
     let k=null;if(/^[0-9]$/.test(e.key))k=e.key;else if(e.key==='.')k='.';else if(e.key==='/')k='/';else if(e.key==='Backspace')k='B';else if(e.key==='Enter')k='E';
     if(k&&(G.phase==='q'||(k==='E'&&document.activeElement!==$('gPull')))){e.preventDefault();const b=$('gpad').querySelector(`.k[data-k="${k}"]`);if(b){b.classList.add('dn');setTimeout(()=>b.classList.remove('dn'),90)}gPress(k)}return}
