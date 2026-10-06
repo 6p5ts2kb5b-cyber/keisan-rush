@@ -728,6 +728,78 @@ div.fd{cursor:default}.fd span{font-size:20px}.fd small{color:var(--muted)}.fd .
 .slot4.dead,.cc.dead{filter:grayscale(1);opacity:.6}
 .chut{cursor:pointer}.chut:focus{outline:none}.chut:focus-visible circle{stroke:#2a6fd6}
 .phcnt{font:800 11px var(--body);color:var(--muted)}
+/* ===== world packs ===== */
+#packScr{position:fixed;inset:0;display:flex;flex-direction:column;max-width:560px;margin:0 auto;padding-inline:12px;padding-block:max(8px,env(safe-area-inset-top)) 10px;box-sizing:border-box;gap:8px}
+#packScr .mhead{border-bottom:4px solid var(--pc,#2a7ad8)}
+.pktabs .tab{border-color:color-mix(in srgb,var(--pc) 45%,transparent)}.pktabs .tab[aria-pressed="true"]{background:var(--pc);border-color:var(--pc);color:#fff}
+.pktabs .tab small{font-size:10px;opacity:.85}
+.pkrow{display:flex;gap:8px;align-items:center}.pkrow select{font:800 12px var(--body);border:2px solid var(--wood);border-radius:99px;padding:4px 8px;background:var(--cream);color:var(--ink)}
+.pkrow small{font:800 11px var(--body);color:var(--muted)}
+#pkmap{background:var(--sea)}#pkmap .pref{cursor:pointer}#pkmap .pref:focus{outline:none}#pkmap .pref:focus-visible circle,#pkmap .pref:focus-visible rect{stroke:#2a6fd6;stroke-width:3}
+#pkmap .ring{animation:ringsp 1.2s linear infinite}
+.pksheet{max-height:42vh;overflow-y:auto}
+.pkst{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.pkstage{display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:2px solid var(--line);border-left:6px solid var(--pc);border-radius:12px;background:var(--cream);padding:7px 10px;font:900 14px var(--display);color:var(--ink);cursor:pointer;text-align:left}
+.pkstage.done{background:#fff8e0}.pkstage span{font:800 11px var(--body);color:var(--muted)}.pkstage .stars3{font-size:13px;color:#f0b400}.pkstage .stars3 i{color:#d9cdb0;font-style:normal}
+.pkstage.boss{border-left-color:#e0467a;background:linear-gradient(90deg,#ffe3ec,#fff8f0)}.pkstage.lock{opacity:.6;cursor:not-allowed}
+.pkstage:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.pkmons{display:flex;flex-wrap:wrap;gap:4px}.pm2{width:38px;height:38px;border-radius:10px;background:var(--panel);border:2px solid var(--line);display:grid;place-items:center;overflow:hidden}
+.pm2 svg{width:100%;height:100%}.pm2.lock{filter:grayscale(1) brightness(.35);opacity:.55}.pm2 .em{font-size:22px}
+/* hub */
+.hubbox{width:100%;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:10px;padding-block:14px;box-sizing:border-box;max-height:100%}
+.hubbox h2{margin:0;font:400 24px 'Dela Gothic One',var(--display);color:var(--wood2);line-height:1.1}
+.hubbox p{margin:0;font:800 12px/1.5 var(--body);color:var(--muted)}
+.hubgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;overflow-y:auto;padding:2px}
+.hubc{position:relative;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:left;border:none;border-radius:18px;padding:12px;cursor:pointer;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--hc) 20%,#fffdf5),#fffdf5 70%);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--hc) 40%,transparent),0 4px 0 color-mix(in srgb,var(--hc) 55%,#5a4128);transition:transform .15s}
+.hubc:active{transform:translateY(3px);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--hc) 40%,transparent),0 1px 0 color-mix(in srgb,var(--hc) 55%,#5a4128)}
+.hubc .hi{grid-row:1/3;font-size:34px;line-height:1;filter:drop-shadow(0 3px 0 rgba(0,0,0,.12))}
+.hubc .ht{display:flex;flex-direction:column;min-width:0}.hubc b{font:400 17px 'Dela Gothic One',var(--display);color:color-mix(in srgb,var(--hc) 70%,#3b2c1c)}
+.hubc small{font:800 10.5px/1.35 var(--body);color:var(--muted)}
+.hubc .hs{grid-column:2;font:900 11px var(--body);color:var(--hc);margin-top:3px}
+.hubc:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+/* choice questions in battle */
+.q.chq{flex-direction:column;gap:4px;font-size:clamp(18px,5vw,24px)!important;line-height:1.35}
+.q .qtx{font:900 clamp(15px,4.4vw,19px)/1.4 var(--body);color:var(--ink)}.q .qtx b{color:#e0467a}
+.q .qpic{width:min(92px,13dvh);height:min(92px,13dvh);display:block}.q .qpic svg{width:100%;height:100%}
+.chs{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.chb{display:flex;align-items:center;gap:6px;min-height:48px;border-radius:12px;border:2px solid var(--wood);background:var(--cream);font:900 13px/1.25 var(--body);color:var(--ink);box-shadow:0 4px 0 rgba(90,65,40,.25);padding:6px 8px;text-align:left;cursor:pointer}
+.chb i{font-style:normal;background:var(--ink);color:#fff;border-radius:7px;min-width:20px;text-align:center;font-size:11px;flex:none}
+.chb:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(90,65,40,.25)}.chb.ok{background:#dff7d5;border-color:#3f8f35}.chb.ng{background:#ffe0e0;border-color:#ec5b5b}.chb:disabled{cursor:default}
+.chb:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.dexbox .sers{padding-bottom:4px;border-bottom:2px dashed var(--line)}.tab.ser small{font-size:10px;opacity:.8}
+/* trade */
+.trbox,.mubox{overflow-y:auto}.trbody,.mubody{display:flex;flex-direction:column;gap:8px}
+.trnote{margin:0;font:800 12.5px/1.6 var(--body);color:var(--ink)}
+.trlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;max-height:44vh;overflow-y:auto;padding:2px}
+.trit{display:flex;flex-direction:column;align-items:center;gap:1px;border:2px solid var(--line);border-radius:12px;background:var(--cream);padding:6px 4px;cursor:pointer;font:800 11px var(--body);color:var(--ink)}
+.trit .ic{width:48px;height:48px}.trit .ic svg{width:100%;height:100%}.trit b{font-size:11.5px;text-align:center;line-height:1.2}.trit small{color:var(--muted);font-size:10px}
+.trit.sel{border-color:#e0467a;background:#fff0f4;box-shadow:0 0 0 3px rgba(224,70,122,.25)}.trit:disabled{opacity:.45;cursor:not-allowed}
+.trcard{display:flex;gap:12px;align-items:center;border-radius:18px;padding:12px;background:linear-gradient(135deg,#fffdf5,#ffe9f0);border:3px dashed #e0467a}
+.trcard.got{border-style:solid;border-color:#3f8f35;background:linear-gradient(135deg,#fffdf5,#e8f8dc);animation:qin .4s both}
+.trcard .ic{width:76px;height:76px;flex:none}.trcard .ic svg{width:100%;height:100%}.trcard div{display:flex;flex-direction:column;gap:2px}
+.trcard small{font:800 11px var(--body);color:var(--muted)}.trcard b{font:400 24px 'Dela Gothic One',var(--display);color:var(--ink);letter-spacing:.06em}.trcard span{font:800 12px var(--body);color:var(--ink)}
+.trcode{user-select:all;-webkit-user-select:all}
+.trin{font:400 24px 'Dela Gothic One',var(--display);letter-spacing:.12em;text-align:center;border:3px solid var(--wood);border-radius:14px;padding:10px;background:#fff;color:var(--ink);text-transform:uppercase}
+/* music */
+.mugrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.muit{display:flex;flex-direction:column;align-items:center;gap:3px;border:2px solid var(--line);border-radius:14px;background:var(--cream);padding:8px 4px;cursor:pointer;color:var(--ink)}
+.muit .me{font-size:30px;line-height:1.1;filter:grayscale(.7) opacity(.75)}.muit.got .me{filter:none;animation:mubob 2s ease-in-out infinite}.muit b{font:900 12px var(--body)}.muit small{font:800 10px var(--body);color:var(--muted)}
+.muit.got{border-color:#d8a02a;background:linear-gradient(#fffdf5,#fff3d0)}
+@keyframes mubob{50%{transform:translateY(-3px) rotate(-4deg)}}
+.mubar{display:block;width:100%;height:6px;border-radius:99px;background:#e6dcc6;overflow:hidden}.mubar i{display:block;height:100%;background:linear-gradient(90deg,#ffd23f,#ff7aa2)}
+.muhead{display:flex;gap:12px;align-items:center;background:var(--panel);border-radius:16px;padding:10px}.muhead div{flex:1;display:flex;flex-direction:column;gap:3px}.muhead b{font:400 22px 'Dela Gothic One',var(--display);color:var(--ink)}.muhead small{font:800 11px var(--body);color:var(--muted)}
+.me.big{font-size:54px}
+.muq{background:var(--panel);border-radius:16px;padding:12px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center}.muq small{font:800 11px var(--body);color:var(--muted)}
+.muqt{font:900 17px/1.5 var(--display);color:var(--ink)}.muqt b{color:#e0467a}.mupic{display:block;font-size:56px;line-height:1.15}
+/* secret */
+.urabox{display:flex;flex-direction:column;gap:8px;align-items:center;background:radial-gradient(circle at 50% 40%,#3a1a6a,#0a0614);border-radius:18px;padding:16px;color:#e8dcff;border:2px solid #7a4ad8;box-shadow:0 0 30px rgba(122,74,216,.5)}
+.urabox b{font:400 18px 'Dela Gothic One',var(--display);letter-spacing:.1em}.urabox input{font:800 18px var(--body);text-align:center;border:2px solid #7a4ad8;border-radius:12px;padding:8px;background:#140c24;color:#fff;width:min(260px,80%)}
+.urabox small{color:#c8b0ff;font-weight:800}
+#packScr[data-p="ura"]{--sea:#05060e}#packScr[data-p="ura"] .mhead{background:#1a1030;color:#e8dcff}#packScr[data-p="ura"] .mhead h1{color:#ffd84a}#packScr[data-p="ura"] .mhead small{color:#c8b0ff}
+.psn.slp{background:#9fd0ff;color:#14304a}
+.cmds .cmd[data-k="mus"]{grid-column:1/-1;border-color:#d8a02a}
+@media (max-width:420px){.mhead h1{font-size:clamp(15px,4.6vw,20px)}.mhead .sp{gap:4px}.mhead .pill{padding:4px 8px}.mhead .pts2{font-size:12px}}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -759,7 +831,7 @@ div.fd{cursor:default}.fd span{font-size:20px}.fd small{color:var(--muted)}.fd .
 <div class="app" id="app" hidden>
   <div class="hud">
     <div class="blk"><span class="lbl">SCORE</span><span class="score" id="score">0</span><span class="wlv" style="text-align:left;--wc:var(--cyan)">💎 <b id="ptsHud">0</b></span></div>
-    <div class="hudmid"><button class="mute" id="retreat" aria-label="マップに もどる">◀ 島</button><button class="mute" id="mute" aria-label="おとのオンオフ">🔊</button><button class="dexbtn" id="dexBtn" aria-label="こんちゅうずかん">📖 0/100</button></div>
+    <div class="hudmid"><button class="mute" id="retreat" aria-label="マップに もどる">◀ マップ</button><button class="mute" id="mute" aria-label="おとのオンオフ">🔊</button><button class="dexbtn" id="dexBtn" aria-label="こんちゅうずかん">📖 0/100</button></div>
     <div class="blk"><span class="lbl" style="text-align:right">COMBO</span><span class="combo" id="combo">0</span><span class="wlv" id="wlv">ひっさつ Lv.<b>1</b></span></div>
   </div>
   <div class="bar" id="bar"></div>
@@ -778,6 +850,7 @@ div.fd{cursor:default}.fd span{font-size:20px}.fd small{color:var(--muted)}.fd .
     <div class="qwrap" id="qwrap"><div class="q" id="q">7 + 5 =</div>
     <div class="ans" id="ans"><span class="caret"></span></div>
     <div class="tzone" id="tzone"><span id="tlbl">⚡ クリティカル チャンス</span><div class="tbar"><i id="tfill"></i></div></div>
+    <div class="chs" id="chs" hidden></div>
     <div class="hint" id="hint">こたえを入れると すぐに はんてい！</div></div>
     <div class="cmds" id="cmds" hidden></div>
   </div>
@@ -795,10 +868,17 @@ div.fd{cursor:default}.fd span{font-size:20px}.fd small{color:var(--muted)}.fd .
   <div class="sheet" id="sheet"></div>
 </div>
 <div id="japanScr" hidden>
-  <div class="mhead"><div style="min-width:0"><small id="jSub"></small><h1>🗾 にっぽん旅</h1></div><div class="sp"><button class="pill" id="jFood" aria-label="たべもの">🍙 <span id="jFoodN">0</span></button><button class="pill" id="jPhoto" aria-label="しゃしんモード">📷</button><button class="pill" id="jDex" aria-label="こんちゅうずかん">📖</button><button class="pill" id="jIsl" aria-label="島マップに もどる">🏝 島</button></div></div>
+  <div class="mhead"><div style="min-width:0"><small id="jSub"></small><h1>🗾 にっぽん旅</h1></div><div class="sp"><button class="pill" id="jFood" aria-label="たべもの">🍙 <span id="jFoodN">0</span></button><button class="pill" id="jPhoto" aria-label="しゃしんモード">📷</button><button class="pill" id="jDex" aria-label="こんちゅうずかん">📖</button><button class="pill" id="jHub" aria-label="せかいの メニュー">🌐</button><button class="pill" id="jIsl" aria-label="島マップに もどる">🏝</button></div></div>
   <div class="tabs jtabs" id="jtabs"></div>
   <div class="mapwrap" id="jmap"></div>
   <div class="sheet jsheet" id="jsheet"></div>
+</div>
+<div id="packScr" hidden>
+  <div class="mhead"><div style="min-width:0"><small id="pkSub"></small><h1 id="pkName"></h1></div><div class="sp"><button class="pill" id="pkHub" aria-label="せかいの メニュー">🌐</button><button class="pill" id="pkDex" aria-label="ずかん">📖</button><button class="pill" id="pkIsl" aria-label="島マップに もどる">🏝</button></div></div>
+  <div class="tabs pktabs" id="pktabs"></div>
+  <div class="pkrow"><select id="pkCalc" aria-label="バトルに でる 計算の 学年"></select><small>計算と いきもの クイズで たたかうよ</small></div>
+  <div class="mapwrap" id="pkmap"></div>
+  <div class="sheet pksheet" id="pksheet"></div>
 </div>
 <div id="banner"></div>
 <div id="dim"></div>
@@ -849,9 +929,10 @@ div.fd{cursor:default}.fd span{font-size:20px}.fd small{color:var(--muted)}.fd .
   </div>
 </div></div>
 <div class="ov" id="dexOv" hidden><div class="dexbox">
-  <div class="dexhead"><h2>こんちゅうずかん</h2><span class="cnt" id="dexCnt"></span><button class="xbtn" id="dexClose">とじる</button></div>
+  <div class="dexhead"><h2 id="dexTitle">いきもの ずかん</h2><span class="cnt" id="dexCnt"></span><button class="xbtn" id="dexClose">とじる</button></div>
   <div class="dexmeter"><i id="dexMeter"></i></div>
   <div class="detail" id="dexDetail"></div>
+  <div class="tabs sers" id="dexSers"></div>
   <div class="tabs" id="dexTabs"></div>
   <div class="grid" id="dexGrid"></div>
 </div></div>
@@ -908,6 +989,20 @@ div.fd{cursor:default}.fd span{font-size:20px}.fd small{color:var(--muted)}.fd .
   <div class="chscene"><div id="chArt"></div><p id="chMsg" role="status" aria-live="polite"></p></div>
   <div class="chbtns"><button class="btn2" id="chAll">✨ ぜんいん いきかえらせる</button><button class="btn2" id="chBless">🙏 しゅくふく</button><button class="btn2" id="chSave">📖 おいのり（セーブ）</button></div>
   <div class="lbl2">たおれている なかま</div><div class="chlist" id="chList"></div>
+</div></div>
+<div class="ov" id="hubOv" hidden><div class="hubbox">
+  <div class="dexhead"><div><h2 id="hubTitle">🌐 せかいを たびしよう</h2><p>島の 計算バトルの ほかにも、いろんな ぼうけんが まってるよ</p></div><button class="xbtn" id="hubClose">とじる</button></div>
+  <div class="urabox" id="uraBox" hidden><b>…あいことばを となえよ</b><input id="uraIn" autocomplete="off" aria-label="あいことば"><small id="uraErr"></small><button class="btn2" id="uraOk">となえる</button></div>
+  <div class="hubgrid" id="hubGrid"></div>
+</div></div>
+<div class="ov" id="tradeOv" hidden><div class="gbox trbox">
+  <div class="dexhead"><h2>🔁 こうかん</h2><button class="xbtn" id="trClose">とじる</button></div>
+  <div class="tabs" id="trTabs"><button class="tab" data-t="give" aria-pressed="true">🎁 あげる</button><button class="tab" data-t="get" aria-pressed="false">📮 もらう</button></div>
+  <div id="trBody" class="trbody"></div>
+</div></div>
+<div class="ov" id="musicOv" hidden><div class="gbox mubox">
+  <div class="dexhead"><h2>🎵 楽器編</h2><span class="cnt" id="muCnt"></span><button class="xbtn" id="muClose">とじる</button></div>
+  <div id="muBody" class="mubody"></div>
 </div></div>
 <script>
 (()=>{
@@ -1268,11 +1363,288 @@ const MONS=[];(()=>{let no=1;
     const mo=makeMon(no++,6,'noun','nn_'+head,3,5,'ナウンズ・'+nm,'CC0（パブリックドメイン）で公開されているNFT「Nouns」スタイルのキャラ。トレードマークはメガネ「ノグルズ」。');mo.sp=true;MONS.push(mo)});
   AVATARS.forEach(([nm,v,b,a,d,mc,r,desc])=>{EL['av_'+v]={n:'サイバー',b,a,d,m:'bolt',mc,v};
     const mo=makeMon(no++,6,'avatar','av_'+v,3,r,nm,desc);mo.sp=true;mo.av=true;MONS.push(mo)})})();
+
+// ================= WORLD PACK DATA =================
+// creature: [pack, region, arch, name, rar, body, accent, dark, glow, q, size, desc, element, emoji]
+const WC=[
+// ---------- 海編 (sea) ----------
+['sea',0,'fish','サケ',1,'#9aa7b4','#f2c9b8','#3c4a5c','#ff9f80',{cat:'さかな',L:1.1,spots:1},'約70cm','生まれた川に もどって たまごを うむ。','mizu','🐟'],
+['sea',0,'fish','ホッケ',1,'#b8a98a','#efe6d2','#5a4a32','#ffd27a',{cat:'さかな',L:1,stripe:1},'約40cm','ひらきの 干物で おなじみ。北の海の 魚。','mizu','🐟'],
+['sea',0,'shell','ホタテ',2,'#d96a4a','#f6e0c8','#7a3a26','#ffb07a',{cat:'かい',type:'scallop'},'約18cm','からを パクパク させて 海の中を およぐ 貝。','mizu','🐚'],
+['sea',0,'crab','タラバガニ',3,'#b8432c','#f2a07a','#5a1a10','#ff8a5a',{cat:'かに・えび',spiky:1,claw:1.1},'足を広げて 1m','じつは ヤドカリの なかま。トゲトゲの からが じまん。','mizu','🦀'],
+['sea',0,'seal','ゼニガタアザラシ',3,'#8a8f96','#c9cdd2','#3a3e44','#9fe8ff',{cat:'ほにゅうるい',spots:1},'約1.6m','ぜにの ような もようが ある アザラシ。','mizu','🦭'],
+['sea',0,'whale','シャチ',5,'#16181e','#f4f4f4','#05060a','#7ad7ff',{cat:'ほにゅうるい',orca:1},'約8m','海の 王者。むれで かりを する かしこい クジラ。','mizu','🐋'],
+['sea',1,'fish','サンマ',1,'#4a6a9a','#dfe8f2','#203050','#9fd0ff',{cat:'さかな',L:1.5,H:.55,beak:1},'約35cm','秋の 味覚。細長い 体は 刀のよう。','mizu','🐟'],
+['sea',1,'shell','カキ',1,'#8a8a7a','#e8e2d0','#4a4a3a','#e0f0ff',{cat:'かい',type:'oyster'},'約12cm','海の ミルクと よばれる 栄養たっぷりの 貝。','mizu','🦪'],
+['sea',1,'shell','ウニ',2,'#3a2a3a','#e8a030','#1a0e1a','#ffb040',{cat:'ウニ・ヒトデ',type:'urchin'},'約8cm','トゲトゲの からの 中に おいしい 身が ある。','yami','🌰'],
+['sea',1,'shell','アワビ',2,'#6a7a5a','#9fd8c8','#2a3424','#9fffe0',{cat:'かい',type:'abalone'},'約15cm','からの 内がわが にじ色に かがやく 貝。','hikari','🐚'],
+['sea',1,'fish','マンボウ',3,'#9aa4b0','#e6ebef','#4a5260','#bfe8ff',{cat:'さかな',sunfish:1},'約3m','体が まるくて しっぽが ない ふしぎな 魚。','mizu','🐟'],
+['sea',1,'whale','マッコウクジラ',5,'#4a4e5a','#8a909c','#1c1e26','#7ad7ff',{cat:'ほにゅうるい',sperm:1},'約16m','深さ 1000m以上まで もぐる 潜水の 名人。','yami','🐳'],
+['sea',2,'fish','マアジ',1,'#8aa0b0','#e8ecef','#3a4a5a','#ffd84a',{cat:'さかな',L:1,yellow:1},'約30cm','ぜいごと よばれる かたい うろこが ある。','mizu','🐟'],
+['sea',2,'fish','マイワシ',1,'#3a5a8a','#e8eef6','#14243e','#9fd0ff',{cat:'さかな',L:.9,spots:1},'約20cm','大きな むれで およいで 身を まもる。','mizu','🐟'],
+['sea',2,'shell','ハマグリ',1,'#c9b49a','#f2e8d8','#6a5440','#ffe0b0',{cat:'かい',type:'clam'},'約8cm','2まいの からが ぴったり 合う 貝。','mizu','🐚'],
+['sea',2,'ray','アカエイ',2,'#9a6a4a','#e8c09a','#4a2a18','#ffb07a',{cat:'さかな',sting:1},'約1m','ひらたい 体と しっぽの どくばりに 注意。','yami','🐟'],
+['sea',2,'crab','イセエビ',3,'#b8402a','#f2b080','#5a160a','#ff8a5a',{cat:'かに・えび',long:1,ant:1.4},'約30cm','長い ひげが りっぱ。お祝いの 料理で 人気。','hono','🦞'],
+['sea',2,'shark','シュモクザメ',5,'#7a8a9a','#e8eef2','#2a3440','#9fd0ff',{cat:'さかな',hammer:1},'約4m','ハンマーの ような 頭で えものを さがす。','denki','🦈'],
+['sea',3,'octo','ホタルイカ',2,'#7a4a8a','#c8a0e8','#2a1438','#4af0ff',{cat:'いか・たこ',squid:1,glow:1},'約7cm','体が 青白く ひかる。富山湾の 春の 名物。','hikari','🦑'],
+['sea',3,'crab','シロエビ',1,'#f2d8d0','#ffffff','#b8908a','#ffe0e8',{cat:'かに・えび',long:1,small:1},'約7cm','すきとおった 体で 富山湾の 宝石と よばれる。','mizu','🦐'],
+['sea',3,'crab','サクラエビ',1,'#f28a9a','#ffd0d8','#a03a4a','#ff9fb0',{cat:'かに・えび',long:1,small:1},'約4cm','駿河湾で とれる さくら色の 小さな エビ。','mizu','🦐'],
+['sea',3,'fish','ブリ',2,'#4a6a8a','#e8eef2','#1c2c3e','#ffd84a',{cat:'さかな',L:1.2,yellow:1},'約1m','大きく なるにつれて 名前が かわる 出世魚。','mizu','🐟'],
+['sea',3,'crab','タカアシガニ',4,'#d8743a','#f6d0a0','#7a3010','#ffa040',{cat:'かに・えび',longleg:1},'足を広げて 3m','世界で いちばん 大きい カニ。駿河湾の 深い 海に すむ。','hono','🦀'],
+['sea',3,'shark','ラブカ',5,'#5a4a3a','#9a8a6a','#241a10','#ffb07a',{cat:'さかな',frill:1},'約1.5m','大昔の すがたを のこす「生きた化石」の サメ。','yami','🦈'],
+['sea',4,'octo','マダコ',2,'#b8604a','#f2c0a0','#5a2414','#ff9a7a',{cat:'いか・たこ'},'約60cm','8本の 足で 岩に かくれる。明石の タコが ゆうめい。','mizu','🐙'],
+['sea',4,'fish','マダイ',2,'#e05a6a','#ffd0d8','#8a2030','#ffb0c0',{cat:'さかな',L:1,H:1.3,red:1},'約60cm','めでたい 魚と して お祝いに かかせない。','hikari','🐟'],
+['sea',4,'shell','サザエ',1,'#6a5a3a','#d8c8a0','#2a2414','#ffd27a',{cat:'かい',type:'conch',spike:1},'約10cm','トゲの ある まき貝。つぼ焼きが おいしい。','mizu','🐚'],
+['sea',4,'fish','カツオ',2,'#2a4a7a','#e0e8f2','#0a1830','#7ad7ff',{cat:'さかな',L:1.1,H:1.1,stripeH:1,tuna:1},'約1m','おなかの しまもようが とくちょう。かつおぶしの もと。','mizu','🐟'],
+['sea',4,'fish','ウツボ',3,'#8a7a3a','#d8c87a','#3a3010','#ffd84a',{cat:'さかな',eel:1,spots:1},'約80cm','岩の すきまに かくれる 海の ギャング。','yami','🐍'],
+['sea',4,'fish','クロマグロ',5,'#1a2a4a','#c8d4e2','#060c1a','#7ad7ff',{cat:'さかな',L:1.4,H:1.2,tuna:1},'約3m','時速 80kmで およぐ 海の スプリンター。','mizu','🐟'],
+['sea',5,'fish','トラフグ',3,'#5a5a4a','#f2f0e8','#1e1e16','#ffd84a',{cat:'さかな',puff:1,spots:1},'約70cm','おこると ふくらむ。下関の 名物。','yami','🐡'],
+['sea',5,'fish','マアナゴ',1,'#7a6a4a','#e8dcc0','#3a2e1a','#ffe0a0',{cat:'さかな',eel:1,dots:1},'約90cm','夜に 活動する。体の 白い てんてんが 目じるし。','mizu','🐍'],
+['sea',5,'crab','カブトガニ',4,'#5a4a2a','#a8946a','#24180a','#9fffb0',{cat:'かに・えび',horseshoe:1},'約60cm','2億年前から すがたが かわらない 生きた化石。','yami','🦀'],
+['sea',5,'fish','タチウオ',2,'#c9d2e0','#ffffff','#7a8494','#e0f4ff',{cat:'さかな',eel:1,silver:1},'約1.5m','銀色に かがやく 刀の ような 魚。立って およぐ。','hikari','🐟'],
+['sea',5,'crab','ズワイガニ',3,'#d0643a','#f6c8a0','#6a2410','#ffa070',{cat:'かに・えび',claw:.8,longleg:.5},'約70cm','冬の 日本海の 味覚。松葉ガニとも よばれる。','mizu','🦀'],
+['sea',5,'whale','スナメリ',5,'#9aa4b0','#dfe6ec','#4a5260','#bfe8ff',{cat:'ほにゅうるい',finless:1},'約1.8m','せびれの ない 小さな イルカ。瀬戸内の 天使。','mizu','🐬'],
+['sea',6,'fish','ハモ',1,'#9a8a6a','#e8dcc0','#4a3e26','#ffe0a0',{cat:'さかな',eel:1},'約1m','するどい 歯を もつ。夏の 京料理で 人気。','mizu','🐍'],
+['sea',6,'fish','キンメダイ',2,'#e0402a','#ffc0a8','#8a1408','#ffd84a',{cat:'さかな',H:1.2,red:1,bigeye:1},'約50cm','金色の 大きな 目で 深い 海でも よく見える。','hikari','🐟'],
+['sea',6,'fish','クエ',3,'#6a5a4a','#a8987a','#2e241a','#ffb07a',{cat:'さかな',H:1.3,spots:1},'約1.2m','岩場に すむ 大きな ハタの なかま。','yami','🐟'],
+['sea',6,'fish','リュウグウノツカイ',4,'#d8dfe8','#ff5a6a','#7a8494','#ff8aa0',{cat:'さかな',oar:1},'約5m','赤い ヒレが 長い 深海魚。竜宮城の 使いと いわれる。','hikari','🐉'],
+['sea',6,'shell','ナマコ',1,'#4a3a2a','#8a7a5a','#1e140a','#ffb07a',{cat:'ウニ・ヒトデ',type:'cucumber'},'約20cm','ウニや ヒトデの なかま。海の そうじ屋さん。','kusa','🥒'],
+['sea',6,'octo','ダイオウイカ',5,'#b8402a','#f2a080','#4a1008','#ff6a4a',{cat:'いか・たこ',squid:1,giant:1},'約12m','深海に すむ なぞの 巨大イカ。目は 30cmも ある。','yami','🦑'],
+['sea',7,'fish','カクレクマノミ',1,'#ff7a1f','#ffffff','#1a1008','#ffd27a',{cat:'さかな',L:.8,H:1.1,clown:1},'約8cm','イソギンチャクの 中で くらす オレンジの 魚。','hono','🐠'],
+['sea',7,'fish','ナンヨウハギ',2,'#2a5ad8','#ffd23f','#0a1440','#7ad7ff',{cat:'さかな',L:.9,H:1.4,tang:1},'約25cm','あざやかな 青い 体に 黄色い しっぽ。','mizu','🐟'],
+['sea',7,'shell','オニヒトデ',2,'#8a3a6a','#d88ab8','#3a0a28','#ff8ac0',{cat:'ウニ・ヒトデ',type:'star',spike:1},'約40cm','サンゴを 食べる トゲだらけの ヒトデ。','yami','⭐'],
+['sea',7,'turtle','アカウミガメ',3,'#9a5a2a','#e8c08a','#4a2408','#ffb07a',{cat:'はちゅうるい',sea:1},'約1m','日本の 砂浜で たまごを うむ ウミガメ。','mizu','🐢'],
+['sea',7,'ray','オニイトマキエイ',4,'#1a2230','#e8eef2','#06080e','#7ad7ff',{cat:'さかな',manta:1},'約5m','マンタ。つばさの ような ヒレで ゆうがに およぐ。','mizu','🐟'],
+['sea',7,'shark','ジンベエザメ',5,'#3a4a6a','#e8eef2','#14203a','#9fd0ff',{cat:'さかな',whaleshark:1},'約12m','世界で いちばん 大きな 魚。プランクトンを 食べる。','mizu','🦈'],
+// ---------- 陸編 (land) ----------
+['land',0,'quad','キタキツネ',1,'#d8843a','#f6e8d8','#3a1e0a','#ffb07a',{cat:'ほにゅうるい',ear:'pt',tail:'bushy',snout:1,legDark:1,S:.75},'約70cm','北海道の キツネ。冬毛は ふわふわ。','hono','🦊'],
+['land',0,'quad','エゾリス',1,'#6a5a4a','#e8e0d4','#2a2018','#ffd27a',{cat:'ほにゅうるい',ear:'tuft',tail:'squirrel',S:.45},'約25cm','耳の ふさ毛が かわいい 北海道の リス。','kusa','🐿'],
+['land',0,'quad','エゾシカ',2,'#8a5a3a','#f2e8dc','#3a2010','#ffd27a',{cat:'ほにゅうるい',horn:'antler',leg:1.3,neck:1,S:1},'約1.8m','日本で いちばん 大きな シカ。オスは りっぱな 角。','kusa','🦌'],
+['land',0,'quad','エゾモモンガ',3,'#a8a49a','#f6f2ea','#4a463e','#ffe8a0',{cat:'ほにゅうるい',glider:1,bigeye:1,S:.42},'約15cm','まくを 広げて 木から 木へ 空を とぶ。','kusa','🐿'],
+['land',0,'quad','エゾナキウサギ',3,'#8a7a6a','#d8ccbc','#3a3026','#ffd27a',{cat:'ほにゅうるい',pika:1,S:.38},'約15cm','氷河期から 生きのこる 鳴く ウサギ。','mizu','🐭'],
+['land',0,'quad','ヒグマ',5,'#5a3a22','#8a6040','#24140a','#ffb07a',{cat:'ほにゅうるい',bear:1,S:1.35},'約2.3m','日本で いちばん 大きな 陸の 動物。','hono','🐻'],
+['land',1,'quad','ホンドタヌキ',1,'#7a6a5a','#d8ccbc','#1e1610','#ffd27a',{cat:'ほにゅうるい',ear:'rd',mask:1,tail:'bushy',S:.65},'約60cm','目の まわりの 黒い もようが とくちょう。','kusa','🦝'],
+['land',1,'quad','ニホンアナグマ',1,'#8a8070','#e8e4dc','#2a2620','#ffe0a0',{cat:'ほにゅうるい',badger:1,S:.6},'約55cm','前足の つめで 上手に あなを ほる。','kusa','🦡'],
+['land',1,'quad','ニホンザル',2,'#a8846a','#f2a0a0','#4a3420','#ffb0b0',{cat:'ほにゅうるい',ape:1,redface:1,S:.75},'約60cm','世界で いちばん 北に すむ サル。','hono','🐒'],
+['land',1,'quad','オコジョ',3,'#f6f6f2','#ffffff','#1a1a1a','#bfe8ff',{cat:'ほにゅうるい',weasel:1,tailTip:1,S:.4},'約20cm','冬は まっ白に なる 山の 妖精。','hikari','🐾'],
+['land',1,'quad','ニホンテン',3,'#d8a83a','#f6e8a0','#4a3010','#ffd84a',{cat:'ほにゅうるい',weasel:1,S:.5},'約45cm','冬毛は きれいな 黄色。木登りが とくい。','hono','🐾'],
+['land',1,'quad','ツキノワグマ',5,'#1a1a1e','#f2f2ea','#08080a','#ffd27a',{cat:'ほにゅうるい',bear:1,moon:1,S:1.15},'約1.4m','むねに 三日月の 白い もようが ある クマ。','yami','🐻'],
+['land',2,'quad','ニホンリス',1,'#a8683a','#f2e0cc','#4a2810','#ffd27a',{cat:'ほにゅうるい',ear:'tuft',tail:'squirrel',S:.42},'約20cm','しっぽが ふさふさ。クルミが 大好き。','kusa','🐿'],
+['land',2,'herp','ニホンアカガエル',1,'#d8844a','#f6d0b0','#6a2c10','#ffb07a',{cat:'りょうせいるい',frog:1},'約6cm','早春に たまごを うむ 赤っぽい カエル。','mizu','🐸'],
+['land',2,'herp','アズマヒキガエル',2,'#8a6a3a','#d8c08a','#3a2810','#ffd27a',{cat:'りょうせいるい',frog:1,toad:1},'約12cm','ガマガエルとも よばれる 大きな カエル。','kusa','🐸'],
+['land',2,'herp','ヤマカガシ',2,'#4a5a2a','#d8402a','#1a2408','#ffb07a',{cat:'はちゅうるい',snake:1,band:1},'約1m','首の 赤い もようが 目じるしの ヘビ。','kusa','🐍'],
+['land',2,'quad','ムササビ',3,'#7a5a3a','#f2e8dc','#2e2010','#ffe0a0',{cat:'ほにゅうるい',glider:1,bigeye:1,S:.6},'約45cm','大きな まくで 100m以上も 空を すべる。','kusa','🐿'],
+['land',2,'quad','イノシシ',5,'#4a3a2a','#8a7a5a','#1a120a','#ffb07a',{cat:'ほにゅうるい',boar:1,S:1},'約1.5m','まっすぐ つっこむ「ちょとつもうしん」の 由来。','hono','🐗'],
+['land',3,'quad','ニホンノウサギ',1,'#a8885a','#f2e8dc','#4a3820','#ffe0a0',{cat:'ほにゅうるい',ear:'long',tail:'puff',S:.5},'約50cm','長い 耳で 遠くの 音を きく。','kusa','🐇'],
+['land',3,'herp','ニホンヤモリ',1,'#9a9080','#d8d0c0','#3a342a','#ffe0a0',{cat:'はちゅうるい',lizard:1,gecko:1},'約12cm','家の かべに はりつく 家を 守る 生き物。','yami','🦎'],
+['land',3,'herp','モリアオガエル',2,'#4aa84a','#e8f2c0','#1a4a1a','#9be15d',{cat:'りょうせいるい',frog:1,green:1},'約7cm','木の 上に あわの ような たまごを うむ。','kusa','🐸'],
+['land',3,'quad','ハクビシン',2,'#6a6a6a','#f2f2f2','#1e1e1e','#ffe0a0',{cat:'ほにゅうるい',weasel:1,whiteNose:1,S:.62},'約60cm','鼻すじの 白い 線が 名前の 由来。','yami','🐾'],
+['land',3,'quad','ヤマネ',3,'#c8a87a','#f6ecd8','#4a3820','#ffe0a0',{cat:'ほにゅうるい',dormouse:1,S:.3},'約8cm','丸まって 半年も 冬眠する 小さな 生き物。','kusa','🐭'],
+['land',3,'quad','ニホンカモシカ',5,'#8a8478','#e2ded6','#3a3630','#ffe0a0',{cat:'ほにゅうるい',horn:'goat',leg:1.1,S:.95},'約1m','特別天然記念物。けわしい 山を かけまわる。','hikari','🐐'],
+['land',4,'herp','シマヘビ',1,'#a8984a','#e8dca0','#3a3410','#ffd84a',{cat:'はちゅうるい',snake:1,stripes:1},'約1.5m','体に 4本の しまもようが ある ヘビ。','kusa','🐍'],
+['land',4,'herp','トノサマガエル',1,'#6aa84a','#f2e8c8','#2a4a1a','#9be15d',{cat:'りょうせいるい',frog:1,spots:1},'約8cm','田んぼの 王様。ぴょーんと 大ジャンプ。','mizu','🐸'],
+['land',4,'quad','ニホンイタチ',2,'#c8803a','#f2d8b0','#4a2808','#ffb07a',{cat:'ほにゅうるい',weasel:1,S:.45},'約35cm','細長い 体で せまい すきまも スイスイ。','hono','🐾'],
+['land',4,'turtle','ニホンイシガメ',3,'#8a6a3a','#d8b87a','#3a2a10','#ffd27a',{cat:'はちゅうるい'},'約20cm','日本に だけ すむ カメ。川や 池で くらす。','mizu','🐢'],
+['land',4,'quad','ニホンモモンガ',3,'#a8988a','#f6f0e8','#4a4036','#ffe8a0',{cat:'ほにゅうるい',glider:1,bigeye:1,S:.4},'約15cm','大きな 目の 小さな グライダー。','kusa','🐿'],
+['land',4,'quad','ニホンジカ',5,'#a86a3a','#f6f0e8','#4a2a10','#ffd27a',{cat:'ほにゅうるい',horn:'antler',leg:1.25,spotsW:1,S:1},'約1.5m','奈良公園では 神様の 使いと して 大切に されている。','hikari','🦌'],
+['land',5,'quad','アカネズミ',1,'#c87a4a','#f6e8dc','#4a2410','#ffe0a0',{cat:'ほにゅうるい',mouse:1,S:.3},'約12cm','森に すむ。ドングリを うめて たくわえる。','kusa','🐭'],
+['land',5,'herp','ニホンカナヘビ',1,'#8a6a3a','#d8c08a','#3a2810','#ffd27a',{cat:'はちゅうるい',lizard:1},'約20cm','しっぽが とても 長い トカゲの なかま。','kusa','🦎'],
+['land',5,'herp','カスミサンショウウオ',2,'#6a5a3a','#c8b87a','#2a2010','#ffd27a',{cat:'りょうせいるい',sala:1},'約10cm','きれいな 水辺に すむ 小さな サンショウウオ。','mizu','🦎'],
+['land',5,'quad','シロウサギ',2,'#f6f6f2','#ffc0c8','#c8c0b8','#ffd0e0',{cat:'ほにゅうるい',ear:'long',tail:'puff',redEye:1,S:.5},'約45cm','「因幡の白うさぎ」の 神話で 知られる。','hikari','🐇'],
+['land',5,'herp','ニホンマムシ',3,'#8a6a4a','#d8b890','#2a1a0a','#ffb07a',{cat:'はちゅうるい',snake:1,blotch:1},'約60cm','毒を もつ ヘビ。草むらでは 気を つけよう。','yami','🐍'],
+['land',5,'herp','オオサンショウウオ',5,'#5a4a32','#8a7a5a','#241a0e','#9fffb0',{cat:'りょうせいるい',sala:1,giant:1},'約1.5m','世界最大級の 両生類。特別天然記念物。','mizu','🦎'],
+['land',6,'herp','ニホンアマガエル',1,'#7ad84a','#f2ffe0','#2a5a1a','#9be15d',{cat:'りょうせいるい',frog:1,green:1,small:1},'約3cm','雨が ふる前に よく 鳴く 小さな カエル。','mizu','🐸'],
+['land',6,'herp','ジムグリ',2,'#c8603a','#e8a07a','#4a1a08','#ffb07a',{cat:'はちゅうるい',snake:1,blotch:1},'約80cm','土の 中に もぐるのが とくいな ヘビ。','kusa','🐍'],
+['land',6,'quad','ニホンイノシシ',3,'#5a4a3a','#9a8a6a','#1e160e','#ffb07a',{cat:'ほにゅうるい',boar:1,S:.85},'約1.2m','四国の 山に すむ イノシシ。鼻で 土を ほる。','hono','🐗'],
+['land',6,'quad','シコクトガリネズミ',3,'#5a5048','#9a9088','#1e1a16','#ffe0a0',{cat:'ほにゅうるい',mouse:1,shrew:1,S:.26},'約7cm','とがった 鼻の 小さな 生き物。ネズミとは べつの なかま。','yami','🐭'],
+['land',6,'herp','ニホンスッポン',4,'#6a6a4a','#c8c89a','#2a2a1a','#ffd27a',{cat:'はちゅうるい',soft:1},'約35cm','やわらかい こうらの カメ。かみついたら はなさない。','mizu','🐢'],
+['land',6,'quad','ニホンカワウソ',5,'#6a4a2a','#d8c0a0','#2a1a0a','#9fe8ff',{cat:'ほにゅうるい',otter:1,S:.6},'約1m','かつて 四国の 川に いた。いまは 絶滅したと されている まぼろしの 生き物。','mizu','🦦'],
+['land',7,'herp','ハブ',3,'#a89a4a','#e8dca0','#3a3010','#ffd84a',{cat:'はちゅうるい',snake:1,blotch:1},'約1.5m','沖縄や 奄美の 毒ヘビ。夜に 活動する。','yami','🐍'],
+['land',7,'herp','オキナワキノボリトカゲ',2,'#4a8a4a','#c8e8a0','#1a3a1a','#9be15d',{cat:'はちゅうるい',lizard:1,crest:1},'約20cm','木登りが とくいな 南の トカゲ。','kusa','🦎'],
+['land',7,'herp','シリケンイモリ',2,'#2a2a2a','#ff6a2a','#0a0a0a','#ffb07a',{cat:'りょうせいるい',sala:1,newt:1},'約14cm','せなかは 黒、おなかは オレンジの イモリ。','mizu','🦎'],
+['land',7,'quad','リュウキュウイノシシ',2,'#4a3e32','#8a7e6a','#1a140e','#ffb07a',{cat:'ほにゅうるい',boar:1,S:.7},'約1m','南の 島に すむ 小さめの イノシシ。','hono','🐗'],
+['land',7,'quad','ヤクシカ',3,'#8a5a32','#e8d8c0','#3a2410','#ffd27a',{cat:'ほにゅうるい',horn:'antler',leg:1.1,S:.8},'約1m','屋久島に すむ 小がらな シカ。','kusa','🦌'],
+['land',7,'quad','ツシマヤマネコ',5,'#9a7a5a','#e8d8c0','#3a2a1a','#ffd27a',{cat:'ほにゅうるい',feline:1,spots:1,earDot:1,S:.6},'約60cm','対馬だけに すむ ヤマネコ。耳の うらの 白い てんが 目じるし。','yami','🐈'],
+// ---------- 空編 (sky) ----------
+['sky',0,'bird','シマエナガ',1,'#f6f6f2','#ffffff','#2a2a2a','#bfe8ff',{cat:'とり',round:1,tail:'long',S:.45},'約14cm','まっ白で まんまる。「雪の妖精」と よばれる。','hikari','🐦'],
+['sky',0,'bird','エゾフクロウ',2,'#d8d4cc','#f6f2ec','#5a544a','#ffd84a',{cat:'とり',owl:1,S:.8},'約50cm','白っぽい 羽の 北海道の フクロウ。','yami','🦉'],
+['sky',0,'bird','オジロワシ',3,'#6a4a2a','#f6f2e8','#2a1a0a','#ffd84a',{cat:'とり',eagle:1,whiteTail:1,S:1},'翼を広げて 2.2m','白い しっぽの 大きな ワシ。','denki','🦅'],
+['sky',0,'bird','シマフクロウ',4,'#8a6a4a','#d8c0a0','#3a2814','#ffd84a',{cat:'とり',owl:1,tufts:1,S:1.05},'約70cm','魚を とる 世界最大級の フクロウ。','yami','🦉'],
+['sky',0,'bird','タンチョウ',5,'#f6f6f2','#e0202a','#141414','#ffb0b0',{cat:'とり',crane:1,redcap:1,S:1.15},'約1.4m','頭の 赤い 鶴。日本の 自然の シンボル。','hikari','🕊'],
+['sky',1,'bird','ウミネコ',1,'#f2f2ee','#8a8e96','#2a2a2a','#ffd84a',{cat:'とり',gull:1,S:.7},'約45cm','ネコの ように ミャーと 鳴く カモメ。','mizu','🕊'],
+['sky',1,'bird','オオハクチョウ',2,'#fafafa','#ffd23f','#141414','#e0f4ff',{cat:'とり',swan:1,S:1.1},'約1.4m','シベリアから 冬に わたってくる 白鳥。','mizu','🦢'],
+['sky',1,'bird','アカショウビン',3,'#e0602a','#f6c09a','#6a2408','#ff8a5a',{cat:'とり',kingfisher:1,bigbeak:1,S:.6},'約27cm','まっ赤な 体と くちばし。「火の鳥」とも よばれる。','hono','🐦'],
+['sky',1,'bird','クマゲラ',3,'#141414','#e0202a','#000000','#ff6a5a',{cat:'とり',woodpecker:1,S:.75},'約45cm','日本で いちばん 大きな キツツキ。','yami','🐦'],
+['sky',1,'bird','イヌワシ',5,'#5a3a1a','#d8a84a','#241408','#ffd84a',{cat:'とり',eagle:1,goldnape:1,S:1.1},'翼を広げて 2m','山の 王者。金色の 首の 羽が かがやく。','denki','🦅'],
+['sky',2,'bird','スズメ',1,'#8a5a32','#f2ece2','#2a1a0a','#ffd27a',{cat:'とり',sparrow:1,cheek:1,S:.4},'約14cm','人の 近くで くらす いちばん 身近な 鳥。','kusa','🐦'],
+['sky',2,'bird','ツバメ',1,'#1a2240','#e04a2a','#060a18','#7ad7ff',{cat:'とり',swallow:1,S:.5},'約17cm','春に 南から やってきて 家の のきに 巣を つくる。','denki','🐦'],
+['sky',2,'bird','ハシブトガラス',1,'#141418','#3a3a50','#000000','#9a7aff',{cat:'とり',crow:1,S:.75},'約56cm','とても かしこい 鳥。道具を 使うことも ある。','yami','🐦‍⬛'],
+['sky',2,'bird','カワセミ',2,'#1a8ad8','#ff8a3a','#0a3a6a','#7ad7ff',{cat:'とり',kingfisher:1,S:.5},'約17cm','「空飛ぶ 宝石」。水に とびこんで 魚を とる。','mizu','🐦'],
+['sky',2,'bird','オガサワラオオコウモリ',4,'#3a2a1e','#c8a050','#140c06','#ffd27a',{cat:'ほにゅうるい',bat:1,S:.8},'翼を広げて 80cm','小笠原に すむ 果物を 食べる コウモリ。','yami','🦇'],
+['sky',2,'bird','ハヤブサ',5,'#4a5260','#f2f0ea','#141820','#7ad7ff',{cat:'とり',falcon:1,S:.85},'約45cm','急降下は 時速 300km以上。世界最速の 鳥。','denki','🦅'],
+['sky',3,'bird','ヤマガラ',1,'#d8843a','#f6eedc','#1a1a1a','#ffd27a',{cat:'とり',tit:1,S:.4},'約14cm','人なつこい 小鳥。木の実を かくして たくわえる。','kusa','🐦'],
+['sky',3,'bird','オオルリ',2,'#1a4ad8','#f6f6f6','#0a1440','#7ad7ff',{cat:'とり',flycatcher:1,S:.45},'約16cm','るり色の 美しい 小鳥。きれいな 声で 鳴く。','mizu','🐦'],
+['sky',3,'bird','カケス',2,'#c89a7a','#3a7ad8','#1a1a1a','#7ad7ff',{cat:'とり',jay:1,S:.6},'約33cm','ほかの 鳥の 鳴きまねが 上手。','kusa','🐦'],
+['sky',3,'bird','ライチョウ',3,'#f2f2ee','#e0202a','#2a2a2a','#ffffff',{cat:'とり',grouse:1,S:.65},'約37cm','冬は まっ白に なる 高い 山の 鳥。特別天然記念物。','hikari','🐦'],
+['sky',3,'bird','トキ',5,'#f6e8e4','#ff8a7a','#c8402a','#ffb0a0',{cat:'とり',ibis:1,S:1},'約75cm','学名は「ニッポニア・ニッポン」。佐渡で 守られている。','hikari','🕊'],
+['sky',4,'bird','ウグイス',1,'#8a8a4a','#e8e4c0','#3a3a14','#e0ff9a',{cat:'とり',warbler:1,S:.4},'約15cm','「ホーホケキョ」と 春を つげる。','kusa','🐦'],
+['sky',4,'bird','キジバト',1,'#9a7a6a','#d8b8a8','#3a2a24','#ffb0d0',{cat:'とり',dove:1,S:.6},'約33cm','「デデッポッポー」と 鳴く ハト。','kusa','🕊'],
+['sky',4,'bird','アオサギ',2,'#9aa0aa','#f6f6f6','#2a2e36','#bfe8ff',{cat:'とり',heron:1,S:1.05},'約95cm','長い 足で 水辺に じっと 立って 魚を ねらう。','mizu','🐦'],
+['sky',4,'bird','キジ',3,'#2a6a4a','#e0202a','#0a2a1a','#7affc0',{cat:'とり',pheasant:1,S:.85},'約80cm','日本の 国鳥。オスは 赤い 顔が とくちょう。','hono','🐓'],
+['sky',4,'bird','コウノトリ',5,'#f6f6f2','#141414','#e0202a','#ffd0d0',{cat:'とり',stork:1,S:1.15},'約1.1m','赤ちゃんを はこぶ 鳥の でんせつで ゆうめい。','hikari','🕊'],
+['sky',5,'bird','ハクセキレイ',1,'#f2f2f2','#1a1a1a','#3a3a3a','#bfe8ff',{cat:'とり',wagtail:1,S:.45},'約21cm','しっぽを 上下に ふりながら 歩く。','denki','🐦'],
+['sky',5,'bird','ジョウビタキ',1,'#e07a2a','#f2f2f2','#2a2a2a','#ffb07a',{cat:'とり',redstart:1,S:.4},'約14cm','冬に やってくる。白い もんが ある 小鳥。','hono','🐦'],
+['sky',5,'bird','オシドリ',2,'#d8742a','#f6f6f6','#2a3a6a','#ffd27a',{cat:'とり',duck:1,mandarin:1,S:.6},'約45cm','オスの 羽は 色とりどりで とても はなやか。','mizu','🦆'],
+['sky',5,'bird','ヤマドリ',2,'#a8582a','#e8a87a','#4a1e08','#ffb07a',{cat:'とり',pheasant:1,copper:1,S:.85},'約1.2m','長い しっぽを もつ 日本だけの 鳥。','hono','🐓'],
+['sky',5,'bird','ミサゴ',5,'#5a4a3a','#f6f6f2','#1e160e','#7ad7ff',{cat:'とり',eagle:1,osprey:1,S:.95},'翼を広げて 1.7m','空から 水に とびこんで 魚を つかまえる。','mizu','🦅'],
+['sky',6,'bird','メジロ',1,'#9ab84a','#ffffff','#3a4a14','#e0ff9a',{cat:'とり',whiteeye:1,S:.38},'約12cm','目の まわりが 白い。花の みつが 大好き。','kusa','🐦'],
+['sky',6,'bird','ヒヨドリ',1,'#7a7a82','#c8a08a','#2a2a30','#ffd27a',{cat:'とり',bulbul:1,S:.55},'約28cm','「ピーヨ ピーヨ」と にぎやかに 鳴く。','kusa','🐦'],
+['sky',6,'bird','ブッポウソウ',3,'#1a7a8a','#ff4a3a','#0a2a30','#7ad7ff',{cat:'とり',roller:1,S:.65},'約30cm','青緑の 体に 赤い くちばし。夏に やってくる。','mizu','🐦'],
+['sky',6,'bird','サンコウチョウ',3,'#1a1a2a','#3a7ad8','#060610','#7ad7ff',{cat:'とり',paradise:1,S:.55},'しっぽ込みで 45cm','「月・日・星」と 鳴く。とても 長い しっぽ。','yami','🐦'],
+['sky',6,'bird','クマタカ',5,'#6a5440','#f2ece2','#2a2016','#ffd84a',{cat:'とり',eagle:1,crest:1,S:1.05},'約80cm','森の 王者。頭の うしろに かんむりの ような 羽。','denki','🦅'],
+['sky',7,'bird','リュウキュウツバメ',1,'#1a2240','#e04a2a','#060a18','#7ad7ff',{cat:'とり',swallow:1,S:.48},'約14cm','南の 島で 一年中 くらす ツバメ。','denki','🐦'],
+['sky',7,'bird','アカヒゲ',2,'#d8602a','#f2f2f2','#1a1a1a','#ffb07a',{cat:'とり',robin:1,S:.42},'約14cm','南西諸島の 美しい 声の 小鳥。','hono','🐦'],
+['sky',7,'bird','シロハラクイナ',2,'#2a2a2a','#f6f6f6','#0a0a0a','#ffd84a',{cat:'とり',rail:1,S:.6},'約32cm','顔と おなかが まっ白な クイナ。','mizu','🐦'],
+['sky',7,'bird','ルリカケス',3,'#2a3ad8','#b8602a','#0a0e40','#7ad7ff',{cat:'とり',jay:1,lapis:1,S:.6},'約38cm','奄美大島だけに すむ るり色の カケス。','mizu','🐦'],
+['sky',7,'bird','ナベヅル',5,'#4a4a52','#f6f6f6','#1a1a1e','#ffb0b0',{cat:'とり',crane:1,grey:1,S:1.05},'約1m','冬に 鹿児島の 出水に 1万羽も やってくる。','hikari','🕊'],
+// ---------- アジア編 (asia: insects + land) ----------
+['asia',0,'quad','チョウセンシマリス',1,'#b8803a','#f6e8d0','#3a2410','#ffd27a',{cat:'ほにゅうるい',ear:'tuft',tail:'squirrel',stripe:1,S:.4},'約15cm','せなかの 5本の しまが 目じるし。','kusa','🐿'],
+['asia',0,'kamakiri','チョウセンカマキリ',1,'#6ab84a','#c8e8a0','#2a5a1a','#9be15d',{cat:'カマキリ'},'約8cm','日本でも 見られる 大きな カマキリ。','kusa','🦗'],
+['asia',0,'quad','ノロジカ',2,'#a8743a','#f6f0e8','#3a2410','#ffd27a',{cat:'ほにゅうるい',horn:'antler',small:1,leg:1.2,S:.75},'約1.2m','小がらで すばしっこい シカ。','kusa','🦌'],
+['asia',0,'quad','ベンガルヤマネコ',3,'#c89a5a','#f6ecd8','#3a2410','#ffd27a',{cat:'ほにゅうるい',feline:1,spots:1,S:.55},'約60cm','ヒョウ柄の 小さな ヤマネコ。','yami','🐈'],
+['asia',0,'quad','ツキノワグマ（韓国）',3,'#141418','#f2f2ea','#060608','#ffd27a',{cat:'ほにゅうるい',bear:1,moon:1,S:1},'約1.5m','韓国の 智異山で 守られて 数を ふやしている。','yami','🐻'],
+['asia',0,'quad','アムールトラ',5,'#e08a2a','#f6f0e4','#141008','#ffd27a',{cat:'ほにゅうるい',feline:1,tiger:1,S:1.35},'約3m','世界で いちばん 大きな トラ。韓国の シンボル。','hono','🐅'],
+['asia',1,'chou','カイコ',1,'#f2f0e8','#ffffff','#a8a49a','#ffffff',{cat:'チョウ・ガ',moth:1,ws:.6},'約4cm','まゆから 絹が とれる。5000年前の 中国から。','hikari','🐛'],
+['asia',1,'batta','トウコオロギ',1,'#3a2a1a','#8a6a3a','#140a04','#ffd27a',{cat:'バッタのなかま'},'約3cm','中国では 鳴き声や つよさを 楽しむ 伝統が ある。','denki','🦗'],
+['asia',1,'herp','ヨウスコウワニ',3,'#4a4a32','#a8a07a','#1a1a0e','#ffd27a',{cat:'はちゅうるい',croc:1},'約1.5m','長江（ようすこう）に すむ 小さな ワニ。','mizu','🐊'],
+['asia',1,'quad','レッサーパンダ',3,'#c8542a','#f6f0e8','#2a1408','#ffb07a',{cat:'ほにゅうるい',redpanda:1,S:.6},'約60cm','しましまの しっぽ。じつは パンダとは べつの なかま。','hono','🦝'],
+['asia',1,'quad','キンシコウ',4,'#d8a03a','#a8d8f2','#4a3010','#ffd84a',{cat:'ほにゅうるい',ape:1,golden:1,S:.8},'約70cm','金色の 毛と 青い 顔の 美しい サル。','hikari','🐒'],
+['asia',1,'quad','ジャイアントパンダ',5,'#f6f6f2','#141414','#141414','#bfe8ff',{cat:'ほにゅうるい',bear:1,panda:1,S:1.1},'約1.5m','竹を 食べる 中国の 宝。','hikari','🐼'],
+['asia',2,'kogane','ダイコクコガネ',2,'#141414','#3a3a3a','#000000','#ffd27a',{cat:'コウチュウ',glossy:1},'約2.5cm','動物の ふんを 丸めて 草原を そうじする。','kusa','🪲'],
+['asia',2,'quad','ゴビトビネズミ',2,'#d8b87a','#f6ecd8','#4a3a20','#ffe0a0',{cat:'ほにゅうるい',jerboa:1,S:.3},'約10cm','長い 後ろ足で カンガルーの ように はねる。','kusa','🐭'],
+['asia',2,'quad','マヌルネコ',3,'#a8a49a','#e8e4dc','#3a3630','#ffd27a',{cat:'ほにゅうるい',feline:1,manul:1,S:.6},'約60cm','ふわふわの 毛と まるい 顔。寒い 草原に すむ。','mizu','🐈'],
+['asia',2,'quad','フタコブラクダ',3,'#b8884a','#e8d0a0','#4a3010','#ffd27a',{cat:'ほにゅうるい',camel:1,S:1.2},'約3m','せなかの 2つの こぶに しぼうを ためる。','hono','🐫'],
+['asia',2,'quad','モウコノウマ',4,'#c8944a','#f2e0c0','#2a1a0a','#ffd27a',{cat:'ほにゅうるい',horse:1,S:1.05},'約2m','野生の 馬の 生きのこり。たてがみは 立っている。','denki','🐎'],
+['asia',2,'quad','ユキヒョウ',5,'#d8d8d2','#f6f6f2','#2a2a2a','#bfe8ff',{cat:'ほにゅうるい',feline:1,spots:1,snow:1,S:1.05},'約2m','高い 山に すむ「山の ゆうれい」。','mizu','🐆'],
+['asia',3,'quad','タイワンリス',1,'#7a6a5a','#c8784a','#2a2018','#ffd27a',{cat:'ほにゅうるい',ear:'rd',tail:'squirrel',S:.42},'約22cm','おなかが 赤茶色の リス。','kusa','🐿'],
+['asia',3,'quad','タイワンザル',2,'#9a8a6a','#f2b0a0','#3a3020','#ffb0b0',{cat:'ほにゅうるい',ape:1,S:.72},'約50cm','台湾の 山に すむ サル。','hono','🐒'],
+['asia',3,'chou','フトオアゲハ',3,'#141414','#f2e8a0','#000000','#ff5a4a',{cat:'チョウ・ガ',tail:1},'約12cm','台湾に だけ すむ 美しい アゲハ。','yami','🦋'],
+['asia',3,'kuwa','タイワンオオクワガタ',3,'#141414','#2a2a2a','#000000','#ffb45c',{cat:'クワガタ',ms:'inward',ml:.75,mt:1.1},'約8cm','大あごが 太くて つよい 台湾の オオクワガタ。','yami','🪲'],
+['asia',3,'quad','ミミセンザンコウ',4,'#a8846a','#d8c0a8','#4a3420','#ffd27a',{cat:'ほにゅうるい',pangolin:1,S:.7},'約60cm','うろこで おおわれた ほにゅうるい。丸まって 身を まもる。','kusa','🦔'],
+['asia',3,'quad','タイワンツキノワグマ',5,'#141418','#f2f2ea','#060608','#ffd27a',{cat:'ほにゅうるい',bear:1,moon:1,S:1.1},'約1.5m','むねの Vの 字の もようが 目じるし。','yami','🐻'],
+['asia',4,'quad','フィリピンメガネザル',3,'#a88a6a','#e8d8c0','#3a2a1a','#ffd84a',{cat:'ほにゅうるい',tarsier:1,S:.35},'約12cm','体の わりに とても 大きな 目を もつ。','yami','🐒'],
+['asia',4,'quad','パラワンマメジカ',2,'#a8744a','#e8d0b0','#3a2410','#ffd27a',{cat:'ほにゅうるい',mousedeer:1,S:.45},'約45cm','ウサギくらいの 小さな シカの なかま。','kusa','🦌'],
+['asia',4,'chou','ルリモンアゲハ',2,'#141418','#2ad8c8','#000000','#4af0ff',{cat:'チョウ・ガ',tail:1},'約10cm','ルリ色の もようが 光る アゲハ。','mizu','🦋'],
+['asia',4,'kuwa','パラワンオオヒラタクワガタ',4,'#141414','#2a2a2a','#000000','#ffb45c',{cat:'クワガタ',ms:'inward',ml:1.0,mt:1.25,big:1},'約11cm','世界最大級の ヒラタクワガタ。','yami','🪲'],
+['asia',4,'herp','アミメニシキヘビ',4,'#8a7a4a','#e8d8a0','#2a2410','#ffd84a',{cat:'はちゅうるい',snake:1,blotch:1,big:1},'約6m','世界で いちばん 長い ヘビ。','yami','🐍'],
+['asia',4,'quad','タマラオ',5,'#2a2a2a','#5a5a5a','#0a0a0a','#ffd27a',{cat:'ほにゅうるい',buffalo:1,S:1},'約1m','ミンドロ島に だけ すむ 小さな 水牛。','kusa','🐃'],
+['asia',5,'kogane','タガメ',2,'#6a5a3a','#a8946a','#2a2010','#ffd27a',{cat:'カメムシ',flat:1,w:1.1},'約6cm','田んぼに すむ 大きな 水生昆虫。','mizu','🪲'],
+['asia',5,'kabuto','ゴホンヅノカブト',3,'#c8a04a','#2a1a0a','#3a2a0a','#ffd27a',{hl:.7,hc:.7,th:4,tl:.4},'約6cm','頭と むねに 5本の 角を もつ カブトムシ。','hono','🪲'],
+['asia',5,'quad','シロテテナガザル',3,'#d8c0a0','#f6f6f2','#3a2a1a','#ffe0a0',{cat:'ほにゅうるい',ape:1,gibbon:1,S:.7},'約50cm','長い うでで 木から 木へ すばやく うつる。','kusa','🐒'],
+['asia',5,'quad','スローロリス',3,'#c8a87a','#f2e8d8','#4a3420','#ffd84a',{cat:'ほにゅうるい',loris:1,S:.38},'約30cm','ゆっくり 動く 大きな 目の サル。','yami','🐒'],
+['asia',5,'quad','ウンピョウ',4,'#c8a46a','#f2e8d0','#2a2014','#ffd27a',{cat:'ほにゅうるい',feline:1,cloud:1,S:.95},'約1.6m','雲の ような もようの ネコ。長い きばを もつ。','yami','🐆'],
+['asia',5,'quad','アジアゾウ',5,'#8a8480','#c8c0bc','#3a3634','#ffd27a',{cat:'ほにゅうるい',elephant:1,S:1.5},'約3m','タイでは とても 大切に されている ゾウ。','kusa','🐘'],
+['asia',6,'chou','アカエリトリバネアゲハ',3,'#141414','#2ad84a','#000000','#5aff7a',{cat:'チョウ・ガ',ws:1.2},'約17cm','黒い はねに 緑の もよう。首は まっ赤。','kusa','🦋'],
+['asia',6,'kabuto','モーレンカンプオオカブト',4,'#2a1a0a','#c8a04a','#0e0804','#ffd27a',{hl:1.2,hc:.8,th:1,tl:.8},'約10cm','長い 角と 金色の はねを もつ 大型カブト。','hono','🪲'],
+['asia',6,'quad','バビルサ',3,'#6a6a6a','#a8a8a8','#2a2a2a','#ffd27a',{cat:'ほにゅうるい',boar:1,babirusa:1,S:.85},'約1m','きばが 鼻の 上を つきぬけて のびる ふしぎな ブタ。','yami','🐗'],
+['asia',6,'quad','オランウータン',4,'#c8642a','#e8a07a','#4a2008','#ffb07a',{cat:'ほにゅうるい',ape:1,orangutan:1,S:1},'約1.4m','「森の人」と いう 意味。とても かしこい。','kusa','🦧'],
+['asia',6,'quad','スマトラトラ',4,'#e0802a','#f6f0e4','#141008','#ffd27a',{cat:'ほにゅうるい',feline:1,tiger:1,S:1.1},'約2.4m','いちばん 小さく 色が こい トラ。','hono','🐅'],
+['asia',6,'herp','コモドオオトカゲ',5,'#6a6a4a','#a8a47a','#2a2a1a','#ffd27a',{cat:'はちゅうるい',lizard:1,komodo:1},'約3m','世界最大の トカゲ。コモド島に すむ。','hono','🦎'],
+['asia',7,'quad','ハヌマンラングール',2,'#c8c0b0','#141414','#4a4438','#ffd27a',{cat:'ほにゅうるい',ape:1,blackface:1,S:.75},'約70cm','黒い 顔の サル。インドでは 神様の 使い。','hikari','🐒'],
+['asia',7,'quad','ニルガイ',2,'#8a8a9a','#f2f2f2','#2a2a34','#bfe8ff',{cat:'ほにゅうるい',horse:1,nilgai:1,S:1.05},'約2m','インド最大の レイヨウの なかま。','kusa','🐂'],
+['asia',7,'herp','インドコブラ',3,'#a88a4a','#e8d8a0','#2a2010','#ffd84a',{cat:'はちゅうるい',snake:1,cobra:1},'約1.5m','首を 広げて いかくする 毒ヘビ。','yami','🐍'],
+['asia',7,'quad','インドライオン',4,'#d8a85a','#f2e0b0','#4a3010','#ffd84a',{cat:'ほにゅうるい',feline:1,lion:1,S:1.15},'約2.5m','インドの ギル森林に だけ すむ ライオン。','hono','🦁'],
+['asia',7,'quad','インドサイ',4,'#8a8278','#b8b0a6','#3a3630','#ffd27a',{cat:'ほにゅうるい',rhino:1,S:1.35},'約3.5m','よろいの ような 皮ふと 1本の 角。','kusa','🦏'],
+['asia',7,'quad','ベンガルトラ',5,'#e88a2a','#f6f0e4','#141008','#ffd27a',{cat:'ほにゅうるい',feline:1,tiger:1,S:1.25},'約2.9m','インドの 国の 動物。森の 王者。','hono','🐅'],
+// ---------- ヨーロッパ編 (eu: insects + land) ----------
+['eu',0,'quad','ヨーロッパハリネズミ',1,'#8a6a4a','#e8d8c0','#2a1e14','#ffd27a',{cat:'ほにゅうるい',hedgehog:1,S:.38},'約25cm','せなかの はりで 身を まもる。','kusa','🦔'],
+['eu',0,'quad','キタリス',2,'#c8542a','#f6ece0','#4a1a08','#ffb07a',{cat:'ほにゅうるい',ear:'tuft',tail:'squirrel',S:.42},'約22cm','イギリスでは 数が へって 大切に されている。','hono','🐿'],
+['eu',0,'quad','ヨーロッパアナグマ',2,'#9a9a9a','#f6f6f6','#141414','#ffe0a0',{cat:'ほにゅうるい',badger:1,stripeFace:1,S:.65},'約80cm','顔の 白黒の しまが 目じるし。','yami','🦡'],
+['eu',0,'kuwa','ヨーロッパミヤマクワガタ',3,'#3a1a0a','#8a3a1a','#1a0804','#ffb45c',{cat:'クワガタ',ms:'saw',ml:1.0,ears:1},'約9cm','ヨーロッパ最大の クワガタ。','hono','🪲'],
+['eu',0,'quad','アカシカ',3,'#a8582a','#e8c8a0','#3a1a08','#ffd27a',{cat:'ほにゅうるい',horn:'antler',big:1,leg:1.3,S:1.15},'約2m','スコットランドの 高原に すむ 大きな シカ。','kusa','🦌'],
+['eu',0,'quad','スコットランドヤマネコ',5,'#8a7a62','#d8c8a8','#1a140c','#ffd27a',{cat:'ほにゅうるい',feline:1,tabby:1,S:.7},'約1m','「ハイランドの トラ」と よばれる 野生の ネコ。','yami','🐈'],
+['eu',1,'hachi','セイヨウミツバチ',1,'#d8a02a','#3a2a0a','#141008','#ffd84a',{cat:'ハチ'},'約1.3cm','みんなで 協力して ハチミツを つくる。','hikari','🐝'],
+['eu',1,'herp','ヨーロッパアマガエル',1,'#4ac84a','#e8f8d0','#1a4a1a','#9be15d',{cat:'りょうせいるい',frog:1,green:1,small:1},'約4cm','あざやかな 緑の 小さな カエル。','mizu','🐸'],
+['eu',1,'kogane','スカラベ・サクレ',3,'#141414','#3a3a3a','#000000','#ffd84a',{cat:'コウチュウ',glossy:1},'約3cm','ファーブル昆虫記で ゆうめいな ふんころがし。','hikari','🪲'],
+['eu',1,'quad','ヨーロッパオオヤマネコ',4,'#c8a07a','#f2e8d8','#3a2a1a','#ffd27a',{cat:'ほにゅうるい',feline:1,lynx:1,spots:1,S:.9},'約1.1m','耳の 先の 黒い ふさ毛が かっこいい。','yami','🐈'],
+['eu',1,'quad','シャモア',3,'#7a5a3a','#f2ece0','#2a1a0a','#ffd27a',{cat:'ほにゅうるい',horn:'hook',leg:1.1,S:.85},'約1.2m','アルプスの 岩場を かけまわる。','kusa','🐐'],
+['eu',1,'quad','ヨーロッパオオカミ',5,'#8a8478','#e8e4dc','#2a2620','#bfe8ff',{cat:'ほにゅうるい',wolf:1,S:1},'約1.4m','むれで くらす。遠ぼえで なかまと 話す。','yami','🐺'],
+['eu',2,'quad','ヨーロッパハムスター',1,'#c8843a','#f6f0e8','#141414','#ffd27a',{cat:'ほにゅうるい',hamster:1,S:.32},'約25cm','ほおぶくろに 食べ物を つめこむ。','kusa','🐹'],
+['eu',2,'quad','ダマジカ',2,'#c8843a','#f6f0e8','#4a2a10','#ffd27a',{cat:'ほにゅうるい',horn:'palm',spotsW:1,leg:1.2,S:.95},'約1.5m','手のひらの ような 角を もつ シカ。','kusa','🦌'],
+['eu',2,'quad','オウシュウヤマネ',2,'#c8945a','#f6ecd8','#4a3420','#ffe0a0',{cat:'ほにゅうるい',dormouse:1,S:.3},'約9cm','長い 冬眠を する 森の 小さな 住人。','kusa','🐭'],
+['eu',2,'quad','ヤブノウサギ',1,'#a8844a','#f2e8d8','#2a1a0a','#ffe0a0',{cat:'ほにゅうるい',ear:'long',tail:'puff',S:.55},'約60cm','春に はねまわる すがたで 知られる。','kusa','🐇'],
+['eu',2,'kabuto','ヨーロッパサイカブト',3,'#5a2a12','#8a4a22','#1e0a04','#ffb45c',{hl:.8,hc:.9,th:0,tl:0},'約4cm','サイの ような 1本角の カブトムシ。','hono','🪲'],
+['eu',2,'quad','ヨーロッパバイソン',5,'#5a3a22','#8a6a4a','#1e1208','#ffb07a',{cat:'ほにゅうるい',bison:1,S:1.4},'約3m','ヨーロッパで いちばん 重い 陸の 動物。','hono','🦬'],
+['eu',3,'herp','カベカナヘビ',1,'#8a8a5a','#c8d0a0','#2a2a1a','#ffd27a',{cat:'はちゅうるい',lizard:1},'約20cm','イタリアの 石がきで ひなたぼっこ。','hono','🦎'],
+['eu',3,'kamakiri','ウスバカマキリ',1,'#9ad86a','#d8f0b0','#3a6a2a','#9be15d',{cat:'カマキリ'},'約7cm','ヨーロッパで いちばん 身近な カマキリ。','kusa','🦗'],
+['eu',3,'quad','ヨーロッパケナガイタチ',2,'#5a3a22','#e8d8c0','#1a0e06','#ffd27a',{cat:'ほにゅうるい',weasel:1,mask:1,S:.5},'約45cm','フェレットの ご先祖さま。','yami','🐾'],
+['eu',3,'quad','タテガミヤマアラシ',3,'#3a3430','#f2f2ea','#141210','#ffd27a',{cat:'ほにゅうるい',porcupine:1,S:.7},'約80cm','長い 白黒の はりを 立てて いかくする。','yami','🦔'],
+['eu',3,'quad','アペニンシャモア',3,'#8a5a32','#f2ece0','#2a1a0a','#ffd27a',{cat:'ほにゅうるい',horn:'hook',leg:1.1,S:.85},'約1.2m','アペニン山脈に すむ 美しい もようの シャモア。','kusa','🐐'],
+['eu',3,'quad','マルシカヒグマ',5,'#6a4a2a','#9a7a54','#24160a','#ffb07a',{cat:'ほにゅうるい',bear:1,S:1.2},'約1.9m','イタリアの 山奥に だけ すむ めずらしい クマ。','hono','🐻'],
+['eu',4,'herp','ミドリカナヘビ',1,'#4ac84a','#c8f0a0','#1a4a1a','#9be15d',{cat:'はちゅうるい',lizard:1,green:1},'約35cm','あざやかな 緑色の 大きな カナヘビ。','kusa','🦎'],
+['eu',4,'quad','ジェネット',2,'#d8c8a0','#f6f0e0','#2a2014','#ffd27a',{cat:'ほにゅうるい',feline:1,genet:1,spots:1,S:.55},'約50cm','しましまの 長い しっぽの 夜行性の 動物。','yami','🐈'],
+['eu',4,'quad','エジプトマングース',2,'#9a8a6a','#d8ccb0','#2a2418','#ffd27a',{cat:'ほにゅうるい',weasel:1,S:.55},'約55cm','ヘビにも ゆうかんに 立ちむかう。','hono','🐾'],
+['eu',4,'quad','バーバリーマカク',3,'#c8a87a','#f2c8b0','#4a3420','#ffb0b0',{cat:'ほにゅうるい',ape:1,S:.75},'約60cm','スペインの となり ジブラルタルに すむ、ヨーロッパ ただ一つの 野生の サル。','kusa','🐒'],
+['eu',4,'chou','イザベラミズアオ',4,'#9ad8a0','#d8f2c8','#4a6a3a','#9effc0',{cat:'チョウ・ガ',moth:1,luna:1},'約9cm','ヨーロッパで いちばん 美しい ガと いわれる。','kusa','🦋'],
+['eu',4,'quad','スペインオオヤマネコ',5,'#c8a06a','#f2e4d0','#2a1a0a','#ffd27a',{cat:'ほにゅうるい',feline:1,lynx:1,spots:1,S:.85},'約1m','世界で もっとも めずらしい ネコの なかま。','yami','🐈'],
+['eu',5,'quad','アルプスマーモット',2,'#a8844a','#e8d8b0','#3a2a14','#ffd27a',{cat:'ほにゅうるい',marmot:1,S:.5},'約55cm','あぶないと ピーッと 鳴いて なかまに 知らせる。','kusa','🐿'],
+['eu',5,'herp','アルプスサンショウウオ',2,'#141414','#3a3a3a','#000000','#ffd84a',{cat:'りょうせいるい',sala:1},'約12cm','まっ黒で 高い 山に すむ サンショウウオ。','yami','🦎'],
+['eu',5,'chou','アポロウスバシロチョウ',3,'#f2f2ea','#e0202a','#141414','#ffb0b0',{cat:'チョウ・ガ',apollo:1},'約8cm','白い はねに 赤い 目玉もよう。アルプスの チョウ。','hikari','🦋'],
+['eu',5,'quad','ユキウサギ',3,'#f6f6f2','#ffffff','#2a2a2a','#bfe8ff',{cat:'ほにゅうるい',ear:'long',tail:'puff',S:.5},'約55cm','冬は まっ白に なる アルプスの ウサギ。','hikari','🐇'],
+['eu',5,'quad','ヨーロッパオコジョ',3,'#f6f6f2','#ffffff','#1a1a1a','#bfe8ff',{cat:'ほにゅうるい',weasel:1,tailTip:1,S:.42},'約25cm','冬は 白、夏は 茶色に 毛が かわる。','hikari','🐾'],
+['eu',5,'quad','アルプスアイベックス',5,'#8a7a62','#d8ccb8','#2a2418','#ffd27a',{cat:'ほにゅうるい',horn:'ibex',S:1.05},'約1.6m','1mも ある 弓の ような 角を もつ 山の 王者。','denki','🐐'],
+['eu',6,'quad','ヨーロッパジリス',1,'#b89a6a','#f2e8d0','#3a2e1a','#ffe0a0',{cat:'ほにゅうるい',marmot:1,small:1,S:.35},'約20cm','草原に あなを ほって くらす。','kusa','🐿'],
+['eu',6,'turtle','ギリシャリクガメ',2,'#c8a04a','#5a3a1a','#3a2410','#ffd27a',{cat:'はちゅうるい',land:1},'約20cm','こうらの もようが きれいな リクガメ。','kusa','🐢'],
+['eu',6,'kogane','ツチボタル',2,'#5a4a3a','#f2f0a0','#1e160e','#e8ff5a',{cat:'コウチュウ',glow:1},'約2cm','メスは はねが なく、おしりが 光る ホタル。','hikari','🪲'],
+['eu',6,'quad','キンイロジャッカル',3,'#c8a46a','#f2e4c8','#3a2a14','#ffd27a',{cat:'ほにゅうるい',wolf:1,golden:1,S:.8},'約1m','金色の 毛の イヌの なかま。','hono','🐺'],
+['eu',6,'herp','ハナダカクサリヘビ',3,'#a8a08a','#e8e0c8','#141414','#ffd84a',{cat:'はちゅうるい',snake:1,zigzag:1},'約70cm','鼻先に 小さな 角の ような でっぱりが ある 毒ヘビ。','yami','🐍'],
+['eu',6,'quad','クリクリ',5,'#a8844a','#e8d8b8','#2a1e10','#ffd27a',{cat:'ほにゅうるい',horn:'ibex',S:.9},'約1.3m','クレタ島の 野生の ヤギ。ギリシャの 宝もの。','denki','🐐'],
+['eu',7,'quad','レミング',1,'#c8944a','#f2e0c0','#141414','#ffe0a0',{cat:'ほにゅうるい',hamster:1,lemming:1,S:.3},'約12cm','北の ツンドラに すむ ネズミの なかま。','mizu','🐭'],
+['eu',7,'quad','ホッキョクギツネ',3,'#f6f6f6','#ffffff','#2a2a2a','#bfe8ff',{cat:'ほにゅうるい',ear:'rd',tail:'bushy',snout:1,S:.7},'約65cm','冬は まっ白、夏は 茶色の キツネ。','mizu','🦊'],
+['eu',7,'quad','トナカイ',3,'#8a7a62','#f2ece0','#2a2418','#ffd27a',{cat:'ほにゅうるい',horn:'antler',big:1,leg:1.2,S:1.05},'約2m','オスも メスも 角が ある 北の シカ。','mizu','🦌'],
+['eu',7,'quad','クズリ',4,'#3a2a1e','#c8a070','#140c06','#ffd27a',{cat:'ほにゅうるい',badger:1,wolverine:1,S:.8},'約1m','体は 小さいが クマにも ひるまない 勇者。','yami','🦡'],
+['eu',7,'quad','ジャコウウシ',4,'#3a2a1e','#c8b8a0','#140c06','#ffd27a',{cat:'ほにゅうるい',bison:1,musk:1,S:1.15},'約2.3m','長い 毛で マイナス40度の 寒さに たえる。','mizu','🐂'],
+['eu',7,'quad','ホッキョクグマ',5,'#f6f4ec','#ffffff','#141414','#bfe8ff',{cat:'ほにゅうるい',bear:1,polar:1,S:1.4},'約2.5m','北極の 王者。ノルウェーの スバールバル諸島にも すむ。','mizu','🐻‍❄️'],
+// ---------- 裏ステージ (secret) ----------
+['ura',0,'quad','イリオモテヤマネコ',5,'#8a7254','#e8d8c0','#2a1e10','#ffd84a',{cat:'ほにゅうるい',feline:1,spots:1,earDot:1,S:.62},'約60cm','西表島に だけ すむ 幻の ヤマネコ。特別天然記念物。','yami','🐈'],
+['ura',0,'bird','ヤンバルクイナ',5,'#4a4a3a','#e0302a','#141410','#ffd84a',{cat:'とり',rail:1,yanbaru:1,S:.65},'約30cm','やんばるの 森に だけ すむ 飛べない 鳥。','hono','🐦'],
+['ura',0,'chou','オオゴマダラ',5,'#f6f2e2','#141414','#3a3a3a','#ffd84a',{cat:'チョウ・ガ',ogoma:1,ws:1.25},'約13cm','白と 黒の 大きな チョウ。さなぎは 金色に かがやく。','hikari','🦋'],
+['ura',0,'quad','アマミノクロウサギ',5,'#3a2a1e','#6a5444','#140c06','#ffd84a',{cat:'ほにゅうるい',ear:'short',S:.5},'約45cm','耳が 短い 大昔の すがたを のこす ウサギ。','yami','🐇'],
+['ura',0,'bird','カンムリワシ',4,'#6a4a2a','#f2e0b0','#2a1a0a','#ffd84a',{cat:'とり',eagle:1,crest:1,S:.95},'約55cm','石垣島・西表島の 森の 王。','denki','🦅'],
+['ura',0,'bird','ノグチゲラ',4,'#5a2a1a','#e0302a','#1e0a04','#ff6a5a',{cat:'とり',woodpecker:1,S:.7},'約31cm','やんばるの 森に だけ すむ キツツキ。','hono','🐦'],
+['ura',0,'kogane','ヤンバルテナガコガネ',5,'#2a5a2a','#c8a04a','#0a2a0a','#ffd84a',{cat:'コウチュウ',longarm:1,glossy:1},'約6cm','日本最大の 甲虫。長い 前足が じまん。','kusa','🪲'],
+['ura',0,'chou','リュウキュウアサギマダラ',4,'#2a2a3a','#9ad8f2','#0a0a14','#7ad7ff',{cat:'チョウ・ガ'},'約9cm','あさぎ色の もようの ゆうがな チョウ。','mizu','🦋'],
+['ura',0,'turtle','セマルハコガメ',4,'#6a4a2a','#e8c87a','#2a1a0a','#ffd27a',{cat:'はちゅうるい',land:1,box:1},'約17cm','こうらを とじて ハコの ように なる カメ。','kusa','🐢'],
+['ura',0,'quad','ケナガネズミ',4,'#3a2a1e','#a88a6a','#140c06','#ffd27a',{cat:'ほにゅうるい',mouse:1,S:.45,tail:'long'},'約30cm','日本最大の ネズミ。長い 毛が とくちょう。','yami','🐭'],
+['ura',0,'fish','シーラカンス',5,'#2a3a6a','#e8eef6','#0a1430','#7ad7ff',{cat:'さかな',coel:1,dots:1,H:1.2},'約2m','4億年前から 生きている 伝説の 古代魚。','yami','🐟'],
+];
+// packs: regions with stages (spots / cities)
+const PACKS=[
+ {id:'sea',n:'海編',i:'🌊',c:'#2a7ad8',map:'jp',bg:'#5ab8e8',lab:'地方',desc:'日本の 8つの 海を めぐって 魚・貝・海の 生き物を あつめよう',
+  regions:[['北海道の海',['知床','襟裳岬','函館']],['東北の海',['三陸','松島','男鹿']],['関東の海',['東京湾','江の島','房総']],['中部の海',['富山湾','駿河湾','能登']],['近畿の海',['明石','串本','若狭湾']],['中国の海',['瀬戸内海','下関','隠岐']],['四国の海',['土佐湾','足摺岬','鳴門']],['九州・沖縄の海',['玄界灘','屋久島','慶良間']]]},
+ {id:'land',n:'陸編',i:'🦌',c:'#3a9a4a',map:'jp',bg:'#9ad870',lab:'地方',desc:'森や 山や 川を めぐって 陸の 生き物を あつめよう',
+  regions:[['北海道',['知床','大雪山','釧路湿原']],['東北',['白神山地','奥入瀬','蔵王']],['関東',['日光','高尾山','秩父']],['中部',['上高地','白川郷','富士山']],['近畿',['奈良公園','熊野古道','六甲山']],['中国',['大山','鳥取砂丘','秋吉台']],['四国',['石鎚山','四万十川','剣山']],['九州・沖縄',['阿蘇','屋久島','対馬']]]},
+ {id:'sky',n:'空編',i:'🕊',c:'#5a8ad8',map:'jp',bg:'#a8d8ff',lab:'地方',desc:'空を 見上げて 日本の 鳥たちを あつめよう',
+  regions:[['北海道の空',['釧路湿原','知床','旭川']],['東北の空',['伊豆沼','八甲田','十和田湖']],['関東の空',['小笠原','霞ケ浦','丹沢']],['中部の空',['佐渡','立山','浜名湖']],['近畿の空',['豊岡','琵琶湖','吉野']],['中国の空',['宍道湖','秋吉台','宮島']],['四国の空',['石鎚山','四万十川','室戸岬']],['九州・沖縄の空',['出水','屋久島','奄美']]]},
+ {id:'asia',n:'アジア編',i:'🌏',c:'#d8542a',map:'asia',bg:'#f2c88a',lab:'国・地域',desc:'アジアの 国と 都市を めぐって 昆虫と 陸の 生き物を あつめよう',
+  regions:[['韓国',['ソウル','プサン','チェジュ'],'ソウル',[250,128]],['中国',['ペキン','シャンハイ','チョンドゥー'],'ペキン',[176,118]],['モンゴル',['ウランバートル','ゴビ砂漠','ハラホリン'],'ウランバートル',[160,58]],['台湾',['タイペイ','タイチュウ','カオシュン'],null,[226,196]],['フィリピン',['マニラ','セブ','パラワン'],'マニラ',[244,262]],['タイ',['バンコク','チェンマイ','プーケット'],'バンコク',[136,248]],['インドネシア',['ジャカルタ','バリ','コモド'],'ジャカルタ',[186,322]],['インド',['ニューデリー','ムンバイ','コルカタ'],'ニューデリー',[64,190]]]},
+ {id:'eu',n:'ヨーロッパ編',i:'🏰',c:'#7a4ad8',map:'eu',bg:'#c8b8f2',lab:'国',desc:'ヨーロッパの 国と 都市を めぐって 昆虫と 陸の 生き物を あつめよう',
+  regions:[['イギリス',['ロンドン','エディンバラ','リバプール'],'ロンドン',[92,130]],['フランス',['パリ','リヨン','マルセイユ'],'パリ',[120,192]],['ドイツ',['ベルリン','ミュンヘン','ハンブルク'],'ベルリン',[196,148]],['イタリア',['ローマ','ベネチア','ナポリ'],'ローマ',[204,262]],['スペイン',['マドリード','バルセロナ','セビリア'],'マドリード',[68,268]],['スイス',['ベルン','ジュネーブ','ツェルマット'],'ベルン',[160,214]],['ギリシャ',['アテネ','サントリーニ','クレタ'],'アテネ',[278,300]],['ノルウェー',['オスロ','ベルゲン','トロムソ'],'オスロ',[188,56]]]},
+ {id:'ura',n:'裏ステージ',i:'🌌',c:'#141030',map:'ura',bg:'#2a1a4a',lab:'ひきょう',hidden:1,desc:'開発者だけが 知る 南の島の ひきょう',
+  regions:[['やんばる・いりおもての ひきょう',['やんばるの森','西表島','ゆめの いずみ']]]}];
+const PACK=Object.fromEntries(PACKS.map(p=>[p.id,p]));
+
+const WNEW=new Set(['fish','shark','ray','whale','seal','crab','shell','octo','turtle','herp','quad','bird']);
+(()=>{let no=MONS.length+1;WC.forEach(([pk,ri,arch,nm,rar,b,a,d,mc,q,size,desc,el,em])=>{const P=PACK[pk],key='wc_'+no,pi=PACKS.indexOf(P);
+  EL[key]={n:q.cat||CAT[arch]||'いきもの',b,a,d,m:'leaf',mc,q,em};const mo=makeMon(no++,100+pi*10+ri,arch,key,3,rar,nm,desc);
+  mo.ins=!WNEW.has(arch);mo.size=size;mo.region=`${P.n}・${P.regions[ri][0]}`;mo.type=q.cat||CAT[arch]||'いきもの';mo.ser=pk;mo.pk=pk;mo.ri=ri;mo.el=el;mo.em=em;
+  mo.lvb=({sea:4,land:8,sky:12,asia:18,eu:24,ura:34}[pk]||4)+ri*2;MONS.push(mo)})})();
+const TOTALDEX=MONS.filter(m=>!m.sp).length;
 const RARW={1:[50,30,14,5,1],2:[48,30,15,6,1],3:[38,30,19,9,4],4:[28,28,23,14,7],5:[18,24,26,20,12]};
 const RARC=['','#8f84c4','#1c9ab3','#2f9e3f','#d99a00','#e0467a'];
 const starStr=r=>'★'.repeat(r)+'☆'.repeat(5-r);
 const esvg=(e,m='normal',lite)=>typeof THUMB!=='undefined'&&THUMB['m'+e.no]?imgSvg(THUMB['m'+e.no],e.name):`<svg viewBox="0 0 100 100" aria-label="${e.name}"><g filter="url(#${lite?'realL':'real'})">${e.draw(m)}</g></svg>`;
-const AREAS2=m=>m.av?'アバター・シリーズ（オリジナル）':m.sp?'CC0コラボ（Nouns）':`${AREAS[m.gi]}（${GRADES[m.gi].n}年）`;
+const AREAS2=m=>m.ser?`${PACK[m.pk].i} ${PACK[m.pk].n}・${PACK[m.pk].regions[m.ri][0]}`:m.av?'アバター・シリーズ（オリジナル）':m.sp?'CC0コラボ（Nouns）':`${AREAS[m.gi]}（${GRADES[m.gi].n}年）`;
 
 // ---------- equipment ----------
 const ANCH={kemono:{h:[50,29],f:[50,47],b:[50,70],w:[76,76],fs:.95},tori:{h:[50,42],f:[50,56],b:[50,64],w:[80,70],fs:1},dragon:{h:[50,29],f:[50,44],b:[50,66],w:[76,78],fs:1},
@@ -1400,7 +1772,7 @@ const MEM=new Map();
 const rawGet=k=>{try{const v=canSave?localStorage.getItem(k):MEM.get(k);return v==null?null:JSON.parse(v)}catch(e){return null}};
 const rawSet=(k,v)=>{const j=JSON.stringify(v);if(canSave){try{localStorage.setItem(k,j)}catch(e){}}else MEM.set(k,j)};
 const rawDel=k=>{if(canSave){try{localStorage.removeItem(k)}catch(e){}}else MEM.delete(k)};
-const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless'];
+const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm'];
 let SAVES=rawGet(SK),CUR=0;
 if(!Array.isArray(SAVES)||SAVES.length!==5){SAVES=[null,null,null,null,null];
   if(SLOTKEYS.some(k=>rawGet(k)!=null)){SLOTKEYS.forEach(k=>{const v=rawGet(k);if(v!=null)rawSet('kr_s0_'+k,v)});SAVES[0]={name:'ぼうけんしゃ',at:Date.now()}}rawSet(SK,SAVES)}
@@ -1706,11 +2078,12 @@ function mats3(E){const c=[E.b,darken(E.d,.75),E.a,E.mc,E.a,'#050308',E.b,...FIX
   return{c:c.map(lin),p}}
 function buildFig(kind,obj,eq,withStage){const b=new Bld();let E,arch,st,rar=0;
   if(kind==='p'){const P=PARTNER[obj.id];E=P.E;arch=P.arch;st=3}else{E=obj.E;arch=obj.arch;st=obj.st;rar=obj.rar}
-  const A=(obj.ins?I3:A3)[arch](b,st,E);
+  const A=(obj.ins?I3:(typeof W3!=='undefined'&&W3[arch])?W3:A3)[arch](b,st,E);
   if(kind==='p')(PARTNER[obj.id].items||['scarf']).forEach(id=>item3(b,id,A));
   if(eq)Object.values(eq).forEach(id=>{if(ITEM[id])item3(b,id,A)});
-  if(rar>=4&&!(eq&&eq.aura)){b.to([0,.03,0],.95,.025,0,3,0,2);if(rar===5){b.to([0,.03,0],1.15,.02,0,18,0,2);b.e([.9,1.8,.3],[.05,.05,.05],3,0,1).e([.7,2.4,-.3],[.04,.04,.04],3,0,1)}}
-  const evo=(eq&&eq._evo)||0;if(evo){const mt=[0,10,19,18][evo];b.to([0,.03,0],.72+.12*evo,.03,0,mt,0,2);if(evo>=2)b.to([0,.03,0],.9+.14*evo,.018,0,mt,0,2);if(evo>=3){b.e([.75,1.5,.2],[.05,.05,.05],18,0,1).e([-.7,1.9,-.2],[.04,.04,.04],18,0,1)}}
+  const b0=b.bounds(),RR=Math.max(.42,Math.min(1.15,Math.hypot(b0.mx[0]-b0.mn[0],b0.mx[2]-b0.mn[2])*.42)),TOP=Math.max(.6,b0.mx[1]);
+  if(rar>=4&&!(eq&&eq.aura)){b.to([0,.03,0],RR,.025,0,3,0,2);if(rar===5){b.to([0,.03,0],RR*1.2,.02,0,18,0,2);b.e([RR*1.15,TOP*1.05,.3],[.03,.03,.03],3,0,3).e([RR*.9,TOP*1.3,-.3],[.025,.025,.025],3,0,3)}}
+  const evo=(eq&&eq._evo)||0;if(evo){const mt=[0,10,19,18][evo];b.to([0,.03,0],RR*(.78+.12*evo),.03,0,mt,0,2);if(evo>=2)b.to([0,.03,0],RR*(.95+.14*evo),.018,0,mt,0,2);if(evo>=3){b.e([RR*.8,TOP*.8,.2],[.05,.05,.05],18,0,3).e([-RR*.75,TOP,-.2],[.04,.04,.04],18,0,3)}}
   b.scale([0,.82,.92,1.02][st]*(1+.07*evo));
   const bd=b.bounds();
   if(withStage){b.e([0,-.09,0],[1.45,.09,1.45],21,0,2).to([0,0,0],1.42,.022,0,22,0,2)}
@@ -1779,7 +2152,7 @@ in vec2 a;void main(){gl_Position=vec4(a,0,1);}`));gl.attachShader(pg,sh(gl.FRAG
 let R3T=null;const THUMB={};
 try{R3T=new R3(Object.assign(document.createElement('canvas'),{width:240,height:240}),true)}catch(e){R3T=null}
 function thumbOf(kind,obj,eq){if(!R3T)return null;const key=kind+(kind==='p'?obj.id:obj.no)+(eq?JSON.stringify(eq):'');if(THUMB[key])return THUMB[key];
-  try{R3T.set(buildFig(kind,obj,eq));R3T.draw(obj.ins?{yaw:.75,pitch:.5,dist:.9}:{yaw:.62,pitch:.13,dist:.92});THUMB[key]=R3T.cv.toDataURL('image/png')}catch(e){console.error(e);return null}return THUMB[key]}
+  try{R3T.set(buildFig(kind,obj,eq));R3T.draw(obj.ins?{yaw:.75,pitch:.5,dist:.9}:obj.ser?{yaw:.7,pitch:.34,dist:.84}:{yaw:.62,pitch:.13,dist:.92});THUMB[key]=R3T.cv.toDataURL('image/png')}catch(e){console.error(e);return null}return THUMB[key]}
 const has3=k=>!!THUMB[k];
 const imgSvg=(u,label)=>`<svg viewBox="0 0 100 100" aria-label="${label}"><image href="${u}" x="-4" y="-4" width="108" height="108"/></svg>`;
 
@@ -1925,9 +2298,9 @@ let R3V=null;
 function insArt(ch){const eq=ch.eq&&Object.keys(ch.eq).length?ch.eq:null,k='m'+ch.mon.no+(eq?JSON.stringify(eq):''),u=THUMB[k]||(eq&&eq._evo&&R3T?thumbOf('m',ch.mon,eq):null)||THUMB['m'+ch.mon.no];return u?imgSvg(u,ch.name):esvg(ch.mon)}
 function refreshArt(){try{if(!$('title').hidden)drawDex();if(S&&S.party&&!$('app').hidden){drawParty();if(S.foe&&!S.foe.dead)drawEnemy()}
   if(!$('mapScr').hidden)drawMap();if(!$('partyOv').hidden)drawParty2();if(!$('dexOv').hidden)drawDexUI();if(!$('viewOv').hidden)drawViewer()}catch(e){console.error(e)}}
-function genThumbs(){if(!R3T)return;const q=[...CHARS.map(c=>['p',c]),...MONS.map(m=>['m',m])];let i=0;
-  const step=()=>{const t0=performance.now();while(i<q.length&&performance.now()-t0<24){const[k,o]=q[i++];thumbOf(k,o)}
-    if(i===CHARS.length||i%24===0)refreshArt();if(i<q.length)setTimeout(step,0);else refreshArt()};setTimeout(step,60)}
+function genThumbs(){if(!R3T)return;const base=MONS.filter(m=>!m.ser),pk=MONS.filter(m=>m.ser).sort((a,b)=>(dex[b.no]?1:0)-(dex[a.no]?1:0));const q=[...CHARS.map(c=>['p',c]),...base.map(m=>['m',m]),...pk.map(m=>['m',m])];let i=0;const nb=CHARS.length+base.length;
+  const step=()=>{const t0=performance.now();while(i<q.length&&performance.now()-t0<(i<nb?24:12)){const[k,o]=q[i++];thumbOf(k,o)}
+    if(i===CHARS.length||i%24===0||i===nb)refreshArt();if(i<q.length)setTimeout(step,i<nb?0:40);else refreshArt()};setTimeout(step,60)}
 
 // ---------- dex ----------
 let dex=store.get('kr_dex3')||{},dexTab=-1,dexSel=null;
@@ -1941,20 +2314,29 @@ function addPts(n){pts+=Math.max(0,Math.round(n));store.set('kr_pts',pts);const 
 const stockOf=no=>box.filter(i=>i.no===no);
 function dexBtn(){$('dexBtn').textContent=`📖 ${gotN()}`;const d2=$('dexCnt2');if(d2)d2.textContent=gotN()}
 function dexDetail(m){const d=$('dexDetail');
-  if(!m){d.innerHTML=`<div class="ic">${esvg(MONS[0])}</div><div><h3>こんちゅうをタップ！</h3><p>正解して倒すと ゲットできるよ。コンボが高いほど ★の多いレア昆虫が出やすくなる！</p></div>`;d.querySelector('.ic').classList.add('lock');return}
+  if(!m){d.innerHTML=`<div class="ic">${esvg(MONS[0])}</div><div><h3>いきものを タップ！</h3><p>正解して たおすと ゲットできるよ。コンボが 高いほど ★の多い レアな いきものが 出やすくなる！</p></div>`;d.querySelector('.ic').classList.add('lock');return}
   const has=dex[m.no];
   d.innerHTML=`<div class="ic ${has?'':'lock'}">${esvg(m)}</div><div><div class="no">${m.sp?'SP':'No.'+String(m.no).padStart(3,'0')} ・ ${AREAS2(m)}</div>
    <h3 style="color:${has?RARC[m.rar]:'var(--muted)'}">${has?m.name:'？？？'}</h3><div class="stars" style="color:${RARC[m.rar]}">${starStr(m.rar)}</div>
-   <p>${has?`<span style="color:${m.c}">【${m.type}${m.ins?'':'タイプ'}】</span> ${elTag(elOfMon(m))}${m.desc}${m.ins?`<br>大きさ：${m.size} ・ 分布：${m.region}`:''}<br>ゲット ${dex[m.no]}かい ・ ストック ${stockOf(m.no).length}体`+(m.fam!=null?`<span class="evo">${MONS.filter(x=>x.fam===m.fam).map(x=>`<span class="${dex[x.no]?'':'lock'}">${esvg(x,'normal',true)}</span>`).join('<i>▶</i>')}</span>`:''):(m.sp?`まだゲットしていない…。コンボ中に まれに出現する！${m.av?'（アバター・シリーズ）':''}`:'まだゲットしていない…。'+GRADES[m.gi].n+'年生の問題で出てくるよ。')}</p>${has&&stockOf(m.no).length?`<button class="viewbtn" data-view="${m.no}">360°で見る・そうび ▶</button>`:''}</div>`}
-function drawDexUI(){const n=gotN();$('dexCnt').innerHTML=`ゲット <b>${n}</b> / 100 ・ 💎 ${pts.toLocaleString()}`;$('dexMeter').style.width=n+'%';
-  $('dexTabs').innerHTML=[-1,0,1,2,3,4,5,6].map(g=>{const pool=MONS.filter(m=>g<0?!m.sp:m.gi===g),c=pool.filter(m=>dex[m.no]).length;
-    return `<button class="tab" data-g="${g}" aria-pressed="${g===dexTab}">${g<0?'すべて':g===6?'SP':GRADES[g].n+'年'} ${c}/${pool.length}</button>`}).join('');
-  $('dexGrid').innerHTML=MONS.filter(m=>dexTab<0?!m.sp:m.gi===dexTab).map(m=>{const has=dex[m.no],sc=stockOf(m.no).length;
+   <p>${has?`<span style="color:${m.c}">【${m.type}${m.ins||m.ser?'':'タイプ'}】</span> ${elTag(elOfMon(m))}${m.desc}${m.ins||m.ser?`<br>大きさ：${m.size} ・ ${m.ser?'すみか':'分布'}：${m.region}`:''}<br>ゲット ${dex[m.no]}かい ・ ストック ${stockOf(m.no).length}体`+(m.fam!=null?`<span class="evo">${MONS.filter(x=>x.fam===m.fam).map(x=>`<span class="${dex[x.no]?'':'lock'}">${esvg(x,'normal',true)}</span>`).join('<i>▶</i>')}</span>`:''):(m.sp?`まだゲットしていない…。コンボ中に まれに出現する！${m.av?'（アバター・シリーズ）':''}`:m.ser?`まだゲットしていない…。${PACK[m.pk].i} ${PACK[m.pk].n}「${PACK[m.pk].regions[m.ri][0]}」で 出てくるよ。`:'まだゲットしていない…。'+GRADES[m.gi].n+'年生の問題で出てくるよ。')}</p>${has&&stockOf(m.no).length?`<button class="viewbtn" data-view="${m.no}">360°で見る・そうび ▶</button>`:''}</div>`}
+let dexSer='ins';
+const SERS=()=>[['ins','🐞','昆虫'],...PACKS.filter(p=>!p.hidden||uraOpen()||MONS.some(m=>m.pk===p.id&&dex[m.no])).map(p=>[p.id,p.i,p.n.replace(/編$/,'')])];
+const serPool=k=>k==='ins'?MONS.filter(m=>!m.ser&&!m.sp):MONS.filter(m=>m.pk===k);
+function drawDexUI(){const vis=SERS();if(!vis.some(v=>v[0]===dexSer))dexSer='ins';$('dexTitle').textContent=dexSer==='ins'?'こんちゅう ずかん':`${PACK[dexSer].n.replace(/編$/,'')}の ずかん`;const base=serPool(dexSer),n=base.filter(m=>dex[m.no]).length;
+  $('dexCnt').innerHTML=`ゲット <b>${n}</b> / ${base.length} ・ 💎 ${pts.toLocaleString()}`;$('dexMeter').style.width=(n/Math.max(1,base.length)*100)+'%';
+  $('dexSers').innerHTML=vis.map(([k,i,l])=>{const pp=serPool(k);return `<button class="tab ser" data-s="${k}" aria-pressed="${k===dexSer}">${i} ${l} <small>${pp.filter(m=>dex[m.no]).length}/${pp.length}</small></button>`}).join('');
+  let tabs,flt;
+  if(dexSer==='ins'){tabs=[-1,0,1,2,3,4,5,6].map(g=>[g,g<0?'すべて':g===6?'SP':GRADES[g].n+'年',MONS.filter(m=>!m.ser&&(g<0?!m.sp:m.gi===g))]);flt=dexTab<0?m=>!m.ser&&!m.sp:m=>!m.ser&&m.gi===dexTab}
+  else{const P=PACK[dexSer];tabs=[[-1,'すべて',base],...P.regions.map((r,i)=>[i,r[0].replace(/の(海|空)$/,''),base.filter(m=>m.ri===i)])];flt=dexTab<0?m=>m.pk===dexSer:m=>m.pk===dexSer&&m.ri===dexTab}
+  if(!tabs.some(t=>t[0]===dexTab)){dexTab=-1;return drawDexUI()}
+  $('dexTabs').innerHTML=tabs.map(([g,l,pl])=>`<button class="tab" data-g="${g}" aria-pressed="${g===dexTab}">${l} ${pl.filter(m=>dex[m.no]).length}/${pl.length}</button>`).join('');
+  $('dexGrid').innerHTML=MONS.filter(flt).map(m=>{const has=dex[m.no],sc=stockOf(m.no).length;
     return `<button class="cell ${has&&m.rar>=4?'r'+m.rar:''} ${dexSel===m.no?'sel':''}" data-no="${m.no}"><span class="n">${m.sp?'SP':'No.'+String(m.no).padStart(3,'0')}${sc?` ×${sc}`:''}</span><span class="ic ${has?'':'lock'}">${esvg(m,'normal',true)}</span><span class="nm">${has?m.name:'？？？'}</span><span class="stars" style="color:${RARC[m.rar]}">${'★'.repeat(m.rar)}</span></button>`}).join('');
   dexDetail(dexSel?MONS[dexSel-1]:null)}
 function openDex(){dexSel=null;drawDexUI();$('dexOv').hidden=false;setTimeout(()=>$('dexClose').focus(),30)}
 $('dexBtn').onclick=openDex;$('dexClose').onclick=()=>{$('dexOv').hidden=true};
 $('dexTabs').onclick=e=>{const t=e.target.closest('.tab');if(!t)return;dexTab=+t.dataset.g;drawDexUI()};
+$('dexSers').onclick=e=>{const t=e.target.closest('.tab');if(!t)return;dexSer=t.dataset.s;dexTab=-1;dexSel=null;drawDexUI()};
 $('dexGrid').onclick=e=>{const c=e.target.closest('.cell');if(!c)return;dexSel=+c.dataset.no;$('dexGrid').querySelectorAll('.cell').forEach(x=>x.classList.toggle('sel',x===c));dexDetail(MONS[dexSel-1])};
 dexBtn();addPts(0);
 $('dexDetail').onclick=e=>{const b=e.target.closest('[data-view]');if(b)openViewer(+b.dataset.view)};
@@ -2034,7 +2416,7 @@ function buildParty(){S.party=partyNow()}
 function drawParty(){if(!S||!S.party)return;const el=$('party');el.style.setProperty('--n',S.party.length);el.className='party n'+S.party.length;
   el.innerHTML=S.party.map(m=>{const hp=Math.max(0,m.hp)/m.s.hp,mp=m.s.mp?m.mp/m.s.mp:0;
     return `<div class="pm ${m.hp<=0?'ko':''} ${S.active===m?'act':''} ${m.guard?'grd':''}" id="pm-${m.id}" style="--c:${m.ch.c}"><span class="pic">${svg(m.ch)}</span>
-     <div class="pin"><div class="pn"><b>${EL6[m.ch.el]?EL6[m.ch.el].i:''}${m.ch.jobI?'<span class="jb">'+m.ch.jobI+'</span>':''}${m.ch.name}</b><small>Lv${m.lv}</small></div>
+     <div class="pin"><div class="pn"><b>${m.sleep>0?'💤':''}${EL6[m.ch.el]?EL6[m.ch.el].i:''}${m.ch.jobI?'<span class="jb">'+m.ch.jobI+'</span>':''}${m.ch.name}</b><small>Lv${m.lv}</small></div>
      <div class="gb hpb"><i style="width:${hp*100}%;background:${hp>.5?'#7cff6b':hp>.25?'#ffd23f':'#ff4d5e'}"></i></div>
      <div class="num">${Math.max(0,m.hp)}<small>/${m.s.hp}</small></div>
      <div class="gb mpb"><i style="width:${mp*100}%"></i></div></div></div>`}).join('')}
@@ -2051,7 +2433,7 @@ const NAME_EL={'ゲンゴロウ':'mizu','ゲンジボタル':'hikari','ニジイ
   'サタンオオカブト':'yami','ゴライアスオオツノハナムグリ':'hikari','メガネウラ':'denki','ギンヤンマ':'mizu','シオカラトンボ':'mizu','カラスアゲハ':'yami','タランチュラホーク':'yami','ルリタテハ':'yami','オオムラサキ':'yami',
   'ヨナグニサン':'hono','ナナホシテントウ':'hono','ヤマトタマムシ':'kusa','オオキンカメムシ':'hono','ネプチューンオオカブト':'mizu','コーカサスオオカブト':'denki','アトラスオオカブト':'kusa','グラントシロカブト':'hikari',
   'ギラファノコギリクワガタ':'yami','タイタンオオウスバカミキリ':'hono','ミナミヤンマ':'mizu','ウスバキトンボ':'hono','アレクサンドラトリバネアゲハ':'mizu','オオコノハムシ':'kusa','ナナフシ':'kusa'};
-const elOfMon=m=>NAME_EL[m.name]||ARCH_EL[m.arch]||'kusa';
+const elOfMon=m=>m.el||NAME_EL[m.name]||ARCH_EL[m.arch]||'kusa';
 const elTag=e=>`<span class="elb" style="--ec:${EL6[e].c}">${EL6[e].i}${EL6[e].n}</span>`;
 const effTxt=e=>e>1?' <b class="eff">こうかは ばつぐんだ！</b>':e<1?' <span class="dim">こうかは いまひとつ…</span>':'';
 const spdMul=ch=>S.spd===2?1.8:S.spd===1?(ch.skill.type==='crit'?1.8:1.3):1;
@@ -2061,19 +2443,19 @@ function effPop(e){if(e===1)return;const B=center($('enemy'));setTimeout(()=>pop
 // ---------- enemy ----------
 function drawEnemy(m,anim){const e=$('enemy'),f=S&&S.foe;if(!f)return;e.innerHTML=esvg(f.mon,m||'normal');e.className='enemy '+(anim||'idle')+(f.mon.rar>=4?' r'+f.mon.rar:'')+(f.boss?' boss':'')}
 function hpBar(){const f=S.foe,p=Math.max(0,f.hp/f.max),i=$('hp');i.style.width=p*100+'%';i.style.background=p>.5?'#7cff6b':p>.25?'#ffd23f':'#ff4d5e'}
-function drawFoeInfo(){const f=S.foe;$('foeName').innerHTML=`${f.boss?'<span class="bossTag">BOSS</span>':''}<span style="color:${RARC[f.mon.rar]}">${'★'.repeat(f.mon.rar)}</span> ${f.mon.name} <small>Lv${f.lv||1}</small> ${elTag(f.el||elOfMon(f.mon))}${f.poison>0?' <span class="psn">どく</span>':''}`;hpBar()}
+function drawFoeInfo(){const f=S.foe;$('foeName').innerHTML=`${f.boss?'<span class="bossTag">BOSS</span>':''}<span style="color:${RARC[f.mon.rar]}">${'★'.repeat(f.mon.rar)}</span> ${f.mon.name} <small>Lv${f.lv||1}</small> ${elTag(f.el||elOfMon(f.mon))}${f.poison>0?' <span class="psn">どく</span>':''}${f.sleep>0?' <span class="psn slp">💤ねむり</span>':''}`;hpBar()}
 function pickMon(minR=1){const w=RARW[tierOf(Math.max(1,S.combo))];let x=Math.random()*100,rar=1;for(let i=0;i<5;i++){if(x<w[i]){rar=i+1;break}x-=w[i]}
-  rar=Math.min(Math.max(rar,minR),4);let pool=MONS.filter(m=>m.gi===S.gi&&m.rar===rar);while(!pool.length&&rar>1){rar--;pool=MONS.filter(m=>m.gi===S.gi&&m.rar===rar)}
+  rar=Math.min(Math.max(rar,minR),4);const PL=S.ctx?S.ctx.pool:MONS.filter(m=>m.gi===S.gi);let pool=PL.filter(m=>m.rar===rar);while(!pool.length&&rar>1){rar--;pool=PL.filter(m=>m.rar===rar)}if(!pool.length)pool=PL;
   const fresh=pool.filter(m=>!dex[m.no]);return(fresh.length&&Math.random()<.65?pick(fresh):pick(pool))}
-function foeLv(extra){const base=1+3*S.gi+extra,avg=Math.round(S.party.reduce((a,p)=>a+p.lv,0)/Math.max(1,S.party.length));return avg<base?Math.max(1,avg+Math.min(extra,1)):base}
+function foeLv(extra){const base=(S.ctx?S.ctx.lvb:1+3*S.gi)+extra,avg=Math.round(S.party.reduce((a,p)=>a+p.lv,0)/Math.max(1,S.party.length));return avg<base?Math.max(1,avg+Math.min(extra,1)):base}
 function foeStats(mon,L,boss){const g=(L-1)/3,rf=[1,1.25,1.55,1.95,2.5][mon.rar-1],ef=[1,1.4,1.9,2.6,3.6][mon.rar-1];
   let hp=Math.round((26+g*22)*rf),atk=Math.round(7+g*9+mon.rar*2),def=Math.round(3+g*4+mon.rar),exp=Math.round((8+g*g*10+g*8)*ef);
   if(boss){hp=Math.round(hp*(g<1?1.6:2.0));atk=Math.round(atk*(g<1?1:1.1));def=Math.round(def*1.1);exp*=4}return{hp,max:hp,atk,def,exp,lv:L}}
-function spawnFoe(boss,strong){let mon;if(boss)mon=bossMon(S.gi);
-  else{const spc=tierOf(Math.max(1,S.combo))>=3?.06:.025;mon=Math.random()<spc?pick(MONS.filter(m=>m.sp)):pickMon(strong?3:1)}
+function spawnFoe(boss,strong){let mon;if(boss)mon=S.ctx?S.ctx.boss:bossMon(S.gi);
+  else{const spc=S.ctx?0:tierOf(Math.max(1,S.combo))>=3?.06:.025;mon=Math.random()<spc?pick(MONS.filter(m=>m.sp)):pickMon(strong?3:1)}
   S.foe={mon,boss,el:elOfMon(mon),poison:0,dead:false,...foeStats(mon,foeLv(boss?2:strong?1:0),boss)};drawFoeInfo();drawEnemy('normal','in');
   setTimeout(()=>{if(S&&S.foe&&!S.foe.dead&&$('enemy').classList.contains('in'))drawEnemy()},460)}
-function hitFoe(d,crit){const f=S.foe;f.hp=Math.max(0,f.hp-d);hpBar();drawEnemy('hit','hit');clearTimeout(foeT);foeT=setTimeout(()=>{if(S&&S.foe&&S.foe.hp>0)drawEnemy()},380);
+function hitFoe(d,crit){const f=S.foe;f.hp=Math.max(0,f.hp-d);if(f.sleep>0&&Math.random()<.25){f.sleep=0;drawFoeInfo()}hpBar();drawEnemy('hit','hit');clearTimeout(foeT);foeT=setTimeout(()=>{if(S&&S.foe&&S.foe.hp>0)drawEnemy()},380);
   const B=center($('enemy'));if(S.curEl&&EL6[S.curEl]){elHit(S.curEl,B,crit?10:5);if(crit)tintField(S.curEl,300)}pop((crit?'かいしん ':'')+d,B.x+rnd(40),B.y-20+rnd(20),crit?'#ff3d8b':'#fff',crit?30:26);burst(B.x,B.y,crit?18:8);boom(crit?.2:.1)}
 const dmgCalc=(atk,def,mult)=>{const a=atk*mult;return Math.max(1,Math.round(Math.max(a*.18,a-def*.5)*(.9+Math.random()*.2)))};
 
@@ -2097,9 +2479,9 @@ function fxSpecial(tier,m){const ch=m.ch,mv=ch.moves[tier-1],A=pmC(m),B=center($
     for(let i=0;i<8;i++)setTimeout(()=>shoot({x:B.x-200+rnd(200),y:-30},B,pick(COLS),12,()=>burst(B.x,B.y,6),{arc:0,dur:12,spread:40}),200+i*60);barrage(3,180,true)},750);return 1950}
 
 // ---------- commands ----------
-function chooseCmd(m){return new Promise(res=>{S.phase='cmd';S.active=m;drawParty();
+function chooseCmd(m){return new Promise(res=>{S.phase='cmd';S.active=m;drawParty();$('pad').hidden=false;$('chs').hidden=true;$('ans').hidden=false;
   const sk=m.ch.skill,tier=tierOf(Math.max(1,S.combo)),mv=m.ch.moves[tier-1];
-  const gOK=S.gauge>=3,opts=[['atk','こうげき',EL6[m.ch.el].i+EL6[m.ch.el].n+'の こうげき',0],['sp','ひっさつ',gOK?mv:`ゲージ ${S.gauge}/3 （コンボで たまる）`,0],['sk',sk.name,sk.desc,sk.mp],['def','ぼうぎょ','ダメージ半分・MP+3',0]];S.cmdOpts=opts;
+  const gOK=S.gauge>=3,opts=[['atk','こうげき',EL6[m.ch.el].i+EL6[m.ch.el].n+'の こうげき',0],['sp','ひっさつ',gOK?mv:`ゲージ ${S.gauge}/3 （コンボで たまる）`,0],['sk',sk.name,sk.desc,sk.mp],['def','ぼうぎょ','ダメージ半分・MP+3',0]];const ia=m.inst&&instOf(m.inst);if(ia)opts.push(['mus','えんそう',`${ia[2]}${ia[1]}：ねむり・かいふく`,3]);S.cmdOpts=opts;
   const cant=(k,mp)=>k==='sp'?!gOK:m.mp<mp,e=effMul(m.ch.el,S.foe.el);
   $('qwrap').hidden=true;const c=$('cmds');c.hidden=false;$('card').className='card cmdmode';
   c.innerHTML=`<div class="cmdh"><b style="color:${tcol(m.ch.c)}">${m.ch.name}</b> は どうする？ <span class="mu">${EL6[m.ch.el].i}→${EL6[S.foe.el].i} ${e>1?'<b class="eff">ばつぐん！</b>':e<1?'<span class="dim">いまひとつ</span>':''}</span></div>`+opts.map(([k,l,d,mp],i)=>`<button class="cmd ${k==='sp'&&gOK?'ready':''}" data-k="${k}" ${cant(k,mp)?'disabled':''}><i>${i+1}</i><b>${l}</b><small>${d}${mp?` ・ MP${mp}`:''}</small></button>`).join('');
@@ -2107,13 +2489,14 @@ function chooseCmd(m){return new Promise(res=>{S.phase='cmd';S.active=m;drawPart
   S.cmdRes=k=>{const o=opts.find(x=>x[0]===k);if(!o||cant(o[0],o[3]))return;S.cmdRes=null;tone(1046,0,.06,'square',.04);res(k)};
   setTimeout(()=>{const b=c.querySelector('.cmd:not([disabled])');if(b&&document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#cmds,body'))b.focus({preventScroll:true})},30)})}
 $('cmds').addEventListener('click',e=>{const b=e.target.closest('.cmd');if(b&&!b.disabled&&S&&S.cmdRes)S.cmdRes(b.dataset.k)});
-function ask(m,k){return new Promise(res=>{const g=GRADES[S.gi],u=S.boss?pick(g.units):g.units[S.ui];S.q=u[1]();S.input='';S.lock=false;S.phase='q';S.qres=res;
+function ask(m,k){return new Promise(res=>{const g=CTX(),u=g.world?g.units[0]:S.boss?pick(g.units):g.units[S.ui];S.q=u[1]();S.input='';S.lock=false;S.phase='q';S.qres=res;
   $('cmds').hidden=true;$('qwrap').hidden=false;$('card').className='card';
   const q=$('q');q.innerHTML=S.q.html+(S.q.ne?'':' <span>=</span>');q.className='q'+(S.q.ne?' long':'');void q.offsetWidth;q.classList.add('qin');
-  const lbl={atk:'こうげき',sp:'ひっさつ',sk:m.ch.skill.name,def:'ぼうぎょ',sm:'しょうかん'}[k];
+  const isC=!!S.q.ch;$('ans').hidden=isC;$('pad').hidden=isC;$('chs').hidden=!isC;if(isC){q.className='q chq qin';$('chs').innerHTML=S.q.ch.map((c,i)=>`<button class="chb" data-i="${i}"><i>${i+1}</i><span>${esc(c)}</span></button>`).join('')}
+  const lbl={atk:'こうげき',sp:'ひっさつ',sk:m.ch.skill.name,def:'ぼうぎょ',sm:'しょうかん',mus:'えんそう'}[k];
   $('hint').innerHTML=(S.q.hint?S.q.hint+'<br>':'')+`正解で <b style="color:${tcol(m.ch.c)}">${m.ch.name}の ${lbl}</b> が決まる！`+(S.q.a.includes('/')?' <small>（OKで けってい）</small>':'');
   setMsg(`${m.ch.name}の ${lbl}！ はやく 正解するほど つよくなる！`);drawAns();
-  S.thr=2.5+.6*S.q.a.length+(S.q.ne?3:0)+(S.q.a.includes('/')?2:0);S.t0=performance.now();
+  S.thr=S.q.ch?4.5:2.5+.6*S.q.a.length+(S.q.ne?3:0)+(S.q.a.includes('/')?2:0);S.t0=performance.now();
   const tz=$('tzone'),tf=$('tfill');tz.className='tzone';$('tlbl').textContent='⚡ クリティカル チャンス';tf.style.transition='none';tf.style.width='100%';void tf.offsetWidth;tf.style.transition=`width ${S.thr*2}s linear`;tf.style.width='0%';
   clearTimeout(S.tT1);clearTimeout(S.tT2);S.tT1=setTimeout(()=>{if(S.phase==='q'){tz.classList.add('mid');$('tlbl').textContent='はやい！ ボーナス'}},S.thr*1000);
   S.tT2=setTimeout(()=>{if(S.phase==='q'){tz.classList.add('slow');$('tlbl').textContent='じっくり とこう'}},S.thr*2000)})}
@@ -2121,7 +2504,8 @@ function ask(m,k){return new Promise(res=>{const g=GRADES[S.gi],u=S.boss?pick(g.
 // ---------- actions ----------
 const EMOVE={kabuto:'つのなぎはらい',kuwa:'大あごクラッシュ',semi:'ちょうおんぱ',chou:'まどわしのりんぷん',tonbo:'ソニックダイブ',kamakiri:'カマぎり',hachi:'どくばりラッシュ',kamikiri:'かみくだき',kogane:'こうらアタック',batta:'とびげり',ari:'むれこうげき'};
 async function act(m,k,ok){S.curEl=m.ch.el;const ch=m.ch,f=S.foe,e=effMul(ch.el,f.el),sm=spdMul(ch),st=spdTxt(ch),cb=(1+Math.min(S.combo,20)*.02)*e*sm;S.phase='anim';
-  if(!ok){await say(k==='def'?`${ch.name}は みを まもろうとした… しかし 計算ミスで すきが できた！`:`${ch.name}の ${k==='atk'?'こうげき':k==='sp'?'ひっさつわざ':ch.skill.name}！ …しかし 計算ミスで しっぱいした！`);return}
+  if(!ok){await say(k==='def'?`${ch.name}は みを まもろうとした… しかし 計算ミスで すきが できた！`:`${ch.name}の ${k==='atk'?'こうげき':k==='sp'?'ひっさつわざ':k==='mus'?'えんそう':ch.skill.name}！ …しかし 計算ミスで しっぱいした！`);return}
+  if(k==='mus'){await actMusic(m);return}
   if(k==='atk'){const crit=sm>=1.8,d=dmgCalc(m.s.atk,f.def,cb);setMsg(`${ch.name}の ${EL6[ch.el].n}こうげき！`);fxShot(m,EL6[ch.el].c,1,crit?12:8);await wait(440);hitFoe(d,crit);effPop(e);
     await say(`${ch.name}の こうげき！ ${st}${f.mon.name}に <b>${d}</b> の ダメージ！${effTxt(e)}`);return}
   if(k==='sp'){S.gauge=0;hud();drawParty();const tier=tierOf(Math.max(1,S.combo)),mv=ch.moves[tier-1];setMsg(`${ch.name}の ひっさつわざ！ 「${mv}」！`);await wait(fxElem(m,tier));
@@ -2152,6 +2536,7 @@ async function act(m,k,ok){S.curEl=m.ch.el;const ch=m.ch,f=S.foe,e=effMul(ch.el,
 
 async function enemyTurn(){S.curEl=null;const f=S.foe;
   if(f.poison>0){const d=Math.max(1,Math.round(f.max*.07));f.poison--;hitFoe(d,false);drawFoeInfo();await say(`${f.mon.name}は どくで <b>${d}</b> の ダメージを うけた！`);if(f.hp<=0)return}
+  if(f.sleep>0){f.sleep--;drawFoeInfo();const B=center($('enemy'));pop('Zzz',B.x+30,B.y-40,'#9fd0ff',22);await say(`${f.mon.name}は ぐうぐう ねむっている… 💤`,1100);return}
   const alive=S.party.filter(p=>p.hp>0);if(!alive.length)return;
   const all=(f.mon.rar>=3||f.boss)&&alive.length>1&&Math.random()<(f.boss?.35:.25);
   const nm=all?(EMOVE[f.mon.arch]||'ぜんたいこうげき'):'こうげき';
@@ -2162,7 +2547,7 @@ async function enemyTurn(){S.curEl=null;const f=S.foe;
   for(const[p]of list)if(p.hp<=0)await say(`${p.ch.name}は ちからつきた…`,1200)}
 
 async function win(){const f=S.foe;f.dead=true;clearTimeout(foeT);drawEnemy('ko','ko');const B=center($('enemy'));explode(B.x,B.y,'#ffd23f',true);ring(B.x,B.y,'#fff');
-  const bonus=150*GRADES[S.gi].n*(f.mon.rar+1)*(f.boss?3:1);S.score+=bonus;addPts(bonus/10);S.kills++;hud();sFan();if(f.boss)barrage(8,180,true);
+  const bonus=150*CTX().n*(f.mon.rar+1)*(f.boss?3:1);S.score+=bonus;addPts(bonus/10);S.kills++;hud();sFan();if(f.boss)barrage(8,180,true);
   await say(`${f.mon.name}を たおした！`,1200);
   capture(f.mon,B,f.lv);await say(`${f.mon.name}を つかまえた！ 💎 +${Math.round(bonus/10)}`,1300);
   await say(`みんなは けいけんち <b>${f.exp}</b> ポイントを かくとく！`,1200);
@@ -2170,21 +2555,21 @@ async function win(){const f=S.foe;f.dead=true;clearTimeout(foeT);drawEnemy('ko'
     if(up){p.lv=sv.lv;p.s=p.kind==='i'?insStats(p.ch.mon,p.lv,p.inst.eq,p.inst):statsOf(p.ch,p.lv);p.hp=p.s.hp;p.mp=p.s.mp;drawParty();const c=pmC(p);ring(c.x,c.y,'#ffd23f');burst(c.x,c.y,26);
       [0,4,7,12].forEach((k,j)=>tone(note(k+5),j*.09,.22,'triangle',.1));await say(`<b style="color:${tcol(p.ch.c)}">${p.ch.name}</b>は レベル <b>${p.lv}</b> に あがった！ HPとMPが ぜんかいふく！`,1600)}}
   savePS();saveBox();
-  const fell=[];S.party.forEach(p=>{if(p.hp<=0){p.hp=0;if(!deadOf(p)){setDead(p,true);fell.push(p.ch.name)}}else p.hp=Math.min(p.s.hp,p.hp+Math.ceil(p.s.hp*.2));p.mp=Math.min(p.s.mp,p.mp+3);p.guard=false});drawParty();
+  const fell=[];S.party.forEach(p=>{if(p.hp<=0){p.hp=0;if(!deadOf(p)){setDead(p,true);fell.push(p.ch.name)}}else p.hp=Math.min(p.s.hp,p.hp+Math.ceil(p.s.hp*.2));p.mp=Math.min(p.s.mp,p.mp+3);p.guard=false;p.sleep=0});drawParty();
   if(fell.length)await say(`${fell.join('、')}は たおれた まま…。 ⛪きょうかいで いきかえらせよう！`,1700)}
 async function wipe(){S.combo=0;hud();await say('パーティは ぜんめつ してしまった…',1600);flash('#fff');
   const tok=S.tok;S.party.forEach(p=>{if(!deadOf(p))setDead(p,true)});await say('…ふしぎな ちからで きょうかいへ はこばれた。',1500);if(tok!==S.tok)return;
-  const loss=Math.floor(pts*.1);pts-=loss;store.set('kr_pts',pts);addPts(0);S.tok=-1;goMap();
+  const loss=Math.floor(pts*.1);pts-=loss;store.set('kr_pts',pts);addPts(0);S.tok=-1;backToMap();
   openChurch(`しんぷ「よくぞ もどった。かみの ちからで いきかえらせよう。」${loss?`<br><small>（おさいせん 💎${loss}）</small>`:''}`,true)}
 
 async function battle(){const tok=S.tok;drawTop();
   if(S.boss){$('dim').className='';void $('dim').offsetWidth;$('dim').className='on';quake();banner('BOSS!!','#ff3d8b',true);boom(.35)}
   spawnFoe(S.boss,!S.boss&&S.bi===S.nb-1);const f=S.foe;
-  if(!S.boss&&f.mon.rar>=4){setTimeout(()=>{const B=center($('enemy'));pop(f.mon.av?'アバター 出現!!':f.mon.sp?'CC0コラボ 出現!!':'レア昆虫 出現！',B.x,B.y-60,RARC[f.mon.rar],20);tone(1319,0,.1,'triangle',.08);tone(1760,.1,.25,'triangle',.08)},300)}
+  if(!S.boss&&f.mon.rar>=4){setTimeout(()=>{const B=center($('enemy'));pop(f.mon.av?'アバター 出現!!':f.mon.sp?'CC0コラボ 出現!!':S.ctx?'レア 出現！':'レア昆虫 出現！',B.x,B.y-60,RARC[f.mon.rar],20);tone(1319,0,.1,'triangle',.08);tone(1760,.1,.25,'triangle',.08)},300)}
   await say(S.boss?`ボス <b>${f.mon.name}</b> が あらわれた！`:`${f.mon.name} が あらわれた！`,1300);
   while(true){if(tok!==S.tok)return;S.guardAll=false;S.party.forEach(p=>p.guard=false);drawParty();
     await maybeSummon(tok);if(tok!==S.tok)return;if(S.foe.hp<=0){await win();return}
-    for(const m of S.party){if(m.hp<=0)continue;const k=await chooseCmd(m);if(tok!==S.tok)return;const ok=await ask(m,k);if(tok!==S.tok)return;
+    for(const m of S.party){if(m.hp<=0)continue;if(m.sleep>0){m.sleep--;drawParty();await say(`${m.ch.name}は ぐうぐう ねむっている… 💤`,1100);if(tok!==S.tok)return;continue}const k=await chooseCmd(m);if(tok!==S.tok)return;const ok=await ask(m,k);if(tok!==S.tok)return;
       await act(m,k,ok);S.active=null;drawParty();if(S.foe.hp<=0)break}
     if(S.foe.hp<=0){await win();return}
     await enemyTurn();if(S.foe.hp<=0){await win();return}
@@ -2209,10 +2594,11 @@ function moveName(text,c){const A=$('field').getBoundingClientRect(),d=document.
 let S=null;
 const bar=$('bar');
 function newState(gi,ui){return{tok:Math.random(),gauge:0,spd:0,party:null,active:null,bi:0,nb:ui<0?1:3,boss:ui<0,phase:'wait',foe:null,kills:0,got:0,newGot:0,gi,ui:ui<0?0:ui,unit:ui,score:0,combo:0,max:0,ok:0,tot:0,gok:0,gtot:0,input:'',lock:false,q:null}}
-function setGradeColor(){document.documentElement.style.setProperty('--g',GRADES[S.gi].c)}
-function buildBar(){bar.innerHTML='';bar.style.gridTemplateColumns=`repeat(${S.nb},1fr)`;for(let i=0;i<S.nb;i++){const d=document.createElement('div');d.className='seg';d.innerHTML=`<i style="background:${GRADES[S.gi].c}"></i>`;bar.appendChild(d)}}
+const CTX=()=>S.ctx||GRADES[S.gi];
+function setGradeColor(){document.documentElement.style.setProperty('--g',CTX().c);$('retreat').textContent='◀ マップ'}
+function buildBar(){bar.innerHTML='';bar.style.gridTemplateColumns=`repeat(${S.nb},1fr)`;for(let i=0;i<S.nb;i++){const d=document.createElement('div');d.className='seg';d.innerHTML=`<i style="background:${CTX().c}"></i>`;bar.appendChild(d)}}
 function drawBar(){[...bar.children].forEach((d,i)=>{d.firstChild.style.width=(i<S.bi?100:0)+'%'})}
-function drawTop(){const g=GRADES[S.gi];$('gname').textContent=S.boss?`${g.n}年 ボス`:`${g.n}-${S.unit+1}`;$('uname').textContent=S.boss?g.isl:g.units[S.unit][0];
+function drawTop(){const g=CTX();$('gname').textContent=g.world?(S.boss?g.tag+' ボス':g.tag):S.boss?`${g.n}年 ボス`:`${g.n}-${S.unit+1}`;$('uname').textContent=g.world?(S.boss?'':g.units[0][0]):S.boss?g.isl:g.units[S.unit][0];
   $('qnum').textContent=`バトル ${Math.min(S.bi+1,S.nb)} / ${S.nb}`;drawBar()}
 function hud(){const sc=$('score');sc.textContent=S.score.toLocaleString();const c=$('combo');c.textContent=S.combo;c.classList.toggle('hot',S.combo>=5);c.classList.toggle('rainbow',S.combo>=20);
   document.body.classList.toggle('fever',S.combo>=10);
@@ -2223,16 +2609,17 @@ function parse(s){if(!s)return null;if(s.includes('/')){const [a,b]=s.split('/')
   if(!/^\d*\.?\d+$/.test(s)&&!/^\d+\.?$/.test(s))return null;const p=(s.split('.')[1]||'').length;return[Math.round(parseFloat(s)*Math.pow(10,p)),Math.pow(10,p)]}
 const same=(x,y)=>x&&y&&x[0]*y[1]===y[0]*x[1];
 
-function judge(){if(!S||S.phase!=='q'||S.lock)return;const u=parse(S.input);if(!u){$('app').classList.remove('shake');void $('app').offsetWidth;$('app').classList.add('shake');return}
-  S.lock=true;let ok=same(u,parse(S.q.a));if(ok&&S.q.strict){const pp=S.input.split('/');ok=pp.length===2&&gcd(+pp[0],+pp[1])===1}S.tot++;S.gtot++;
+function judge(){if(!S||S.phase!=='q'||S.lock)return;const isC=!!(S.q&&S.q.ch);const u=isC?[1,1]:parse(S.input);if(!u){$('app').classList.remove('shake');void $('app').offsetWidth;$('app').classList.add('shake');return}
+  S.lock=true;let ok=isC?S.input===S.q.a:same(u,parse(S.q.a));if(ok&&S.q.strict){const pp=S.input.split('/');ok=pp.length===2&&gcd(+pp[0],+pp[1])===1}S.tot++;S.gtot++;
   const rc=$('card').getBoundingClientRect(),X=rc.left+rc.width/2,Y=rc.top+rc.height/2,tsec=(performance.now()-(S.t0||0))/1000;
   clearTimeout(S.tT1);clearTimeout(S.tT2);const tf=$('tfill');tf.style.width=getComputedStyle(tf).width;tf.style.transition='none';
   S.spd=ok?(tsec<=S.thr?2:tsec<=S.thr*2?1:0):0;
+  if(isC)[...$('chs').children].forEach(b=>{const c=S.q.ch[+b.dataset.i];b.disabled=true;if(c===S.q.a)b.classList.add('ok');else if(c===S.input)b.classList.add('ng')});
   if(ok){S.ok++;S.gok++;S.combo++;S.max=Math.max(S.max,S.combo);const g0=S.gauge;S.gauge=Math.min(3,S.gauge+1);
     if(S.spd===2){pop(`⚡クリティカル！ ${tsec.toFixed(1)}びょう`,X,rc.bottom-44,'#e0467a',22);tone(1760,.05,.12,'square',.05)}else if(S.spd===1)pop(`はやい！ ${tsec.toFixed(1)}びょう`,X,rc.bottom-44,'#2f9e3f',19);
     if(S.gauge===3&&g0<3)setTimeout(()=>{pop('ひっさつ ゲージ MAX！',X,rc.top+60,'#e0a800',24);[0,7,12].forEach((k,j)=>tone(note(k+5),j*.07,.18,'triangle',.08))},300);
-    let pt=100*GRADES[S.gi].n+Math.min(S.combo,50)*20;if(S.combo>=10)pt*=2;S.score+=pt;addPts(pt/10);
-    $('card').className='card ok';$('ans').className='ans ok';stamp(true);ring(X,Y,GRADES[S.gi].c);burst(X,Y,S.combo>=10?50:26);sOK(S.combo);
+    let pt=100*CTX().n+Math.min(S.combo,50)*20;if(S.combo>=10)pt*=2;S.score+=pt;addPts(pt/10);
+    $('card').className='card ok';$('ans').className='ans ok';stamp(true);ring(X,Y,CTX().c);burst(X,Y,S.combo>=10?50:26);sOK(S.combo);
     const sc=$('score');sc.classList.remove('bump');void sc.offsetWidth;sc.classList.add('bump');
     pop('+'+pt,X,rc.top+30,S.combo>=10?'#ff3d8b':'#ffd23f',S.combo>=10?36:28);
     const tier=tierOf(S.combo);if(tier>tierOf(S.combo-1)&&S.combo>1)setTimeout(()=>pop(`ひっさつ Lv.${tier} にパワーアップ！`,X,rc.bottom-20,TIERC[tier],20),250);
@@ -2266,7 +2653,7 @@ const ISK={kabuto:{name:'つのなげ',mp:6,type:'big',desc:'ちょう強力な 
  batta:{name:'とびげり',mp:4,type:'multi',desc:'3れんぞく こうげき'},ari:{name:'ぎさん',mp:4,type:'poison',desc:'てきを どくにする'},noun:{name:'ノグルズビーム',mp:6,type:'big',desc:'ちょう強力な いちげき'},avatar:{name:'サイバーバースト',mp:6,type:'big',desc:'ちょう強力な いちげき'}};
 const IPRE={kabuto:'ホーン',kuwa:'シザー',semi:'ソニック',chou:'パウダー',tonbo:'ウイング',kamakiri:'サイス',hachi:'スティング',kamikiri:'ファング',kogane:'シェル',batta:'ジャンプ',ari:'アント',noun:'ナウンズ',avatar:'サイバー'};
 const insMoves=mon=>{const p=IPRE[mon.arch]||'ワイルド';return[`${p}ショット`,`${p}ラッシュ`,`${p}キャノン`,`${p}メテオ`,`ギガ${p}インパクト`]};
-const defLv=mon=>mon.sp?10:1+3*mon.gi;
+const defLv=mon=>mon.lvb||(mon.sp?10:1+3*mon.gi);
 const JOBS={none:{n:'なし',i:'・',m:[1,1,1,1],desc:'しょくぎょう なし（ずっと その昆虫の わざ）'},
  senshi:{n:'せんし',i:'⚔',m:[1.2,.7,1.15,1.2],desc:'HPと ぼうぎょが たかい。わざ「かぶとわり」',skill:{name:'かぶとわり',mp:5,type:'big',desc:'ちょう強力な いちげき'}},
  mahou:{n:'まほうつかい',i:'🔮',m:[.85,1.6,1.12,.85],desc:'MPが おおい。ぼうぎょを むしする じゅもん',skill:{name:'ほのおの じゅもん',mp:6,type:'magic',desc:'ぼうぎょを むしする まほう'}},
@@ -2367,7 +2754,7 @@ function islandSvg(gi){const g=GRADES[gi],R=srand(gi*97+13),n=g.units.length,W=3
 function syncMapHud(){$('ptsMap').textContent=pts.toLocaleString();$('dexCnt2').textContent=gotN()}
 const partyIcons=()=>partyNow().map(m=>`<span title="${m.ch.name} Lv${m.lv}">${svg(m.ch)}<i>${m.lv}</i></span>`).join('');
 function drawMap(){const gi=MAP.gi,g=GRADES[gi];$('mSub').textContent=`${slotName()} ・ ${g.n}年生の島 ・ ${clearedN(gi)}/${g.units.length} クリア`;$('mName').textContent=g.isl;
-  $('itabs').innerHTML=GRADES.map((G,i)=>`<button class="itab" data-i="${i}" aria-pressed="${i===gi}" style="--c:${G.c}">${G.n}年<small>${clearedN(i)}/${G.units.length}${stSave[skey(i,-1)]?'👑':''}</small></button>`).join('')+`<button class="itab jt" data-j="1" style="--c:#e0467a" aria-label="にっぽん旅（都道府県スタンプラリー）">🗾<small>日本</small></button>`;
+  $('itabs').innerHTML=GRADES.map((G,i)=>`<button class="itab" data-i="${i}" aria-pressed="${i===gi}" style="--c:${G.c}">${G.n}年<small>${clearedN(i)}/${G.units.length}${stSave[skey(i,-1)]?'👑':''}</small></button>`).join('')+`<button class="itab jt" data-j="1" style="--c:#e0467a" aria-label="せかいの メニュー">🌐<small>せかい</small></button>`;
   $('mapwrap').innerHTML=islandSvg(gi);drawSheet();syncMapHud()}
 function drawSheet(){const gi=MAP.gi,g=GRADES[gi],sel=MAP.sel,el=$('sheet');
   const pm=`<div class="pmini" aria-label="いまの パーティ">${partyIcons()}</div><button class="pill" id="toParty">👥 パーティ</button>`;
@@ -2378,7 +2765,7 @@ function drawSheet(){const gi=MAP.gi,g=GRADES[gi],sel=MAP.sel,el=$('sheet');
     <small>${boss?`${elTag(elOfMon(bossMon(gi)))} ${strongVs(elOfMon(bossMon(gi))).map(x=>EL6[x].i+EL6[x].n).join('・')} が ばつぐん！ たんげんは ぜんぶ まざって 出るよ`:'れい：<span class="sq">'+sample+'</span>'}</small></div></div>
    <div class="srow"><span class="stars3">${st?'★'.repeat(st.stars)+'<i>'+'★'.repeat(3-st.stars)+'</i>':'<i>★★★</i>'}</span><small class="rec">おすすめ Lv ${rec} ・ パーティ Lv ${avgLvParty()}</small></div>
    <div class="srow">${pm}<button class="btn go" id="goBtn" ${locked?'disabled':''}>${locked?`あと ${4-clearedN(gi)}つ クリア`:'しゅっぱつ！'}</button></div>`}
-$('itabs').addEventListener('click',e=>{const b=e.target.closest('.itab');if(!b)return;if(b.dataset.j){goJapan();return}MAP.gi=+b.dataset.i;MAP.sel=null;store.set('kr_isl',MAP.gi);tone(880,0,.06,'triangle',.05);drawMap()});
+$('itabs').addEventListener('click',e=>{const b=e.target.closest('.itab');if(!b)return;if(b.dataset.j){openHub();return}MAP.gi=+b.dataset.i;MAP.sel=null;store.set('kr_isl',MAP.gi);tone(880,0,.06,'triangle',.05);drawMap()});
 function pickNode(n){MAP.sel=+n.dataset.ui;ensureAudio();tone(1046,0,.07,'triangle',.06);drawMap();const f=$('mapwrap').querySelector(`.node[data-ui="${MAP.sel}"]`);if(f)f.focus({preventScroll:true})}
 $('mapwrap').addEventListener('click',e=>{if(e.target.closest('.chut')){openChurch();return}if(e.target.closest('.ghut')){openGacha(MAP.gi);return}const n=e.target.closest('.node');if(n)pickNode(n)});
 $('mapwrap').addEventListener('keydown',e=>{if(e.target.closest('.chut')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openChurch();return}if(e.target.closest('.ghut')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openGacha(MAP.gi);return}const n=e.target.closest('.node');if(n&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopPropagation();if(MAP.sel===+n.dataset.ui){const g=$('goBtn');if(g&&!g.disabled)g.click()}else pickNode(n)}});
@@ -2420,7 +2807,7 @@ async function runStage(){const tok=S.tok;
   for(S.bi=0;S.bi<S.nb;S.bi++){if(tok!==S.tok)return;drawTop();
     if(!S.boss&&S.bi===S.nb-1){banner('つよい てきの けはい！','#ff7a1f');await say('つよい てきの けはいが する…！',1200);if(tok!==S.tok)return}
     await battle();if(tok!==S.tok)return}
-  S.bi=S.nb;drawBar();stageClear()}
+  S.bi=S.nb;drawBar();(S.ctx?packClear:stageClear)()}
 function stageClear(){const g=GRADES[S.gi],acc=S.gok/Math.max(1,S.gtot),stars=acc>=.999?3:acc>=.75?2:1,key=skey(S.gi,S.boss?-1:S.unit),prev=stSave[key],first=!prev;
   stSave[key]={stars:Math.max(stars,prev?prev.stars:0),n:(prev?prev.n:0)+1};saveSt();
   const bonus=(S.boss?300:100)*g.n*stars;addPts(bonus);touchSlot();setTimeout(saveToast,900);
@@ -2436,9 +2823,9 @@ function stageClear(){const g=GRADES[S.gi],acc=S.gok/Math.max(1,S.gtot),stars=ac
    <div class="cbtns"><button class="btn2" id="again">もういちど</button><button class="btn2" id="toPt">👥 パーティ</button><button class="btn" id="toMap">マップへ ▶</button></div>`;
   $('clear').hidden=false;
   $('toMap').onclick=()=>{$('clear').hidden=true;goMap()};$('toPt').onclick=()=>{$('clear').hidden=true;goMap();openParty()};$('again').onclick=()=>{$('clear').hidden=true;startStage(S.gi,S.boss?-1:S.unit)};setTimeout(()=>$('toMap').focus(),50)}
-function goMap(){if(S){S.tok=-1;if(skipR)skipR()}document.body.classList.remove('fever');$('app').hidden=true;$('clear').hidden=true;$('title').hidden=true;$('japanScr').hidden=true;$('mapScr').hidden=false;drawMap()}
-let retreatT=0;$('retreat').onclick=()=>{const b=$('retreat');if(b.dataset.arm){clearTimeout(retreatT);delete b.dataset.arm;b.textContent='◀ 島';goMap();return}
-  b.dataset.arm='1';b.textContent='もどる？';retreatT=setTimeout(()=>{delete b.dataset.arm;b.textContent='◀ 島'},2200)};
+function goMap(){if(S){S.tok=-1;if(skipR)skipR()}document.body.classList.remove('fever');$('app').hidden=true;$('clear').hidden=true;$('title').hidden=true;$('japanScr').hidden=true;$('packScr').hidden=true;$('mapScr').hidden=false;drawMap()}
+let retreatT=0;$('retreat').onclick=()=>{const b=$('retreat');if(b.dataset.arm){clearTimeout(retreatT);delete b.dataset.arm;b.textContent='◀ マップ';backToMap();return}
+  b.dataset.arm='1';b.textContent='もどる？';retreatT=setTimeout(()=>{delete b.dataset.arm;b.textContent='◀ マップ'},2200)};
 
 
 // ================= GACHA practice =================
@@ -2525,7 +2912,7 @@ function loadSlot(i){CUR=i;rawSet('kr_cur',i);
   owned=new Set((store.get('kr_friends2')||[]).filter(id=>CHARS.some(c=>c.id===id)));owned.add('jin');store.set('kr_friends2',[...owned]);
   pSave=store.get('kr_party')||{};ptRefs=store.get('kr_pt')||[{k:'w',id:'jin'}];stSave=store.get('kr_stage')||{};
   MAP.gi=Math.min(5,Math.max(0,+(store.get('kr_isl')||0)));MAP.sel=null;G.pulls=0;G.gets=0;G.streak=0;
-  food=store.get('kr_food')||{};stp=store.get('kr_stamp')||{};fixStamp();mySpots=store.get('kr_myspots')||[];JP.sel=null;
+  food=store.get('kr_food')||{};stp=store.get('kr_stamp')||{};fixStamp();mySpots=store.get('kr_myspots')||[];JP.sel=null;pkSave=store.get('kr_pk')||{};PK.sel=null;instSave=store.get('kr_inst')||{};{const bg=store.get('kr_bgm');setBGM(bg&&instSave[bg]&&instSave[bg].got?bg:null)}
   validRefs();dexBtn();addPts(0);touchSlot()}
 const FM={mode:'list',target:-1,del:-1};
 function drawFiles(){const el=$('files');
@@ -2536,7 +2923,7 @@ function drawFiles(){const el=$('files');
     const sm=slotSum(i);
     if(FM.del===i)return `<div class="file cf"><span class="fno">${i+1}</span><span class="fmain"><b>「${esc(sl.name)}」を けす？</b><small>もとに もどせないよ</small></span><span class="fbtns"><button class="mini danger" data-delok="${i}">けす</button><button class="mini" data-delno="1">やめる</button></span></div>`;
     return `<div class="file ${i===CUR?'cur':''}"><button class="fpick" data-pick="${i}" aria-label="ファイル${i+1} ${esc(sl.name)} で あそぶ"><span class="fno">${i+1}</span><span class="fmain"><b>${esc(sl.name)}</b>
-      <small>🏝 ${sm.nSt}/${TOTALST} ・ 📖 ${sm.nDx}/100 ・ Lv${sm.lv} ・ 💎${sm.pts.toLocaleString()}</small><small class="fat">${fmtAt(sl.at)}</small></span></button>
+      <small>🏝 ${sm.nSt}/${TOTALST} ・ 📖 ${sm.nDx}/${TOTALDEX} ・ Lv${sm.lv} ・ 💎${sm.pts.toLocaleString()}</small><small class="fat">${fmtAt(sl.at)}</small></span></button>
       <span class="fbtns"><button class="mini" data-ren="${i}" aria-label="なまえを かえる">✏️</button><button class="mini" data-del="${i}" aria-label="けす">🗑</button></span></div>`}).join('')+
     (canSave?'<div class="fnote">💾 あそんだ きろくは じどうで セーブされるよ</div>':'<div class="fnote warn">⚠ このブラウザでは セーブが できないよ（とじると きえます）</div>')}
 const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -2691,7 +3078,7 @@ $('jsheet').addEventListener('click',e=>{const t=e.target.closest('button');if(!
   if(t.id==='jPhoto2'){openPhoto();return}
   if(t.id==='jNext'){const rf=ROUTES.find(r=>r[0]===JP.route)[2];const nx=PREFS.map((p,i)=>i).find(i=>rf(PREFS[i])&&!stp.done[i]);pickPref(nx===undefined?PREFS.findIndex(rf):nx);return}
   if(t.dataset.k!=null)openQuiz(JP.sel,t.dataset.k)});
-function goJapan(){if(S){S.tok=-1}$('mapScr').hidden=true;$('app').hidden=true;$('japanScr').hidden=false;drawJapan()}
+function goJapan(){if(S){S.tok=-1}$('mapScr').hidden=true;$('packScr').hidden=true;$('app').hidden=true;$('japanScr').hidden=false;drawJapan()}
 $('jIsl').onclick=()=>{$('japanScr').hidden=true;goMap()};$('jDex').onclick=openDex;
 
 // ----- quiz -----
@@ -2772,9 +3159,9 @@ const canKenja=inst=>(inst.lv||1)>=15||(inst.evo||0)>=2;
 function drawJobs(){const el=$('jobs');if(!el)return;const ins=ptRefs.filter(r=>r.k==='i').map(r=>box.find(b=>b.u===r.u)).filter(Boolean);
   el.innerHTML=`<div class="jh">🎓 しょくぎょう <small>パーティの 昆虫に しょくぎょうを つけよう</small></div>`+(ins.length?ins.map(inst=>{const mon=MONS[inst.no-1],j=JOBS[inst.job||'none'];
     return `<div class="jrow"><span class="ic">${insArt(insCh(mon,inst))}</span><span class="jt"><b>${mon.name}${'＋'.repeat(inst.evo||0)}</b><small>${j.desc}</small></span><select data-u="${inst.u}" aria-label="${mon.name}の しょくぎょう">${Object.entries(JOBS).map(([k,jj])=>{const lock=k==='kenja'&&!canKenja(inst);
-      return `<option value="${k}" ${(inst.job||'none')===k?'selected':''} ${lock?'disabled':''}>${jj.i} ${jj.n}${lock?'（Lv15 か しんか2）':''}</option>`}).join('')}</select></div>`}).join('')
+      return `<option value="${k}" ${(inst.job||'none')===k?'selected':''} ${lock?'disabled':''}>${jj.i} ${jj.n}${lock?'（Lv15 か しんか2）':''}</option>`}).join('')}</select>${inst.job==='mahou'?`<select class="musel" data-mu="${inst.u}" aria-label="${mon.name}の 楽器"><option value="">🎵 楽器 なし</option>${INSTS.filter(a=>instSave[a[0]]&&instSave[a[0]].got).map(a=>`<option value="${a[0]}" ${inst.music===a[0]?'selected':''}>${a[2]} ${a[1]}</option>`).join('')}</select>`:''}</div>`}).join('')
     :'<small>つかまえた 昆虫を パーティに いれると、せんし・まほうつかい・そうりょ・ぶとうか・けんじゃ から しょくぎょうを えらべるよ！ したの リストの「つかまえた昆虫」から えらんでね。</small>')}
-$('jobs').addEventListener('change',e=>{const s=e.target.closest('select');if(!s)return;const inst=box.find(b=>b.u===s.dataset.u);if(!inst)return;
+$('jobs').addEventListener('change',e=>{const s=e.target.closest('select');if(!s)return;if(s.dataset.mu){const it=box.find(b=>b.u===s.dataset.mu);if(it){if(s.value)it.music=s.value;else delete it.music;saveBox();tone(1319,0,.08,'triangle',.07);drawParty2()}return}const inst=box.find(b=>b.u===s.dataset.u);if(!inst)return;
   if(s.value==='none')delete inst.job;else inst.job=s.value;saveBox();ensureAudio();tone(1175,0,.08,'triangle',.07);tone(1568,.08,.1,'triangle',.07);drawParty2()});
 
 // ----- legendary summon event -----
@@ -2785,7 +3172,7 @@ async function maybeSummon(tok){if(S.summoned||!S.foe||S.foe.hp<=0)return;const 
   await say('ふしぎな <b style="color:#8b3dff">しょうかんの まほうじん</b> が あらわれた！ 正解すると 伝説の昆虫を よびだせる！',1800);if(tok!==S.tok){mc.remove();return}
   const m=S.party.find(p=>p.hp>0);const ok=await ask(m,'sm');if(tok!==S.tok){mc.remove();return}
   if(!ok){mc.classList.add('fade');await say('まほうじんは しずかに きえてしまった…',1400);mc.remove();return}
-  S.phase='anim';const L=pick(MONS.filter(x=>x.ins&&x.rar===5));
+  S.phase='anim';const L=pick(MONS.filter(x=>x.ins&&!x.ser&&x.rar===5));
   mc.classList.add('go');await wait(500);await summonCine(L);if(tok!==S.tok){mc.remove();return}flash('#fff');quake();const B=center($('enemy'));
   if(!RM){P.push({t:'beam',ax:B.x,ay:-40,bx:B.x,by:B.y,y:0,l:1,dl:.02,w:70,rb:true});run();for(let i=0;i<10;i++)setTimeout(()=>shoot({x:B.x-180+rnd(360),y:-30},B,pick(COLS),13,()=>burst(B.x,B.y,8),{arc:0,dur:12,spread:40}),i*60);barrage(4,160,true)}
   await wait(RM?100:700);const f=S.foe,d=Math.max(1,Math.round(f.max*(f.boss?.3:.55)*(.9+Math.random()*.2)));hitFoe(d,true);
@@ -3022,10 +3409,540 @@ $('chSave').onclick=()=>{touchSlot();saveToast();$('chMsg').innerHTML='しんぷ
 $('chClose').onclick=()=>{$('churchOv').hidden=true;CH.fromWipe=false;if(!$('mapScr').hidden)drawMap()};
 
 $('chArt').innerHTML=churchSvg();
+// ================= 3D builders: sea / land / sky creatures =================
+// conventions: y up (ground 0), +z = head, f=1 mirrors on x. mats: 0 body,1 dark,2 accent,3 glow,5 black,6 glossy body,11 silver,15 white,16 black,7 gold
+function eyeW(b,x,y,z,r){b.e([x,y,z],[r,r,r],15,0,1).e([x+r*.35,y+r*.05,z+r*.55],[r*.55,r*.6,r*.5],16,0,1).e([x+r*.45,y+r*.3,z+r*.8],[r*.16,r*.16,r*.16],15,0,1)}
+const W3={
+ fish(b,st,E){const q=E.q,L=(q.L||1)*(q.oar?1.4:1),H=(q.H||1)*(q.sunfish?1.6:1),y0=.62;
+  if(q.flat){b.e([0,.14,0],[.5,.07,.58],0,.05).e([.2,.22,.28],[.06,.06,.06],15,0,1).e([.22,.25,.31],[.03,.03,.03],16,0,1);return{h:[0,.3,.2],f:[0,.24,.4],fs:.3,b:[0,.25,0],w:[.4,.2,.1]}}
+  if(q.eel){let pz=.55;for(let i=0;i<9;i++){const z=.55-i*.17*L,x=Math.sin(i*.9)*.1,r=.11*(1-i*.07);b.rc([x,y0-.05,z],r,[Math.sin((i+1)*.9)*.1,y0-.05,z-.17*L],r*.93,i%3===0&&q.dots?2:0,.04)}
+   b.e([0,y0,.62],[.12,.13,.18],0,.05);if(q.silver)b.e([0,y0+.1,.2],[.01,.08,.7],11,.02);eyeW(b,.08,y0+.06,.7,.035);b.rc([0,y0-.06,.78],.03,[0,y0-.08,.84],.02,1,.02);return{h:[0,y0+.2,.6],f:[0,y0+.05,.78],fs:.25,b:[0,y0+.12,.2],w:[.15,y0,.3]}}
+  if(q.puff){b.e([0,.6,0],[.42,.4,.46],0,.08).e([0,.48,.05],[.38,.3,.4],2,.06);for(let i=0;i<22;i++){const a=i*2.4,t=(i%7)/7*2.6+.3,dir=[Math.sin(t)*Math.cos(a),Math.cos(t),Math.sin(t)*Math.sin(a)];
+    b.rc([dir[0]*.4,.6+dir[1]*.38,dir[2]*.44],.025,[dir[0]*.5,.6+dir[1]*.48,dir[2]*.54],.004,1,0)}
+   if(q.spots)[[.25,.7,-.1],[.3,.55,.15],[.2,.8,.1]].forEach(p=>b.e(p,[.08,.08,.05],5,.02,1));b.t([0,.6,-.4],[0,.8,-.62],[0,.4,-.62],.02,1,.02);eyeW(b,.22,.72,.32,.07);
+   b.e([0,.58,.46],[.08,.06,.05],1,.03);return{h:[0,1.02,0],f:[0,.68,.46],fs:.35,b:[0,.9,-.1],w:[.4,.6,0]}}
+  if(q.sunfish){b.e([0,.8,0],[.12,.62,.62],0,.08).e([0,.66,.05],[.11,.4,.5],2,.06);b.t([0,1.3,-.1],[0,1.95,-.35],[0,1.3,-.45],.03,0,.03).t([0,.3,-.1],[0,-.25,-.35],[0,.3,-.45],.03,0,.03);
+   b.rc([0,.8,-.58],.14,[0,.8,-.66],.1,1,.04);eyeW(b,.1,.95,.42,.06);b.e([0,.82,.6],[.05,.05,.04],1,.02);return{h:[0,1.45,.2],f:[0,.95,.55],fs:.4,b:[0,1.1,0],w:[.15,.8,.1]}}
+  // generic fish
+  b.e([0,y0,0],[.17,.27*H,.55*L],0,.08).e([0,y0-.08*H,.03],[.15,.17*H,.48*L],q.red||q.silver?15:2,.07);
+  if(q.tuna){b.e([0,y0,0],[.2,.3*H,.62*L],0,.08);b.t([0,y0,-.6*L],[0,y0+.42*H,-.98*L],[0,y0-.42*H,-.98*L],.02,1,.02);for(let i=0;i<4;i++)b.e([0,y0+.2*H,-.3*L-i*.08],[.015,.025,.025],7,0)}
+  else b.t([0,y0,-.5*L],[0,y0+.3*H,-.85*L],[0,y0-.3*H,-.85*L],.02,q.tang?2:1,.03);
+  b.t([0,y0+.24*H,.18],[0,y0+.42*H*(q.tang?1.4:1),-.1],[0,y0+.24*H,-.35*L],.016,q.tang?2:1,.02);
+  b.t([.15,y0-.06,.18],[.32,y0-.15,.02],[.17,y0-.12,0],.012,1,.02,1);
+  if(q.stripe||q.clown){const n=q.clown?3:4;for(let i=0;i<n;i++)b.e([0,y0,.35-i*.28*L],[.175,.24*H,.035],q.clown?15:1,.02)}
+  if(q.stripeH)for(let i=0;i<3;i++)b.e([0,y0-.1-i*.05,-.05],[.172,.012,.42*L],1,.01);
+  if(q.spots||q.dots)for(let i=0;i<6;i++)b.e([.15,y0+.06-((i*37)%5)*.03,.3-i*.13*L],[.03,.03,.03],q.dots?15:1,.01,1);
+  if(q.yellow)b.e([0,y0,0],[.172,.02,.5*L],7,.01);
+  if(q.beak)b.rc([0,y0,.5*L],.04,[0,y0-.02,.78*L],.008,1,.01);
+  if(q.oar){b.t([0,y0+.26,.5],[0,y0+.7,.4],[0,y0+.26,.2],.02,3,.02);for(let i=0;i<6;i++)b.t([0,y0+.25,.1-i*.14],[0,y0+.38,0-i*.14],[0,y0+.25,-.08-i*.14],.012,3,.01)}
+  if(q.coel){for(let i=0;i<3;i++)b.e([.16,y0-.15,.15-i*.25],[.06,.08,.1],2,.04,1);b.rc([0,y0,-.5],.06,[0,y0,-.7],.03,2,.03)}
+  eyeW(b,.12,y0+.08*H,.36*L,q.bigeye?.075:.05);b.rc([0,y0-.04,.52*L],.045,[0,y0-.05,.58*L],.03,1,.03);
+  return{h:[0,y0+.4*H,.2],f:[0,y0+.05,.5*L],fs:.3,b:[0,y0+.3,0],w:[.2,y0,.1]}},
+ shark(b,st,E){const q=E.q,S=q.whaleshark?1.25:q.frill?.9:1,y0=.65;
+  if(q.frill){for(let i=0;i<8;i++){const z=.5-i*.17,r=.15*(1-i*.08);b.rc([Math.sin(i)*.06,y0,z],r,[Math.sin(i+1)*.06,y0,z-.17],r*.92,0,.04)}
+   for(let i=0;i<6;i++)b.to([0,y0,.38-i*.05],.15,.012,0,2,.0);eyeW(b,.1,y0+.06,.6,.035);b.e([0,y0-.02,.62],[.14,.12,.16],0,.05);return{h:[0,y0+.2,.5],f:[0,y0,.7],fs:.25,b:[0,y0+.15,.2],w:[.15,y0,.3]}}
+  b.e([0,y0,0],[.24*S,.24*S,.78*S],0,.1).e([0,y0-.1*S,.05],[.2*S,.14*S,.7*S],15,.08);
+  b.t([0,y0+.2*S,.1],[0,y0+.6*S,-.15],[0,y0+.2*S,-.3],.03,0,.03).t([0,y0,-.72*S],[0,y0+.5*S,-1.08*S],[0,y0-.25*S,-.95*S],.03,0,.03);
+  b.t([.18*S,y0-.12,.15],[.5*S,y0-.32,-.12],[.2*S,y0-.15,-.1],.02,0,.03,1);for(let i=0;i<4;i++)b.e([.2*S,y0,.42-i*.06],[.01,.08,.012],1,.0,1);
+  if(q.whaleshark){for(let i=0;i<16;i++)b.e([.18*(i%2?1:.7),y0+.08+((i*13)%5)*.03,.5-i*.07],[.03,.03,.03],15,0,1);b.e([0,y0-.02,.72],[.22,.1,.12],1,.06)}
+  if(q.hammer){b.rc([-.42,y0+.02,.75],.07,[.42,y0+.02,.75],.07,0,.05);eyeW(b,.44,y0+.04,.76,.04)}else eyeW(b,.15*S,y0+.06,.58*S,.04);
+  return{h:[0,y0+.6*S,0],f:[0,y0,.8*S],fs:.35,b:[0,y0+.3,0],w:[.25,y0,.1]}},
+ ray(b,st,E){const q=E.q,M=q.manta?1.4:1,y0=.5;
+  b.e([0,y0,0],[.32*M,.09,.4],0,.06).t([.25*M,y0,.2],[.95*M,y0+.05*M,-.05],[.25*M,y0,-.3],.05,0,.06,1).e([0,y0-.05,.05],[.3*M,.05,.36],15,.05);
+  b.rc([0,y0,-.35],.04,[0,y0+.02,-1.3],.006,1,.02);if(q.sting)b.rc([0,y0+.03,-.7],.02,[0,y0+.06,-.86],.004,3,0);
+  if(q.manta){b.rc([.16,y0,.38],.05,[.24,y0-.05,.62],.02,0,.04,1);b.e([.3,y0+.08,0],[.12,.02,.15],15,.02,1)}
+  eyeW(b,.16*M,y0+.07,.26,.04);return{h:[0,y0+.25,.1],f:[0,y0+.08,.35],fs:.3,b:[0,y0+.15,0],w:[.4,y0,0]}},
+ whale(b,st,E){const q=E.q,S=q.sperm?1.2:q.finless?.75:1,y0=.7;
+  if(q.sperm){b.b([0,y0+.05,.3],[.3,.3,.45],.25,0,.1);b.e([0,y0,-.25],[.28,.28,.7],0,.1);b.rc([0,y0-.25,.55],.05,[0,y0-.28,.1],.04,15,.02)}
+  else{b.e([0,y0,0],[.3*S,.3*S,.82*S],0,.12);b.e([0,y0-.12*S,.08],[.26*S,.18*S,.72*S],q.orca?15:2,.08)}
+  if(!q.finless&&!q.sperm)b.t([0,y0+.26*S,0],[0,y0+(q.orca?.9:.55)*S,-.12],[0,y0+.26*S,-.3],.03,0,.03);
+  b.e([.42*S,y0-.05,-.95*S],[.32*S,.04,.14],0,.04,1).rc([.15*S,y0-.18,.25],.06,[.42*S,y0-.32,.05],.03,0,.05,1);
+  if(q.orca){b.e([.2,y0+.1,.45],[.1,.07,.16],15,.03,1);b.e([0,y0+.2,-.25],[.18,.05,.2],11,.04)}
+  if(q.finless){b.e([0,y0+.08,.55],[.2,.2,.22],0,.08)}
+  eyeW(b,.24*S,y0+.0,.48*S,.04);return{h:[0,y0+.45*S,.3],f:[0,y0,.8*S],fs:.4,b:[0,y0+.35,0],w:[.3,y0,.1]}},
+ seal(b,st,E){const q=E.q;b.e([0,.35,-.05],[.3,.28,.6],0,.12).e([0,.55,.42],[.24,.25,.26],0,.1).e([0,.5,.6],[.14,.12,.12],2,.06);
+  if(q.spots)for(let i=0;i<10;i++)b.e([.2*((i%3)-1)+.02,.48+((i*7)%4)*.04,-.3+i*.08],[.03,.02,.03],1,.01);
+  b.e([.28,.12,.25],[.16,.04,.1],1,.03,1).e([.2,.15,-.7],[.18,.04,.12],1,.03,1);eyeW(b,.12,.62,.6,.06);b.e([0,.53,.72],[.04,.03,.025],16,.02);
+  for(let i=0;i<3;i++)b.rc([.06,.48,.7],.006,[.2,.46-i*.03,.74],.003,15,0,1);return{h:[0,.8,.42],f:[0,.55,.66],fs:.35,b:[0,.7,0],w:[.3,.35,.1]}},
+ crab(b,st,E){const q=E.q;
+  if(q.horseshoe){b.e([0,.2,.15],[.5,.16,.42],0,.06).e([0,.18,-.3],[.3,.12,.22],0,.05).rc([0,.18,-.45],.04,[0,.12,-1.0],.01,1,.02);b.e([.2,.3,.25],[.04,.03,.04],16,0,1);return{h:[0,.4,.2],f:[0,.25,.5],fs:.3,b:[0,.38,0],w:[.4,.2,0]}}
+  if(q.long){const s=q.small?.65:1;for(let i=0;i<6;i++){const z=.3-i*.13*s,r=(.18-i*.015)*s;b.e([0,.3*s+.05,z],[r,r*.8,.1*s],i?0:6,.04)}
+   b.e([0,.33*s+.05,.42*s],[.17*s,.15*s,.22*s],6,.05);b.t([0,.28*s,-.48*s],[.2*s,.28*s,-.7*s],[-.2*s,.28*s,-.7*s],.02,0,.02);
+   const A=q.ant||1;b.rc([.06,.4*s,.6*s],.012,[.25,.5*s,1.3*s*A],.004,1,.01,1).rc([.04,.38*s,.62*s],.01,[.1,.3*s,.95*s],.003,1,0,1);
+   for(let i=0;i<4;i++)b.rc([.12*s,.25*s,.35*s-i*.1*s],.02*s,[.3*s,.03,.4*s-i*.12*s],.01,1,.01,1);
+   b.e([.1*s,.45*s,.6*s],[.04,.04,.04],16,0,1);return{h:[0,.55*s,.4*s],f:[0,.4*s,.62*s],fs:.25,b:[0,.5*s,0],w:[.2,.3,0]}}
+  const LL=q.longleg?(q.longleg>.9?2.0:1.35):1,y0=.26+.12*(LL-1);
+  b.e([0,y0,0],[.46,.17,.36],0,.07).e([0,y0-.08,.02],[.4,.09,.3],2,.05);
+  if(q.spiky)for(let i=0;i<14;i++)b.rc([(i%4-1.5)*.17,y0+.11,(Math.floor(i/4)-1.5)*.14],.03,[(i%4-1.5)*.19,y0+.2,(Math.floor(i/4)-1.5)*.15],.004,1,0);
+  b.rc([.09,y0+.08,.24],.022,[.11,y0+.2,.3],.016,1,.01,1).e([.11,y0+.22,.31],[.035,.035,.035],16,0,1);
+  for(let i=0;i<4;i++){const z=.14-i*.11,f=[.32,.1,-.12,-.34][i],kx=.46+.12*LL,ky=y0+.1+.1*LL,tx=.52+.2*LL;b.rc([.3,y0-.02,z],.045,[kx,ky,f],.036,0,.03,1).rc([kx,ky,f],.034,[tx,.015,f*1.45],.016,0,.02,1)}
+  const C=(q.claw||1)*1.25;b.rc([.26,y0-.01,.22],.05,[.36,y0+.03,.44],.045,0,.03,1).e([.38,y0+.07,.58],[.12*C,.09*C,.15*C],0,.04,1).rc([.33,y0+.04,.66],.035*C,[.3,y0+.02,.78*C],.012,0,.02,1).rc([.4,y0+.1,.62],.03*C,[.36,y0+.07,.76*C],.01,1,.02,1);
+  return{h:[0,y0+.32,.1],f:[0,y0+.18,.35],fs:.3,b:[0,y0+.22,-.1],w:[.4,y0,0]}},
+ shell(b,st,E){const t=E.q.type;
+  if(t==='urchin'){b.e([0,.3,0],[.32,.26,.32],1,.06);for(let i=0;i<46;i++){const a=i*2.4,u=(i/46)*1.5;const d=[Math.sin(u+.1)*Math.cos(a),Math.cos(u+.1),Math.sin(u+.1)*Math.sin(a)];
+    b.rc([d[0]*.3,.3+d[1]*.24,d[2]*.3],.02,[d[0]*.6,.3+d[1]*.52,d[2]*.6],.004,i%5?0:2,0)}return{h:[0,.7,0],f:[0,.35,.32],fs:.3,b:[0,.5,0],w:[.3,.3,0]}}
+  if(t==='star'){for(let i=0;i<5;i++){const a=i/5*6.283;b.rc([0,.1,0],.13,[Math.cos(a)*.62,.07,Math.sin(a)*.62],.05,0,.05);if(E.q.spike)for(let k=1;k<4;k++)b.rc([Math.cos(a)*.18*k,.17,Math.sin(a)*.18*k],.02,[Math.cos(a)*.18*k,.3,Math.sin(a)*.18*k],.003,2,0)}
+   b.e([0,.16,0],[.18,.08,.18],2,.04);return{h:[0,.3,0],f:[0,.2,.2],fs:.3,b:[0,.25,0],w:[.4,.1,0]}}
+  if(t==='cucumber'){b.e([0,.2,0],[.2,.17,.6],0,.08);for(let i=0;i<12;i++)b.e([.15*((i%3)-1),.34,.45-i*.08],[.035,.04,.035],1,.02);b.e([0,.2,.6],[.08,.06,.04],2,.02);return{h:[0,.45,.2],f:[0,.25,.6],fs:.25,b:[0,.4,0],w:[.2,.2,0]}}
+  if(t==='conch'){for(let i=0;i<6;i++){const y=.18+i*.13,r=.36*(1-i*.15),a=i*1.1;b.e([Math.cos(a)*.04,y,Math.sin(a)*.04],[r,.1,r],i%2?0:1,.05);if(E.q.spike&&i<4)for(let k=0;k<6;k++){const aa=k/6*6.283+i;b.rc([Math.cos(aa)*r*.9,y,Math.sin(aa)*r*.9],.025,[Math.cos(aa)*(r+.12),y+.04,Math.sin(aa)*(r+.12)],.004,1,0)}}
+   b.e([0,.14,.25],[.16,.1,.08],2,.04);return{h:[0,.95,0],f:[0,.3,.35],fs:.3,b:[0,.6,0],w:[.35,.3,0]}}
+  if(t==='abalone'){b.e([0,.14,0],[.4,.12,.55],0,.06).e([0,.1,0],[.36,.08,.5],3,.03);for(let i=0;i<5;i++)b.e([.25,.24,.3-i*.13],[.03,.02,.03],1,0);return{h:[0,.3,0],f:[0,.2,.5],fs:.3,b:[0,.25,0],w:[.4,.15,0]}}
+  // bivalve: clam / scallop / oyster
+  const sc=t==='scallop',oy=t==='oyster';
+  b.e([0,.12,0],[.45,.1,.42],2,.05);b.e([0,.3,-.06],[.45,.1,.42],0,.05);
+  if(sc){for(let i=0;i<9;i++){const a=-1.1+i*.275;b.rc([0,.33,-.42],.02,[Math.sin(a)*.48,.38,-.42+Math.cos(a)*.86],.02,1,.01)}b.e([.18,.28,-.42],[.1,.06,.06],0,.03,1)}
+  else if(oy){for(let i=0;i<6;i++)b.e([.2*((i%3)-1),.36,.2-i*.08],[.12,.04,.08],1,.04)}
+  else{for(let i=0;i<4;i++)b.to([0,.3,-.36],.25+i*.1,.008,0,1,0)}
+  b.e([0,.2,.0],[.3,.05,.3],15,.03);return{h:[0,.5,-.05],f:[0,.25,.42],fs:.3,b:[0,.45,0],w:[.45,.2,0]}},
+ octo(b,st,E){const q=E.q;
+  if(q.jelly){b.e([0,1.0,0],[.45,.32,.45],0,.08);for(let i=0;i<8;i++){const a=i/8*6.283;let p=[Math.cos(a)*.3,.75,Math.sin(a)*.3];for(let k=0;k<4;k++){const n=[Math.cos(a+k*.4)*(.3+.05*k),.75-(k+1)*.18,Math.sin(a+k*.4)*(.3+.05*k)];b.rc(p,.02,n,.012,3,.01);p=n}}return{h:[0,1.35,0],f:[0,1,.45],fs:.35,b:[0,1.2,0],w:[.45,1,0]}}
+  if(q.squid){const G=q.giant?1.25:1;b.e([0,1.15*G,0],[.22*G,.62*G,.22*G],0,.08).t([0,1.6*G,0],[.36*G,1.85*G,0],[-.36*G,1.85*G,0],.03,0,.03);
+   eyeW(b,.17*G,.6*G,.08,q.giant?.09:.06);for(let i=0;i<8;i++){const a=i/8*6.283;b.rc([Math.cos(a)*.12,.5*G,Math.sin(a)*.12],.045*G,[Math.cos(a)*.3*G,.04,Math.sin(a)*.3*G+.15],.012,0,.03)}
+   b.rc([.08,.5*G,.1],.02,[.2,.0,.62*G],.025,0,.02,1);if(q.glow)for(let i=0;i<10;i++)b.e([Math.cos(i)*.2,.8+i*.08,Math.sin(i)*.2],[.03,.03,.03],3,0);
+   return{h:[0,1.95*G,0],f:[0,.6*G,.2],fs:.35,b:[0,1.2*G,0],w:[.25,.9,0]}}
+  b.e([0,.95,-.15],[.4,.48,.42],0,.1).e([0,.6,.05],[.32,.22,.3],0,.08);eyeW(b,.2,.68,.24,.08);
+  for(let i=0;i<8;i++){const a=i/8*6.283+.2;let p=[Math.cos(a)*.2,.45,Math.sin(a)*.2+.05];for(let k=0;k<4;k++){const R=.32+k*.16,n=[Math.cos(a+k*.25)*R,Math.max(.04,.36-k*.12),Math.sin(a+k*.25)*R+.05];b.rc(p,.08-k*.016,n,.065-k*.016,k===3?2:0,.04);p=n}}
+  return{h:[0,1.45,-.1],f:[0,.7,.3],fs:.35,b:[0,1.0,-.2],w:[.4,.6,0]}},
+ turtle(b,st,E){const q=E.q,sea=q.sea,y0=sea?.42:.32;
+  if(q.soft){b.e([0,y0,0],[.45,.1,.5],0,.08)}else{b.e([0,y0,0],[.42,.26,.52],0,.08);for(let i=0;i<5;i++)b.e([0,y0+.2,.3-i*.15],[.13,.08,.07],1,.03);for(let i=0;i<4;i++)b.e([.25,y0+.13,.25-i*.17],[.1,.08,.07],1,.03,1);if(q.box)b.e([0,y0+.27,0],[.06,.02,.4],7,.01)}
+  b.e([0,y0-.12,0],[.38,.06,.46],2,.04);b.rc([0,y0+.02,.45],.1,[0,y0+.1,.68],.11,2,.05);eyeW(b,.08,y0+.16,.74,.035);
+  if(sea)b.e([.42,y0-.04,.25],[.3,.04,.12],2,.04,1).e([.3,y0-.08,-.38],[.16,.04,.1],2,.03,1);else{b.rc([.3,y0-.06,.3],.07,[.36,.02,.36],.06,2,.03,1).rc([.3,y0-.06,-.32],.07,[.36,.02,-.38],.06,2,.03,1)}
+  return{h:[0,y0+.45,.1],f:[0,y0+.1,.72],fs:.25,b:[0,y0+.35,0],w:[.4,y0,0]}},
+ herp(b,st,E){const q=E.q;
+  if(q.snake){const B=q.big?1.25:1;let prev=null;for(let i=0;i<=13;i++){const a=i*.62,r=.55*(1-i*.045)*B,p=[Math.cos(a)*r,.1+i*.012,Math.sin(a)*r],rr=.09*(1-i*.04)*B;if(prev)b.rc(prev[0],prev[1],p,rr,(q.band&&i===1)||((q.blotch||q.stripes||q.zigzag)&&i%2)?1:0,.03);prev=[p,rr]}
+   if(q.cobra){b.rc([.55,.12,0],.09,[.5,.75,.05],.07,0,.05);b.e([.5,.78,.05],[.2,.18,.04],0,.05);b.e([.5,.9,.12],[.09,.07,.12],0,.04);eyeW(b,.55,.95,.18,.025)}
+   else{b.rc([.55*B,.12,0],.09*B,[.56*B,.4,.12],.075*B,0,.04);b.e([.56*B,.44,.22],[.09*B,.07,.12*B],0,.04);eyeW(b,.62*B,.48,.28,.025)}
+   return{h:[.55,1.0,.1],f:[.56,.45,.32],fs:.25,b:[.3,.4,0],w:[.5,.2,0]}}
+  if(q.frog){const s=q.small?.7:q.toad?1.15:1;b.e([0,.3*s,0],[.32*s,.24*s,.36*s],0,.1).e([0,.22*s,.1],[.28*s,.16*s,.3*s],2,.06);eyeW(b,.17*s,.5*s,.2*s,.085*s);
+   b.e([.3*s,.16*s,-.2*s],[.12*s,.16*s,.22*s],0,.06,1).rc([.36*s,.08*s,-.05*s],.05*s,[.42*s,.02,.18*s],.04*s,0,.03,1).rc([.18*s,.2*s,.25*s],.04*s,[.24*s,.02,.36*s],.03*s,0,.03,1);
+   if(q.spots||q.toad)for(let i=0;i<7;i++)b.e([.2*((i%3)-1),.5*s,.15-i*.06],[.04,.025,.04],1,.01);return{h:[0,.65*s,.05],f:[0,.36*s,.36*s],fs:.3,b:[0,.55*s,-.1],w:[.35*s,.3*s,0]}}
+  // lizard / salamander / croc / komodo
+  const K=q.komodo?1.3:q.croc?1.25:q.giant?1.35:1,lo=q.sala||q.croc?.16:.2;
+  b.e([0,lo*K,0],[.2*K,.13*K,.45*K],0,.08);b.rc([0,lo*K,-.4*K],.12*K,[0,lo*.6*K,-1.05*K],.02,0,.03);
+  b.e([0,(lo+.03)*K,.5*K],[.13*K,.1*K,.2*K],0,.06);if(q.croc)b.e([0,lo*K,.78*K],[.09,.06,.3],0,.04);
+  eyeW(b,.09*K,(lo+.11)*K,.55*K,.035*K);
+  [[.2,.22],[.2,-.25]].forEach(([x,z])=>b.rc([x*K,lo*K,z*K],.04*K,[(x+.14)*K,.02,(z+.06)*K],.03*K,0,.03,1));
+  if(q.crest||q.croc)for(let i=0;i<8;i++)b.rc([0,(lo+.11)*K,.35-i*.12],.025,[0,(lo+.18)*K,.33-i*.12],.004,1,0);
+  if(q.newt||q.green)b.e([0,(lo-.07)*K,0],[.17*K,.06*K,.4*K],2,.04);
+  if(q.giant)for(let i=0;i<10;i++)b.e([.15*((i%3)-1),lo*K+.1,.4-i*.1],[.05,.03,.05],1,.02);
+  return{h:[0,(lo+.3)*K,.45*K],f:[0,(lo+.05)*K,.7*K],fs:.25,b:[0,(lo+.2)*K,0],w:[.25*K,lo,0]}},
+ quad(b,st,E){const q=E.q,S=q.S||1,leg=(q.leg||1)*S;
+  if(q.ape){const s=S,fm=q.blackface?16:2;
+   b.e([0,.6*s,-.04*s],[.3*s,.34*s,.27*s],0,.12).e([0,.55*s,.1*s],[.2*s,.24*s,.16*s],q.golden||q.orangutan?0:2,.08);
+   if(q.golden||q.orangutan)b.e([0,.7*s,-.05*s],[.36*s,.3*s,.3*s],0,.12);
+   const hy=1.05*s;b.e([0,hy,.1*s],[.23*s,.22*s,.21*s],0,.1).e([0,hy-.03*s,.26*s],[.15*s,.14*s,.08*s],fm,.06);
+   if(q.orangutan)b.e([.22*s,hy-.02*s,.12*s],[.09*s,.14*s,.07*s],2,.05,1);else b.e([.23*s,hy+.03*s,.08*s],[.06*s,.075*s,.035*s],fm,.03,1);
+   eyeW(b,.065*s,hy+.04*s,.28*s,(q.tarsier?.085:q.loris?.07:.038)*s);b.e([0,hy-.09*s,.32*s],[.05*s,.02*s,.02*s],16,.01);
+   b.rc([.15*s,.36*s,0],.1*s,[.22*s,.24*s,.3*s],.085*s,0,.06,1).rc([.22*s,.24*s,.3*s],.08*s,[.19*s,.05,.16*s],.06*s,0,.05,1).e([.2*s,.03,.24*s],[.07*s,.035*s,.11*s],fm,.03,1);
+   if(q.gibbon)b.rc([.27*s,.8*s,0],.07*s,[.5*s,1.2*s,-.02*s],.055*s,0,.05,1).rc([.5*s,1.2*s,-.02*s],.05*s,[.42*s,1.62*s,.05*s],.04*s,0,.04,1);
+   else b.rc([.27*s,.82*s,.04*s],.08*s,[.33*s,.48*s,.22*s],.065*s,0,.05,1).rc([.33*s,.48*s,.22*s],.06*s,[.26*s,.18*s,.36*s],.05*s,0,.04,1).e([.26*s,.15*s,.38*s],[.06*s,.04*s,.07*s],fm,.03,1);
+   if(!q.orangutan&&!q.gibbon)b.rc([0,.32*s,-.26*s],.045*s,[-.1*s,.14*s,-.58*s],q.redface?.03*s:.035*s,0,.04);
+   return{h:[0,hy+.24*s,.1*s],f:[0,hy,.3*s],fs:.32*s,b:[0,.85*s,-.05],w:[.33*s,.48*s,.22*s]}}
+  if(q.elephant||q.rhino||q.bison||q.buffalo){const s=S;b.e([0,1.0*s*.85,0],[.42*s,.4*s,.62*s],0,.12);
+   for(const[x,z]of[[.25,.38],[.25,-.38]])b.rc([x*s,.7*s,z*s],.14*s,[x*s,.02,z*s],.13*s,0,.06,1);
+   if(q.bison){b.e([0,1.15*s,.35*s],[.4*s,.4*s,.35*s],1,.12);b.e([0,.9*s,.7*s],[.2*s,.24*s,.22*s],1,.08);b.rc([.18*s,1.05*s,.75*s],.04*s,[.32*s,1.15*s,.7*s],.015*s,15,.02,1);eyeW(b,.17*s,.98*s,.82*s,.035*s);return{h:[0,1.6*s,.4*s],f:[0,1.0*s,.85*s],fs:.35*s,b:[0,1.3*s,0],w:[.45*s,.8*s,0]}}
+   b.e([0,1.05*s,.68*s],[.26*s,.28*s,.28*s],0,.1);eyeW(b,.2*s,1.12*s,.82*s,.035*s);
+   if(q.elephant){b.e([.32*s,1.1*s,.6*s],[.06*s,.3*s,.26*s],0,.05,1);let p=[0,.98*s,.92*s];for(let k=0;k<4;k++){const n=[0,.8*s-k*.22*s,.98*s+Math.sin(k)*.05];b.rc(p,(.09-k*.012)*s,n,(.08-k*.012)*s,0,.04);p=n}b.rc([.1*s,.85*s,.88*s],.04*s,[.14*s,.62*s,1.05*s],.015*s,15,.02,1)}
+   if(q.rhino){b.rc([0,1.0*s,1.0*s],.07*s,[0,1.35*s,1.05*s],.01,1,.03);b.rc([.14*s,1.28*s,.62*s],.03,[.16*s,1.4*s,.58*s],.02,0,.02,1);for(let i=0;i<3;i++)b.to([0,1.0*s*.85,.25*s-i*.3*s],.42*s,.012,1,1,0)}
+   if(q.buffalo)b.rc([.15*s,1.25*s,.7*s],.04*s,[.32*s,1.32*s,.55*s],.015*s,1,.02,1);
+   return{h:[0,1.45*s,.68*s],f:[0,1.08*s,.95*s],fs:.35*s,b:[0,1.4*s,0],w:[.45*s,.8*s,0]}}
+  // generic four-legged
+  const body=q.bear?[.36,.32,.55]:q.weasel||q.otter?[.16,.14,.52]:q.boar?[.3,.3,.5]:q.mouse||q.hamster||q.dormouse||q.pika?[.3,.26,.34]:q.hedgehog||q.porcupine?[.34,.24,.38]:[.26,.24,.48];
+  const by=q.weasel||q.otter?.36:q.mouse||q.hamster||q.dormouse||q.pika||q.hedgehog?.32:q.bear?.62:.62*leg/S;
+  b.e([0,by*S,0],[body[0]*S,body[1]*S,body[2]*S],0,.1);
+  if(q.panda||q.moon)b.e([0,(by+.02)*S,.22*S],[body[0]*S*1.02,.13*S,.12*S],q.panda?16:15,.04);
+  if(q.polar||q.musk)b.e([0,(by-.06)*S,0],[body[0]*S*1.05,body[1]*S*.85,body[2]*S*.95],q.musk?1:0,.1);
+  const hy=(q.camel?by+.62:q.horse||q.neck?by+.42:q.bear?by+.08:q.weasel?by+.1:by+.18)*S,hz=(body[2]+.12)*S;
+  if(q.neck||q.horse||q.camel)b.rc([0,by*S,body[2]*S*.7],.12*S,[0,hy,hz],.09*S,0,.06);
+  if(q.camel){b.e([0,(by+.32)*S,.15*S],[.14*S,.18*S,.15*S],0,.08).e([0,(by+.32)*S,-.22*S],[.14*S,.18*S,.15*S],0,.08)}
+  const hr=(q.bear?.22:q.mouse||q.hamster||q.dormouse||q.pika?.18:q.weasel?.12:.17)*S;
+  b.e([0,hy,hz],[hr,hr*.95,hr*1.05],0,.08);
+  const sn=q.snout||q.wolf||q.feline||q.horse||q.boar||q.bear||q.horn?1:0;
+  if(sn){const L=(q.horse?.28:q.wolf||q.snout?.22:q.boar?.2:q.feline?.08:.14)*S;b.rc([0,hy-.04*S,hz+hr*.6],hr*.55,[0,hy-.07*S,hz+hr*.6+L],hr*.38,q.panda||q.feline?2:q.boar?0:2,.04);b.e([0,hy-.05*S,hz+hr*.6+L+hr*.3],[hr*.22,hr*.16,hr*.14],16,.02)}
+  else b.e([0,hy-.04*S,hz+hr*.9],[hr*.18,hr*.14,hr*.12],16,.02);
+  if(q.boar||q.babirusa){b.rc([.08*S,hy-.1*S,hz+hr+.1*S],.025*S,[.12*S,hy+(q.babirusa?.12:0)*S,hz+hr+.2*S],.01,15,.02,1)}
+  eyeW(b,hr*.48,hy+hr*.25,hz+hr*.72,hr*(q.bigeye||q.tarsier?.34:q.dormouse||q.mouse||q.hamster?.24:.2));
+  if(q.mask||q.panda||q.redpanda)b.e([hr*.45,hy+hr*.2,hz+hr*.6],[hr*.3,hr*.2,hr*.1],q.redpanda?15:16,.02,1);
+  if(q.whiteNose||q.stripeFace)b.e([0,hy+hr*.3,hz+hr*.4],[hr*.18,hr*.6,hr*.6],15,.02);
+  // ears
+  const ear=q.ear||(q.feline||q.wolf||q.fox?'pt':q.bear||q.panda||q.mouse||q.hamster||q.dormouse||q.weasel||q.badger||q.otter||q.pika?'rd':q.horse||q.horn?'pt':'rd');
+  if(ear==='pt'||ear==='tuft'){b.rc([hr*.55,hy+hr*.6,hz-.02],hr*.28,[hr*.75,hy+hr*1.5,hz-.04],hr*.05,q.feline||q.wolf?0:0,.03,1);if(ear==='tuft'||q.lynx)b.rc([hr*.75,hy+hr*1.45,hz-.04],hr*.05,[hr*.8,hy+hr*1.85,hz-.05],.004,16,0,1)}
+  else if(ear==='long'){b.rc([hr*.35,hy+hr*.7,hz-.04],hr*.24,[hr*.55,hy+hr*2.6,hz-.12],hr*.18,0,.04,1).e([hr*.48,hy+hr*1.7,hz+.0],[hr*.1,hr*.7,hr*.04],2,.02,1)}
+  else if(ear==='short'){b.e([hr*.55,hy+hr*.75,hz-.04],[hr*.2,hr*.32,hr*.1],0,.03,1)}
+  else b.e([hr*.62,hy+hr*.7,hz-.04],[hr*.28,hr*.28,hr*.1],q.panda||q.moon?16:q.earDot?0:0,.03,1);
+  if(q.earDot)b.e([hr*.62,hy+hr*.72,hz-.09],[hr*.08,hr*.08,.01],15,0,1);
+  // horns / antlers
+  if(q.horn==='antler'||q.horn==='palm'){const H=(q.big?1.25:q.small?.6:1)*S;b.rc([hr*.4,hy+hr*.7,hz],.025*H,[hr*.4+.2*H,hy+hr*.7+.45*H,hz-.12*H],.016*H,12,.02,1).rc([hr*.4+.08*H,hy+hr*.7+.18*H,hz-.04],.018*H,[hr*.4+.08*H,hy+hr*.7+.4*H,hz+.12*H],.01,12,.01,1).rc([hr*.4+.16*H,hy+hr*.7+.36*H,hz-.1*H],.016*H,[hr*.4+.35*H,hy+hr*.7+.58*H,hz-.1*H],.008,12,.01,1);
+   if(q.horn==='palm')b.e([hr*.4+.28*H,hy+hr*.7+.5*H,hz-.12*H],[.12*H,.1*H,.02],12,.02,1)}
+  if(q.horn==='goat'||q.horn==='hook')b.rc([hr*.35,hy+hr*.7,hz-.02],.03*S,[hr*.45,hy+hr*.7+.18*S,hz-.1*S],.012*S,1,.02,1).rc([hr*.45,hy+hr*.7+.18*S,hz-.1*S],.012*S,[hr*.45,hy+hr*.7+(q.horn==='hook'?.12:.2)*S,hz-.18*S],.006*S,1,.01,1);
+  if(q.horn==='ibex'){let p=[hr*.3,hy+hr*.7,hz-.02];for(let k=0;k<5;k++){const a=k*.38,n=[hr*.3+.03*k*S,hy+hr*.7+Math.sin(a+.4)*.45*S,hz-.05-(1-Math.cos(a+.4))*.5*S];b.rc(p,(.045-k*.007)*S,n,(.04-k*.007)*S,12,.02,1);p=n}}
+  // legs
+  const lx=body[0]*S*.62,lz=body[2]*S*.62,lr=(q.bear||q.elephant?.11:q.weasel||q.mouse||q.hamster?.035:.06)*S;
+  if(!(q.weasel||q.otter||q.mouse||q.hamster||q.dormouse||q.pika||q.hedgehog||q.porcupine))for(const z of[lz,-lz])b.rc([lx,(by-.05)*S,z],lr*1.3,[lx*1.05,.03,z+.02],lr*.9,q.legDark||q.panda?16:0,.04,1).e([lx*1.05,.03,z+.05],[lr*1.1,lr*.7,lr*1.4],q.legDark||q.panda?16:1,.02,1);
+  else for(const z of[lz,-lz])b.e([lx*1.1,.05,z],[lr*1.6,lr*1.2,lr*2],0,.03,1);
+  if(q.panda)b.e([0,(by+.05)*S,.0],[body[0]*S*1.02,.1*S,.15*S],16,.04);
+  // tails
+  const tl=q.tail||(q.feline||q.wolf?'long':q.horse?'horse':q.bear||q.boar||q.horn?'short':q.mouse?'thin':'short');
+  if(tl==='bushy'||tl==='squirrel'){const up=tl==='squirrel';b.rc([0,by*S,-body[2]*S*.9],.06*S,[0,(by+(up?.45:.05))*S,-(body[2]+(up?.15:.45))*S],.13*S,0,.08);if(q.tailTip||q.fox||up)b.e([0,(by+(up?.55:.08))*S,-(body[2]+(up?.15:.5))*S],[.09*S,.09*S,.09*S],up?0:15,.05)}
+  else if(tl==='long'||tl==='thin'){let p=[0,by*S,-body[2]*S*.9];for(let k=0;k<4;k++){const n=[0,(by-.1+Math.sin(k*.9)*.12)*S,-(body[2]+.14*(k+1))*S];b.rc(p,(tl==='thin'?.025:.045)*S,n,(tl==='thin'?.02:.04)*S,(q.tiger||q.tabby||q.genet||q.redpanda||q.lemur)&&k%2?1:(q.tailTip&&k===3?16:0),.03);p=n}}
+  else if(tl==='puff')b.e([0,(by+.06)*S,-body[2]*S*1.02],[.08*S,.08*S,.08*S],15,.05);
+  else if(tl==='horse')b.rc([0,(by+.08)*S,-body[2]*S*.95],.05*S,[0,(by-.25)*S,-(body[2]+.12)*S],.08*S,1,.05);
+  else b.e([0,(by+.08)*S,-body[2]*S*.98],[.06*S,.06*S,.06*S],0,.04);
+  if(q.weasel&&!q.tail){let p=[0,by*S,-body[2]*S*.9];for(let k=0;k<3;k++){const n=[0,(by+.04*k)*S,-(body[2]+.13*(k+1))*S];b.rc(p,.04*S,n,.035*S,q.tailTip&&k===2?16:0,.03);p=n}}
+  // patterns
+  if(q.tiger||q.tabby||q.stripe||q.zebra)for(let i=0;i<7;i++)b.e([0,(by+.06)*S,(body[2]*.7-i*body[2]*.22)*S],[body[0]*S*1.01,body[1]*S*.85,.025*S],1,.02);
+  if(q.spots||q.cloud||q.snow)for(let i=0;i<12;i++){const a=i*1.7,z=(body[2]*.7-((i*5)%11)*body[2]*.13)*S;b.e([Math.cos(a)*body[0]*S*.92,(by+Math.sin(a)*.16)*S,z],[.035*S*(q.cloud?2:1),.035*S*(q.cloud?1.4:1),.035*S*(q.cloud?2:1)],1,.01)}
+  if(q.spotsW)for(let i=0;i<10;i++)b.e([body[0]*S*.95,(by+.08+((i*3)%4)*.03)*S,(body[2]*.6-i*body[2]*.13)*S],[.025*S,.025*S,.025*S],15,0,1);
+  if(q.mane||q.lion)b.e([0,hy-.02*S,hz-.02],[hr*1.6,hr*1.6,hr*1.0],q.lion?1:1,.1);
+  if(q.horse)for(let i=0;i<5;i++)b.e([0,hy+(.05-i*.07)*S,hz-(.08+i*.06)*S],[.03*S,.08*S,.05*S],1,.02);
+  if(q.hedgehog||q.porcupine)for(let i=0;i<30;i++){const a=i*2.4,t=(i%6)/6*1.4+.1,d=[Math.sin(t)*Math.cos(a)*.9,Math.cos(t),Math.sin(t)*Math.sin(a)-.2];b.rc([d[0]*body[0]*S,(by+d[1]*body[1])*S,d[2]*body[2]*S],.02*S,[d[0]*body[0]*S*1.5,(by+d[1]*body[1]*1.6)*S,(d[2]*body[2]*1.4-.08)*S],.003,q.porcupine&&i%2?15:1,0)}
+  if(q.glider)b.e([0,(by-.02)*S,0],[body[0]*S*1.7,.03*S,body[2]*S*.8],0,.04);
+  if(q.pangolin)for(let i=0;i<8;i++)b.to([0,by*S,(body[2]*.6-i*.13)*S],body[0]*S*1.02,.02*S,1,1,0);
+  if(q.badger||q.wolverine)b.e([body[0]*S*.6,(by+.08)*S,0],[.05*S,.06*S,body[2]*S*.8],q.wolverine?2:15,.03,1);
+  if(q.marmot||q.jerboa){b.e([0,(by+.1)*S,.05],[body[0]*S*.9,body[1]*S*1.2,body[2]*S*.7],0,.08)}
+  if(q.jerboa)b.rc([.1*S,.2*S,-.1*S],.05*S,[.12*S,.02,.15*S],.03*S,0,.03,1);
+  return{h:[0,hy+hr*1.1,hz],f:[0,hy,hz+hr*.95],fs:hr*1.6,b:[0,(by+body[1])*S,0],w:[body[0]*S+.05,by*S,.1]}},
+ bird(b,st,E){const q=E.q,S=q.S||1;
+  if(q.owl){b.e([0,.7*S,0],[.3*S,.42*S,.28*S],0,.12).e([0,.62*S,.12*S],[.24*S,.3*S,.18*S],2,.08).e([0,1.15*S,.04],[.27*S,.24*S,.24*S],0,.1);
+   b.e([.11*S,1.16*S,.22*S],[.1*S,.1*S,.05*S],2,.03,1);eyeW(b,.11*S,1.17*S,.24*S,.07*S);b.rc([0,1.1*S,.27*S],.035*S,[0,1.02*S,.3*S],.01,7,.02);
+   if(q.tufts)b.rc([.16*S,1.3*S,.05],.05*S,[.24*S,1.48*S,.0],.01,0,.02,1);b.e([.28*S,.7*S,-.02],[.08*S,.32*S,.22*S],1,.05,1);
+   b.rc([.1*S,.3*S,.05],.03*S,[.12*S,.03,.12*S],.025*S,7,.02,1);return{h:[0,1.42*S,.04],f:[0,1.15*S,.26*S],fs:.35*S,b:[0,1.0*S,-.05],w:[.3*S,.7*S,0]}}
+  if(q.bat){b.e([0,.8,0],[.14,.2,.14],0,.08).e([0,1.08,.04],[.13,.12,.12],0,.06);b.rc([.1,1.18,.02],.04,[.14,1.32,0],.01,0,.02,1);eyeW(b,.06,1.1,.13,.025);
+   b.t([.12,.92,0],[.85,1.05,-.05],[.5,.55,-.05],.015,1,.02,1).t([.12,.92,0],[.5,.55,-.05],[.15,.62,0],.015,1,.02,1);b.rc([.06,.62,0],.02,[.08,.48,.04],.015,1,0,1);
+   return{h:[0,1.3,.02],f:[0,1.08,.16],fs:.3,b:[0,1.0,0],w:[.5,.8,0]}}
+  const longleg=q.crane||q.heron||q.stork||q.ibis,swim=q.swan||q.duck,up=q.penguin;
+  const ly=longleg?.85*S:swim?.28*S:.42*S;
+  const bl=(q.round?.24:q.eagle||q.falcon?.22:.2)*S,bz=(q.round?.24:q.crane||q.heron?.36:.3)*S;
+  b.e([0,ly+.12*S,0],[bl,(q.round?.22:.18)*S,bz],0,.1).e([0,ly+.06*S,.06*S],[bl*.85,.13*S,bz*.8],2,.07);
+  let hx=0,hy=ly+.32*S,hz=bz*.85;
+  if(q.crane||q.heron||q.stork||q.ibis||q.swan){const nl=(q.swan?.45:q.ibis?.3:.4)*S;let p=[0,ly+.2*S,bz*.7];for(let k=0;k<4;k++){const n=[0,ly+.2*S+nl*(k+1)/4*1.1,bz*.7+(q.swan?Math.sin(k*1.1)*.12*S:.04*S*(k+1))];b.rc(p,.05*S,n,.045*S,q.crane&&!q.grey&&k>1?16:0,.03);p=n}hy=p[1]+.04*S;hz=p[2]+.04*S}
+  const hr=(q.round?.16:q.eagle||q.falcon?.12:.11)*S;b.e([hx,hy,hz],[hr,hr,hr*1.05],q.redcap?0:0,.06);
+  if(q.redcap)b.e([0,hy+hr*.7,hz],[hr*.5,hr*.3,hr*.5],8,.02);if(q.redface||q.pheasant)b.e([hr*.45,hy,hz+hr*.3],[hr*.35,hr*.4,hr*.3],8,.02,1);
+  if(q.cheek)b.e([hr*.8,hy-hr*.1,hz+hr*.2],[hr*.12,hr*.2,hr*.25],16,.01,1);if(q.whiteeye)b.to([hr*.48,hy+hr*.2,hz+hr*.62],hr*.18,hr*.06,0,15,0,1);
+  if(q.goldnape)b.e([0,hy+hr*.2,hz-hr*.5],[hr*.9,hr*.8,hr*.6],7,.05);
+  eyeW(b,hr*.5,hy+hr*.2,hz+hr*.6,hr*(q.round?.26:.22));
+  // beak
+  const bk=q.crane||q.heron||q.stork?[.4,.04]:q.ibis?[.38,.03,1]:q.kingfisher?[.28,.06]:q.eagle||q.falcon||q.osprey?[.13,.07,2]:q.duck||q.swan?[.18,.07,3]:q.bigbeak?[.3,.07]:[.08,.04];
+  const bc=q.swan?7:q.crane||q.heron?7:q.stork?8:q.kingfisher&&q.bigbeak?8:q.roller?8:q.ibis?8:q.eagle?7:1;
+  if(bk[2]===2){b.rc([0,hy,hz+hr*.8],hr*.3,[0,hy-hr*.35,hz+hr*1.2],hr*.06,bc,.02)}else if(bk[2]===1){b.rc([0,hy-.02,hz+hr*.8],.02*S,[0,hy-.18*S,hz+hr+bk[0]*S],.008*S,bc,.02)}
+  else if(bk[2]===3)b.e([0,hy-hr*.2,hz+hr*1.1],[hr*.32,hr*.14,hr*.55],bc,.03);else b.rc([0,hy-hr*.1,hz+hr*.8],bk[1]*S,[0,hy-hr*.15,hz+hr*.8+bk[0]*S],.006*S,bc,.02);
+  if(q.crest||q.jay||q.paradise)b.rc([0,hy+hr*.8,hz-hr*.2],hr*.25,[0,hy+hr*1.4,hz-hr*1.0],hr*.05,1,.02);
+  // wings
+  if(q.swallow||q.falcon||q.eagle&&!q.osprey&&S>1){b.t([bl*.8,ly+.2*S,.1*S],[bl+.7*S,ly+.45*S,-.15*S],[bl+.2*S,ly+.08*S,-.3*S],.025*S,1,.03,1)}
+  else{b.e([bl*.82,ly+.16*S,-.06*S],[.05*S,.13*S,bz*.9],0,.07,1).e([bl*.7,ly+.12*S,-bz*.75],[.045*S,.08*S,bz*.4],1,.05,1)}
+  // tail
+  const tl=q.tail==='long'||q.paradise||q.pheasant||q.wagtail||q.swallow?(q.paradise?.9:q.pheasant?.75:.4)*S:.18*S;
+  b.t([0,ly+.14*S,-bz*.8],[.1*S,ly+.06*S+(q.wagtail?.08:0),-bz-tl],[-.1*S,ly+.06*S,-bz-tl],.015*S,q.whiteTail?15:q.paradise?2:1,.02);
+  if(q.mandarin)b.e([.18*S,ly+.3*S,-.05],[.02,.1*S,.08*S],14,.02,1);
+  if(q.tit||q.redstart||q.robin||q.kingfisher||q.roller||q.bulbul)b.e([0,ly+.04*S,.1*S],[bl*.82,.1*S,bz*.6],2,.05);
+  // legs
+  if(!swim)b.rc([.08*S,ly+.02,0],.025*S,[.09*S,.03,.03],.018*S,longleg?(q.stork||q.ibis?8:16):7,.01,1).e([.09*S,.02,.06*S],[.05*S,.015,.08*S],longleg?16:7,.01,1);
+  else b.e([0,ly-.05*S,0],[bl*1.05,.06*S,bz*1.05],15,.04);
+  return{h:[0,hy+hr*1.1,hz],f:[0,hy,hz+hr*.95],fs:hr*1.8,b:[0,ly+.32*S,-.05],w:[bl+.05,ly+.15*S,0]}}
+};
+const WARCH=Object.keys(W3);
+// 2D fallback for these archs: emoji on a soft pedestal
+WARCH.forEach(k=>{ARCH[k]=(E,st,m)=>`<ellipse cx="50" cy="90" rx="30" ry="6" fill="rgba(0,0,0,.18)"/><circle cx="50" cy="56" r="34" fill="${E.b}" opacity=".18"/><text x="50" y="76" text-anchor="middle" font-size="54" font-family="Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif">${E.em||'🐾'}</text>`;
+  ANCH[k]={h:[50,22],f:[50,40],b:[50,52],w:[74,66],fs:.55}});
+// battle flavor for new archs
+Object.assign(TB,{fish:[.95,1.1,1.1,.9],shark:[1.1,.9,1.25,1],ray:[1,1.1,1.05,1],whale:[1.35,1,1.1,1.1],seal:[1.15,1,1,1.05],crab:[1,.9,1.05,1.3],shell:[1,1,.9,1.4],octo:[1,1.2,1.05,.95],turtle:[1.2,1,.9,1.4],herp:[1,1,1.15,1],quad:[1.1,1,1.1,1.05],bird:[.95,1.2,1.1,.9]});
+Object.assign(ISK,{fish:{name:'スピードダイブ',mp:4,type:'multi',desc:'3れんぞく こうげき'},shark:{name:'かみつきラッシュ',mp:5,type:'crit',desc:'かならず かいしん'},ray:{name:'でんきショック',mp:5,type:'poison',desc:'てきを しびれ どくに'},
+ whale:{name:'しおふき キャノン',mp:6,type:'big',desc:'ちょう強力な いちげき'},seal:{name:'ぬくもりハグ',mp:5,type:'heal',desc:'みんなの HPを かいふく'},crab:{name:'ハサミの かべ',mp:4,type:'guard',desc:'みんなの ダメージを へらす'},
+ shell:{name:'しんじゅの まもり',mp:4,type:'guard',desc:'みんなの ダメージを へらす'},octo:{name:'スミはき',mp:4,type:'poison',desc:'てきを どくにする'},turtle:{name:'こうらの とりで',mp:4,type:'guard',desc:'みんなの ダメージを へらす'},
+ herp:{name:'どくの きば',mp:4,type:'poison',desc:'てきを どくにする'},quad:{name:'ワイルドチャージ',mp:6,type:'big',desc:'ちょう強力な いちげき'},bird:{name:'つばさの あらし',mp:4,type:'multi',desc:'3れんぞく こうげき'}});
+Object.assign(IPRE,{fish:'フィン',shark:'シャーク',ray:'マンタ',whale:'ホエール',seal:'アイス',crab:'クラブ',shell:'パール',octo:'インク',turtle:'シェルター',herp:'ファング',quad:'ビースト',bird:'ウイング'});
+Object.assign(ARCH_EL,{fish:'mizu',shark:'mizu',ray:'mizu',whale:'mizu',seal:'mizu',crab:'mizu',shell:'mizu',octo:'mizu',turtle:'mizu',herp:'kusa',quad:'kusa',bird:'denki'});
+
+// ================= WORLD PACKS (海・陸・空・アジア・ヨーロッパ・裏) =================
+const PK={id:'sea',sel:null,calc:null};
+let pkSave=store.get('kr_pk')||{};const savePk=()=>store.set('kr_pk',pkSave);
+const pkey=(pk,ri,si)=>`${pk}-${ri}-${si<0?'B':si}`;
+const regMons=(pk,ri)=>MONS.filter(m=>m.pk===pk&&m.ri===ri);
+const pkMons=pk=>MONS.filter(m=>m.pk===pk);
+const regCleared=(pk,ri)=>[0,1,2].filter(s=>pkSave[pkey(pk,ri,s)]).length;
+const regBoss=(pk,ri)=>!!pkSave[pkey(pk,ri,-1)];
+const pkGot=pk=>pkMons(pk).filter(m=>dex[m.no]).length;
+const uraOpen=()=>!!store.get('kr_ura');
+const calcGi=()=>{const c=store.get('kr_calc');return c==null?Math.min(5,Math.max(0,MAP.gi)):c};
+const regLv=(pk,ri)=>({sea:4,land:8,sky:12,asia:18,eu:24,ura:34}[pk]||4)+ri*2;
+// ----- quiz questions inside battles -----
+function chQ(html,a,pool,keep){const d=[...new Set(keep?pool:shuf(pool))].filter(x=>x!==a).slice(0,3);return{html,a,ch:shuf([a,...d]),ne:1}}
+function packQ(pk,ri){const P=PACK[pk],R=P.regions,all=pkMons(pk),here=regMons(pk,ri),t=Math.random();
+  if(t<.45){const g=GRADES[calcGi()],u=pick(g.units);return u[1]()}
+  const kind=pick(pk==='asia'||pk==='eu'?['pic','pic','where','cap','city','cat']:['pic','pic','where','cat','where']);
+  if(kind==='cap'){const cs=R.filter(r=>r[2]);const r=pick(cs);return chQ(`<span class="qtx"><b>${r[0]}</b>の 首都は どこ？</span>`,r[2],cs.map(x=>x[2]))}
+  if(kind==='city'){const r=R[ri],c=pick(r[1]);return chQ(`<span class="qtx">「<b>${c}</b>」が ある ${P.lab}は？</span>`,r[0],R.map(x=>x[0]))}
+  const m=Math.random()<.65?pick(here):pick(all);
+  if(kind==='pic'){const same=all.filter(x=>x!==m&&(x.arch===m.arch||x.type===m.type)),pool=[...shuf(same),...shuf(all)].map(x=>x.name);
+    return chQ(`<span class="qpic">${insIcon(m)}</span><span class="qtx">この 生き物の なまえは？</span>`,m.name,pool,1)}
+  if(kind==='where')return chQ(`<span class="qtx">「<b>${m.name}</b>」に 会えるのは どこ？</span>`,R[m.ri][0],R.map(x=>x[0]));
+  const cats=[...new Set(MONS.filter(x=>x.ser&&x.type).map(x=>x.type))];return chQ(`<span class="qtx">「<b>${m.name}</b>」は なんの なかま？</span>`,m.type,cats)}
+function packCtx(pk,ri,si){const P=PACK[pk],R=P.regions[ri],pool=regMons(pk,ri),norm=pool.filter(m=>m.rar<5),bosses=pool.filter(m=>m.rar===5);
+  const qg=()=>packQ(pk,ri);const lv=regLv(pk,ri);
+  return{pk,ri,si,world:1,n:Math.max(1,Math.ceil(lv/6)),c:P.c,isl:R[0],tag:`${P.i} ${R[0]}`,units:[[R[1][Math.max(0,si)],qg]],pool:norm.length?norm:pool,boss:pick(bosses.length?bosses:pool),lvb:lv}}
+// ----- screens -----
+function goPack(pk){if(S){S.tok=-1}if(pk)PK.id=pk;['mapScr','japanScr','app'].forEach(i=>$(i).hidden=true);$('clear').hidden=true;$('title').hidden=true;$('packScr').hidden=false;document.body.classList.remove('fever');drawPack()}
+function pkMapSvg(){const P=PACK[PK.id];
+  if(P.map==='jp'){const T=27,W=13*T,H=13*T,R=srand(9);let s=`<svg viewBox="-6 -6 ${W+12} ${H+12}" preserveAspectRatio="xMidYMid meet" role="group" aria-label="${P.n}の ちず"><rect x="-6" y="-6" width="${W+12}" height="${H+12}" fill="${P.id==='sea'?'#3a8fd0':P.id==='sky'?'#8cc8f2':'#7fd3e8'}"/>`;
+    if(P.id==='sky')for(let i=0;i<9;i++){const x=R()*W,y=R()*H;s+=`<g opacity=".7" fill="#fff"><ellipse cx="${x}" cy="${y}" rx="${18+R()*14}" ry="8"/><ellipse cx="${x+10}" cy="${y-6}" rx="12" ry="8"/></g>`}
+    else for(let i=0;i<24;i++){const x=R()*W,y=R()*H;s+=`<path d="M${x.toFixed(0)} ${y.toFixed(0)}q4 -3 8 0q4 3 8 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".4" stroke-linecap="round"/>`}
+    const cen=P.regions.map(()=>[0,0,0]);
+    PREFS.forEach((p,i)=>{const[n,,rg,c,r]=p,big=i===0,w=big?2*T-2:T-2,x=c*T,y=r*T,sel=PK.sel===rg,done=regBoss(P.id,rg);cen[rg][0]+=x+w/2;cen[rg][1]+=y+w/2;cen[rg][2]++;
+      s+=`<g class="pref" data-r="${rg}" tabindex="0" role="button" aria-label="${P.regions[rg][0]}" transform="translate(${x} ${y})"><rect width="${w}" height="${w}" rx="5" fill="${REGIONS[rg].c}" stroke="${sel?'#ff3d8b':done?'#e0a800':'#fff'}" stroke-width="${sel?2.6:done?2.2:1.2}" opacity="${PK.sel==null||sel?1:.55}"/></g>`});
+    cen.forEach(([x,y,n],rg)=>{x/=n;y/=n;const st=regCleared(P.id,rg),b=regBoss(P.id,rg),got=regMons(P.id,rg).filter(m=>dex[m.no]).length,tot=regMons(P.id,rg).length;
+      s+=`<g class="rlab" data-r="${rg}" transform="translate(${x.toFixed(0)} ${y.toFixed(0)})" pointer-events="none"><rect x="-32" y="-14" width="64" height="28" rx="9" fill="rgba(255,253,245,.95)" stroke="${PK.sel===rg?'#ff3d8b':P.c}" stroke-width="${PK.sel===rg?2.4:1.5}"/>
+        <text y="-2" text-anchor="middle" font-size="9.5" font-weight="900" fill="#3b2c1c" font-family="Zen Maru Gothic,M PLUS Rounded 1c,sans-serif">${b?'👑':''}${P.regions[rg][0].replace(/の(海|空)$/,'')}</text>
+        <text y="9" text-anchor="middle" font-size="8" font-weight="900" fill="${P.c}" font-family="Zen Maru Gothic,sans-serif">${'★'.repeat(st)}${'☆'.repeat(3-st)} ${got}/${tot}</text></g>`});
+    return s+'</svg>'}
+  if(P.map==='ura'){return `<svg viewBox="0 0 360 360" role="img" aria-label="ひきょうの ちず"><defs><radialGradient id="urag" cx=".5" cy=".55" r=".6"><stop offset="0" stop-color="#3a7a4a"/><stop offset=".55" stop-color="#14302a"/><stop offset="1" stop-color="#05060e"/></radialGradient></defs><rect width="360" height="360" fill="url(#urag)"/>
+    ${Array.from({length:60},(_,i)=>`<circle cx="${(i*97)%360}" cy="${(i*53)%200}" r="${i%5?1:1.8}" fill="#fff" opacity="${.3+(i%4)*.15}"/>`).join('')}
+    <path d="M60 300Q120 200 180 220T300 290L330 360H30Z" fill="#0e2418"/><path d="M80 320Q150 250 200 270T320 330" stroke="#2a6a4a" stroke-width="3" fill="none"/>
+    <g class="pref" data-r="0" tabindex="0" role="button" aria-label="ひきょう" transform="translate(180 200)"><circle r="46" fill="none" stroke="#ffd84a" stroke-width="2" stroke-dasharray="4 6"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/></circle><circle r="34" fill="rgba(255,216,74,.15)"/><text y="10" text-anchor="middle" font-size="30">🌌</text></g></svg>`}
+  // asia / europe: stylised land blobs + city nodes along a route
+  const W=360,H=360,R=srand(P.id==='asia'?31:47);let s=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="group" aria-label="${P.n}の ちず"><rect width="${W}" height="${H}" fill="${P.id==='asia'?'#4aa8d8':'#5a9ad8'}"/>`;
+  for(let i=0;i<26;i++){const x=R()*W,y=R()*H;s+=`<path d="M${x.toFixed(0)} ${y.toFixed(0)}q4 -3 8 0q4 3 8 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".35" stroke-linecap="round"/>`}
+  P.regions.forEach((r,i)=>{const[x,y]=r[3];s+=`<path d="${blobPath(x,y,52+R()*10,40+R()*10,srand(i*13+5),18)}" fill="${P.id==='asia'?'#c8e08a':'#b8d890'}" stroke="#f6e3a8" stroke-width="6"/>`});
+  P.regions.forEach((r,i)=>{const[x,y]=r[3];s+=`<path d="${blobPath(x,y,44,32,srand(i*7+3),16)}" fill="${P.id==='asia'?'#a8d870':'#9ccf6e'}"/>`});
+  const pts=P.regions.map(r=>r[3]);s+=`<path d="${trailPath(pts)}" stroke="#fff" stroke-width="3" fill="none" stroke-dasharray="2 7" stroke-linecap="round" opacity=".9"/>`;
+  P.regions.forEach((r,i)=>{const[x,y]=r[3],sel=PK.sel===i,st=regCleared(P.id,i),b=regBoss(P.id,i);
+    s+=`<g class="pref" data-r="${i}" tabindex="0" role="button" aria-label="${r[0]}" transform="translate(${x} ${y})">${sel?'<circle class="ring" r="27" fill="none" stroke="#ff3d8b" stroke-width="3" stroke-dasharray="6 4"/>':''}
+      <ellipse cy="15" rx="17" ry="4" fill="rgba(40,60,30,.3)"/><circle r="19" fill="${b?'#ffe9a8':'#fffdf5'}" stroke="${b?'#e0a800':P.c}" stroke-width="3.5"/>
+      <text y="${b?7:5}" text-anchor="middle" font-size="${b?18:13}" font-weight="900" fill="${P.c}" font-family="Zen Maru Gothic,M PLUS Rounded 1c,sans-serif">${b?'👑':st+'/3'}</text>
+      <rect x="${-(r[0].length*5+10)}" y="22" width="${r[0].length*10+20}" height="17" rx="8.5" fill="rgba(59,44,28,.88)"/><text y="34.5" text-anchor="middle" font-size="10.5" font-weight="900" fill="#fff" font-family="Zen Maru Gothic,sans-serif">${r[0]}</text></g>`});
+  return s+'</svg>'}
+function drawPack(){const P=PACK[PK.id];$('pkName').textContent=`${P.i} ${P.n}`;const got=pkGot(P.id),tot=pkMons(P.id).length;
+  $('pkSub').textContent=`${slotName()} ・ ずかん ${got}/${tot} ・ 💎${pts.toLocaleString()}`;
+  $('pktabs').innerHTML=PACKS.filter(p=>!p.hidden||uraOpen()).map(p=>`<button class="tab" data-p="${p.id}" aria-pressed="${p.id===PK.id}" style="--pc:${p.c}">${p.i} ${p.n} <small>${pkGot(p.id)}/${pkMons(p.id).length}</small></button>`).join('');
+  $('pkCalc').innerHTML=GRADES.map((g,i)=>`<option value="${i}" ${i===calcGi()?'selected':''}>けいさん ${g.n}年</option>`).join('');
+  document.documentElement.style.setProperty('--pc',P.c);$('packScr').dataset.p=P.id;
+  $('pkmap').innerHTML=pkMapSvg();drawPkSheet()}
+function drawPkSheet(){const P=PACK[PK.id],el=$('pksheet'),ri=PK.sel;
+  if(ri==null){el.innerHTML=`<div class="stt"><b>${P.lab}を えらんでね</b><small>${P.desc}。ステージに 2つ クリアすると その${P.lab}の ボスが あらわれるよ。</small></div>
+    <div class="srow"><div class="pmini" aria-label="いまの パーティ">${partyIcons()}</div><button class="pill" id="pkParty">👥 パーティ</button><button class="pill" id="pkChurch">⛪ きょうかい</button></div>`;return}
+  const R=P.regions[ri],mons=regMons(P.id,ri),cl=regCleared(P.id,ri),bo=cl>=2,lv=regLv(P.id,ri);
+  el.innerHTML=`<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>${R[2]?'首都：'+R[2]+' ・ ':''}おすすめ Lv ${lv} ・ パーティ Lv ${avgLvParty()}</small></div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
+   <div class="pkst">${R[1].map((c,si)=>{const st=pkSave[pkey(P.id,ri,si)];return `<button class="pkstage ${st?'done':''}" data-s="${si}"><b>${c}</b><span class="stars3">${st?'★'.repeat(st.stars)+'<i>'+'★'.repeat(3-st.stars)+'</i>':'<i>★★★</i>'}</span></button>`}).join('')}
+     <button class="pkstage boss ${bo?'':'lock'}" data-s="-1" ${bo?'':'disabled'}><b>${bo?'ボス：'+(mons.filter(m=>m.rar===5).length>1?'？？？':dex[(mons.find(m=>m.rar===5)||{}).no]?mons.find(m=>m.rar===5).name:'？？？'):'🔒 ボス'}</b><span>${bo?(regBoss(P.id,ri)?'👑 クリア':'ちょうせん！'):`あと ${2-cl}つ`}</span></button></div>
+   <div class="pkmons" aria-label="この ${P.lab}の 生き物">${mons.map(m=>`<span class="pm2 ${dex[m.no]?'':'lock'}" title="${dex[m.no]?m.name:'？？？'}">${dex[m.no]?insIcon(m):`<span class="em">${m.em||'？'}</span>`}</span>`).join('')}</div>`}
+$('pktabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;PK.id=b.dataset.p;PK.sel=null;tone(880,0,.06,'triangle',.05);drawPack()});
+$('pkCalc').addEventListener('change',e=>{store.set('kr_calc',+e.target.value);tone(988,0,.06,'triangle',.05)});
+function pickReg(i){PK.sel=i;ensureAudio();tone(1046,0,.07,'triangle',.06);drawPack();const f=$('pkmap').querySelector(`.pref[data-r="${i}"]`);if(f)f.focus({preventScroll:true})}
+$('pkmap').addEventListener('click',e=>{const g=e.target.closest('.pref');if(g)pickReg(+g.dataset.r)});
+$('pkmap').addEventListener('keydown',e=>{const g=e.target.closest('.pref');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pickReg(+g.dataset.r)}});
+$('pksheet').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+  if(t.id==='pkClose'){PK.sel=null;drawPack();return}if(t.id==='pkParty'){openParty();return}if(t.id==='pkChurch'){openChurch();return}
+  if(t.dataset.s!=null&&!t.disabled)startPack(PK.id,PK.sel,+t.dataset.s)});
+$('pkHub').onclick=()=>openHub();$('pkDex').onclick=()=>{dexSer=PK.id;openDex()};$('pkIsl').onclick=()=>{$('packScr').hidden=true;goMap()};
+// ----- stage flow -----
+function startPack(pk,ri,si){ensureAudio();if(partyNow().every(m=>deadOf(m))){openChurch('しんぷ「みんな たおれて いるようだ。いきかえらせてから しゅっぱつ しなさい。」');return}
+  if(S)S.tok=-1;S=newState(0,si);S.ctx=packCtx(pk,ri,si);S.gi=0;
+  $('packScr').hidden=true;$('mapScr').hidden=true;$('app').hidden=false;$('clear').hidden=true;setGradeColor();
+  buildParty();S.party.forEach(p=>{p.hp=deadOf(p)?0:p.s.hp;p.mp=p.s.mp});
+  if(store.get('kr_bless')){store.set('kr_bless',0);S.party.forEach(p=>{p.s={...p.s,atk:Math.round(p.s.atk*1.25),def:Math.round(p.s.def*1.15)}});setTimeout(()=>{banner('⛪ しゅくふくの ちから！','#e0a800');flash('#fff2a8')},900)}
+  drawParty();hud();buildBar();drawTop();const R=PACK[pk].regions[ri];banner(si<0?'BOSS STAGE':`${R[1][si]}`,PACK[pk].c);sFan();
+  (async()=>{const tok=S.tok;await say(si<0?`${R[0]}の ボスに ちょうせん！`:`${PACK[pk].i} ${R[0]}「${R[1][si]}」へ しゅっぱつ！ 計算と いきもの クイズで たたかおう！`,1600);if(tok===S.tok)runStage()})()}
+function packClear(){const c=S.ctx,P=PACK[c.pk],acc=S.gok/Math.max(1,S.gtot),stars=acc>=.999?3:acc>=.75?2:1,key=pkey(c.pk,c.ri,c.si),prev=pkSave[key],first=!prev;
+  pkSave[key]={stars:Math.max(stars,prev?prev.stars:0),n:(prev?prev.n:0)+1};savePk();
+  const bonus=(S.boss?400:120)*Math.ceil(c.lvb/5)*stars;addPts(bonus);touchSlot();setTimeout(saveToast,900);sFan();flash();rain(120);barrage(S.boss?10:5,220,true);
+  const bossNow=!S.boss&&first&&regCleared(c.pk,c.ri)===2;let extra='';
+  if(S.boss&&first){addPts(1000);extra+=`<div class="note">👑 ${P.regions[c.ri][0]} せいは！ 💎+1,000</div>`;const all=P.regions.every((r,i)=>regBoss(c.pk,i));if(all&&!pkSave['_b'+c.pk]){pkSave['_b'+c.pk]=1;savePk();addPts(5000);extra+=`<div class="note">🏅 ${P.n} かんぜん せいは！ 💎+5,000</div>`}}
+  $('clearBox').innerHTML=`<div class="big">${S.boss?'ボス げきは！':'ステージ クリア！'}</div>
+   <div class="stars-big">${[0,1,2].map(i=>`<span class="${i<stars?'on':''}" style="animation-delay:${(.15+i*.22).toFixed(2)}s">★</span>`).join('')}</div>
+   <div class="best">${P.i} ${P.regions[c.ri][0]}「${S.boss?'ボス':P.regions[c.ri][1][c.si]}」</div>
+   ${plist()}${S.party.some(p=>p.hp<=0)?'<div class="note">⛪ たおれた なかまが いるよ。きょうかいで いきかえらせよう！</div>':''}${bossNow?'<div class="note">🔓 ボスが あらわれた！</div>':''}${extra}
+   <div class="stats"><div><b>${S.gok}/${S.gtot}</b><span>正解</span></div><div><b>${S.got}</b><span>つかまえた</span></div><div><b>+${bonus}</b><span>💎ボーナス</span></div></div>
+   <div class="cbtns"><button class="btn2" id="again">もういちど</button><button class="btn2" id="toPt">👥 パーティ</button><button class="btn" id="toMap">マップへ ▶</button></div>`;
+  $('clear').hidden=false;const back=()=>{$('clear').hidden=true;PK.sel=c.ri;goPack(c.pk)};
+  $('toMap').onclick=back;$('toPt').onclick=()=>{back();openParty()};$('again').onclick=()=>{$('clear').hidden=true;startPack(c.pk,c.ri,c.si)};setTimeout(()=>$('toMap').focus(),50)}
+const backToMap=()=>{if(S&&S.ctx&&S.ctx.world){const c=S.ctx;PK.sel=c.ri;goPack(c.pk)}else goMap()};
+// ----- choice questions in battle -----
+function pickCh(i){if(!S||S.phase!=='q'||S.lock||!S.q||!S.q.ch)return;const c=S.q.ch[i];if(c==null)return;S.input=c;judge()}
+$('chs').addEventListener('click',e=>{const b=e.target.closest('.chb');if(b)pickCh(+b.dataset.i)});
+// ----- hub -----
+function openHub(){const cards=[
+   ['japan','🗾','にっぽん旅','都道府県 スタンプラリー',`スタンプ ${allStamps()}/${totSpots}`,'#e0467a'],
+   ...PACKS.filter(p=>!p.hidden||uraOpen()).map(p=>['pk:'+p.id,p.i,p.n,({sea:'魚・貝・海の いきもの',land:'森や 山の どうぶつ',sky:'日本の 空の 鳥たち',asia:'8つの 国・地域を たび',eu:'8つの 国を たび',ura:'南の島の ひきょう'})[p.id],`ずかん ${pkGot(p.id)}/${pkMons(p.id).length}`,p.c]),
+   ['music','🎵','楽器編','楽器クイズで 楽器を ゲット',`楽器 ${typeof instGot==='function'?instGot():0}/${typeof INSTS!=='undefined'?INSTS.length:0}`,'#d8a02a'],
+   ['trade','🔁','こうかん','コードで 生き物を こうかん','ともだちと',`#3a9a8a`]];
+  $('hubGrid').innerHTML=cards.map(([k,i,n,d,s,c])=>`<button class="hubc" data-k="${k}" style="--hc:${c}"><span class="hi">${i}</span><span class="ht"><b>${n}</b><small>${d}</small></span><span class="hs">${s}</span></button>`).join('');
+  $('hubOv').hidden=false;setTimeout(()=>{const b=$('hubGrid').querySelector('.hubc');if(b)b.focus()},40)}
+$('hubGrid').addEventListener('click',e=>{const b=e.target.closest('.hubc');if(!b)return;ensureAudio();const k=b.dataset.k;$('hubOv').hidden=true;tone(1175,0,.06,'triangle',.06);
+  if(k==='japan')goJapan();else if(k.startsWith('pk:')){PK.sel=null;goPack(k.slice(3))}else if(k==='music'){if(typeof openMusic==='function')openMusic()}else if(k==='trade'){if(typeof openTrade==='function')openTrade()}});
+$('hubClose').onclick=()=>{$('hubOv').hidden=true};
+
+$('jHub').onclick=()=>openHub();
+
+// ================= 楽器編 (instruments, quiz, BGM, battle) =================
+// melodies: [semitone from C4, beats] ; all tunes are public-domain (traditional / composers long passed) or original
+const MEL={
+ kira:{bpm:112,n:[[0,1],[0,1],[7,1],[7,1],[9,1],[9,1],[7,2],[5,1],[5,1],[4,1],[4,1],[2,1],[2,1],[0,2],[7,1],[7,1],[5,1],[5,1],[4,1],[4,1],[2,2],[7,1],[7,1],[5,1],[5,1],[4,1],[4,1],[2,2],[0,1],[0,1],[7,1],[7,1],[9,1],[9,1],[7,2],[5,1],[5,1],[4,1],[4,1],[2,1],[2,1],[0,2]]},
+ ode:{bpm:120,n:[[4,1],[4,1],[5,1],[7,1],[7,1],[5,1],[4,1],[2,1],[0,1],[0,1],[2,1],[4,1],[4,1.5],[2,.5],[2,2],[4,1],[4,1],[5,1],[7,1],[7,1],[5,1],[4,1],[2,1],[0,1],[0,1],[2,1],[4,1],[2,1.5],[0,.5],[0,2],[2,1],[2,1],[4,1],[0,1],[2,1],[4,.5],[5,.5],[4,1],[0,1],[2,1],[4,.5],[5,.5],[4,1],[2,1],[0,1],[2,1],[-5,2],[4,1],[4,1],[5,1],[7,1],[7,1],[5,1],[4,1],[2,1],[0,1],[0,1],[2,1],[4,1],[2,1.5],[0,.5],[0,2]]},
+ green:{bpm:150,n:[[9,1],[12,2],[14,1],[16,1.5],[17,.5],[16,1],[14,2],[11,1],[7,1.5],[9,.5],[11,1],[12,2],[9,1],[9,1.5],[8,.5],[9,1],[11,2],[8,1],[4,2],[9,1],[12,2],[14,1],[16,1.5],[17,.5],[16,1],[14,2],[11,1],[7,1.5],[9,.5],[11,1],[12,1.5],[11,.5],[9,1],[8,1.5],[6,.5],[8,1],[9,3]]},
+ london:{bpm:116,n:[[7,1.5],[9,.5],[7,1],[5,1],[4,1],[5,1],[7,2],[2,1],[4,1],[5,2],[4,1],[5,1],[7,2],[7,1.5],[9,.5],[7,1],[5,1],[4,1],[5,1],[7,2],[2,2],[7,2],[4,1],[0,3]]},
+ saints:{bpm:132,n:[[0,1],[4,1],[5,1],[7,5],[0,1],[4,1],[5,1],[7,5],[0,1],[4,1],[5,1],[7,2],[4,2],[0,2],[4,2],[2,5],[4,1],[4,1],[2,1],[0,3],[0,1],[4,2],[7,2],[7,1],[5,4],[4,1],[5,1],[7,2],[4,2],[0,2],[2,2],[0,4]]},
+ sakura:{bpm:84,n:[[9,1],[9,1],[11,2],[9,1],[9,1],[11,2],[9,1],[11,1],[12,1],[11,1],[9,1],[11,.5],[9,.5],[5,2],[4,1],[0,1],[4,1],[5,1],[4,1],[4,.5],[0,.5],[-1,2],[9,1],[11,1],[12,1],[11,1],[9,1],[11,.5],[9,.5],[5,2],[4,1],[0,1],[4,1],[5,1],[4,1],[4,.5],[0,.5],[-1,2],[9,1],[9,1],[11,2],[9,1],[9,1],[11,2],[4,1],[5,1],[11,.5],[9,.5],[5,1],[4,4]]},
+ miyako:{bpm:96,n:[[4,1],[5,.5],[4,.5],[0,1],[-1,1],[-3,2],[0,1],[-1,.5],[-3,.5],[-4,1],[-3,1],[-1,2],[4,1],[5,1],[9,1],[5,.5],[4,.5],[0,2],[-1,1],[0,.5],[-1,.5],[-3,3]]},
+ canon:{bpm:72,arp:[[2,9,14,18],[-3,4,9,13],[-1,6,11,14],[-6,1,6,9],[-5,2,7,11],[-10,-3,2,6],[-5,2,7,11],[-3,4,9,13]]},
+ kaeru:{bpm:120,n:[[0,1],[2,1],[4,1],[5,1],[4,1],[2,1],[0,2],[4,1],[5,1],[7,1],[9,1],[7,1],[5,1],[4,2],[0,2],[0,2],[0,2],[0,2],[0,.5],[0,.5],[2,.5],[2,.5],[4,.5],[4,.5],[5,.5],[5,.5],[4,1],[2,1],[0,2]]},
+ mary:{bpm:126,n:[[4,1.5],[2,.5],[0,1],[2,1],[4,1],[4,1],[4,2],[2,1],[2,1],[2,2],[4,1],[7,1],[7,2],[4,1.5],[2,.5],[0,1],[2,1],[4,1],[4,1],[4,1],[4,1],[2,1],[2,1],[4,1],[2,1],[0,4]]},
+ grace:{bpm:88,n:[[-5,1],[0,2],[4,.5],[0,.5],[4,2],[2,1],[0,2],[-3,1],[-5,2],[-5,1],[0,2],[4,.5],[0,.5],[4,2],[2,1],[7,5],[4,1],[7,1.5],[4,.5],[7,.5],[4,.5],[0,2],[-5,1],[-3,1.5],[0,.5],[0,.5],[-3,.5],[-5,2],[-5,1],[0,2],[4,.5],[0,.5],[4,2],[2,1],[0,5]]},
+ taiko:{bpm:120,drum:'D.d.D.dd D.d.DkDk D.d.D.dd DkDkD.D.'}};
+// instruments: id,name,emoji,family,how,origin,material,melody,timbre,facts[[q,a,[wrong..]]]
+const INSTS=[
+ ['piano','ピアノ','🎹','けんばん楽器','けんばんを おすと ハンマーが 弦を たたく','イタリア','木と 金属の 弦','kira','piano',[['ピアノの けんばんは ふつう いくつ？','88こ',['50こ','100こ','120こ']],['ピアノの 白い けんばんと 黒い けんばん、多いのは？','白',['黒','同じ','けんばんは 1色']],['ピアノを 発明した 国は？','イタリア',['ドイツ','日本','アメリカ']]]],
+ ['violin','バイオリン','🎻','弦楽器','弓で 弦を こすって 音を 出す','イタリア','木（カエデや マツ）','ode','violin',[['バイオリンの 弦は 何本？','4本',['3本','6本','12本']],['バイオリンの 弓に つかわれる 毛は？','馬の しっぽの 毛',['ネコの 毛','人の かみの毛','クモの 糸']],['バイオリンより 大きい なかまは？','チェロ',['フルート','トランペット','カスタネット']]]],
+ ['guitar','ギター','🎸','弦楽器','指や ピックで 弦を はじく','スペイン','木','green','guitar',[['ふつうの ギターの 弦は 何本？','6本',['4本','8本','10本']],['ギターを はじく 小さな 板の 名前は？','ピック',['バチ','弓','スティック']],['クラシックギターが 生まれた 国は？','スペイン',['イギリス','中国','ブラジル']]]],
+ ['flute','フルート','🪈','木管楽器','あなに 息を ふきかけて 音を 出す','ヨーロッパ','金属（もとは 木）','london','flute',[['フルートは 金属なのに 何楽器？','木管楽器',['金管楽器','打楽器','弦楽器']],['フルートの ふき方は？','横に かまえて ふく',['たてに かまえて ふく','たたいて 鳴らす','こすって 鳴らす']],['フルートに リードは ある？','ない',['ある','2まい ある','3まい ある']]]],
+ ['trumpet','トランペット','🎺','金管楽器','くちびるを ふるわせて 音を 出す','ドイツ','金属（しんちゅう）','saints','trumpet',[['トランペットの ピストン（ボタン）は いくつ？','3つ',['1つ','5つ','10こ']],['トランペットの 音を 出すのは？','くちびるの ふるえ',['リードの ふるえ','弦の ふるえ','皮の ふるえ']],['トランペットの なかまは？','トロンボーン',['クラリネット','ハープ','ピアノ']]]],
+ ['taiko','和太鼓','🥁','打楽器','バチで 皮を たたく','日本','木と 牛の 皮','taiko','taiko',[['和太鼓を たたく 棒の 名前は？','バチ',['弓','ピック','スティック']],['和太鼓の 胴（どう）は 何で できている？','木',['ガラス','プラスチック','石']],['和太鼓が よく つかわれるのは？','お祭り',['水泳大会','図書館','映画館']]]],
+ ['koto','琴（こと）','🎐','弦楽器','つめを つけた 指で 弦を はじく','日本（中国から つたわる）','キリの 木と 絹の 弦','sakura','koto',[['琴の 弦は ふつう 何本？','13本',['6本','4本','30本']],['琴を ひくとき 指に つけるのは？','つめ',['手ぶくろ','ゆびわ','ばんそうこう']],['琴の 体は 何の 木？','キリ',['スギ','サクラ','マツ']]]],
+ ['shamisen','三味線','🪕','弦楽器','バチで 弦を はじく','日本','木と 皮と 絹の 弦','miyako','shamisen',[['三味線の 弦は 何本？','3本',['2本','4本','6本']],['三味線を ひく 道具は？','バチ',['弓','スティック','ハンマー']],['三味線の ルーツの 楽器が ある 場所は？','沖縄（三線）',['北海道','アメリカ','南極']]]],
+ ['harp','ハープ','🪉','弦楽器','指で 弦を はじく','古代エジプト・メソポタミア','木と 弦','canon','harp',[['コンサート用の ハープの 弦は およそ 何本？','47本',['7本','12本','100本']],['ハープは 何千年も 前から ある？','5000年くらい 前から',['100年 前から','10年 前から','きのうから']],['ハープを ひくのに つかうのは？','指',['弓','バチ','足だけ']]]],
+ ['recorder','リコーダー','🎶','木管楽器','たてに かまえて 息を ふきこむ','ヨーロッパ','木や プラスチック','kaeru','recorder',[['ソプラノリコーダーの 表の あなは いくつ？','7つ',['3つ','10こ','12こ']],['リコーダーの 音を 変えるには？','あなを 指で ふさぐ',['ボタンを おす','弦を はじく','ふたを あける']],['リコーダーは 何楽器の なかま？','木管楽器',['金管楽器','打楽器','けんばん楽器']]]],
+ ['xylo','木琴（もっきん）','🎼','打楽器','マレット（ばち）で 木の 板を たたく','アフリカ・東南アジア','木の 板','mary','xylo',[['木琴を たたく 棒の 名前は？','マレット',['弓','ピック','リード']],['木琴の 板が 短いと 音は？','高くなる',['低くなる','かわらない','鳴らない']],['木琴の なかまで 金属の 板のものは？','鉄琴',['木魚','三味線','フルート']]]],
+ ['sax','サクソフォン','🎷','木管楽器','リードを ふるわせて 音を 出す','ベルギー','金属（しんちゅう）','grace','sax',[['サックスを 発明した人の 国は？','ベルギー',['日本','エジプト','ブラジル']],['サックスは 金属なのに 何楽器？','木管楽器',['金管楽器','打楽器','弦楽器']],['サックスの 音を 出す うすい 板は？','リード',['ピック','マレット','バチ']]]]];
+const INST=Object.fromEntries(INSTS.map(a=>[a[0],a]));
+let instSave=store.get('kr_inst')||{};const saveInst=()=>store.set('kr_inst',instSave);
+const instGot=()=>INSTS.filter(i=>instSave[i[0]]&&instSave[i[0]].got).length;
+// ----- synth -----
+const nf=s=>261.63*Math.pow(2,s/12);let KSC={};
+function pluckBuf(f,bright,dur){const k=f.toFixed(1)+bright;if(KSC[k])return KSC[k];const sr=ac.sampleRate,N=Math.floor(sr*dur),P=Math.max(2,Math.round(sr/f)),d=new Float32Array(N),bf=ac.createBuffer(1,N,sr);
+  for(let i=0;i<P;i++)d[i]=Math.random()*2-1;for(let i=P;i<N;i++)d[i]=(d[i-P]*(bright)+d[i-P+1]*(1-bright))*.996;bf.getChannelData(0).set(d);KSC[k]=bf;return bf}
+function playNote(tb,semi,t,dur,dest,vol=1){const f=nf(semi),g=ac.createGain();g.connect(dest);const v=.16*vol;
+  const env=(a,h,r)=>{g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+a);g.gain.setValueAtTime(v,t+Math.max(a,h));g.gain.exponentialRampToValueAtTime(.0001,t+Math.max(a,h)+r)};
+  const osc=(type,ff,gg=1,det=0)=>{const o=ac.createOscillator(),og=ac.createGain();o.type=type;o.frequency.value=ff;o.detune.value=det;og.gain.value=gg;o.connect(og).connect(g);o.start(t);o.stop(t+dur+1.2);return o};
+  const vib=(o,rate,depth)=>{const l=ac.createOscillator(),lg=ac.createGain();l.frequency.value=rate;lg.gain.value=depth;l.connect(lg).connect(o.frequency);l.start(t+.15);l.stop(t+dur+1)};
+  if(tb==='piano'){env(.008,.05,dur*1.6+.3);osc('triangle',f,.8);osc('sine',f*2,.25);osc('sine',f*3,.08)}
+  else if(tb==='violin'){env(.09,dur*.9,.25);const lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2600;g.disconnect();g.connect(lp).connect(dest);const o=osc('sawtooth',f,.55),o2=osc('sawtooth',f,.35,7);vib(o,5.5,f*.012);vib(o2,5.3,f*.012)}
+  else if(tb==='flute'||tb==='recorder'){env(tb==='flute'?.06:.03,dur*.85,.15);const o=osc('sine',f,.9);osc('triangle',f*2,tb==='recorder'?.18:.06);vib(o,5,f*.006);
+    const n=ac.sampleRate*.12,b=ac.createBuffer(1,n,ac.sampleRate),c=b.getChannelData(0);for(let i=0;i<n;i++)c[i]=(Math.random()*2-1)*(1-i/n);const s=ac.createBufferSource(),bp=ac.createBiquadFilter(),sg=ac.createGain();bp.type='bandpass';bp.frequency.value=f*2;sg.gain.value=.25;s.buffer=b;s.connect(bp).connect(sg).connect(g);s.start(t)}
+  else if(tb==='trumpet'||tb==='sax'){env(tb==='sax'?.05:.03,dur*.85,.12);const lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.setValueAtTime(tb==='sax'?900:600,t);lp.frequency.linearRampToValueAtTime(tb==='sax'?2200:3200,t+.08);lp.Q.value=tb==='sax'?2:4;g.disconnect();g.connect(lp).connect(dest);
+    const o=osc(tb==='sax'?'square':'sawtooth',f,.6);osc('sawtooth',f,.3,-5);if(tb==='sax')vib(o,5,f*.01)}
+  else if(tb==='xylo'){env(.003,.01,.45);osc('sine',f*2,.9);osc('sine',f*8,.12)}
+  else if(tb==='taiko'){}
+  else{// plucked: guitar / koto / shamisen / harp
+    const br={guitar:.5,koto:.62,shamisen:.75,harp:.48}[tb]||.5,s=ac.createBufferSource();s.buffer=pluckBuf(f*(tb==='koto'||tb==='shamisen'?1:1),br,Math.min(2.5,dur+1.2));const pg=ac.createGain();pg.gain.value=tb==='harp'?2.2:2.6;
+    if(tb==='shamisen'){const ws=ac.createWaveShaper(),cu=new Float32Array(256);for(let i=0;i<256;i++){const x=i/128-1;cu[i]=Math.tanh(x*2.5)}ws.curve=cu;s.connect(ws).connect(pg)}else s.connect(pg);
+    pg.connect(g);g.gain.setValueAtTime(.16*vol,t);s.start(t)}}
+function drumHit(kind,t,dest,vol=1){const g=ac.createGain();g.connect(dest);
+  if(kind==='D'){const o=ac.createOscillator();o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(45,t+.35);g.gain.setValueAtTime(.5*vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+.5);o.connect(g);o.start(t);o.stop(t+.55)}
+  const n=ac.sampleRate*(kind==='D'?.12:.06),b=ac.createBuffer(1,n,ac.sampleRate),c=b.getChannelData(0);for(let i=0;i<n;i++)c[i]=(Math.random()*2-1)*(1-i/n)**3;const s=ac.createBufferSource(),f=ac.createBiquadFilter(),ng=ac.createGain();
+  f.type=kind==='k'?'highpass':'lowpass';f.frequency.value=kind==='k'?2500:kind==='d'?900:500;ng.gain.value=(kind==='k'?.25:kind==='d'?.35:.3)*vol;s.buffer=b;s.connect(f).connect(ng).connect(dest);s.start(t)}
+function schedTune(id,t0,dest,vol=1,maxBeats=999){const a=INST[id],M=MEL[a[7]],tb=a[8],bt=60/M.bpm;let t=t0,beats=0;
+  if(M.drum){for(const ch of M.drum.replace(/ /g,'')){if(ch!=='.')drumHit(ch,t,dest,vol);t+=bt/2;beats+=.5;if(beats>=maxBeats)break}return t-t0}
+  if(M.arp){for(const ch of M.arp){for(let k=0;k<8;k++){playNote(tb,ch[[0,1,2,3,2,1,2,3][k]],t,bt*.5,dest,vol*.9);t+=bt/2}beats+=4;if(beats>=maxBeats)break}return t-t0}
+  for(const[s,d]of M.n){playNote(tb,s,t,d*bt*.95,dest,vol);t+=d*bt;beats+=d;if(beats>=maxBeats)break}return t-t0}
+// ----- BGM -----
+const BGM={id:null,gain:null,timer:0,until:0};
+function bgmBus(){if(!ac)return null;if(!BGM.gain){BGM.gain=ac.createGain();const cv=ac.createConvolver(),n=ac.sampleRate*1.6,b=ac.createBuffer(2,n,ac.sampleRate);for(let ch=0;ch<2;ch++){const d=b.getChannelData(ch);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,3)}cv.buffer=b;
+  const wet=ac.createGain();wet.gain.value=.25;BGM.gain.connect(ac.destination);BGM.gain.connect(cv).connect(wet).connect(ac.destination)}BGM.gain.gain.value=muted?0:.55;return BGM.gain}
+function bgmTick(){if(!BGM.id||!ac)return;const bus=bgmBus();if(!bus)return;const now=ac.currentTime;if(BGM.until<now+1.5){const st=Math.max(now+.1,BGM.until);BGM.until=st+schedTune(BGM.id,st,bus,.8)+1.2}BGM.timer=setTimeout(bgmTick,700)}
+function setBGM(id){BGM.id=id;store.set('kr_bgm',id||'');clearTimeout(BGM.timer);if(BGM.gain){try{BGM.gain.disconnect()}catch(e){}BGM.gain=null}BGM.until=0;if(id&&ac)bgmTick()}
+document.addEventListener('pointerdown',()=>{if(BGM.id&&ac&&!BGM.timer){bgmTick()}},{passive:true});
+setInterval(()=>{if(BGM.gain)BGM.gain.gain.value=muted?0:.55},500);
+// ----- quiz -----
+const MU={id:null,q:null,phase:'idle',run:0,ok:0};
+function musicQ(id){const a=INST[id],[,name,em,fam,how,origin,mat,,,facts]=a,others=INSTS.filter(x=>x[0]!==id),sameFam=others.filter(x=>x[3]===fam);
+  const t=pick(['pic','hear','hear','fam','how','origin','fact','fact','fact']);
+  const mk=(html,ans,pool,o={})=>({html,a:ans,ch:shuf([ans,...shuf([...new Set(pool)].filter(x=>x!==ans)).slice(0,3)]),...o});
+  if(t==='pic')return mk(`<span class="mupic">${em}</span>この 楽器の なまえは？`,name,[...sameFam,...shuf(others)].map(x=>x[1]));
+  if(t==='hear')return mk(`<span class="mupic">🔊</span>音を きいて あてよう！ どの 楽器の 音？`,name,[...sameFam,...shuf(others)].map(x=>x[1]),{hear:1});
+  if(t==='fam')return mk(`<b>${name}</b>は どの なかま？`,fam,['けんばん楽器','弦楽器','木管楽器','金管楽器','打楽器']);
+  if(t==='how')return mk(`<b>${name}</b>の 音の 出し方は？`,how,others.map(x=>x[4]));
+  if(t==='origin')return mk(`<b>${name}</b>が 生まれた（つたわった）ところは？`,origin,others.map(x=>x[5]));
+  const[fq,fa,fw]=pick(facts);return mk(fq,fa,fw)}
+function playPreview(id,beats=8){ensureAudio();if(!ac)return;const g=ac.createGain();g.gain.value=muted?0:.9;g.connect(ac.destination);schedTune(id,ac.currentTime+.05,g,1,beats)}
+function openMusic(){MU.id=null;MU.phase='idle';drawMusic();$('musicOv').hidden=false;setTimeout(()=>$('muClose').focus(),30)}
+function drawMusic(){const el=$('muBody');$('muCnt').textContent=`楽器 ${instGot()}/${INSTS.length}`;
+  if(!MU.id){el.innerHTML=`<p class="trnote">楽器を えらんで クイズに ちょうせん！ 1つの 楽器で <b>20もん 正解</b>すると その楽器を ゲット。ゲットした 楽器は BGMに したり、まほうつかいに もたせて バトルで えんそう できるよ。</p>
+    <div class="mugrid">${INSTS.map(a=>{const sv=instSave[a[0]]||{},c=Math.min(20,sv.c||0),got=sv.got;return `<button class="muit ${got?'got':''}" data-i="${a[0]}"><span class="me">${a[2]}</span><b>${a[1]}</b><span class="mubar"><i style="width:${c/20*100}%"></i></span><small>${got?(BGM.id===a[0]?'🎵 BGMちゅう':'ゲット！'):c+'/20'}</small></button>`}).join('')}</div>
+    <div class="cbtns"><button class="btn2" id="muOff" ${BGM.id?'':'disabled'}>🔇 BGMを とめる</button></div>`;return}
+  const a=INST[MU.id],sv=instSave[MU.id]||{},c=Math.min(20,sv.c||0);
+  if(MU.phase==='menu'||MU.phase==='idle'){el.innerHTML=`<div class="muhead"><span class="me big">${a[2]}</span><div><b>${a[1]}</b><small>${a[3]} ・ ${a[5]}</small><span class="mubar"><i style="width:${c/20*100}%"></i></span><small>${sv.got?'ゲットずみ！':`あと ${20-c}もん 正解で ゲット`}</small></div></div>
+    <div class="cbtns"><button class="btn2" id="muHear">🔊 音を きく</button>${sv.got?`<button class="btn2" id="muBgm">${BGM.id===MU.id?'🎵 BGMちゅう':'🎵 BGMに する'}</button>`:''}<button class="btn" id="muGo">クイズ スタート！</button></div><div class="cbtns"><button class="btn2" id="muBack">◀ 楽器 いちらん</button></div>`;return}
+  const q=MU.q;el.innerHTML=`<div class="muq"><small>${a[2]} ${a[1]} ・ ${c}/20</small><div class="muqt">${q.html}</div>${q.hear?'<button class="btn2" id="muReplay">🔊 もういちど きく</button>':''}</div>
+   <div class="qzc">${q.ch.map((x,i)=>`<button data-j="${i}"><i>${i+1}</i><span>${esc(x)}</span></button>`).join('')}</div><div class="qzmsg" id="muMsg"></div><button class="btn qznext" id="muNext" hidden>つぎへ ▶</button>`;
+  if(q.hear)setTimeout(()=>playPreview(MU.id,6),250);setTimeout(()=>{const b=el.querySelector('.qzc button');if(b)b.focus()},40)}
+function muAsk(){MU.q=musicQ(MU.id);if(MU.q.hear&&MU.q.ch.length)MU.q.hearId=MU.id;MU.phase='q';drawMusic()}
+function muPick(j){if(MU.phase!=='q')return;const q=MU.q,ok=q.ch[j]===q.a;MU.phase='a';const btns=[...$('muBody').querySelectorAll('.qzc button')];btns.forEach((b,k)=>{b.disabled=true;if(q.ch[k]===q.a)b.classList.add('ok');else if(k===j)b.classList.add('ng')});
+  const sv=instSave[MU.id]||(instSave[MU.id]={c:0});let fan=false;if(ok){sv.c=(sv.c||0)+1;sOK(sv.c);if(sv.c>=20&&!sv.got){sv.got=1;fan=true}}else sNG();saveInst();
+  $('muMsg').innerHTML=ok?`<b class="okt">⭕ せいかい！</b> ${Math.min(20,sv.c)}/20`:`<b class="ngt">❌ ざんねん</b> こたえは「${esc(q.a)}」`;
+  if(fan){const a=INST[MU.id];$('muMsg').innerHTML+=`<div class="conq">🎉 ${a[2]} ${a[1]} ゲット！</div><small>BGMに したり、まほうつかいに もたせて えんそう できるよ</small>`;barrage(5,180,true);rain(80);playPreview(MU.id,16);touchSlot();saveToast()}
+  $('muNext').textContent=fan?'楽器の へやへ ▶':'つぎへ ▶';$('muNext').hidden=false;setTimeout(()=>$('muNext').focus(),30)}
+$('muBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;ensureAudio();
+  if(b.dataset.i){MU.id=b.dataset.i;MU.phase='menu';drawMusic();return}
+  if(b.id==='muOff'){setBGM(null);drawMusic();return}if(b.id==='muBack'){MU.id=null;drawMusic();return}
+  if(b.id==='muHear'||b.id==='muReplay'){playPreview(MU.id,b.id==='muHear'?16:6);return}
+  if(b.id==='muBgm'){setBGM(BGM.id===MU.id?null:MU.id);drawMusic();return}
+  if(b.id==='muGo'){muAsk();return}
+  if(b.id==='muNext'){const sv=instSave[MU.id]||{};if(sv.got&&MU.phase==='a'&&(sv.c||0)===20){MU.phase='menu';drawMusic()}else muAsk();return}
+  if(b.dataset.j!=null)muPick(+b.dataset.j)});
+$('muClose').onclick=()=>{$('musicOv').hidden=true;MU.phase='idle'};
+// ----- equip (mage only) & battle -----
+const instOf=inst=>inst&&inst.job==='mahou'&&inst.music&&instSave[inst.music]&&instSave[inst.music].got?INST[inst.music]:null;
+async function actMusic(m){const a=instOf(m.inst);if(!a)return;S.phase='anim';m.mp-=3;drawParty();moveName(`${a[2]} ${a[1]}の えんそう`,'#d8a02a');
+  if(ac){const g=ac.createGain();g.gain.value=muted?0:.8;g.connect(ac.destination);schedTune(a[0],ac.currentTime+.05,g,1,6)}
+  const c=pmC(m);for(let i=0;i<10;i++)setTimeout(()=>pop(pick(['♪','♫','♬']),c.x+rnd(80),c.y-20-i*8,pick(['#ffd23f','#ff7aa2','#7ad7ff']),22),i*90);await wait(900);
+  const f=S.foe,r=Math.random(),boss=f.boss;
+  if(r<.12){const al=S.party.filter(p=>p.hp>0),vic=shuf(al).slice(0,Math.min(2,al.length));vic.forEach(p=>p.sleep=1);drawParty();
+    await say(`しまった！ ここちよい 音色で ${vic.map(p=>p.ch.name).join('と ')}も ねむって しまった… 💤`)}
+  else if(r<(boss?.45:.6)){f.sleep=boss?1:2;drawFoeInfo();const B=center($('enemy'));for(let i=0;i<5;i++)setTimeout(()=>pop('Z',B.x+20+i*8,B.y-30-i*14,'#9fd0ff',18+i*3),i*120);
+    await say(`${a[1]}の やさしい 音色… ${f.mon.name}は ぐっすり ねむって しまった！ 💤`)}
+  else{const h=Math.round(10+m.lv*3.5+m.s.mp*.4);S.party.forEach(p=>{if(p.hp>0){const add=Math.min(h,p.s.hp-p.hp);p.hp+=add;const cc=pmC(p);if(add>0)pop('+'+add,cc.x,cc.y-8,'#7cff6b',22)}});drawParty();
+    await say(`${a[1]}の いやしの しらべ！ みんなの HPが かいふくした！`)}}
+
+// ================= TRADE CODES (こうかん) =================
+const TA='23456789ABCDEFGHJKLMNPQRSTUVWXYZ',JOBK=Object.keys(JOBS);
+const TR={tab:'give',sel:null,code:''};
+function tSum(v){let h=0x9e37n;for(let i=0n;i<41n;i+=8n){h=(h*31n+((v>>i)&0xffn))&0xffn}return h}
+function encTrade(inst){const no=BigInt(inst.no),lv=BigInt(Math.min(127,inst.lv||1)),ev=BigInt(inst.evo||0),jb=BigInt(Math.max(0,JOBK.indexOf(inst.job||'none'))),nn=BigInt(Math.floor(Math.random()*0x80000));
+  let v=no|(lv<<10n)|(ev<<17n)|(jb<<19n)|(nn<<22n);v|=tSum(v)<<41n;let s='';for(let i=0;i<10;i++){s=TA[Number(v&31n)]+s;v>>=5n}return s.slice(0,5)+'-'+s.slice(5)}
+function decTrade(code){const c=String(code).toUpperCase().replace(/[^0-9A-Z]/g,'').replace(/O/g,'0').replace(/I/g,'1');if(c.length!==10)return null;let v=0n;for(const ch of c){const k=TA.indexOf(ch);if(k<0)return null;v=(v<<5n)|BigInt(k)}
+  const body=v&((1n<<41n)-1n);if((v>>41n)!==tSum(body))return null;const no=Number(body&1023n),lv=Number((body>>10n)&127n),evo=Number((body>>17n)&3n),jb=Number((body>>19n)&7n),nn=Number((body>>22n)&0x7ffffn);
+  const mon=MONS[no-1];if(!mon||mon.sp&&!mon.av&&false)return null;return{no,lv:Math.max(1,lv),evo,job:JOBK[jb]||'none',nn,mon,key:c}}
+function openTrade(){TR.tab='give';TR.sel=null;TR.code='';drawTrade();$('tradeOv').hidden=false;setTimeout(()=>$('trClose').focus(),30)}
+function drawTrade(){[...$('trTabs').children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===TR.tab));const el=$('trBody');
+  if(TR.tab==='give'){
+    if(TR.code){const m=MONS[TR.sel.no-1];el.innerHTML=`<div class="trcard"><span class="ic">${insIcon(m)}</span><div><small>こうかんコード</small><b class="trcode">${TR.code}</b><span>${m.name}${'＋'.repeat(TR.sel.evo||0)} Lv${TR.sel.lv}</span></div></div>
+      <p class="trnote">このコードを ともだちに おしえてね。ともだちが「もらう」に 入れると ${m.name}が とどくよ。<br>${m.name}は きみの ストックから はなれました。</p>
+      <div class="cbtns"><button class="btn2" id="trCopy">📋 コピー</button><button class="btn" id="trAgain">ほかの 生き物も あげる</button></div>`;return}
+    const L=box.filter(b=>MONS[b.no-1]&&!MONS[b.no-1].sp).map(b=>({b,m:MONS[b.no-1]})).sort((x,y)=>y.m.rar-x.m.rar||(y.b.lv||1)-(x.b.lv||1)).slice(0,120);
+    el.innerHTML=`<p class="trnote">あげる 生き物を えらんでね（パーティに いる なかまは えらべないよ）</p><div class="trlist">${L.map(({b,m})=>{const inP=ptRefs.some(r=>r.k==='i'&&r.u===b.u);
+      return `<button class="trit ${TR.sel&&TR.sel.u===b.u?'sel':''}" data-u="${b.u}" ${inP?'disabled':''}><span class="ic">${insIcon(m)}</span><b>${m.name}${'＋'.repeat(b.evo||0)}</b><small>${starStr(m.rar)} Lv${b.lv||defLv(m)}${inP?' ・ パーティ':''}</small></button>`}).join('')||'<small>まだ 生き物が いないよ</small>'}</div>
+      ${TR.sel?`<div class="cbtns"><button class="btn" id="trGive">${MONS[TR.sel.no-1].name}の コードを つくる</button></div>`:''}`}
+  else{el.innerHTML=`<p class="trnote">ともだちに もらった こうかんコードを 入れてね</p><input id="trIn" class="trin" maxlength="13" autocomplete="off" autocapitalize="characters" placeholder="XXXXX-XXXXX" aria-label="こうかんコード"><small class="nerr" id="trErr"></small>
+    <div class="cbtns"><button class="btn" id="trGet">うけとる</button></div><div id="trRes"></div>`;setTimeout(()=>$('trIn').focus(),30)}}
+$('trTabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;TR.tab=b.dataset.t;TR.sel=null;TR.code='';drawTrade()});
+$('trBody').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;ensureAudio();
+  if(t.dataset.u){TR.sel=box.find(b=>b.u===t.dataset.u);tone(988,0,.05,'triangle',.05);drawTrade();return}
+  if(t.id==='trGive'&&TR.sel){const i=box.indexOf(TR.sel);if(i<0)return;TR.code=encTrade(TR.sel);box.splice(i,1);saveBox();validRefs();touchSlot();sFan();rain(30);drawTrade();return}
+  if(t.id==='trAgain'){TR.sel=null;TR.code='';drawTrade();return}
+  if(t.id==='trCopy'){const txt=TR.code;(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{t.textContent='✅ コピーした'}).catch(()=>{const r=document.createRange();r.selectNodeContents($('trBody').querySelector('.trcode'));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);t.textContent='えらんだよ（長おしで コピー）'});return}
+  if(t.id==='trGet'){const d=decTrade($('trIn').value);if(!d){$('trErr').textContent='コードが ちがうみたい。もういちど たしかめてね';sNG();return}
+    const used=store.get('kr_tused')||[];if(used.includes(d.key)){$('trErr').textContent='この コードは もう うけとったよ';sNG();return}
+    used.push(d.key);store.set('kr_tused',used.slice(-500));const isNew=!dex[d.no];dex[d.no]=(dex[d.no]||0)+1;store.set('kr_dex3',dex);
+    const it={u:uid(),no:d.no,eq:{},lv:d.lv};if(d.evo)it.evo=d.evo,it.fp=[0,30,80,150][d.evo];if(d.job&&d.job!=='none')it.job=d.job;box.push(it);saveBox();dexBtn();touchSlot();
+    $('trErr').textContent='';$('trRes').innerHTML=`<div class="trcard got"><span class="ic">${insIcon(d.mon)}</span><div><small>とどいた！</small><b>${d.mon.name}${'＋'.repeat(d.evo)}</b><span>${starStr(d.mon.rar)} Lv${d.lv}${isNew?' ・ NEW！':''}</span></div></div>`;
+    [0,4,7,12].forEach((k,j)=>tone(note(k+5),j*.08,.2,'triangle',.09));barrage(3,180,true);$('trIn').value=''}});
+$('trBody').addEventListener('keydown',e=>{if(e.target.id==='trIn'&&e.key==='Enter'&&!e.isComposing){e.preventDefault();$('trGet').click()}});
+$('trClose').onclick=()=>{$('tradeOv').hidden=true};
+
+// ================= SECRET STAGE (裏ステージ) =================
+function fnv(s){let h=0x811c9dc5;for(const ch of s){h^=ch.codePointAt(0);h=Math.imul(h,0x01000193)>>>0}return h>>>0}
+const URA_H=fnv('ほしのすなはま');
+(()=>{const t=$('hubTitle');let tm=0;const start=e=>{clearTimeout(tm);tm=setTimeout(()=>{$('uraBox').hidden=false;$('uraIn').value='';setTimeout(()=>$('uraIn').focus(),30);tone(220,0,.6,'sine',.06);tone(330,.2,.6,'sine',.05)},2600)};const stop=()=>clearTimeout(tm);
+  t.addEventListener('pointerdown',start);['pointerup','pointerleave','pointercancel'].forEach(k=>t.addEventListener(k,stop));t.addEventListener('contextmenu',e=>e.preventDefault())})();
+function uraTry(){const v=$('uraIn').value.trim().normalize('NFKC').replace(/[ァ-ン]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60));
+  if(fnv(v)===URA_H){store.set('kr_ura',1);$('uraBox').hidden=true;$('hubOv').hidden=true;const d=$('dim');d.className='';void d.offsetWidth;d.className='on';flash('#2a1a4a');
+    [0,3,7,10,14].forEach((k,j)=>tone(note(k),j*.18,.6,'sine',.07));banner('裏ステージ かいほう…','#c77dff',true);setTimeout(()=>{PK.sel=0;goPack('ura')},1400)}
+  else{$('uraErr').textContent='……なにも おこらなかった';sNG()}}
+$('uraOk').onclick=uraTry;$('uraIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();uraTry()}if(e.key==='Escape')$('uraBox').hidden=true});
+
 // ---------- input ----------
 function press(k){if(!S||$('app').hidden||!$('title').hidden||!$('clear').hidden||!$('dexOv').hidden||!$('viewOv').hidden||!$('partyOv').hidden)return;ensureAudio();
-  if(S.phase==='cmd'){if(/^[1-4]$/.test(k)&&S.cmdOpts&&S.cmdRes)S.cmdRes(S.cmdOpts[+k-1][0]);return}
+  if(S.phase==='cmd'){if(/^[1-5]$/.test(k)&&S.cmdOpts&&S.cmdOpts[+k-1]&&S.cmdRes)S.cmdRes(S.cmdOpts[+k-1][0]);return}
   if(S.phase!=='q'||S.lock)return;
+  if(S.q&&S.q.ch){if(/^[1-4]$/.test(k))pickCh(+k-1);return}
   if(k==='B'){S.input=S.input.slice(0,-1);drawAns();return}
   if(k==='E'){judge();return}
   if(S.input.length>=8)return;
@@ -3037,6 +3954,9 @@ $('pad').addEventListener('pointerdown',e=>{const b=e.target.closest('.k');if(!b
 $('pad').addEventListener('click',e=>{const b=e.target.closest('.k');if(b&&e.detail===0)press(b.dataset.k)});
 addEventListener('keydown',e=>{
   if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'))return;
+  if(!$('hubOv').hidden){if(e.key==='Escape')$('hubClose').click();return}
+  if(!$('tradeOv').hidden){if(e.key==='Escape')$('trClose').click();return}
+  if(!$('musicOv').hidden){if(e.key==='Escape'){$('muClose').click();return}if(/^[1-4]$/.test(e.key)&&MU.phase==='q'){e.preventDefault();muPick(+e.key-1)}return}
   if(!$('churchOv').hidden){if(e.key==='Escape')$('chClose').click();return}
   if(!$('sumOv').hidden){if(e.key==='Escape'||e.key==='Enter'){e.preventDefault();$('sskip').click()}return}
   if(!$('photoOv').hidden){if(e.key==='Escape')$('phClose').click();return}
