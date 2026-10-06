@@ -800,6 +800,44 @@ div.fd{cursor:default}.fd span{font-size:20px}.fd small{color:var(--muted)}.fd .
 .psn.slp{background:#9fd0ff;color:#14304a}
 .cmds .cmd[data-k="mus"]{grid-column:1/-1;border-color:#d8a02a}
 @media (max-width:420px){.mhead h1{font-size:clamp(15px,4.6vw,20px)}.mhead .sp{gap:4px}.mhead .pill{padding:4px 8px}.mhead .pts2{font-size:12px}}
+
+.pm .pic{position:relative;overflow:visible}.pm .pic .pel,.pm .pic .pjb{position:absolute;font-style:normal;font-size:10px;line-height:1;width:15px;height:15px;display:grid;place-items:center;border-radius:50%;background:#fffdf5;box-shadow:0 0 0 1.5px var(--ec,#d9cdb0)}
+.pm .pic .pel{left:-5px;bottom:-4px}.pm .pic .pjb{right:-5px;top:-4px;font-size:9px;box-shadow:0 0 0 1.5px #b86bff}
+.party.n4 .pn b,.party.n3 .pn b{font-size:10.5px;letter-spacing:-.02em}
+/* ===== daily limit / parent ===== */
+.limbox{width:100%;max-width:420px;margin:0 auto;display:flex;flex-direction:column;gap:10px;padding:18px 16px;box-sizing:border-box;background:var(--panel);border-radius:24px;box-shadow:0 6px 0 rgba(90,65,40,.25);text-align:center;color:var(--ink)}
+.limbox h2{margin:0;font:400 22px/1.3 'Dela Gothic One',var(--display);color:var(--wood2)}.limbox p{margin:0;font:800 13.5px/1.7 var(--body)}
+.limbox .still{font-size:12px;color:#2f9e3a;background:#eaf7e0;border-radius:12px;padding:6px 10px}
+.limart{position:relative;height:110px;border-radius:18px;background:radial-gradient(circle at 70% 30%,#3a4a8a,#141a3a 70%);overflow:hidden}
+.limart .moon{position:absolute;right:26px;top:14px;font-size:40px;filter:drop-shadow(0 0 14px #ffe9a0)}
+.limart .bug{position:absolute;left:50%;bottom:10px;font-size:46px;transform:translateX(-50%) rotate(-8deg);filter:drop-shadow(0 4px 0 rgba(0,0,0,.4))}
+.limart .zz{position:absolute;left:calc(50% + 30px);bottom:56px;font:400 16px 'Dela Gothic One',sans-serif;color:#cfe0ff}.limart .zz i,.limart .zz b{font-style:normal;font-weight:400;display:inline-block;animation:zz 2.4s ease-in-out infinite}
+.limart .zz i{font-size:20px;animation-delay:.3s}.limart .zz b{font-size:26px;animation-delay:.6s}@keyframes zz{50%{transform:translateY(-6px);opacity:.6}}
+.btn2.parent{border-color:#7a6a9a;color:#5a4a7a}
+.ph{font-family:var(--body)!important;font-weight:900!important;font-size:18px!important;color:#3a3450!important}
+.pins{display:flex;gap:14px;justify-content:center}.pins i{width:16px;height:16px;border-radius:50%;border:2px solid #7a6a9a}.pins i.on{background:#7a6a9a}
+.pinpad{display:grid;grid-template-columns:repeat(3,64px);gap:8px;justify-content:center}
+.pinpad button{height:52px;border-radius:14px;border:2px solid #d8d0e8;background:#fff;font:800 22px var(--body);color:#3a3450;cursor:pointer;box-shadow:0 3px 0 #d8d0e8}
+.pinpad button:active{transform:translateY(2px);box-shadow:0 1px 0 #d8d0e8}.pinpad button:focus-visible{outline:3px solid var(--cyan)}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;background:#fff;border-radius:14px;padding:10px 12px;border:2px solid var(--line)}
+.setrow span{display:flex;flex-direction:column;gap:2px}.setrow b{font:900 14px var(--body)}.setrow small{font:800 11px/1.4 var(--body);color:var(--muted)}
+.setrow.chk input{width:24px;height:24px;flex:none;accent-color:#7a6a9a}
+.step{display:flex;align-items:center;gap:6px;flex:none}.step button{width:38px;height:38px;border-radius:50%;border:2px solid var(--wood);background:var(--cream);font:900 20px var(--body);color:var(--ink);cursor:pointer}
+.step output{min-width:2ch;font:400 24px 'Dela Gothic One',var(--display);text-align:center}
+.lefttag{font:800 11px var(--body);color:#2f7a3a;background:#eaf7e0;border-radius:99px;padding:3px 8px;white-space:nowrap}.lefttag b{font-size:13px}.lefttag.low{color:#c0392b;background:#ffe8e4}
+.gowrap{display:flex;flex-direction:column;align-items:flex-end;gap:3px;margin-left:auto}
+.plink{display:block;margin:8px auto 0;font:800 12px var(--body);color:#5a4a7a;background:none;border:none;text-decoration:underline;cursor:pointer}
+/* locked worlds */
+.hubc.locked{filter:saturate(.35);box-shadow:inset 0 0 0 2px #d9cdb0,0 4px 0 #b8ab90}.hubc.locked .hs{color:#8a7a5a}
+.hubc .lk{position:absolute;right:10px;top:8px;font-size:15px}
+.pklock{position:relative;display:flex;flex-direction:column;gap:8px}
+.pklock .need{font:800 12px/1.6 var(--body);color:var(--ink);background:#fff3d0;border-radius:12px;padding:8px 10px;border:2px dashed #d8a02a}
+.teaser{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.teaser>span{display:flex;flex-direction:column;align-items:center;font:800 10px/1.3 var(--body);color:var(--ink);min-width:0;text-align:center}
+.teaser .ic{width:100%;max-width:72px;aspect-ratio:1;border-radius:16px;background:radial-gradient(circle,#fffdf5,#f2e6c8);display:grid;place-items:center}.teaser .ic svg{width:100%;height:100%}.teaser .q .ic svg{filter:brightness(0) opacity(.5)}
+.pklock{min-width:0}.pklock .need{overflow-wrap:anywhere}
+.btn.trial{font-size:18px;padding:10px 16px;align-self:center}.btn.trial:disabled{opacity:.6}
+#pkmap.locked{position:relative}#pkmap.locked::after{content:'🔒';position:absolute;inset:0;display:grid;place-items:center;font-size:64px;background:rgba(20,20,40,.35);pointer-events:none;border-radius:inherit}
+.app .field .enemy{max-height:min(230px,24dvh)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -1004,6 +1042,7 @@ div.fd{cursor:default}.fd span{font-size:20px}.fd small{color:var(--muted)}.fd .
   <div class="dexhead"><h2>🎵 楽器編</h2><span class="cnt" id="muCnt"></span><button class="xbtn" id="muClose">とじる</button></div>
   <div id="muBody" class="mubody"></div>
 </div></div>
+<div class="ov" id="limOv" hidden><div class="limbox" id="limBody" role="dialog" aria-label="バトルの かいすう"></div></div>
 <script>
 (()=>{
 const $=id=>document.getElementById(id);
@@ -2415,8 +2454,8 @@ function mkMember(ch){const lv=lvOf(ch.id),s=statsOf(ch,lv);return{id:ch.id,kind
 function buildParty(){S.party=partyNow()}
 function drawParty(){if(!S||!S.party)return;const el=$('party');el.style.setProperty('--n',S.party.length);el.className='party n'+S.party.length;
   el.innerHTML=S.party.map(m=>{const hp=Math.max(0,m.hp)/m.s.hp,mp=m.s.mp?m.mp/m.s.mp:0;
-    return `<div class="pm ${m.hp<=0?'ko':''} ${S.active===m?'act':''} ${m.guard?'grd':''}" id="pm-${m.id}" style="--c:${m.ch.c}"><span class="pic">${svg(m.ch)}</span>
-     <div class="pin"><div class="pn"><b>${m.sleep>0?'💤':''}${EL6[m.ch.el]?EL6[m.ch.el].i:''}${m.ch.jobI?'<span class="jb">'+m.ch.jobI+'</span>':''}${m.ch.name}</b><small>Lv${m.lv}</small></div>
+    return `<div class="pm ${m.hp<=0?'ko':''} ${S.active===m?'act':''} ${m.guard?'grd':''}" id="pm-${m.id}" style="--c:${m.ch.c}"><span class="pic">${svg(m.ch)}<i class="pel" style="--ec:${EL6[m.ch.el]?EL6[m.ch.el].c:'#999'}">${EL6[m.ch.el]?EL6[m.ch.el].i:''}</i>${m.ch.jobI?`<i class="pjb">${m.ch.jobI}</i>`:''}</span>
+     <div class="pin"><div class="pn"><b>${m.sleep>0?'💤':''}${m.ch.name}</b><small>Lv${m.lv}</small></div>
      <div class="gb hpb"><i style="width:${hp*100}%;background:${hp>.5?'#7cff6b':hp>.25?'#ffd23f':'#ff4d5e'}"></i></div>
      <div class="num">${Math.max(0,m.hp)}<small>/${m.s.hp}</small></div>
      <div class="gb mpb"><i style="width:${mp*100}%"></i></div></div></div>`}).join('')}
@@ -2479,7 +2518,7 @@ function fxSpecial(tier,m){const ch=m.ch,mv=ch.moves[tier-1],A=pmC(m),B=center($
     for(let i=0;i<8;i++)setTimeout(()=>shoot({x:B.x-200+rnd(200),y:-30},B,pick(COLS),12,()=>burst(B.x,B.y,6),{arc:0,dur:12,spread:40}),200+i*60);barrage(3,180,true)},750);return 1950}
 
 // ---------- commands ----------
-function chooseCmd(m){return new Promise(res=>{S.phase='cmd';S.active=m;drawParty();$('pad').hidden=false;$('chs').hidden=true;$('ans').hidden=false;
+function chooseCmd(m){return new Promise(res=>{S.phase='cmd';S.active=m;drawParty();$('pad').hidden=true;$('chs').hidden=true;$('ans').hidden=false;
   const sk=m.ch.skill,tier=tierOf(Math.max(1,S.combo)),mv=m.ch.moves[tier-1];
   const gOK=S.gauge>=3,opts=[['atk','こうげき',EL6[m.ch.el].i+EL6[m.ch.el].n+'の こうげき',0],['sp','ひっさつ',gOK?mv:`ゲージ ${S.gauge}/3 （コンボで たまる）`,0],['sk',sk.name,sk.desc,sk.mp],['def','ぼうぎょ','ダメージ半分・MP+3',0]];const ia=m.inst&&instOf(m.inst);if(ia)opts.push(['mus','えんそう',`${ia[2]}${ia[1]}：ねむり・かいふく`,3]);S.cmdOpts=opts;
   const cant=(k,mp)=>k==='sp'?!gOK:m.mp<mp,e=effMul(m.ch.el,S.foe.el);
@@ -2764,12 +2803,12 @@ function drawSheet(){const gi=MAP.gi,g=GRADES[gi],sel=MAP.sel,el=$('sheet');
   el.innerHTML=`<div class="srow"><span class="snum" style="background:${g.c}">${boss?'BOSS':g.n+'-'+(sel+1)}</span><div class="stt"><b>${boss?'ボス：'+bossMon(gi).name:g.units[sel][0]}</b>
     <small>${boss?`${elTag(elOfMon(bossMon(gi)))} ${strongVs(elOfMon(bossMon(gi))).map(x=>EL6[x].i+EL6[x].n).join('・')} が ばつぐん！ たんげんは ぜんぶ まざって 出るよ`:'れい：<span class="sq">'+sample+'</span>'}</small></div></div>
    <div class="srow"><span class="stars3">${st?'★'.repeat(st.stars)+'<i>'+'★'.repeat(3-st.stars)+'</i>':'<i>★★★</i>'}</span><small class="rec">おすすめ Lv ${rec} ・ パーティ Lv ${avgLvParty()}</small></div>
-   <div class="srow">${pm}<button class="btn go" id="goBtn" ${locked?'disabled':''}>${locked?`あと ${4-clearedN(gi)}つ クリア`:'しゅっぱつ！'}</button></div>`}
+   <div class="srow">${pm}<span class="gowrap">${leftTag()}<button class="btn go" id="goBtn" ${locked?'disabled':''}>${locked?`あと ${4-clearedN(gi)}つ クリア`:'しゅっぱつ！'}</button></span></div>`}
 $('itabs').addEventListener('click',e=>{const b=e.target.closest('.itab');if(!b)return;if(b.dataset.j){openHub();return}MAP.gi=+b.dataset.i;MAP.sel=null;store.set('kr_isl',MAP.gi);tone(880,0,.06,'triangle',.05);drawMap()});
 function pickNode(n){MAP.sel=+n.dataset.ui;ensureAudio();tone(1046,0,.07,'triangle',.06);drawMap();const f=$('mapwrap').querySelector(`.node[data-ui="${MAP.sel}"]`);if(f)f.focus({preventScroll:true})}
 $('mapwrap').addEventListener('click',e=>{if(e.target.closest('.chut')){openChurch();return}if(e.target.closest('.ghut')){openGacha(MAP.gi);return}const n=e.target.closest('.node');if(n)pickNode(n)});
 $('mapwrap').addEventListener('keydown',e=>{if(e.target.closest('.chut')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openChurch();return}if(e.target.closest('.ghut')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openGacha(MAP.gi);return}const n=e.target.closest('.node');if(n&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopPropagation();if(MAP.sel===+n.dataset.ui){const g=$('goBtn');if(g&&!g.disabled)g.click()}else pickNode(n)}});
-$('sheet').addEventListener('click',e=>{if(e.target.closest('#goBtn')){const b=$('goBtn');if(!b.disabled)startStage(MAP.gi,MAP.sel)}else if(e.target.closest('#toParty'))openParty()});
+$('sheet').addEventListener('click',e=>{if(e.target.closest('#goBtn')){const b=$('goBtn');if(!b.disabled){const g0=MAP.gi,u0=MAP.sel;gateBattle(()=>startStage(g0,u0))}}else if(e.target.closest('#toParty'))openParty()});
 $('dexBtn2').onclick=openDex;
 const mute2=$('mute2');const syncMute2=()=>mute2.textContent=muted?'🔇':'🔊';syncMute2();mute2.onclick=()=>{muted=!muted;store.set('kr_mute',muted);syncMute2();setMuteLbl()};
 
@@ -2822,7 +2861,7 @@ function stageClear(){const g=GRADES[S.gi],acc=S.gok/Math.max(1,S.gtot),stars=ac
    <div class="stats"><div><b>${S.gok}/${S.gtot}</b><span>正解</span></div><div><b>${S.got}</b><span>つかまえた</span></div><div><b>+${bonus}</b><span>💎ボーナス</span></div></div>
    <div class="cbtns"><button class="btn2" id="again">もういちど</button><button class="btn2" id="toPt">👥 パーティ</button><button class="btn" id="toMap">マップへ ▶</button></div>`;
   $('clear').hidden=false;
-  $('toMap').onclick=()=>{$('clear').hidden=true;goMap()};$('toPt').onclick=()=>{$('clear').hidden=true;goMap();openParty()};$('again').onclick=()=>{$('clear').hidden=true;startStage(S.gi,S.boss?-1:S.unit)};setTimeout(()=>$('toMap').focus(),50)}
+  $('toMap').onclick=()=>{$('clear').hidden=true;goMap()};$('toPt').onclick=()=>{$('clear').hidden=true;goMap();openParty()};$('again').onclick=()=>{$('clear').hidden=true;const g0=S.gi,u0=S.boss?-1:S.unit;gateBattle(()=>startStage(g0,u0))};setTimeout(()=>$('toMap').focus(),50)}
 function goMap(){if(S){S.tok=-1;if(skipR)skipR()}document.body.classList.remove('fever');$('app').hidden=true;$('clear').hidden=true;$('title').hidden=true;$('japanScr').hidden=true;$('packScr').hidden=true;$('mapScr').hidden=false;drawMap()}
 let retreatT=0;$('retreat').onclick=()=>{const b=$('retreat');if(b.dataset.arm){clearTimeout(retreatT);delete b.dataset.arm;b.textContent='◀ マップ';backToMap();return}
   b.dataset.arm='1';b.textContent='もどる？';retreatT=setTimeout(()=>{delete b.dataset.arm;b.textContent='◀ マップ'},2200)};
@@ -2925,7 +2964,7 @@ function drawFiles(){const el=$('files');
     return `<div class="file ${i===CUR?'cur':''}"><button class="fpick" data-pick="${i}" aria-label="ファイル${i+1} ${esc(sl.name)} で あそぶ"><span class="fno">${i+1}</span><span class="fmain"><b>${esc(sl.name)}</b>
       <small>🏝 ${sm.nSt}/${TOTALST} ・ 📖 ${sm.nDx}/${TOTALDEX} ・ Lv${sm.lv} ・ 💎${sm.pts.toLocaleString()}</small><small class="fat">${fmtAt(sl.at)}</small></span></button>
       <span class="fbtns"><button class="mini" data-ren="${i}" aria-label="なまえを かえる">✏️</button><button class="mini" data-del="${i}" aria-label="けす">🗑</button></span></div>`}).join('')+
-    (canSave?'<div class="fnote">💾 あそんだ きろくは じどうで セーブされるよ</div>':'<div class="fnote warn">⚠ このブラウザでは セーブが できないよ（とじると きえます）</div>')}
+    (canSave?'<div class="fnote">💾 あそんだ きろくは じどうで セーブされるよ</div>':'<div class="fnote warn">⚠ このブラウザでは セーブが できないよ（とじると きえます）</div>')+'<button class="plink" id="parentBtn">👪 おうちの方へ（バトル回数の せってい）</button>'}
 const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function openName(i,ren){FM.mode='name';FM.target=i;FM.ren=!!ren;$('nameTitle').textContent=ren?`ファイル${i+1}の なまえを かえる`:`ファイル${i+1}：なまえを いれてね`;
   const inp=$('nameIn');inp.value=ren&&SAVES[i]?SAVES[i].name:'';$('nameErr').textContent='';drawFiles();setTimeout(()=>inp.focus(),30)}
@@ -2933,7 +2972,7 @@ function nameOk(){const v=$('nameIn').value.trim().slice(0,8);if(!v){$('nameErr'
   if(FM.ren){SAVES[i].name=v;rawSet(SK,SAVES);FM.mode='list';drawFiles();return}
   SLOTKEYS.forEach(k=>rawDel(`kr_s${i}_${k}`));SAVES[i]={name:v,at:Date.now()};rawSet(SK,SAVES);FM.mode='list';
   ensureAudio();loadSlot(i);goMap();banner(`${v}の ぼうけん スタート！`,'#e07a2c');sFan();barrage(3,200)}
-$('files').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;ensureAudio();
+$('files').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;ensureAudio();if(t.id==='parentBtn'){openLimit(null,true);return}
   if(t.dataset.new!=null)return openName(+t.dataset.new,false);
   if(t.dataset.pick!=null){const i=+t.dataset.pick;loadSlot(i);goMap();banner(`おかえり、${SAVES[i].name}！`,'#e07a2c');return}
   if(t.dataset.ren!=null)return openName(+t.dataset.ren,true);
@@ -3712,36 +3751,42 @@ function pkMapSvg(){const P=PACK[PK.id];
   return s+'</svg>'}
 function drawPack(){const P=PACK[PK.id];$('pkName').textContent=`${P.i} ${P.n}`;const got=pkGot(P.id),tot=pkMons(P.id).length;
   $('pkSub').textContent=`${slotName()} ・ ずかん ${got}/${tot} ・ 💎${pts.toLocaleString()}`;
-  $('pktabs').innerHTML=PACKS.filter(p=>!p.hidden||uraOpen()).map(p=>`<button class="tab" data-p="${p.id}" aria-pressed="${p.id===PK.id}" style="--pc:${p.c}">${p.i} ${p.n} <small>${pkGot(p.id)}/${pkMons(p.id).length}</small></button>`).join('');
+  $('pktabs').innerHTML=PACKS.filter(p=>!p.hidden||uraOpen()).map(p=>`<button class="tab" data-p="${p.id}" aria-pressed="${p.id===PK.id}" style="--pc:${p.c}">${worldOpen(p.id)?'':'🔒'}${p.i} ${p.n} <small>${pkGot(p.id)}/${pkMons(p.id).length}</small></button>`).join('');
   $('pkCalc').innerHTML=GRADES.map((g,i)=>`<option value="${i}" ${i===calcGi()?'selected':''}>けいさん ${g.n}年</option>`).join('');
   document.documentElement.style.setProperty('--pc',P.c);$('packScr').dataset.p=P.id;
-  $('pkmap').innerHTML=pkMapSvg();drawPkSheet()}
+  $('pkmap').innerHTML=pkMapSvg();$('pkmap').classList.toggle('locked',!worldOpen(P.id));drawPkSheet()}
 function drawPkSheet(){const P=PACK[PK.id],el=$('pksheet'),ri=PK.sel;
+  if(!worldOpen(P.id)){const top=pkMons(P.id).filter(m=>m.rar>=4).slice(0,4),used=trialUsed(P.id);
+    el.innerHTML=`<div class="pklock"><div class="stt"><b>🔒 ${P.n}は まだ ひらいていないよ</b></div><div class="need">${needTxt(P.id)}</div>
+     <small style="font-weight:800;color:var(--muted)">こんな いきものが まってる！</small>
+     <div class="teaser">${top.map((m,i)=>`<span class="${i>1?'q':''}"><span class="ic">${insIcon(m)}</span>${i>1?'？？？':m.name}</span>`).join('')}</div>
+     <button class="btn trial" id="pkTrial" ${used?'disabled':''}>${used?'おためしは また あした':'⚔ おためしバトル（1日1かい）'}</button>${leftTag()}</div>`;return}
   if(ri==null){el.innerHTML=`<div class="stt"><b>${P.lab}を えらんでね</b><small>${P.desc}。ステージに 2つ クリアすると その${P.lab}の ボスが あらわれるよ。</small></div>
     <div class="srow"><div class="pmini" aria-label="いまの パーティ">${partyIcons()}</div><button class="pill" id="pkParty">👥 パーティ</button><button class="pill" id="pkChurch">⛪ きょうかい</button></div>`;return}
   const R=P.regions[ri],mons=regMons(P.id,ri),cl=regCleared(P.id,ri),bo=cl>=2,lv=regLv(P.id,ri);
-  el.innerHTML=`<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>${R[2]?'首都：'+R[2]+' ・ ':''}おすすめ Lv ${lv} ・ パーティ Lv ${avgLvParty()}</small></div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
+  el.innerHTML=`<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>${R[2]?'首都：'+R[2]+' ・ ':''}おすすめ Lv ${lv} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
    <div class="pkst">${R[1].map((c,si)=>{const st=pkSave[pkey(P.id,ri,si)];return `<button class="pkstage ${st?'done':''}" data-s="${si}"><b>${c}</b><span class="stars3">${st?'★'.repeat(st.stars)+'<i>'+'★'.repeat(3-st.stars)+'</i>':'<i>★★★</i>'}</span></button>`}).join('')}
      <button class="pkstage boss ${bo?'':'lock'}" data-s="-1" ${bo?'':'disabled'}><b>${bo?'ボス：'+(mons.filter(m=>m.rar===5).length>1?'？？？':dex[(mons.find(m=>m.rar===5)||{}).no]?mons.find(m=>m.rar===5).name:'？？？'):'🔒 ボス'}</b><span>${bo?(regBoss(P.id,ri)?'👑 クリア':'ちょうせん！'):`あと ${2-cl}つ`}</span></button></div>
    <div class="pkmons" aria-label="この ${P.lab}の 生き物">${mons.map(m=>`<span class="pm2 ${dex[m.no]?'':'lock'}" title="${dex[m.no]?m.name:'？？？'}">${dex[m.no]?insIcon(m):`<span class="em">${m.em||'？'}</span>`}</span>`).join('')}</div>`}
 $('pktabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;PK.id=b.dataset.p;PK.sel=null;tone(880,0,.06,'triangle',.05);drawPack()});
 $('pkCalc').addEventListener('change',e=>{store.set('kr_calc',+e.target.value);tone(988,0,.06,'triangle',.05)});
-function pickReg(i){PK.sel=i;ensureAudio();tone(1046,0,.07,'triangle',.06);drawPack();const f=$('pkmap').querySelector(`.pref[data-r="${i}"]`);if(f)f.focus({preventScroll:true})}
+function pickReg(i){if(!worldOpen(PK.id))return;PK.sel=i;ensureAudio();tone(1046,0,.07,'triangle',.06);drawPack();const f=$('pkmap').querySelector(`.pref[data-r="${i}"]`);if(f)f.focus({preventScroll:true})}
 $('pkmap').addEventListener('click',e=>{const g=e.target.closest('.pref');if(g)pickReg(+g.dataset.r)});
 $('pkmap').addEventListener('keydown',e=>{const g=e.target.closest('.pref');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pickReg(+g.dataset.r)}});
 $('pksheet').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
   if(t.id==='pkClose'){PK.sel=null;drawPack();return}if(t.id==='pkParty'){openParty();return}if(t.id==='pkChurch'){openChurch();return}
-  if(t.dataset.s!=null&&!t.disabled)startPack(PK.id,PK.sel,+t.dataset.s)});
+  if(t.id==='pkTrial'){startTrial(PK.id);return}
+  if(t.dataset.s!=null&&!t.disabled){const a=PK.id,b2=PK.sel,c2=+t.dataset.s;gateBattle(()=>startPack(a,b2,c2))}});
 $('pkHub').onclick=()=>openHub();$('pkDex').onclick=()=>{dexSer=PK.id;openDex()};$('pkIsl').onclick=()=>{$('packScr').hidden=true;goMap()};
 // ----- stage flow -----
-function startPack(pk,ri,si){ensureAudio();if(partyNow().every(m=>deadOf(m))){openChurch('しんぷ「みんな たおれて いるようだ。いきかえらせてから しゅっぱつ しなさい。」');return}
-  if(S)S.tok=-1;S=newState(0,si);S.ctx=packCtx(pk,ri,si);S.gi=0;
+function startPack(pk,ri,si,trial){ensureAudio();if(partyNow().every(m=>deadOf(m))){openChurch('しんぷ「みんな たおれて いるようだ。いきかえらせてから しゅっぱつ しなさい。」');return}
+  if(S)S.tok=-1;S=newState(0,si);S.ctx=packCtx(pk,ri,si);S.gi=0;if(trial){S.ctx.trial=1;S.nb=1;S.ctx.tag=`${PACK[pk].i} おためし`}
   $('packScr').hidden=true;$('mapScr').hidden=true;$('app').hidden=false;$('clear').hidden=true;setGradeColor();
   buildParty();S.party.forEach(p=>{p.hp=deadOf(p)?0:p.s.hp;p.mp=p.s.mp});
   if(store.get('kr_bless')){store.set('kr_bless',0);S.party.forEach(p=>{p.s={...p.s,atk:Math.round(p.s.atk*1.25),def:Math.round(p.s.def*1.15)}});setTimeout(()=>{banner('⛪ しゅくふくの ちから！','#e0a800');flash('#fff2a8')},900)}
   drawParty();hud();buildBar();drawTop();const R=PACK[pk].regions[ri];banner(si<0?'BOSS STAGE':`${R[1][si]}`,PACK[pk].c);sFan();
   (async()=>{const tok=S.tok;await say(si<0?`${R[0]}の ボスに ちょうせん！`:`${PACK[pk].i} ${R[0]}「${R[1][si]}」へ しゅっぱつ！ 計算と いきもの クイズで たたかおう！`,1600);if(tok===S.tok)runStage()})()}
-function packClear(){const c=S.ctx,P=PACK[c.pk],acc=S.gok/Math.max(1,S.gtot),stars=acc>=.999?3:acc>=.75?2:1,key=pkey(c.pk,c.ri,c.si),prev=pkSave[key],first=!prev;
+function packClear(){if(S.ctx.trial)return trialClear();const c=S.ctx,P=PACK[c.pk],acc=S.gok/Math.max(1,S.gtot),stars=acc>=.999?3:acc>=.75?2:1,key=pkey(c.pk,c.ri,c.si),prev=pkSave[key],first=!prev;
   pkSave[key]={stars:Math.max(stars,prev?prev.stars:0),n:(prev?prev.n:0)+1};savePk();
   const bonus=(S.boss?400:120)*Math.ceil(c.lvb/5)*stars;addPts(bonus);touchSlot();setTimeout(saveToast,900);sFan();flash();rain(120);barrage(S.boss?10:5,220,true);
   const bossNow=!S.boss&&first&&regCleared(c.pk,c.ri)===2;let extra='';
@@ -3753,18 +3798,24 @@ function packClear(){const c=S.ctx,P=PACK[c.pk],acc=S.gok/Math.max(1,S.gtot),sta
    <div class="stats"><div><b>${S.gok}/${S.gtot}</b><span>正解</span></div><div><b>${S.got}</b><span>つかまえた</span></div><div><b>+${bonus}</b><span>💎ボーナス</span></div></div>
    <div class="cbtns"><button class="btn2" id="again">もういちど</button><button class="btn2" id="toPt">👥 パーティ</button><button class="btn" id="toMap">マップへ ▶</button></div>`;
   $('clear').hidden=false;const back=()=>{$('clear').hidden=true;PK.sel=c.ri;goPack(c.pk)};
-  $('toMap').onclick=back;$('toPt').onclick=()=>{back();openParty()};$('again').onclick=()=>{$('clear').hidden=true;startPack(c.pk,c.ri,c.si)};setTimeout(()=>$('toMap').focus(),50)}
+  $('toMap').onclick=back;$('toPt').onclick=()=>{back();openParty()};$('again').onclick=()=>{$('clear').hidden=true;gateBattle(()=>startPack(c.pk,c.ri,c.si))};setTimeout(()=>$('toMap').focus(),50)}
+function trialClear(){const c=S.ctx,P=PACK[c.pk];sFan();flash();rain(100);barrage(4,220,true);addPts(100);touchSlot();
+  $('clearBox').innerHTML=`<div class="big">おためし クリア！</div><div class="best">${P.i} ${P.n}の せかいを ちょっとだけ たいけん！</div>${plist()}
+   <div class="note">🔓 ${worldOpen(c.pk)?'この せかいは もう あそべるよ！':needTxt(c.pk)}</div>
+   <div class="stats"><div><b>${S.gok}/${S.gtot}</b><span>正解</span></div><div><b>${S.got}</b><span>つかまえた</span></div><div><b>+100</b><span>💎ボーナス</span></div></div>
+   <div class="cbtns"><button class="btn2" id="toPt">👥 パーティ</button><button class="btn" id="toMap">もどる ▶</button></div>`;
+  $('clear').hidden=false;const back=()=>{$('clear').hidden=true;goPack(c.pk)};$('toMap').onclick=back;$('toPt').onclick=()=>{back();openParty()};setTimeout(()=>$('toMap').focus(),50)}
 const backToMap=()=>{if(S&&S.ctx&&S.ctx.world){const c=S.ctx;PK.sel=c.ri;goPack(c.pk)}else goMap()};
 // ----- choice questions in battle -----
 function pickCh(i){if(!S||S.phase!=='q'||S.lock||!S.q||!S.q.ch)return;const c=S.q.ch[i];if(c==null)return;S.input=c;judge()}
 $('chs').addEventListener('click',e=>{const b=e.target.closest('.chb');if(b)pickCh(+b.dataset.i)});
 // ----- hub -----
 function openHub(){const cards=[
-   ['japan','🗾','にっぽん旅','都道府県 スタンプラリー',`スタンプ ${allStamps()}/${totSpots}`,'#e0467a'],
+   ['japan','🗾','にっぽん旅','都道府県 スタンプラリー',`せいは ${Object.keys(stp.done||{}).length}/47 ・ スタンプ ${allStamps()}/${totSpots}`,'#e0467a'],
    ...PACKS.filter(p=>!p.hidden||uraOpen()).map(p=>['pk:'+p.id,p.i,p.n,({sea:'魚・貝・海の いきもの',land:'森や 山の どうぶつ',sky:'日本の 空の 鳥たち',asia:'8つの 国・地域を たび',eu:'8つの 国を たび',ura:'南の島の ひきょう'})[p.id],`ずかん ${pkGot(p.id)}/${pkMons(p.id).length}`,p.c]),
    ['music','🎵','楽器編','楽器クイズで 楽器を ゲット',`楽器 ${typeof instGot==='function'?instGot():0}/${typeof INSTS!=='undefined'?INSTS.length:0}`,'#d8a02a'],
    ['trade','🔁','こうかん','コードで 生き物を こうかん','ともだちと',`#3a9a8a`]];
-  $('hubGrid').innerHTML=cards.map(([k,i,n,d,s,c])=>`<button class="hubc" data-k="${k}" style="--hc:${c}"><span class="hi">${i}</span><span class="ht"><b>${n}</b><small>${d}</small></span><span class="hs">${s}</span></button>`).join('');
+  $('hubGrid').innerHTML=cards.map(([k,i,n,d,s,c])=>{const lk=k.startsWith('pk:')&&!worldOpen(k.slice(3));if(lk)s='🔒 おためしバトル OK';return `<button class="hubc ${lk?'locked':''}" data-k="${k}" style="--hc:${c}">${lk?'<span class="lk">🔒</span>':''}<span class="hi">${i}</span><span class="ht"><b>${n}</b><small>${d}</small></span><span class="hs">${s}</span></button>`}).join('');
   $('hubOv').hidden=false;setTimeout(()=>{const b=$('hubGrid').querySelector('.hubc');if(b)b.focus()},40)}
 $('hubGrid').addEventListener('click',e=>{const b=e.target.closest('.hubc');if(!b)return;ensureAudio();const k=b.dataset.k;$('hubOv').hidden=true;tone(1175,0,.06,'triangle',.06);
   if(k==='japan')goJapan();else if(k.startsWith('pk:')){PK.sel=null;goPack(k.slice(3))}else if(k==='music'){if(typeof openMusic==='function')openMusic()}else if(k==='trade'){if(typeof openTrade==='function')openTrade()}});
@@ -3938,6 +3989,56 @@ function uraTry(){const v=$('uraIn').value.trim().normalize('NFKC').replace(/[�
   else{$('uraErr').textContent='……なにも おこらなかった';sNG()}}
 $('uraOk').onclick=uraTry;$('uraIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();uraTry()}if(e.key==='Escape')$('uraBox').hidden=true});
 
+// ================= DAILY BATTLE LIMIT & PARENT CONTROLS =================
+const DAY=()=>{const d=new Date();return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`};
+function lim(){let L=rawGet('kr_lim')||{};if(L.d!==DAY())L={d:DAY(),n:0,x:0,max:L.max||5,tr:{}};L.tr=L.tr||{};return L}
+const saveLim=L=>rawSet('kr_lim',L);
+const battlesLeft=()=>{const L=lim();return Math.max(0,L.max+L.x-L.n)};
+const LG={go:null,code:'',mode:'kid'};
+function gateBattle(go){if(partyNow().every(m=>deadOf(m))){openChurch('しんぷ「みんな たおれて いるようだ。いきかえらせてから しゅっぱつ しなさい。」');return}
+  if(battlesLeft()>0){const L=lim();L.n++;saveLim(L);go();return}openLimit(go)}
+function leftTag(){const n=battlesLeft();return `<span class="lefttag ${n<=1?'low':''}">⚔ きょう のこり <b>${n}</b>かい</span>`}
+function openLimit(go,parentOnly){LG.go=go||null;LG.code='';LG.mode=parentOnly?'pin':'kid';drawLimit();$('limOv').hidden=false;setTimeout(()=>{const b=$('limOv').querySelector('button');if(b)b.focus()},40)}
+function drawLimit(){const el=$('limBody'),L=lim();
+  if(LG.mode==='kid'){el.innerHTML=`<div class="limart" aria-hidden="true"><span class="moon">🌙</span><span class="zz">z<i>z</i><b>z</b></span><span class="bug">🪲</span></div>
+    <h2>きょうの バトルは ここまで！</h2><p>きょうは ${L.n}かい たたかったよ。むしたちも おやすみの じかん。<br>また あした あそぼうね！</p>
+    <p class="still">ずかん・にっぽん旅の クイズ・楽器編・ガチャは まだ あそべるよ</p>
+    <div class="cbtns"><button class="btn2" id="limClose">わかった</button><button class="btn2 parent" id="limParent">👪 おうちの人に きく</button></div>`;return}
+  if(LG.mode==='pin'){el.innerHTML=`<h2 class="ph">おうちの方へ</h2><p>パスワード（4けた）を 入れてください</p>
+    <div class="pins" aria-label="入力した けた数">${[0,1,2,3].map(i=>`<i class="${i<LG.code.length?'on':''}"></i>`).join('')}</div><small class="nerr" id="pinErr"></small>
+    <div class="pinpad">${[1,2,3,4,5,6,7,8,9,'C',0,'⌫'].map(k=>`<button data-p="${k}" aria-label="${k==='⌫'?'1つ けす':k==='C'?'ぜんぶ けす':k}">${k}</button>`).join('')}</div>
+    <div class="cbtns"><button class="btn2" id="limClose">やめる</button></div>`;return}
+  // settings
+  const left=battlesLeft();el.innerHTML=`<h2 class="ph">バトルの せってい</h2>
+    <div class="setrow"><span><b>きょう あと なんかい？</b><small>いま のこり ${left}かい</small></span><div class="step"><button data-s="t-">−</button><output id="stT">${LG.t??left}</output><button data-s="t+">＋</button></div></div>
+    <div class="setrow"><span><b>1日の バトル かいすう</b><small>あしたから この かいすう</small></span><div class="step"><button data-s="m-">−</button><output id="stM">${LG.m??L.max}</output><button data-s="m+">＋</button></div></div>
+    <label class="setrow chk"><span><b>せかいを ぜんぶ ひらく</b><small>にっぽん旅の コンプリート前でも 海・陸・空・アジア・ヨーロッパに 行ける</small></span><input type="checkbox" id="stU" ${rawGet('kr_unlockall')?'checked':''}></label>
+    <div class="cbtns"><button class="btn2" id="limClose">もどる</button><button class="btn" id="limSave">けってい</button></div>`}
+$('limBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;ensureAudio();
+  if(b.id==='limClose'){$('limOv').hidden=true;LG.go=null;LG.t=LG.m=undefined;return}
+  if(b.id==='limParent'){LG.mode='pin';LG.code='';drawLimit();return}
+  if(b.dataset.p!=null){const k=b.dataset.p;if(k==='⌫')LG.code=LG.code.slice(0,-1);else if(k==='C')LG.code='';else if(LG.code.length<4)LG.code+=k;tone(880+LG.code.length*80,0,.05,'triangle',.05);
+    if(LG.code.length===4){if(LG.code==='0000'){LG.mode='set';LG.t=undefined;LG.m=undefined;sFan();drawLimit();return}drawLimit();$('pinErr').textContent='パスワードが ちがいます';sNG();LG.code='';setTimeout(()=>{if(LG.mode==='pin')drawLimit()},700);return}drawLimit();return}
+  if(b.dataset.s){const L=lim();if(LG.t==null)LG.t=battlesLeft();if(LG.m==null)LG.m=L.max;const k=b.dataset.s;if(k==='t-')LG.t=Math.max(0,LG.t-1);if(k==='t+')LG.t=Math.min(30,LG.t+1);if(k==='m-')LG.m=Math.max(1,LG.m-1);if(k==='m+')LG.m=Math.min(30,LG.m+1);
+    $('stT').textContent=LG.t;$('stM').textContent=LG.m;tone(988,0,.04,'triangle',.05);return}
+  if(b.id==='limSave'){const L=lim();if(LG.m!=null)L.max=LG.m;const t=LG.t??battlesLeft();L.x=t-L.max+L.n;saveLim(L);rawSet('kr_unlockall',$('stU').checked?1:0);
+    $('limOv').hidden=true;const go=LG.go;LG.go=null;LG.t=LG.m=undefined;banner(`きょう あと ${battlesLeft()}かい`,'#2f9e3a');refreshMaps();if(go&&battlesLeft()>0)gateBattle(go)}});
+function refreshMaps(){try{if(!$('mapScr').hidden)drawSheet();if(!$('packScr').hidden)drawPack()}catch(e){}}
+
+// ================= WORLD UNLOCK CHAIN & TRIAL BATTLES =================
+const CHAIN=['japan','sea','land','sky','asia','eu'];
+const CHN={japan:'🗾 にっぽん旅',sea:'🌊 海編',land:'🦌 陸編',sky:'🕊 空編',asia:'🌏 アジア編',eu:'🏰 ヨーロッパ編'};
+const japanDone=()=>Object.keys(stp.done||{}).length>=PREFS.length;
+const packDone=pk=>PACK[pk].regions.every((r,i)=>regBoss(pk,i));
+const worldDone=k=>k==='japan'?japanDone():packDone(k);
+function worldOpen(k){if(k==='japan'||k==='ura')return true;if(rawGet('kr_unlockall'))return true;const i=CHAIN.indexOf(k);return i<=0||(worldOpen(CHAIN[i-1])&&worldDone(CHAIN[i-1]))}
+const needOf=k=>CHAIN[CHAIN.indexOf(k)-1];
+function needTxt(k){const n=needOf(k);if(n==='japan')return `にっぽん旅の スタンプラリーを コンプリート（47都道府県 せいは）で かいほう ・ いま ${Object.keys(stp.done||{}).length}/47`;
+  const P=PACK[n];return `${P.i} ${P.n}を コンプリート（${P.regions.length}${P.lab}の ボスを たおす）で かいほう ・ いま ${P.regions.filter((r,i)=>regBoss(n,i)).length}/${P.regions.length}`}
+const trialUsed=pk=>!!lim().tr[pk];
+function startTrial(pk){if(trialUsed(pk)){banner('おためしは 1日1かい！','#e0467a');return}
+  gateBattle(()=>{const L=lim();L.tr[pk]=1;saveLim(L);const P=PACK[pk],ri=Math.floor(Math.random()*P.regions.length);startPack(pk,ri,Math.floor(Math.random()*3),true)})}
+
 // ---------- input ----------
 function press(k){if(!S||$('app').hidden||!$('title').hidden||!$('clear').hidden||!$('dexOv').hidden||!$('viewOv').hidden||!$('partyOv').hidden)return;ensureAudio();
   if(S.phase==='cmd'){if(/^[1-5]$/.test(k)&&S.cmdOpts&&S.cmdOpts[+k-1]&&S.cmdRes)S.cmdRes(S.cmdOpts[+k-1][0]);return}
@@ -3954,6 +4055,7 @@ $('pad').addEventListener('pointerdown',e=>{const b=e.target.closest('.k');if(!b
 $('pad').addEventListener('click',e=>{const b=e.target.closest('.k');if(b&&e.detail===0)press(b.dataset.k)});
 addEventListener('keydown',e=>{
   if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'))return;
+  if(!$('limOv').hidden){if(e.key==='Escape'){const c=$('limClose');if(c)c.click()}else if(LG.mode==='pin'&&/^[0-9]$/.test(e.key)){const b=$('limBody').querySelector(`[data-p="${e.key}"]`);if(b){e.preventDefault();b.click()}}else if(LG.mode==='pin'&&e.key==='Backspace'){const b=$('limBody').querySelector('[data-p="⌫"]');if(b){e.preventDefault();b.click()}}return}
   if(!$('hubOv').hidden){if(e.key==='Escape')$('hubClose').click();return}
   if(!$('tradeOv').hidden){if(e.key==='Escape')$('trClose').click();return}
   if(!$('musicOv').hidden){if(e.key==='Escape'){$('muClose').click();return}if(/^[1-4]$/.test(e.key)&&MU.phase==='q'){e.preventDefault();muPick(+e.key-1)}return}
