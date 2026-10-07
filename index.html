@@ -4258,7 +4258,7 @@ $('trBody').addEventListener('click',e=>{const t=e.target.closest('button');if(!
   if(t.id==='trGive'&&TR.sel){const i=box.indexOf(TR.sel);if(i<0)return;TR.code=encTrade(TR.sel);box.splice(i,1);saveBox();validRefs();touchSlot();sFan();rain(30);drawTrade();return}
   if(t.id==='trAgain'){TR.sel=null;TR.code='';drawTrade();return}
   if(t.id==='trCopy'){const txt=TR.code;(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{t.textContent='✅ コピーした'}).catch(()=>{const r=document.createRange();r.selectNodeContents($('trBody').querySelector('.trcode'));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);t.textContent='えらんだよ（長おしで コピー）'});return}
-  if(t.id==='trGet'){const d=decTrade($('trIn').value);if(!d){$('trErr').textContent='コードが ちがうみたい。もういちど たしかめてね';sNG();return}
+  if(t.id==='trGet'){if(uraWord($('trIn').value)){$('uraIn').value=$('trIn').value;$('trIn').value='';uraTry();return}const d=decTrade($('trIn').value);if(!d){$('trErr').textContent='コードが ちがうみたい。もういちど たしかめてね';sNG();return}
     const used=store.get('kr_tused')||[];if(used.includes(d.key)){$('trErr').textContent='この コードは もう うけとったよ';sNG();return}
     used.push(d.key);store.set('kr_tused',used.slice(-500));const isNew=!dex[d.no];dex[d.no]=(dex[d.no]||0)+1;store.set('kr_dex3',dex);
     const it={u:uid(),no:d.no,eq:{},lv:d.lv};if(d.evo)it.evo=d.evo,it.fp=[0,30,80,150][d.evo];if(d.job&&d.job!=='none')it.job=d.job;box.push(it);saveBox();dexBtn();touchSlot();
@@ -4271,12 +4271,11 @@ $('trClose').onclick=()=>{$('tradeOv').hidden=true};
 function fnv(s){let h=0x811c9dc5;for(const ch of s){h^=ch.codePointAt(0);h=Math.imul(h,0x01000193)>>>0}return h>>>0}
 const URA_H=fnv('ほしのすなはま');
 (()=>{const t=$('hubTitle');let tm=0,taps=[];const open=fromTap=>{if(!$('uraBox').hidden)return;$('uraBox').hidden=false;$('uraIn').value='';$('uraErr').textContent='';if(fromTap)$('uraIn').focus();else setTimeout(()=>$('uraIn').focus(),30);tone(220,0,.6,'sine',.06);tone(330,.2,.6,'sine',.05)};
-  // 5 quick taps (works on iPhone) or a 2-second press
-  t.addEventListener('click',()=>{ensureAudio();const now=Date.now();taps=taps.filter(x=>now-x<2500);taps.push(now);if(taps.length>=5){taps=[];open(true)}});
   const start=()=>{clearTimeout(tm);tm=setTimeout(()=>open(false),2000)};const stop=()=>clearTimeout(tm);
   t.addEventListener('pointerdown',start);['pointerup','pointercancel'].forEach(k=>t.addEventListener(k,stop));t.addEventListener('contextmenu',e=>e.preventDefault())})();
-function uraTry(){const v=$('uraIn').value.trim().normalize('NFKC').replace(/[ァ-ン]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60));
-  if(fnv(v)===URA_H){store.set('kr_ura',1);$('uraBox').hidden=true;$('hubOv').hidden=true;const d=$('dim');d.className='';void d.offsetWidth;d.className='on';flash('#2a1a4a');
+const uraWord=x=>fnv(String(x||'').trim().normalize('NFKC').replace(/[ァ-ン]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60)))===URA_H;
+function uraTry(){
+  if(uraWord($('uraIn').value)){store.set('kr_ura',1);$('uraBox').hidden=true;$('hubOv').hidden=true;$('tradeOv').hidden=true;const d=$('dim');d.className='';void d.offsetWidth;d.className='on';flash('#2a1a4a');
     [0,3,7,10,14].forEach((k,j)=>tone(note(k),j*.18,.6,'sine',.07));banner('裏ステージ かいほう…','#c77dff',true);setTimeout(()=>{PK.sel=0;goPack('ura')},1400)}
   else{$('uraErr').textContent='……なにも おこらなかった';sNG()}}
 $('uraOk').onclick=uraTry;$('uraIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();uraTry()}if(e.key==='Escape')$('uraBox').hidden=true});
