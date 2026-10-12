@@ -4113,11 +4113,11 @@ function openHub(){const cards=[
    ['japan','🗾','にっぽん旅','都道府県 スタンプラリー',`せいは ${Object.keys(stp.done||{}).length}/47 ・ スタンプ ${allStamps()}/${totSpots}`,'#e0467a'],
    ...pkList().map(p=>['pk:'+p.id,p.i,p.n,({oki:'船で 5つの 島を めぐる',sea:'魚・貝・海の いきもの',land:'森や 山の どうぶつ',sky:'日本の 空の 鳥たち',asia:'8つの 国・地域を たび',eu:'8つの 国を たび',ura:'南の島の ひきょう'})[p.id],`ずかん ${pkGot(p.id)}/${pkMons(p.id).length}`,p.c]),
    ['music','🎵','楽器編','楽器クイズで 楽器を ゲット',`楽器 ${typeof instGot==='function'?instGot():0}/${typeof INSTS!=='undefined'?INSTS.length:0}`,'#d8a02a'],
-   ['trade','🔁','こうかん','コードで 生き物を こうかん','ともだちと',`#3a9a8a`],...(kokuoReady()?[['secret','👑','？？？の けはい','だれかが きみを まっている…','ひみつの たたかい','#c8a030']]:[]),['forge','⚒','かじや','そざいで ぶきを つくる',`ぶき ${WPNS.filter(w=>myItems.has(w[0])).length}しゅるい`,'#8a5226']];
+   ['trade','🔁','こうかん','コードで 生き物を こうかん','ともだちと',`#3a9a8a`],...(kokuoReady()?[['secret','👑','？？？の けはい','だれかが きみを まっている…','ひみつの たたかい','#c8a030']]:!owned.has('kokuo')&&dexN()>=30?[['secret0','❔','？？？','ずかんを あつめると なにかが おきる…',`ずかん ${dexN()}/${KOKUO_NEED}`,'#8a7a5a']]:[]),['forge','⚒','かじや','そざいで ぶきを つくる',`ぶき ${WPNS.filter(w=>myItems.has(w[0])).length}しゅるい`,'#8a5226']];
   $('hubGrid').innerHTML=cards.map(([k,i,n,d,s,c])=>{const lk=k.startsWith('pk:')&&!worldOpen(k.slice(3));if(lk)s='🔒 おためしバトル OK';return `<button class="hubc ${lk?'locked':''} ${k==='secret'?'secret':''}" data-k="${k}" style="--hc:${c}">${lk?'<span class="lk">🔒</span>':''}<span class="hi">${i}</span><span class="ht"><b>${n}</b><small>${d}</small></span><span class="hs">${s}</span></button>`}).join('');
   $('hubOv').hidden=false;setTimeout(()=>{const b=$('hubGrid').querySelector('.hubc');if(b)b.focus()},40)}
 $('hubGrid').addEventListener('click',e=>{const b=e.target.closest('.hubc');if(!b)return;ensureAudio();const k=b.dataset.k;$('hubOv').hidden=true;tone(1175,0,.06,'triangle',.06);
-  if(k==='japan')goJapan();else if(k.startsWith('pk:')){PK.sel=null;goPack(k.slice(3))}else if(k==='music'){if(typeof openMusic==='function')openMusic()}else if(k==='trade'){if(typeof openTrade==='function')openTrade()}else if(k==='forge')openForge();else if(k==='secret')startKokuo()});
+  if(k==='japan')goJapan();else if(k.startsWith('pk:')){PK.sel=null;goPack(k.slice(3))}else if(k==='music'){if(typeof openMusic==='function')openMusic()}else if(k==='trade'){if(typeof openTrade==='function')openTrade()}else if(k==='forge')openForge();else if(k==='secret')startKokuo();else if(k==='secret0'){openHub();banner(`ずかん あと ${KOKUO_NEED-dexN()}しゅるい…`,'#8a7a5a')}});
 $('hubClose').onclick=()=>{$('hubOv').hidden=true};
 
 $('jHub').onclick=()=>openHub();
