@@ -49,3 +49,4 @@ GitHub Pages を有効にすると、URLから遊べます。
 - SPキャラの「Nouns」スタイルとメガネ「ノグルズ」は、CC0（パブリックドメイン）で公開されている [Nouns](https://nouns.wtf/) をもとにしています。
 - そのほかのキャラクター・生き物の3Dモデルは、このゲームのためのオリジナルです。
 - 楽器編のBGMは、パブリックドメインの曲（きらきら星、歓喜の歌、さくらさくら など）と、オリジナルの曲です。
+- 「ポンと弾んで出る」動き（ポップイン）は Motion Prompt #001（MIT License, © 2026 Shohei Ohtaki, https://showheyohtaki.github.io/motion-prompt/#001）の仕様をもとにしています。

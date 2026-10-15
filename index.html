@@ -68,7 +68,7 @@ body.fever{animation:feverbg 1.2s linear infinite}
 @keyframes ehit{0%{filter:brightness(4)}30%{transform:translateX(12px) scale(.88,1.12)}60%{transform:translateX(-6px)}}
 .enemy.ko{animation:eko .7s ease-in forwards}
 @keyframes eko{0%{filter:brightness(4)}100%{transform:translate(60px,-130px) rotate(720deg) scale(.2);opacity:0}}
-.enemy.in{animation:ein .45s cubic-bezier(.2,1.5,.4,1)}
+.enemy.in{animation:none}
 @keyframes ein{from{transform:translateX(120px) scale(.4);opacity:0}}
 .enemy.lunge{animation:lunge .45s}
 @keyframes lunge{40%{transform:translateX(-60px) scale(1.2)}}
@@ -1151,6 +1151,7 @@ div.fd{cursor:default}.fd span{font-size:20px}.fd small{color:var(--muted)}.fd .
 @keyframes uShake{20%{transform:translate(-12px,8px)}40%{transform:translate(10px,-10px)}60%{transform:translate(-8px,6px)}80%{transform:translate(6px,-4px)}}
 #ultOv.el-yami.hit #ultCv{filter:invert(1) hue-rotate(180deg)}
 #ultOv.out{transition:opacity .25s;opacity:0}
+.lvbadge{position:absolute;right:-6px;top:-8px;z-index:3;font:400 11px 'Dela Gothic One',var(--display);font-style:normal;color:#1e2a48;background:#ffd23f;border:3px solid #1e2a48;border-radius:99px;padding:2px 6px;pointer-events:none}.pm{position:relative}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -2818,7 +2819,20 @@ let foeT=0;
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 // ---------- message window ----------
 let skipR=null;
-function setMsg(html){const m=$('msgTxt');m.innerHTML=html;m.classList.remove('in');void m.offsetWidth;m.classList.add('in')}
+// ================= POP-IN (Motion Prompt #001 · MIT License (c) 2026 Shohei Ohtaki · https://showheyohtaki.github.io/motion-prompt/#001) =================
+// scale: spring 1 − e^(−6.5t)·cos(15t) (overshoots to ~1.26), tilt −0.35rad → 0 with 1 − e^(−6t)·cos(11t), badge follows ~0.34s later with 1 − e^(−7t)·cos(17t)
+const mpSpring=(t,f,d)=>t<=0?0:1-Math.exp(-d*t)*Math.cos(f*t);
+const mpBackIn=(x,s=2.2)=>x*x*((s+1)*x-s);
+function popKF(o={}){const f=o.f||15,d=o.d||6.5,rf=o.rf||11,rd=o.rd||6,rot=o.rot??-.35,N=26,T=o.T||.9,kf=[];
+  for(let i=0;i<=N;i++){const t=i/N*T,s=mpSpring(t,f,d),r=(1-mpSpring(t,rf,rd))*rot;kf.push({transform:`${o.base||''} scale(${(i===N?1:s).toFixed(4)}) rotate(${(i===N?0:r).toFixed(4)}rad)`,offset:i/N})}return kf}
+function popIn(el,o={}){if(!el||RM||!el.animate)return null;try{return el.animate(popKF(o),{duration:(o.T||.9)*1000,delay:o.delay||0,easing:'linear',fill:'backwards'})}catch(e){return null}}
+function popOut(el,o={}){if(!el||RM||!el.animate)return Promise.resolve();const N=12,kf=[];for(let i=0;i<=N;i++){const x=i/N;kf.push({transform:`${o.base||''} scale(${Math.max(0,1-mpBackIn(x)).toFixed(4)})`})}
+  return new Promise(r=>{try{const a=el.animate(kf,{duration:260,easing:'linear',fill:'forwards'});a.onfinish=r}catch(e){r()}})}
+function popAll(list,o={}){[...list].forEach((el,i)=>popIn(el,{...o,delay:(o.delay||0)+i*(o.stagger??45)}))}
+// badge: the little "1" that pops after the icon
+function popBadge(el,o={}){return popIn(el,{f:17,d:7,rot:0,T:.7,delay:(o.delay??340),base:o.base||''})}
+
+function setMsg(html){const m=$('msgTxt');m.innerHTML=html;m.classList.remove('in');void m.offsetWidth;m.classList.add('in');const ch=m.querySelectorAll('.mchip');if(ch.length&&typeof popAll==='function')popAll(ch,{stagger:110,rot:-.3})}
 function say(html,ms){setMsg(html);const t=ms??Math.min(2600,Math.max(1000,html.replace(/<[^>]+>/g,'').length*55));
   return new Promise(r=>{let done=false;const fin=()=>{if(done)return;done=true;skipR=null;r()};skipR=fin;setTimeout(fin,t)})}
 $('msg').addEventListener('click',()=>{if(skipR)skipR()});
@@ -2873,7 +2887,7 @@ function foeStats(mon,L,boss){const g=(L-1)/3,rf=[1,1.25,1.55,1.95,2.5][mon.rar-
   if(boss){hp=Math.round(hp*(g<1?1.6:2.0));atk=Math.round(atk*(g<1?1:1.1));def=Math.round(def*1.1);exp*=4}return{hp,max:hp,atk,def,exp,lv:L}}
 function spawnFoe(boss,strong){let mon;if(boss)mon=S.ctx?S.ctx.boss:bossMon(S.gi);
   else{const spc=S.ctx?0:tierOf(Math.max(1,S.combo))>=3?.06:.025;mon=Math.random()<spc?pick(MONS.filter(m=>m.sp)):pickMon(strong?3:1)}
-  S.foe={mon,boss,el:elOfMon(mon),poison:0,dead:false,...foeStats(mon,foeLv(boss?2:strong?1:0),boss)};if(S.ctx&&S.ctx.hard){const F=S.foe;F.hp=F.max=Math.round(F.hp*(boss?1.6:1.35));F.atk=Math.round(F.atk*1.25);F.def=Math.round(F.def*1.2);F.exp=Math.round(F.exp*1.5)}drawFoeInfo();drawEnemy('normal','in');
+  popIn($('enemy'),{rot:-.35,T:1.1});S.foe={mon,boss,el:elOfMon(mon),poison:0,dead:false,...foeStats(mon,foeLv(boss?2:strong?1:0),boss)};if(S.ctx&&S.ctx.hard){const F=S.foe;F.hp=F.max=Math.round(F.hp*(boss?1.6:1.35));F.atk=Math.round(F.atk*1.25);F.def=Math.round(F.def*1.2);F.exp=Math.round(F.exp*1.5)}drawFoeInfo();drawEnemy('normal','in');
   setTimeout(()=>{if(S&&S.foe&&!S.foe.dead&&$('enemy').classList.contains('in'))drawEnemy()},460)}
 function hitFoe(d,crit){const f=S.foe;f.hp=Math.max(0,f.hp-d);if(f.sleep>0&&Math.random()<.25){f.sleep=0;drawFoeInfo()}hpBar();drawEnemy('hit','hit');clearTimeout(foeT);foeT=setTimeout(()=>{if(S&&S.foe&&S.foe.hp>0)drawEnemy()},380);
   const B=center($('enemy'));if(S.curEl&&EL6[S.curEl]){elHit(S.curEl,B,crit?10:5);if(crit)tintField(S.curEl,300)}pop((crit?'かいしん ':'')+d,B.x+rnd(40),B.y-20+rnd(20),crit?'#ff3d8b':'#fff',crit?30:26);burst(B.x,B.y,crit?18:8);boom(crit?.2:.1)}
@@ -2905,14 +2919,14 @@ function chooseCmd(m){return new Promise(res=>{S.phase='cmd';S.active=m;drawPart
   const cant=(k,mp)=>k==='sp'?!gOK:m.mp<mp,e=effMul(m.ch.el,S.foe.el);
   $('qwrap').hidden=true;const c=$('cmds');c.hidden=false;$('card').className='card cmdmode';
   c.innerHTML=`<div class="cmdh"><b style="color:${tcol(m.ch.c)}">${m.ch.name}</b> は どうする？ <span class="mu">${EL6[m.ch.el].i}→${EL6[S.foe.el].i} ${e>1?'<b class="eff">ばつぐん！</b>':e<1?'<span class="dim">いまひとつ</span>':''}</span></div>`+opts.map(([k,l,d,mp],i)=>`<button class="cmd ${k==='sp'&&gOK?'ready':''}" data-k="${k}" ${cant(k,mp)?'disabled':''}><i>${i+1}</i><b>${l}</b><small>${d}${mp?` ・ MP${mp}`:''}</small></button>`).join('');
-  setMsg(`<b style="color:${tcol(m.ch.c)}">${m.ch.name}</b>は どうする？ <span class="dim">（コマンドをえらんでね）</span>`);
+  popAll(c.querySelectorAll('.cmd'),{stagger:40,rot:-.12,T:.75});setMsg(`<b style="color:${tcol(m.ch.c)}">${m.ch.name}</b>は どうする？ <span class="dim">（コマンドをえらんでね）</span>`);
   S.cmdRes=k=>{const o=opts.find(x=>x[0]===k);if(!o||cant(o[0],o[3]))return;S.cmdRes=null;tone(1046,0,.06,'square',.04);res(k)};
   setTimeout(()=>{const b=c.querySelector('.cmd:not([disabled])');if(b&&document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#cmds,body'))b.focus({preventScroll:true})},30)})}
 $('cmds').addEventListener('click',e=>{const b=e.target.closest('.cmd');if(b&&!b.disabled&&S&&S.cmdRes)S.cmdRes(b.dataset.k)});
 function ask(m,k){return new Promise(res=>{const g=CTX(),u=g.world?g.units[0]:S.boss?pick(g.units):g.units[S.ui];S.q=u[1]();S.input='';S.lock=false;S.phase='q';S.qres=res;
   $('cmds').hidden=true;$('qwrap').hidden=false;$('card').className='card';
   const q=$('q');q.innerHTML=S.q.html+(S.q.ne?'':' <span>=</span>');q.className='q'+(S.q.ne?' long':'');void q.offsetWidth;q.classList.add('qin');
-  const isC=!!S.q.ch;$('ans').hidden=isC;$('pad').hidden=isC;$('chs').hidden=!isC;if(isC){q.className='q chq qin';$('chs').innerHTML=S.q.ch.map((c,i)=>`<button class="chb" data-i="${i}"><i>${i+1}</i><span>${esc(c)}</span></button>`).join('')}
+  const isC=!!S.q.ch;$('ans').hidden=isC;$('pad').hidden=isC;$('chs').hidden=!isC;if(isC){q.className='q chq qin';$('chs').innerHTML=S.q.ch.map((c,i)=>`<button class="chb" data-i="${i}"><i>${i+1}</i><span>${esc(c)}</span></button>`).join('');popAll($('chs').children,{stagger:50,rot:-.15,T:.75})}
   const lbl={atk:'こうげき',sp:'ひっさつ',sk:m.ch.skill.name,def:'ぼうぎょ',sm:'しょうかん',mus:'えんそう'}[k];
   $('hint').innerHTML=(S.q.hint?S.q.hint+'<br>':'')+`正解で <b style="color:${tcol(m.ch.c)}">${m.ch.name}の ${lbl}</b> が決まる！`+(S.q.a.includes('/')?' <small>（OKで けってい）</small>':'');
   setMsg(`${m.ch.name}の ${lbl}！ はやく 正解するほど つよくなる！`);drawAns();
@@ -2974,7 +2988,7 @@ async function win(){const f=S.foe;f.dead=true;clearTimeout(foeT);drawEnemy('ko'
   if(!f.mon.secret){const dr=dropsOf(f.mon,f.boss);addMats(dr);if(Object.keys(dr).length)await say(`そざい ゲット！ ${dropTxt(dr)}`,1400)}
   await say(`みんなは けいけんち <b>${f.exp}</b> ポイントを かくとく！`,1200);
   for(const p of S.party){if(p.hp<=0)continue;const sv=p.kind==='i'?p.inst:(pSave[p.id]||{lv:p.lv,exp:0});if(!sv.lv)sv.lv=p.lv;sv.exp=(sv.exp||0)+f.exp;let up=false;while(sv.exp>=needExp(sv.lv)){sv.exp-=needExp(sv.lv);sv.lv++;up=true}if(p.kind!=='i')pSave[p.id]=sv;
-    if(up){p.lv=sv.lv;p.s=p.kind==='i'?insStats(p.ch.mon,p.lv,p.inst.eq,p.inst):statsOf(p.ch,p.lv);p.hp=p.s.hp;p.mp=p.s.mp;drawParty();const c=pmC(p);ring(c.x,c.y,'#ffd23f');burst(c.x,c.y,26);
+    if(up){p.lv=sv.lv;p.s=p.kind==='i'?insStats(p.ch.mon,p.lv,p.inst.eq,p.inst):statsOf(p.ch,p.lv);p.hp=p.s.hp;p.mp=p.s.mp;drawParty();const c=pmC(p);ring(c.x,c.y,'#ffd23f');burst(c.x,c.y,26);{const pe=$('pm-'+p.id);if(pe){popIn(pe,{rot:-.2});const bd=document.createElement('i');bd.className='lvbadge';bd.textContent='UP';pe.appendChild(bd);popBadge(bd);setTimeout(()=>bd.remove(),1800)}}
       [0,4,7,12].forEach((k,j)=>tone(note(k+5),j*.09,.22,'triangle',.1));await say(`<b style="color:${tcol(p.ch.c)}">${p.ch.name}</b>は レベル <b>${p.lv}</b> に あがった！ HPとMPが ぜんかいふく！`,1600)}}
   savePS();saveBox();
   const fell=[];S.party.forEach(p=>{if(p.hp<=0){p.hp=0;if(!deadOf(p)){setDead(p,true);fell.push(p.ch.name)}}else p.hp=Math.min(p.s.hp,p.hp+Math.ceil(p.s.hp*.2));p.mp=Math.min(p.s.mp,p.mp+3);p.guard=false;p.sleep=0});drawParty();
@@ -3005,7 +3019,7 @@ function capture(mon,B,lv){const isNew=!dex[mon.no];dex[mon.no]=(dex[mon.no]||0)
   setTimeout(()=>{card.remove();dexBtn();const b=$('dexBtn');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump')},720);
   const t=document.createElement('div');t.className='gettoast';
   t.innerHTML=`<span class="ic">${esvg(mon)}</span><span><small>${isNew?'<span class="nw">NEW</span>':''}${mon.sp?'SP':'No.'+String(mon.no).padStart(3,'0')} <span style="color:${mon.rar>=4?'#b07800':'inherit'}">${starStr(mon.rar)}</span></small><b>${mon.name} ゲット！</b><small>Lv ${lv||defLv(mon)} ・ ストック ${stockOf(mon.no).length}体</small></span>`;
-  document.querySelectorAll('.gettoast').forEach(x=>x.remove());document.body.appendChild(t);setTimeout(()=>t.remove(),1850);
+  document.querySelectorAll('.gettoast').forEach(x=>x.remove());document.body.appendChild(t);popIn(t.querySelector('.ic'),{T:1});const nwb=t.querySelector('.nw');if(nwb)popBadge(nwb);setTimeout(()=>t.remove(),1850);
   if(isNew){[0,4,7,12].forEach((k,j)=>tone(note(k+5),j*.08,.2,'triangle',.09));if(mon.rar>=4){barrage(mon.rar===5?6:3,160,true);flash('#ffd23f')}}
   else tone(1568,0,.12,'triangle',.07)}
 function cutin(ch,mv,sub,rainbow){const c=$('cutin');c.style.setProperty('--c1',ch.c);c.style.setProperty('--c2',rainbow?'#fff':'#ff3d8b');
@@ -3360,7 +3374,7 @@ function gReveal(){const pool=MONS.filter(m=>m.ins&&m.gi===G.gi&&m.rar===G.rar),
   $('gcap').hidden=true;$('gstage').className='gstage hasRev';const u=R3T?thumbOf('m',mon):null,el=elOfMon(mon);
   const r=$('greveal');r.innerHTML=`<span class="ic">${u?imgSvg(u,mon.name):esvg(mon)}</span>${isNew?'<span class="nw">NEW！</span>':''}<b>${mon.name}</b>
     <span class="stars" style="color:${RARC[mon.rar]}">${starStr(mon.rar)}</span><small>${elTag(el)} ${mon.type} ・ Lv ${lv} ・ ${mon.size}</small>`;r.hidden=false;
-  $('gmsg').innerHTML=`<b>${mon.name}</b> を ゲット！ ${isNew?'ずかんに とうろく されたよ':`（${dex[mon.no]}ひきめ）`}`;
+  popIn(r.querySelector('.ic'),{rot:-.35,T:1.1});{const nb=r.querySelector('.nw');if(nb)popBadge(nb)}$('gmsg').innerHTML=`<b>${mon.name}</b> を ゲット！ ${isNew?'ずかんに とうろく されたよ':`（${dex[mon.no]}ひきめ）`}`;
   [0,4,7,12].forEach((k,j)=>tone(note(k+5),j*.08,.2,'triangle',.09));if(mon.rar>=4){barrage(mon.rar===5?8:4,170,true);flash('#ffc93c');rain(80)}else rain(30);
   const gb=gachaBonus(G.rar);if(gb){$('gmsg').insertAdjacentHTML('beforeend',gb.w?`<span class="gbon w">🎁 おまけ！ レアぶき「${WPN[gb.w].n}」${wSvg(WPN[gb.w],'wsm')}</span>`:`<span class="gbon">🎁 おまけ ${matChip(gb.m,gb.n)}</span>`);if(gb.w)setTimeout(()=>{banner('レアぶき ゲット！','#e0a800',true);barrage(4,160,true)},500)}
   gStat();gDone()}
@@ -3589,7 +3603,7 @@ function qzFinish(){QZ.phase='r';const{pi,sp,ok}=QZ,p=PREFS[pi],[city,thing,k,e]
       h+=`<div class="conq">🏅 ${rl} たっせい！ 💎+${b.toLocaleString()}</div>`;if(rk==='all')h+='<div class="conq">🔓 🌊海編 と 🌺沖縄編 が ひらいた！</div>';setTimeout(()=>{banner(`${rl} たっせい！`,'#e0467a',true);rain(150)},1400)}});
     saveStamp();touchSlot();setTimeout(saveToast,700);sFan();rain(60);const c=center($('qzRes'));setTimeout(()=>burst(c.x,c.y,30),200)}
   h+=`<div class="cbtns"><button class="btn2" id="qzAgain">もういちど</button><button class="btn" id="qzBack">スタンプカードへ</button></div>`;
-  const r=$('qzRes');r.innerHTML=h;r.hidden=false;$('qzAgain').onclick=()=>openQuiz(pi,sp.key);$('qzBack').onclick=()=>$('qzClose').click();setTimeout(()=>$('qzBack').focus(),60)}
+  const r=$('qzRes');r.innerHTML=h;r.hidden=false;popIn(r.querySelector('.jstamp'),{rot:-.35,T:1.1});popAll(r.querySelectorAll('.rwi'),{delay:300,stagger:90});$('qzAgain').onclick=()=>openQuiz(pi,sp.key);$('qzBack').onclick=()=>$('qzClose').click();setTimeout(()=>$('qzBack').focus(),60)}
 
 // ----- food list -----
 function openFood(){const fl=Object.entries(food).filter(([,f])=>f.n>0),ins=partyNow().filter(m=>m.kind==='i');
@@ -4240,7 +4254,7 @@ function openHub(){const cards=[
    ['music','🎵','楽器編','楽器クイズで 楽器を ゲット',`楽器 ${typeof instGot==='function'?instGot():0}/${typeof INSTS!=='undefined'?INSTS.length:0}`,'#d8a02a'],
    ['trade','🔁','こうかん','コードで 生き物を こうかん','ともだちと',`#3a9a8a`],...(kokuoReady()?[['secret','👑','？？？の けはい','だれかが きみを まっている…','ひみつの たたかい','#c8a030']]:!owned.has('kokuo')&&dexN()>=30?[['secret0','❔','？？？','ずかんを あつめると なにかが おきる…',`ずかん ${dexN()}/${KOKUO_NEED}`,'#8a7a5a']]:[]),['letter','💌','ひみつの てがみ','ひみつの なかまの ヒント',`ヒント ${hintN()}/12${hintN()>(store.get('kr_hintR')||0)?' ・ NEW!':''}`,'#c060a0'],['forge','⚒','かじや','そざいで ぶきを つくる',`ぶき ${WPNS.filter(w=>myItems.has(w[0])).length}しゅるい`,'#8a5226']];
   $('hubGrid').innerHTML=cards.map(([k,i,n,d,s,c])=>{const lk=k.startsWith('pk:')&&!worldOpen(k.slice(3));if(lk)s='🔒 おためしバトル OK';return `<button class="hubc ${lk?'locked':''} ${k==='secret'?'secret':''}" data-k="${k}" style="--hc:${c}">${lk?'<span class="lk">🔒</span>':''}<span class="hi">${i}</span><span class="ht"><b>${n}</b><small>${d}</small></span><span class="hs">${s}</span></button>`}).join('');
-  $('hubOv').hidden=false;setTimeout(()=>{const b=$('hubGrid').querySelector('.hubc');if(b)b.focus()},40)}
+  $('hubOv').hidden=false;popAll($('hubGrid').children,{stagger:35,rot:-.25});setTimeout(()=>{const b=$('hubGrid').querySelector('.hubc');if(b)b.focus()},40)}
 $('hubGrid').addEventListener('click',e=>{const b=e.target.closest('.hubc');if(!b)return;ensureAudio();const k=b.dataset.k;$('hubOv').hidden=true;tone(1175,0,.06,'triangle',.06);
   if(k==='japan')goJapan();else if(k.startsWith('pk:')){PK.sel=null;goPack(k.slice(3))}else if(k==='music'){if(typeof openMusic==='function')openMusic()}else if(k==='trade'){if(typeof openTrade==='function')openTrade()}else if(k==='forge')openForge();else if(k==='secret')startKokuo();else if(k==='letter')openLetters();else if(k==='secret0'){openHub();banner(`ずかん あと ${KOKUO_NEED-dexN()}しゅるい…`,'#8a7a5a')}});
 $('hubClose').onclick=()=>{$('hubOv').hidden=true};
@@ -4763,7 +4777,7 @@ async function craft(id){if(FG.busy)return;const W=WPN[id];if(!W||!canMake(W)||m
   el.innerHTML=`<div class="wnew" style="--ec:${EL6[W.el].c}"><div class="rays" aria-hidden="true"></div><span class="wbig">${wSvg(W,'wsv big')}</span><small>あたらしい ぶきが できた！</small><b>${W.n}</b><span>${'★'.repeat(W.tier)} ${WT[W.t].n} ・ ${elTag(W.el)} ・ ${bonusTxt(W.id)}</span><em>${WT[W.t].d}</em>
     ${party.length?`<div class="weq"><small>パーティの だれに もたせる？</small><div>${party.map(m=>`<button class="pill" data-eq="${m.inst.u}" data-w="${id}">${m.ch.name}</button>`).join('')}</div></div>`:'<small>ずかんの 360°ビューで そうび できるよ</small>'}
     <div class="cbtns"><button class="btn" id="fgBack">かじやに もどる</button></div></div>`;
-  sFan();barrage(3,160,true);rain(50);[0,4,7,12].forEach((k,j)=>tone(note(k+5),j*.08,.2,'triangle',.09));setTimeout(saveToast,600);
+  popIn(el.querySelector('.wbig'),{rot:-.35,T:1.1});popAll(el.querySelectorAll('.weq .pill'),{delay:500});sFan();barrage(3,160,true);rain(50);[0,4,7,12].forEach((k,j)=>tone(note(k+5),j*.08,.2,'triangle',.09));setTimeout(saveToast,600);
   $('fgBack').onclick=()=>{FG.busy=false;drawForge()};FG.busy=false}
 function equipNew(u,id){const inst=box.find(b=>b.u===u);if(!inst)return;inst.eq.weapon=id;saveBox();tone(1319,0,.08,'triangle',.08);const m=MONS[inst.no-1];
   banner(`${m?m.name:''}に そうび！`,'#2f9e3a');$('fgBody').querySelectorAll('[data-eq]').forEach(b=>b.classList.toggle('on',b.dataset.eq===u))}
@@ -5028,7 +5042,7 @@ async function joinHidden0(id){const ch=CHARS.find(c=>c.id===id);if(!ch)return;e
   $('hidBody').innerHTML=`<div class="hidhead"><small>ひみつの なかま</small><b>🎉 ${ch.name}が なかまに なった！</b></div><div class="hidart" style="--c:${ch.c}">${svg(ch,'happy')}</div>${friendCard(ch,true)}
     <p class="trnote">${id==='koron'?'コロンは パーティに いない ときも、ときどき バトルに ころがって きて てつだって くれるよ。':ptRefs.some(r=>r.k==='w'&&r.id===id)?'パーティに くわわったよ！':'👥 パーティ へんせいで くわえてね。'}</p>
     <div class="cbtns"><button class="btn2" id="hidPt">👥 パーティ</button><button class="btn" id="hidOk">やったね！</button></div>`;
-  $('hidOv').hidden=false;setTimeout(()=>$('hidOk').focus(),40);refreshMaps()}
+  $('hidOv').hidden=false;popIn($('hidBody').querySelector('.hidart'),{rot:-.35,T:1.1});setTimeout(()=>$('hidOk').focus(),40);refreshMaps()}
 $('hidBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$('hidOv').hidden=true;if(b.id==='hidPt')openParty()});
 // passwords typed into こうかん → characters
 const PWCH={[fnv('むらさきのはね')]:'ruri',[fnv('ころころりん')]:'koron'};
