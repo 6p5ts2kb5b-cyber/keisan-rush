@@ -2362,7 +2362,7 @@ const ITEMS=[
  {id:'abolt',slot:'aura',name:'らいめいのオーラ',price:1800,abs:true,draw:()=>`<ellipse cx="50" cy="58" rx="48" ry="46" fill="url(#auraBolt)"/><path d="M10 40l8-2-4 8 8-2M90 40l-8-2 4 8-8-2M20 86l6-6-1 6 6-6M80 86l-6-6 1 6-6-6" stroke="#bff6ff" stroke-width="2.4" fill="none" stroke-linejoin="round"/>`},
  {id:'arain',slot:'aura',name:'にじいろオーラ',price:3000,abs:true,draw:()=>`<circle cx="50" cy="56" r="46" fill="none" stroke="url(#auraRain)" stroke-width="5" opacity=".85"/><circle cx="50" cy="56" r="40" fill="url(#auraRain)" opacity=".16"/><path d="M8 20l2 5 5 2-5 2-2 5-2-5-5-2 5-2zM92 30l2 4 4 2-4 2-2 4-2-4-4-2 4-2zM86 88l1.6 3.4 3.4 1.6-3.4 1.6-1.6 3.4-1.6-3.4-3.4-1.6 3.4-1.6z" fill="#fff"/>`}];
 const ITEM=Object.fromEntries(ITEMS.map(i=>[i.id,i]));
-const SLOTS=[['head','あたま'],['face','かお'],['body','からだ'],['weapon','ぶき'],['aura','オーラ']];
+const SLOTS=[['head','あたま'],['face','かお'],['body','からだ'],['weapon','ぶき'],['ahead','かぶと'],['abody','よろい'],['alegs','くつ'],['aura','オーラ']];
 function figure(mon,eq,m='normal',flat){const A=ANCH[mon.arch],k=[0,.8,.9,1][mon.st],P=([x,y])=>[50+(x-50)*k,96+(y-96)*k];eq=eq||{};
   const put=(id,pt,sc)=>{const it=ITEM[id];if(!it)return '';if(it.abs)return it.draw();const[x,y]=P(pt);return `<g transform="translate(${x} ${y+(it.dy||0)*k}) scale(${sc*k})">${it.draw()}</g>`};
   const f=flat?'':` filter="url(#real)"`;let back='',front='';
@@ -2372,6 +2372,7 @@ function figure(mon,eq,m='normal',flat){const A=ANCH[mon.arch],k=[0,.8,.9,1][mon
   if(eq.face&&m!=='back')front+=put(eq.face,A.f,A.fs);
   if(eq.head)front+=put(eq.head,A.h,1);
   if(eq.weapon)front+=put(eq.weapon,A.w,1);
+  if(eq.abody&&!eq.body)front+=put(eq.abody,A.b,1);if(eq.ahead&&!eq.head)front+=put(eq.ahead,A.h,1);if(eq.alegs)front+=put(eq.alegs,[A.b[0],Math.min(93,A.b[1]+17)],.8);
   return `${back}<g${f}>${mon.draw(m)}</g><g${f}>${front}</g>`}
 
 
@@ -2461,7 +2462,7 @@ const MEM=new Map();
 const rawGet=k=>{try{const v=canSave?localStorage.getItem(k):MEM.get(k);return v==null?null:JSON.parse(v)}catch(e){return null}};
 const rawSet=(k,v)=>{const j=JSON.stringify(v);if(canSave){try{localStorage.setItem(k,j)}catch(e){}}else MEM.set(k,j)};
 const rawDel=k=>{if(canSave){try{localStorage.removeItem(k)}catch(e){}}else MEM.delete(k)};
-const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR','kr_subj','kr_trace','kr_vint','kr_diff'];
+const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR','kr_subj','kr_trace','kr_vint','kr_diff','kr_fgl'];
 let SAVES=rawGet(SK),CUR=0;
 if(!Array.isArray(SAVES)||SAVES.length!==5){SAVES=[null,null,null,null,null];
   if(SLOTKEYS.some(k=>rawGet(k)!=null)){SLOTKEYS.forEach(k=>{const v=rawGet(k);if(v!=null)rawSet('kr_s0_'+k,v)});SAVES[0]={name:'ぼうけんしゃ',at:Date.now()}}rawSet(SK,SAVES)}
@@ -2767,9 +2768,9 @@ function mats3(E){const c=[E.b,darken(E.d,.75),E.a,E.mc,E.a,'#050308',E.b,...FIX
   return{c:c.map(lin),p}}
 function buildFig(kind,obj,eq,withStage){const b=new Bld();let E,arch,st,rar=0;
   if(kind==='p'){const P=PARTNER[obj.id];E=P.E;arch=P.arch;st=3}else{E=obj.E;arch=obj.arch;st=obj.st;rar=obj.rar}
-  const A=(obj.ins?I3:(typeof W3!=='undefined'&&W3[arch])?W3:A3)[arch](b,st,E);
+  const A=(obj.ins?I3:(typeof W3!=='undefined'&&W3[arch])?W3:A3)[arch](b,st,E);A._ins=!!obj.ins;
   if(kind==='p')(PARTNER[obj.id].items||['scarf']).forEach(id=>item3(b,id,A));
-  if(eq)Object.values(eq).forEach(id=>{if(ITEM[id])item3(b,id,A)});
+  if(eq)Object.entries(eq).forEach(([sl,id])=>{if(ITEM[id]&&!(sl==='ahead'&&eq.head)&&!(sl==='abody'&&eq.body))item3(b,id,A)});
   const b0=b.bounds(),RR=Math.max(.42,Math.min(1.15,Math.hypot(b0.mx[0]-b0.mn[0],b0.mx[2]-b0.mn[2])*.42)),TOP=Math.max(.6,b0.mx[1]);
   if(rar>=4&&!(eq&&eq.aura)){b.to([0,.03,0],RR,.025,0,3,0,2);if(rar===5){b.to([0,.03,0],RR*1.2,.02,0,18,0,2);b.e([RR*1.15,TOP*1.05,.3],[.03,.03,.03],3,0,3).e([RR*.9,TOP*1.3,-.3],[.025,.025,.025],3,0,3)}}
   const evo=(eq&&eq._evo)||0;if(evo){const mt=[0,10,19,18][evo];b.to([0,.03,0],RR*(.78+.12*evo),.03,0,mt,0,2);if(evo>=2)b.to([0,.03,0],RR*(.95+.14*evo),.018,0,mt,0,2);if(evo>=3){b.e([RR*.8,TOP*.8,.2],[.05,.05,.05],18,0,3).e([-RR*.75,TOP,-.2],[.04,.04,.04],18,0,3)}}
@@ -3161,7 +3162,7 @@ function foeStats(mon,L,boss){const g=(L-1)/3,rf=[1,1.25,1.55,1.95,2.5][mon.rar-
   if(boss){hp=Math.round(hp*(g<1?1.6:2.0));atk=Math.round(atk*(g<1?1:1.1));def=Math.round(def*1.1);exp*=4}return{hp,max:hp,atk,def,exp,lv:L}}
 function spawnFoe(boss,strong){let mon;if(boss)mon=S.ctx?S.ctx.boss:bossMon(S.gi);
   else{const spc=S.ctx?0:tierOf(Math.max(1,S.combo))>=3?.06:.025;mon=Math.random()<spc?pick(MONS.filter(m=>m.sp)):pickMon(strong?3:1)}
-  if(boss){mpTilt();mpLowKey(2000)}else if(mon.rar>=5)mpOrbit();else if(mon.rar>=4)mpVertigo();if(!boss)popIn($('enemy'),{rot:-.35,T:1.1});S.foe={mon,boss,el:elOfMon(mon),poison:0,dead:false,...foeStats(mon,foeLv(boss?2:strong?1:0),boss),dif:difOn()};if(S.foe.dif){const F=S.foe;F.atk=Math.round(F.atk*1.15);F.exp*=2}if(S.ctx&&S.ctx.hard){const F=S.foe;F.hp=F.max=Math.round(F.hp*(boss?1.6:1.35));F.atk=Math.round(F.atk*1.25);F.def=Math.round(F.def*1.2);F.exp=Math.round(F.exp*1.5)}drawFoeInfo();drawEnemy('normal','in');
+  if(boss){mpTilt();mpLowKey(2000)}else if(mon.rar>=5)mpOrbit();else if(mon.rar>=4)mpVertigo();if(!boss)popIn($('enemy'),{rot:-.35,T:1.1});S.foe={mon,boss,el:elOfMon(mon),poison:0,dead:false,...foeStats(mon,foeLv(boss?2:strong?1:0),boss),dif:difOn()};if(S.foe.dif){const F=S.foe;F.atk=Math.round(F.atk*1.15);F.exp*=2}if(S.party&&S.party.some(p=>p.hp>0&&['kabuto','hikyo'].includes(setOfM(p)))){S.gauge=Math.max(S.gauge,1);try{hud()}catch(e){}}if(!devTama())document.querySelectorAll('.tamab').forEach(x=>x.remove());if(devTama()){const F=S.foe;F.hp=F.max=1;F.atk=1;F.def=0;if(!document.querySelector('.tamab'))document.body.insertAdjacentHTML('beforeend','<div class="tamab">🛠 たま</div>')}if(S.ctx&&S.ctx.hard){const F=S.foe;F.hp=F.max=Math.round(F.hp*(boss?1.6:1.35));F.atk=Math.round(F.atk*1.25);F.def=Math.round(F.def*1.2);F.exp=Math.round(F.exp*1.5)}drawFoeInfo();drawEnemy('normal','in');
   setTimeout(()=>{if(S&&S.foe&&!S.foe.dead&&$('enemy').classList.contains('in'))drawEnemy()},460)}
 function hitFoe(d,crit){const f=S.foe;if(crit){mpZoomIn();const en=$('enemy');en.classList.add('mpca');setTimeout(()=>en.classList.remove('mpca'),380)}f.hp=Math.max(0,f.hp-d);if(f.sleep>0&&Math.random()<.25){f.sleep=0;drawFoeInfo()}hpBar();drawEnemy('hit','hit');clearTimeout(foeT);foeT=setTimeout(()=>{if(S&&S.foe&&S.foe.hp>0)drawEnemy()},380);
   const B=center($('enemy'));if(S.curEl&&EL6[S.curEl]){elHit(S.curEl,B,crit?10:5);if(crit)tintField(S.curEl,300)}pop((crit?'かいしん ':'')+d,B.x+rnd(40),B.y-20+rnd(20),crit?'#ff3d8b':'#fff',crit?30:26);burst(B.x,B.y,crit?18:8);boom(crit?.2:.1)}
@@ -3204,7 +3205,7 @@ function ask(m,k){return new Promise(res=>{const g=CTX(),u=g.world?g.units[0]:S.
   const lbl={atk:'こうげき',sp:'ひっさつ',sk:m.ch.skill.name,def:'ぼうぎょ',sm:'しょうかん',mus:'えんそう'}[k];
   $('hint').innerHTML=(S.q.hint?S.q.hint+'<br>':'')+`正解で <b style="color:${tcol(m.ch.c)}">${m.ch.name}の ${lbl}</b> が決まる！`+(S.q.a.includes('/')?' <small>（OKで けってい）</small>':'');
   setMsg(`${m.ch.name}の ${lbl}！ はやく 正解するほど つよくなる！`);drawAns();mpFocus(true);if(S.q.say)setTimeout(()=>sayEn(S.q.say),380);mpFilm(!!(S.q.hint&&/れきし/.test(S.q.hint)));
-  S.thr=S.q.thr||(S.q.ch?4.5:2.5+.6*S.q.a.length+(S.q.ne?3:0)+(S.q.a.includes('/')?2:0));S.t0=performance.now();
+  S.thr=S.q.thr||(S.q.ch?4.5:2.5+.6*S.q.a.length+(S.q.ne?3:0)+(S.q.a.includes('/')?2:0));S.thr+=legBonus(m);S.t0=performance.now();
   const tz=$('tzone'),tf=$('tfill');tz.className='tzone';$('tlbl').textContent='⚡ クリティカル チャンス';tf.style.transition='none';tf.style.width='100%';void tf.offsetWidth;tf.style.transition=`width ${S.thr*2}s linear`;tf.style.width='0%';
   clearTimeout(S.tT1);clearTimeout(S.tT2);S.tT1=setTimeout(()=>{if(S.phase==='q'){tz.classList.add('mid');$('tlbl').textContent='はやい！ ボーナス'}},S.thr*1000);
   S.tT2=setTimeout(()=>{if(S.phase==='q'){tz.classList.add('slow');$('tlbl').textContent='じっくり とこう'}},S.thr*2000)})}
@@ -3251,7 +3252,7 @@ async function enemyTurn(){S.curEl=null;const f=S.foe;
   const nm=all?(EMOVE[f.mon.arch]||'ぜんたいこうげき'):'こうげき';
   setMsg(`${f.mon.name}の ${nm}！`);drawEnemy('normal','lunge');mpPounce($('enemy'));clearTimeout(foeT);foeT=setTimeout(()=>{if(S&&S.foe&&S.foe.hp>0)drawEnemy()},500);
   await wait(430);flash('#ff2d55');boom(.15);
-  const tg=all?alive:[pick(alive)],list=tg.map(p=>{let d=dmgCalc(f.atk,p.s.def,(all?.7:1)*effMul(f.el,p.ch.el));if(p.guard)d=Math.ceil(d*.5);if(S.guardAll)d=Math.ceil(d*.45);return[p,d]});
+  const tg=all?alive:[pick(alive)],list=tg.map(p=>{let d=dmgCalc(f.atk,p.s.def,(all?.7:1)*effMul(f.el,p.ch.el)*armRes(p,f.el));if(p.guard)d=Math.ceil(d*.5);if(S.guardAll)d=Math.ceil(d*.45);return[p,d]});
   hitMembers(list);await say(`${f.mon.name}の ${nm}！ ${list.map(([p,d])=>{const e2=effMul(f.el,p.ch.el);return `${p.ch.name}に <b>${d}</b>${e2>1?'（ばつぐん！）':e2<1?'（いまひとつ）':''}`}).join('、')} の ダメージ！`);
   for(const[p]of list)if(p.hp<=0)await say(`${p.ch.name}は ちからつきた…`,1200)}
 
@@ -3285,7 +3286,7 @@ async function battle(){const tok=S.tok;drawTop();
     await enemyTurn();if(S.foe.hp<=0){await win();return}
     if(S.ctx&&S.ctx.hard&&S.foe.boss&&S.party.some(p=>p.hp>0)&&Math.random()<.6){await say(`${S.foe.mon.name}の れんぞく こうどう！`,900);if(tok!==S.tok)return;await enemyTurn();if(S.foe.hp<=0){await win();return}}
     if(S.party.every(p=>p.hp<=0))await wipe();
-    S.party.forEach(p=>{if(p.hp>0)p.mp=Math.min(p.s.mp,p.mp+1)})}}
+    S.party.forEach(p=>{if(p.hp>0){p.mp=Math.min(p.s.mp,p.mp+1);const st=setOfM(p);if(st==='umi'||st==='sango')p.hp=Math.min(p.s.hp,p.hp+Math.ceil(p.s.hp*.06))}});drawParty()}}
 function capture(mon,B,lv){const isNew=!dex[mon.no];dex[mon.no]=(dex[mon.no]||0)+1;S.got++;if(isNew)S.newGot++;store.set('kr_dex3',dex);box.push({u:uid(),no:mon.no,eq:{},lv:lv||defLv(mon)});if(box.length>3000)box.shift();saveBox();
   const card=document.createElement('div');card.className='getcard';card.innerHTML=esvg(mon);card.style.left=B.x+'px';card.style.top=B.y+'px';
   card.style.borderColor=RARC[mon.rar];document.body.appendChild(card);
@@ -3358,7 +3359,7 @@ const tcol=h=>{if(!h||h[0]!=='#')return '#5a4128';const n=parseInt(h.slice(1),16
 const TB={kabuto:[1.1,1,1.15,1.1],kuwa:[1,1,1.2,1],semi:[.95,1.3,1,.95],chou:[.9,1.4,.9,.9],tonbo:[.95,1.1,1.1,.9],kamakiri:[.95,1,1.2,.9],hachi:[.9,1.1,1.2,.9],kamikiri:[1,1,1.1,1],kogane:[1.1,1,.95,1.25],batta:[1,1,1.05,1],ari:[.95,1.1,1.1,1],noun:[1.1,1.2,1.1,1.1],avatar:[1.1,1.2,1.15,1.1]};
 const IBON={band:{def:2},wiz:{def:2,mp:5},helm:{def:5},crown:{hp:10,atk:3,def:4},halo:{def:3,mp:5},noggles:{atk:3},visor:{atk:2,def:1},mask:{atk:4},scarf:{hp:10},cape:{hp:15,def:4},armor:{def:7},
  shield:{def:5},staff:{atk:3,mp:6},spear:{atk:6},sword:{atk:8},afire:{atk:5},abolt:{atk:4,mp:4},arain:{hp:10,mp:4,atk:4,def:4}};
-const bonusTxt=id=>{const b=IBON[id];if(!b)return '';return Object.entries(b).map(([k,v])=>({hp:'HP',mp:'MP',atk:'こう',def:'ぼう'}[k]+'+'+v)).join(' ')};
+const bonusTxt=id=>{const b=ibonOf(id);if(!b)return '';return Object.entries(b).map(([k,v])=>({hp:'HP',mp:'MP',atk:'こう',def:'ぼう'}[k]+'+'+v)).join(' ')};
 const ISK={kabuto:{name:'つのなげ',mp:6,type:'big',desc:'ちょう強力な いちげき'},kuwa:{name:'はさみうち',mp:5,type:'crit',desc:'かならず かいしん'},semi:{name:'ちょうおんぱ',mp:4,type:'multi',desc:'3れんぞく こうげき'},
  chou:{name:'りんぷん',mp:5,type:'heal',desc:'みんなの HPを かいふく'},tonbo:{name:'ホバーアタック',mp:4,type:'multi',desc:'3れんぞく こうげき'},kamakiri:{name:'カマぎり',mp:5,type:'crit',desc:'かならず かいしん'},
  hachi:{name:'どくばり',mp:4,type:'poison',desc:'てきを どくにする'},kamikiri:{name:'かみくだき',mp:6,type:'big',desc:'ちょう強力な いちげき'},kogane:{name:'こうらガード',mp:4,type:'guard',desc:'みんなの ダメージを へらす'},
@@ -3375,8 +3376,8 @@ const JOBS={none:{n:'なし',i:'・',m:[1,1,1,1],desc:'しょくぎょう なし
 const eqx=inst=>inst&&inst.evo?{...inst.eq,_evo:inst.evo}:inst?inst.eq:{};
 function insStats(mon,lv,eq,inst){const R=mon.rar,t=TB[mon.arch]||[1,1,1,1];
   let hp=(40+R*8+(6+R)*(lv-1))*t[0],mp=(10+R*2+1.5*(lv-1))*t[1],atk=(9+R*2+(2.2+R*.35)*(lv-1))*t[2],def=(6+R*2+(1.8+R*.3)*(lv-1))*t[3];const k=1+lv/10;
-  Object.values(eq||{}).forEach(id=>{const b=IBON[id];if(b){hp+=(b.hp||0)*k;mp+=(b.mp||0)*k;atk+=(b.atk||0)*k;def+=(b.def||0)*k}});
-  if(inst){const ev=1+.15*(inst.evo||0),jm=(JOBS[inst.job]||JOBS.none).m;hp*=ev*jm[0];mp*=ev*jm[1];atk*=ev*jm[2];def*=ev*jm[3]}
+  Object.values(eq||{}).forEach(id=>{const b=ibonOf(id);if(b){hp+=(b.hp||0)*k;mp+=(b.mp||0)*k;atk+=(b.atk||0)*k;def+=(b.def||0)*k}});
+  {const sf=setMul(eq);hp*=sf[0];atk*=sf[1];def*=sf[2];mp*=sf[3]}if(inst){const ev=1+.15*(inst.evo||0),jm=(JOBS[inst.job]||JOBS.none).m;hp*=ev*jm[0];mp*=ev*jm[1];atk*=ev*jm[2];def*=ev*jm[3]}
   return{hp:Math.round(hp),mp:Math.round(mp),atk:Math.round(atk),def:Math.round(def)}}
 function insCh(mon,inst){const J=JOBS[inst.job];return{id:'i_'+inst.u,el:elOfMon(mon),name:mon.name+'＋'.repeat(inst.evo||0),c:mon.c,motif:mon.type,about:mon.desc,mon,eq:eqx(inst),job:inst.job,jobI:J&&inst.job!=='none'?J.i:'',skill:(J&&J.skill)||ISK[mon.arch]||ISK.noun,moves:insMoves(mon),draw:m=>mon.draw(m)}}
 const WEL={jin:'hono',hayato:'mizu',genji:'hikari',zan:'kusa',raika:'denki',zenon:'yami'};CHARS.forEach(c=>{c.moves=MOVES[c.id];c.el=WEL[c.id]});
@@ -4719,7 +4720,7 @@ async function actMusic(m){const a=instOf(m.inst);if(!a)return;S.phase='anim';m.
   if(ac){const g=ac.createGain();g.gain.value=muted?0:.8;g.connect(ac.destination);schedTune(a[0],ac.currentTime+.05,g,1,6)}
   const c=pmC(m);for(let i=0;i<10;i++)setTimeout(()=>pop(pick(['♪','♫','♬']),c.x+rnd(80),c.y-20-i*8,pick(['#ffd23f','#ff7aa2','#7ad7ff']),22),i*90);await wait(900);
   const f=S.foe,r=Math.random(),boss=f.boss;
-  if(r<.12){const al=S.party.filter(p=>p.hp>0),vic=shuf(al).slice(0,Math.min(2,al.length));vic.forEach(p=>p.sleep=1);drawParty();
+  if(r<.12){const al=S.party.filter(p=>p.hp>0),vic=shuf(al).slice(0,Math.min(2,al.length));vic.forEach(p=>{if(!(Math.random()<sleepRes(p)))p.sleep=1});drawParty();
     await say(`しまった！ ここちよい 音色で ${vic.map(p=>p.ch.name).join('と ')}も ねむって しまった… 💤`)}
   else if(r<(boss?.45:.6)){f.sleep=boss?1:2;drawFoeInfo();const B=center($('enemy'));for(let i=0;i<5;i++)setTimeout(()=>pop('Z',B.x+20+i*8,B.y-30-i*14,'#9fd0ff',18+i*3),i*120);
     await say(`${a[1]}の やさしい 音色… ${f.mon.name}は ぐっすり ねむって しまった！ 💤`)}
@@ -5112,7 +5113,7 @@ function drawForge(){const own=WPNS.filter(w=>myItems.has(w[0])).length,tot=WPNS
   el.innerHTML=head+`<div class="wtyps" role="group" aria-label="ぶきの しゅるい">${['all',...WTORD].map(t=>{const W0=t==='all'?null:WPN[WPNS.find(w=>w[1]===t)[0]];return `<button class="wty" data-ty="${t}" aria-pressed="${FG.ty===t}">${W0?wSvg(W0,'wsm'):'<span class="wall">ALL</span>'}<b>${t==='all'?'ぜんぶ':WT[t].n}</b></button>`}).join('')}</div>
     ${FG.ty!=='all'?`<p class="wtdesc"><b>${WT[FG.ty].n}</b>：${WT[FG.ty].d}（「こうげき」で はつどう）</p>`:''}
     <div class="wlist">${ws.map(W=>{const own=myItems.has(W.id),ok=!own&&canMake(W);
-      const rec=W.rc?Object.entries(W.rc).map(([k,n])=>{const h=matN(k);return `<span class="rq ${h>=n?'ok':''}" data-tip="${MATS[k][0]}：${MATS[k][4]}">${matIcon(k)}<b>${MATS[k][5]&&!h&&!uraOpen()?'？？？':MATS[k][0]}</b><i>${h}/${n}</i></span>`}).join('')+`<span class="rq gem ${pts>=W.gem?'ok':''}"><span class="gm">💎</span><b>${W.gem.toLocaleString()}</b></span>`:'<span class="gsrc">🎰 ガチャの キラキラカプセルから でる ぶき</span>';
+      const rec=W.rc?Object.entries(W.rc).map(([k,n])=>{const h=matN(k);return `<span class="rq ${h>=n?'ok':''}" data-m="${k}" role="button" tabindex="0" data-tip="${MATS[k][0]}：${MATS[k][4]}">${matIcon(k)}<b>${MATS[k][5]&&!h&&!uraOpen()?'？？？':MATS[k][0]}</b><i>${h}/${n}</i></span>`}).join('')+`<span class="rq gem ${pts>=W.gem?'ok':''}"><span class="gm">💎</span><b>${W.gem.toLocaleString()}</b></span>`:'<span class="gsrc">🎰 ガチャの キラキラカプセルから でる ぶき</span>';
       return `<div class="wcard ${own?'own':''} ${ok?'can':''} t${W.tier} s${W.src}" style="--ec:${EL6[W.el].c}"><span class="wic">${wSvg(W)}</span><div class="wtx"><span class="wtop"><b>${W.n}</b>${W.src==='o'?'<em class="wsrc">🌺沖縄</em>':W.src==='g'?'<em class="wsrc">🎰ガチャ</em>':W.src==='u'?'<em class="wsrc ura">🌌ひきょう</em>':''}</span>
         <small>${'★'.repeat(W.tier)} ${WT[W.t].n} ・ ${elTag(W.el)} ・ ${bonusTxt(W.id)}</small><small class="wd">${WT[W.t].d}</small><div class="rqs">${rec}</div></div>
         ${own?'<span class="wown">もってる</span>':W.rc?`<button class="btn wmk" data-mk="${W.id}" ${ok?'':'disabled'}>つくる</button>`:''}</div>`}).join('')}</div>`}
@@ -5141,10 +5142,10 @@ function drawVDis(){const inst=vInst(),mon=vMon(),el=$('vDis');if(!el)return;if(
   const inPt=ptRefs.some(r=>r.k==='i'&&r.u===inst.u),d=dropsOf(mon,false,true);
   el.innerHTML=`<div class="lbl">🔨 そざいにする（この 1体が そざいに かわるよ）</div><div class="vdrow"><span class="vdr">${dropTxt(d).replace(/<i>×\d+<\/i>/g,'')}</span>
     <button class="btn2 dis ${DIS.arm===inst.u?'arm':''}" id="vDisBtn" ${inPt?'disabled':''}>${inPt?'パーティに いるよ':DIS.arm===inst.u?'ほんとうに？ もういちど タップ':'そざいにする'}</button><button class="btn2" id="vForge">⚒ かじや</button></div>`}
-const _drawViewer0=drawViewer;drawViewer=function(){_drawViewer0();drawVDis();const it=$('vItems');if(V.slot==='weapon'&&it&&!it.querySelector('.fgo'))it.insertAdjacentHTML('beforeend',`<button class="it fgo" data-forge="1"><svg viewBox="-30 -38 60 70">${anvilMini()}</svg>かじやで つくる<small class="bn">そざいで ぶきを つくろう</small><span class="own">⚒</span></button>`)};
+const _drawViewer0=drawViewer;drawViewer=function(){_drawViewer0();drawVDis();const it=$('vItems');if((V.slot==='weapon'||(typeof ASL!=='undefined'&&ASL[V.slot]))&&it&&!it.querySelector('.fgo'))it.insertAdjacentHTML('beforeend',`<button class="it fgo" data-forge="1"><svg viewBox="-30 -38 60 70">${anvilMini()}</svg>かじやで つくる<small class="bn">そざいで ${V.slot==='weapon'?'ぶき':'ぼうぐ'}を つくろう</small><span class="own">⚒</span></button>`)};
 function anvilMini(){return `<path d="M-20 -2H18Q24-2 24-7H12V-11H-24Q-24-5-20-2Z" fill="#5a6070" stroke="${DK}" stroke-width="2"/><path d="M-10-2H12L9 12H-7Z" fill="#4a505e" stroke="${DK}" stroke-width="2"/><path d="M-14 12H16V19H-14Z" fill="#5a6070" stroke="${DK}" stroke-width="2"/><circle cx="-6" cy="-20" r="2.4" fill="#ffd23f"/><circle cx="2" cy="-25" r="1.8" fill="#ff9f3d"/><circle cx="9" cy="-19" r="1.6" fill="#fff27a"/>`}
 document.addEventListener('click',e=>{const t=e.target.closest('#vDisBtn,#vForge,[data-forge]');if(!t||$('viewOv').hidden)return;e.stopPropagation();ensureAudio();
-  if(t.id==='vForge'||t.dataset.forge){openForge();return}
+  if(t.id==='vForge'||t.dataset.forge){if(typeof ASL!=='undefined'&&ASL[V.slot]){FG.tab='armor';FG.at=V.slot}else if(V.slot==='weapon')FG.tab='make';openForge();return}
   const inst=vInst();if(!inst||t.disabled)return;if(DIS.arm!==inst.u){DIS.arm=inst.u;tone(660,0,.08,'square',.05);drawVDis();clearTimeout(DIS.t);DIS.t=setTimeout(()=>{DIS.arm=null;if(!$('viewOv').hidden)drawVDis()},2600);return}
   DIS.arm=null;const mon=vMon(),d=dropsOf(mon,false,true);box.splice(box.indexOf(inst),1);saveBox();addMats(d);touchSlot();
   const c=center($('stage3d'));burst(c.x,c.y,30);tone(1800,0,.05,'square',.06);tone(1200,.08,.12,'triangle',.07);
@@ -7402,6 +7403,150 @@ VQ.west.push(
 Object.assign(VCARD,{
  w_bdw:['west',6,'ベン デイビス ワークパンツ','1935年〜 サンフランシスコ',{j:{cut:'wide',fly:'zip',back:'plain',tab:'none',patch:'none',black:'ato'}},'ヤコブ・デイビスの まごの ブランド。フリスコパンツの よび名でも 人気。'],
  w_501z:['west',3,'501Z','1954年〜',{j:{cut:'straight',fly:'zip',back:'arcuate',tab:'redE',patch:'paper',patchT:'501Z'}},'ジッパーの 501。東海岸など 新しい 地いきへの 進出と 関係が ふかい。']});
+
+// ================= かじや 2: ぼうぐ（かぶと・よろい・くつ）・きたえる（+1〜+5）・どこで とれる？ =================
+const ASL={ahead:{n:'かぶと',i:'⛑️'},abody:{n:'よろい',i:'🛡️'},alegs:{n:'くつ',i:'👢'}};
+const ASLORD=['ahead','abody','alegs'];
+// series: [なまえ, 色, ぞくせい, 入手(f=かじや o=沖縄 u=ひきょう), セット効果]
+const ASER={
+ kabuto:['カブトの','#9a5a2a','hono','f','バトルの はじめに ひっさつゲージ +1'],
+ tonbo:['トンボの','#5ab8e8','mizu','f','⚡クリティカルの 時間 さらに +1びょう'],
+ kuwa:['クワガタの','#5a4a7a','yami','f','こうげき +10%'],
+ umi:['うみの','#3a8ad8','mizu','f','まいターン HPが すこし かいふく'],
+ kemono:['けものの','#c08a4e','kusa','f','ぼうぎょ +15%'],
+ ryu:['りゅうの','#d84a2a','hono','f','HP・こうげき・ぼうぎょ +10%'],
+ sango:['サンゴの','#ff7a8a','mizu','o','まいターン HPが かいふく・ぼうぎょ +10%'],
+ hikyo:['ひきょうの','#9a6aff','yami','u','ぜんぶ +15%・ひっさつゲージ +1']};
+const ASLW={ahead:'かぶと',abody:'よろい',alegs:'ブーツ'};
+// [id, slot, series, tier, bonus, recipe, gem]
+const ARMS=[
+ ['a_kb_h','ahead','kabuto',1,{mp:3,def:1},{tsuno:2,kara:1},150],['a_kb_b','abody','kabuto',1,{hp:8,def:2},{kara:3,tsuno:1},200],['a_kb_l','alegs','kabuto',1,{def:1,hp:3},{kara:2,bane:1},150],
+ ['a_tb_h','ahead','tonbo',1,{mp:4},{hane:2,shokkaku:1},150],['a_tb_b','abody','tonbo',1,{hp:6,def:1,mp:2},{hane:3,shokkaku:1},200],['a_tb_l','alegs','tonbo',1,{mp:2},{hane:2,bane:1},150],
+ ['a_kw_h','ahead','kuwa',2,{mp:5,def:2},{ago:2,shokkaku:2},450],['a_kw_b','abody','kuwa',2,{hp:12,def:4},{ago:3,kara:3},600],['a_kw_l','alegs','kuwa',2,{def:2,atk:1},{ago:2,bane:2},450],
+ ['a_um_h','ahead','umi',3,{mp:7,def:3},{kaigara:4,shinju:1},1200],['a_um_b','abody','umi',3,{hp:18,def:6},{uroko:5,hire:3,kanikara:2},1500],['a_um_l','alegs','umi',3,{def:3,mp:2},{uroko:3,hire:2},1200],
+ ['a_km_h','ahead','kemono',3,{mp:6,def:3,atk:1},{kegawa:3,kiba:2},1200],['a_km_b','abody','kemono',3,{hp:20,def:6},{kegawa:5,kemotsuno:1,tsume:2},1500],['a_km_l','alegs','kemono',3,{def:3,atk:2},{kegawa:3,tsume:2},1200],
+ ['a_ry_h','ahead','ryu',4,{mp:10,def:5,atk:2},{hebiuroko:4,mushidama:1,tsume:2},3000],['a_ry_b','abody','ryu',4,{hp:30,def:9},{hebiuroko:6,mushidama:2,densetsu:1},3500],['a_ry_l','alegs','ryu',4,{def:5,atk:3},{hebiuroko:4,tsume:3,mushidama:1},3000],
+ ['a_sg_h','ahead','sango',4,{mp:10,def:5},{sango:4,yakou:1,deigo:2},3200],['a_sg_b','abody','sango',4,{hp:32,def:9},{sango:6,yakou:2,shisa:1},3800],['a_sg_l','alegs','sango',4,{def:5,mp:3},{sango:4,hoshizuna:1,deigo:2},3200],
+ ['a_hk_h','ahead','hikyo',5,{mp:14,def:7,atk:3},{hikyo:4,kinsanagi:1,densetsu:1},7000],['a_hk_b','abody','hikyo',5,{hp:45,def:12},{hikyo:5,yamaneko:2,densetsu:1},8000],['a_hk_l','alegs','hikyo',5,{def:7,atk:4},{hikyo:4,kodai:1,densetsu:1},7000]];
+var ARM={};
+ARMS.forEach(([id,slot,ser,tier,bon,rc,gem])=>{const R=ASER[ser],X={id,slot,ser,tier,bon,rc,gem,src:R[3],el:R[2],col:R[1],n:R[0]+ASLW[slot]};ARM[id]=X;
+  const it={id,slot,name:X.n,price:0,craft:1,arm:X,draw:()=>aDraw(X)};ITEMS.push(it);ITEM[id]=it;IBON[id]=bon});
+const aSrcOk=X=>X.src!=='u'||uraOpen();
+// ---- きたえる levels (+1〜+5) ----
+window.__fgl=store.get('kr_fgl')||{};
+const fgl=id=>(window.__fgl[id]|0);
+function ibonOf(id){const b=IBON[id];if(!b)return b;const n=(window.__fgl&&window.__fgl[id])|0;if(!n)return b;const o={};Object.entries(b).forEach(([k,v])=>o[k]=Math.round(v*(1+.2*n))+n);return o}
+// ---- set bonus ----
+function setOfEq(eq){if(!eq||!ARM)return null;const a=ARM[eq.ahead],b=ARM[eq.abody],c=ARM[eq.alegs];return a&&b&&c&&a.ser===b.ser&&b.ser===c.ser?a.ser:null}
+const setOfM=m=>m&&m.kind==='i'&&m.inst?setOfEq(m.inst.eq):null;
+function setMul(eq){const s=setOfEq(eq);// [hp,atk,def,mp]
+  return s==='kuwa'?[1,1.1,1,1]:s==='kemono'?[1,1,1.15,1]:s==='ryu'?[1.1,1.1,1.1,1]:s==='sango'?[1,1,1.1,1]:s==='hikyo'?[1.15,1.15,1.15,1.15]:[1,1,1,1]}
+const armOf=(m,sl)=>m&&m.kind==='i'&&m.inst&&m.inst.eq?ARM[m.inst.eq[sl]]:null;
+const legBonus=m=>{const L=armOf(m,'alegs');return(L?.3+.2*L.tier:0)+(setOfM(m)==='tonbo'?1:0)};
+const sleepRes=m=>{const H=armOf(m,'ahead');return H?.3+.1*H.tier:0};
+const armRes=(m,el)=>{const B=armOf(m,'abody');return B&&B.el===el?.75:1};
+// ---- 2D art (viewBox -30 -38 60 70) ----
+function aDraw(X){const c=X.col,g=EL6[X.el].c,S=`stroke="${DK}" stroke-width="1.8" stroke-linejoin="round"`,t=X.tier;
+  if(X.slot==='ahead')return `<path d="M-15 5Q-16-15 0-16Q16-15 15 5Z" fill="${c}" ${S}/><path d="M-18 4h36v5h-36z" fill="${t>=3?'#ffd23f':'#c9d2e0'}" ${S}/><path d="M-8-9Q0-13 8-9" stroke="#fff" stroke-width="2" opacity=".45" fill="none" stroke-linecap="round"/><circle cy="-4" r="3.2" fill="${g}" ${S}/>${X.ser==='kabuto'?`<path d="M-2-15Q0-30 8-33Q4-24 4-15Z" fill="${c}" ${S}/>`:t>=3?`<path d="M0-16L-4-26L0-23L4-26Z" fill="#ffd23f" ${S}/>`:''}`;
+  if(X.slot==='abody')return `<path d="M-15-12H15L13 8Q0 16-13 8Z" fill="${c}" ${S}/><path d="M-15-12Q-22-11-21-3L-14-3M15-12Q22-11 21-3L14-3" fill="${c}" ${S}/><path d="M0-11V10" stroke="${DK}" stroke-width="1.2" opacity=".5"/><path d="M-9-6Q0-9 9-6" stroke="#fff" stroke-width="2" opacity=".4" fill="none"/><circle cy="-1" r="3.6" fill="${g}" ${S}/>${t>=3?`<path d="M-15-12H15" stroke="#ffd23f" stroke-width="2.4"/>`:''}`;
+  return [-1,1].map(s=>`<g transform="translate(${s*9} 0)"><path d="M-5-14H5V2H${s>0?10:-10}V9H-5Z" transform="scale(${s} 1)" fill="${c}" ${S}/><path d="M-5-14H5V-10H-5Z" fill="${t>=3?'#ffd23f':'#c9d2e0'}" ${S}/><circle cy="-4" r="2" fill="${g}"/></g>`).join('')}
+const aSvg=(X,cls)=>`<svg viewBox="-32 -40 64 74" class="${cls||'wsv'}" aria-hidden="true">${aDraw(X)}</svg>`;
+// ---- 3D ----
+function aItem3(b,X,A){const mt=nearMat(X.col),gm=EGLOW[X.el]||10,am=X.tier>=3?7:11,k=A._ins?.62:1;
+  if(X.slot==='ahead'){const h=A.h,y=h[1]+.07*k,z=h[2]-(A._ins?.04:.02);b.e([h[0],y,z],[.36*k,.25*k,.36*k],mt,.03).to([h[0],y-.12*k,z],.36*k,.035*k,0,am,0).e([h[0],y+.03*k,z+.33*k],[.05*k,.05*k,.03*k],gm,0);
+    if(X.ser==='kabuto')b.rc([h[0],y+.19*k,z+.12*k],.05*k,[h[0],y+.43*k,z+.3*k],.012,mt,.02);else if(X.tier>=3)b.rc([h[0],y+.21*k,z],.035*k,[h[0],y+.37*k,z-.14*k],.008,am,.02);return}
+  if(X.slot==='abody'){const d=A.b;if(A._ins){b.e([d[0],d[1]-.17,d[2]],[.27,.2,.24],mt,.03).e([d[0],d[1]-.1,d[2]+.2],[.05,.05,.03],gm,0);return}
+    b.e([d[0],d[1]-.16,d[2]+.06],[.36,.3,.18],mt,.03).e([d[0],d[1]-.14,d[2]+.23],[.06,.06,.03],gm,0).rc([.3,d[1]-.02,d[2]],.1,[.43,d[1]-.05,d[2]],.06,am,.03,1);return}
+  const d=A.b;if(A._ins){const y=Math.max(.2,d[1]-.42);b.e([.17,y,d[2]],[.07,.06,.13],mt,.02,1).e([.2,y-.02,d[2]],[.03,.03,.03],gm,0,1)}
+  else b.e([.2,.06,d[2]+.05],[.1,.07,.14],mt,.02,1).to([.2,.14,d[2]],.08,.02,0,am,0,1)}
+const _item3c=item3;item3=function(b,id,A){if(ARM[id])return aItem3(b,ARM[id],A);return _item3c(b,id,A)};
+// ---- forge UI ----
+FG.at='all';
+const fgTabsHTML=()=>[['make','⚔️ ぶき'],['armor','🛡️ ぼうぐ'],['up','✨ きたえる'],['mats','🎒 そざい']].map(([k,l])=>`<button class="tab" data-t="${k}" aria-pressed="${FG.tab===k}">${l}</button>`).join('');
+function rqHTML(rc,gem){return Object.entries(rc).map(([k,n])=>{const h=matN(k);return `<span class="rq ${h>=n?'ok':''}" data-m="${k}" role="button" tabindex="0">${matIcon(k)}<b>${MATS[k][5]&&!h&&!uraOpen()?'？？？':MATS[k][0]}</b><i>${h}/${n}</i></span>`}).join('')+`<span class="rq gem ${pts>=gem?'ok':''}"><span class="gm">💎</span><b>${gem.toLocaleString()}</b></span>`}
+const aEff=X=>X.slot==='ahead'?`ねむりに なりにくい（${Math.round((.3+.1*X.tier)*100)}%）`:X.slot==='abody'?`${EL6[X.el].i}${EL6[X.el].n}の こうげきを 25% へらす`:`⚡クリティカルの 時間 +${(.3+.2*X.tier).toFixed(1)}びょう`;
+const canMakeA=X=>Object.entries(X.rc).every(([k,n])=>matN(k)>=n)&&pts>=X.gem;
+function aCard(X){const own=myItems.has(X.id),ok=!own&&canMakeA(X),n=fgl(X.id);
+  return `<div class="wcard ${own?'own':''} ${ok?'can':''} t${X.tier}" style="--ec:${X.col}"><span class="wic">${aSvg(X)}</span><div class="wtx"><span class="wtop"><b>${X.n}${n?` <em class="plus">+${n}</em>`:''}</b>${X.src==='o'?'<em class="wsrc">🌺沖縄</em>':X.src==='u'?'<em class="wsrc ura">🌌ひきょう</em>':''}</span>
+    <small>${'★'.repeat(X.tier)} ${ASL[X.slot].n} ・ ${elTag(X.el)} ・ ${bonusTxt(X.id)}</small><small class="wd">${aEff(X)}</small><div class="rqs">${rqHTML(X.rc,X.gem)}</div></div>
+    ${own?'<span class="wown">もってる</span>':`<button class="btn wmk" data-mka="${X.id}" ${ok?'':'disabled'}>つくる</button>`}</div>`}
+function drawArmor(el,head){const list=ARMS.map(a=>ARM[a[0]]).filter(aSrcOk);
+  const tabs=`<div class="wtyps atyps" role="group" aria-label="ぼうぐの しゅるい">${['all',...ASLORD].map(t=>`<button class="wty" data-at="${t}" aria-pressed="${FG.at===t}">${t==='all'?'<span class="wall">ALL</span>':aSvg(ARM[ARMS.find(a=>a[1]===t)[0]],'wsm')}<b>${t==='all'?'セット':ASL[t].n}</b></button>`).join('')}</div>`;
+  let body='';
+  if(FG.at==='all'){const sers=[...new Set(list.map(x=>x.ser))];
+    body=sers.map(s=>{const R=ASER[s],got=list.filter(x=>x.ser===s&&myItems.has(x.id)).length;return `<div class="aser" style="--ec:${R[1]}"><b>${R[0].replace(/の$/,'')} シリーズ</b><span>${got}/3</span><small>3つ そろえて そうびすると：<b>${R[4]}</b></small></div>${list.filter(x=>x.ser===s).map(aCard).join('')}`}).join('')}
+  else body=list.filter(x=>x.slot===FG.at).map(aCard).join('');
+  el.innerHTML=head+`<p class="wtdesc">ぼうぐは 生き物の なかまに そうびできるよ。<b>かぶと</b>＝ねむりに 強い、<b>よろい</b>＝その ぞくせいの こうげきに 強い、<b>くつ</b>＝こたえる 時間に よゆう。おなじ シリーズを 3つ そろえると セット こうか！</p>${tabs}<div class="wlist">${body}</div>`}
+// ---- きたえる ----
+function upCost(id){const n=fgl(id)+1,X=ARM[id],W=WPN[id],src=X||W,rc=src&&src.rc,base=(src&&src.gem)||1500,mats={};
+  if(rc){Object.entries(rc).slice(0,2).forEach(([k,v])=>mats[k]=Math.max(1,Math.ceil(v*n/2)))}else mats.kin=n;
+  return{n,mats,gem:Math.round(base*.4*n/50)*50}}
+const canUp=id=>{if(fgl(id)>=5)return false;const c=upCost(id);return Object.entries(c.mats).every(([k,v])=>matN(k)>=v)&&pts>=c.gem};
+function drawUp(el,head){const ids=[...WPNS.map(w=>w[0]),...ARMS.map(a=>a[0])].filter(id=>myItems.has(id));
+  if(!ids.length){el.innerHTML=head+'<p class="trnote">まずは ぶきか ぼうぐを つくろう。つくった ものを そざいで きたえると、+1 〜 +5 まで つよく なるよ。</p>';return}
+  el.innerHTML=head+`<p class="trnote">そざいと 💎で きたえると、ボーナスが どんどん 大きく なるよ（さいだい +5）。</p><div class="wlist">${ids.map(id=>{const X=ARM[id],W=WPN[id],n=fgl(id),mx=n>=5,c=upCost(id),ok=canUp(id),ec=X?X.col:EL6[W.el].c;
+    const nxt=mx?'':(()=>{window.__fgl[id]=n+1;const t=bonusTxt(id);window.__fgl[id]=n;if(!n)delete window.__fgl[id];return t})();
+    return `<div class="wcard upc ${ok?'can':''}" style="--ec:${ec}"><span class="wic">${X?aSvg(X):wSvg(W)}</span><div class="wtx"><span class="wtop"><b>${X?X.n:W.n} <em class="plus">+${n}</em></b></span>
+      <small>いま：${bonusTxt(id)}</small>${mx?'<small class="wd">⭐ さいだいまで きたえた！</small>':`<small class="wd">+${n+1} に すると：${nxt}</small><div class="rqs">${rqHTML(c.mats,c.gem)}</div>`}</div>
+      ${mx?'<span class="wown">MAX</span>':`<button class="btn wmk" data-up="${id}" ${ok?'':'disabled'}>きたえる</button>`}</div>`}).join('')}</div>`}
+async function doUp(id){if(FG.busy||!canUp(id))return;FG.busy=true;ensureAudio();const c=upCost(id);Object.entries(c.mats).forEach(([k,v])=>mats[k]-=v);saveMats();pts-=c.gem;store.set('kr_pts',pts);addPts(0);
+  window.__fgl[id]=c.n;store.set('kr_fgl',window.__fgl);touchSlot();const X=ARM[id],W=WPN[id],el=$('fgBody');
+  el.innerHTML=`<div class="forging"><div class="anvil big">${anvilSvg()}</div><b>カンッ！ カンッ！</b><small>${X?X.n:W.n}を きたえています…</small></div>`;el.scrollTop=0;
+  const A=center(el.querySelector('.anvil'));for(let i=0;i<3;i++)setTimeout(()=>{tone(2000,0,.05,'square',.06);burst(A.x,A.y-10,12);if(i===2)flash('#ffd23f')},250+i*330);await wait(1300);
+  el.innerHTML=`<div class="wnew" style="--ec:${X?X.col:EL6[W.el].c}"><div class="rays" aria-hidden="true"></div><span class="wbig">${X?aSvg(X,'wsv big'):wSvg(W,'wsv big')}</span><small>きたえて つよく なった！</small><b>${X?X.n:W.n} <em class="plus">+${c.n}</em></b><span>${bonusTxt(id)}</span><div class="cbtns"><button class="btn" id="fgBack">かじやに もどる</button></div></div>`;
+  popIn(el.querySelector('.wbig'),{rot:-.3,T:1});sFan();rain(30);setTimeout(saveToast,500);$('fgBack').onclick=()=>{FG.busy=false;drawForge()};FG.busy=false}
+// ---- つくる（ぼうぐ）----
+async function craftA(id){if(FG.busy)return;const X=ARM[id];if(!X||!canMakeA(X)||myItems.has(id))return;FG.busy=true;ensureAudio();
+  Object.entries(X.rc).forEach(([k,n])=>mats[k]-=n);saveMats();pts-=X.gem;store.set('kr_pts',pts);addPts(0);myItems.add(id);store.set('kr_items',[...myItems]);touchSlot();
+  const el=$('fgBody');el.innerHTML=`<div class="forging"><div class="anvil big">${anvilSvg()}</div><b>トンテン カンッ！</b><small>${X.n}を つくっています…</small></div>`;el.scrollTop=0;
+  const A=center(el.querySelector('.anvil'));for(let i=0;i<3;i++)setTimeout(()=>{tone(1800,0,.05,'square',.06);tone(2600,.02,.08,'triangle',.05);burst(A.x,A.y-10,14);if(i===2)flash(X.col)},300+i*420);
+  await wait(1650);const party=partyNow().filter(m=>m.kind==='i'),ser=ASER[X.ser];
+  el.innerHTML=`<div class="wnew" style="--ec:${X.col}"><div class="rays" aria-hidden="true"></div><span class="wbig">${aSvg(X,'wsv big')}</span><small>あたらしい ぼうぐが できた！</small><b>${X.n}</b><span>${'★'.repeat(X.tier)} ${ASL[X.slot].n} ・ ${elTag(X.el)} ・ ${bonusTxt(X.id)}</span><em>${aEff(X)}<br>セット：${ser[4]}</em>
+    ${party.length?`<div class="weq"><small>パーティの だれに そうびする？</small><div>${party.map(m=>`<button class="pill" data-eqa="${m.inst.u}" data-w="${id}">${m.ch.name}</button>`).join('')}</div></div>`:'<small>ずかんの 360°ビューで そうび できるよ</small>'}
+    <div class="cbtns"><button class="btn" id="fgBack">かじやに もどる</button></div></div>`;
+  popIn(el.querySelector('.wbig'),{rot:-.35,T:1.1});popAll(el.querySelectorAll('.weq .pill'),{delay:500});sFan();barrage(3,160,true);rain(50);[0,4,7,12].forEach((k,j)=>tone(note(k+5),j*.08,.2,'triangle',.09));setTimeout(saveToast,600);
+  $('fgBack').onclick=()=>{FG.busy=false;drawForge()};FG.busy=false}
+function equipArm(u,id){const inst=box.find(b=>b.u===u),X=ARM[id];if(!inst||!X)return;inst.eq[X.slot]=id;saveBox();tone(1319,0,.08,'triangle',.08);const m=MONS[inst.no-1],st=setOfEq(inst.eq);
+  banner(st?`セット こうか！ ${ASER[st][4]}`:`${m?m.name:''}に そうび！`,st?'#e0a800':'#2f9e3a');$('fgBody').querySelectorAll('[data-eqa]').forEach(b=>b.classList.toggle('on',b.dataset.eqa===u))}
+// ---- どこで とれる？ ----
+function monWhere(m){if(m.pk&&PACK[m.pk]){const P=PACK[m.pk],R=m.ri!=null&&P.regions[m.ri];return `${P.i} ${P.n}${R?'・'+R[0]:''}`}return m.gi!=null&&GRADES[m.gi]?`🏝 ${GRADES[m.gi].isl}`:''}
+function whereHTML(k){const M=MATS[k];if(!M)return '';const hid=M[5]&&!uraOpen()&&!matN(k);
+  const L=hid?[]:MONS.filter(m=>!m.secret&&(m.pk!=='ura'||uraOpen())&&ARCHMAT[m.arch]&&ARCHMAT[m.arch].includes(k));
+  const got=L.filter(m=>dex[m.no]),nog=L.filter(m=>!dex[m.no]);const show=[...got.slice(0,8),...nog.slice(0,Math.max(0,8-got.length))];
+  return `<div class="mwbox" role="dialog" aria-label="${hid?'？？？':M[0]}の とれる ところ"><div class="mwh"><span class="mi">${matIcon(k)}</span><b>${hid?'？？？':M[0]}</b><small>${'★'.repeat(M[3])}</small><button class="xbtn" data-mwx="1">とじる</button></div>
+    <p class="mwt">📍 <b>${M[4]}</b>${hid?'':'から とれるよ。'}${['mushidama','densetsu'].includes(k)?'（ボスなら もっと 出やすい）':''}</p>
+    ${show.length?`<div class="mwl">${show.map(m=>dex[m.no]?`<div class="mwi"><b>${m.name}</b><small>${monWhere(m)}</small></div>`:`<div class="mwi no"><b>？？？</b><small>${monWhere(m)}</small></div>`).join('')}</div><p class="mwt sm">つかまえる ほか、ずかんの 360°ビューで あまった 生き物を「そざいにする」でも もらえるよ。</p>`:''}</div>`}
+function openWhere(k){let o=$('mWhere');if(!o){o=document.createElement('div');o.id='mWhere';o.className='mwov';$('forgeOv').appendChild(o)}o.innerHTML=whereHTML(k);o.hidden=false;tone(988,0,.05,'triangle',.05)}
+document.addEventListener('click',e=>{const x=e.target.closest('[data-mwx]');if(x||e.target.id==='mWhere'){$('mWhere').hidden=true;return}
+  if($('forgeOv').hidden)return;const m=e.target.closest('[data-m]');if(m&&!e.target.closest('[data-mk],[data-mka],[data-up]')){e.stopPropagation();openWhere(m.dataset.m);return}
+  const t=e.target.closest('[data-at]');if(t){e.stopPropagation();FG.at=t.dataset.at;tone(988,0,.05,'triangle',.05);drawForge();return}
+  const a=e.target.closest('[data-mka]');if(a){e.stopPropagation();if(!a.disabled)craftA(a.dataset.mka);return}
+  const u=e.target.closest('[data-up]');if(u){e.stopPropagation();if(!u.disabled)doUp(u.dataset.up);return}
+  const q=e.target.closest('[data-eqa]');if(q){e.stopPropagation();equipArm(q.dataset.eqa,q.dataset.w)}},true);
+const _drawForge2=drawForge;drawForge=function(){_drawForge2();$('fgTabs').innerHTML=fgTabsHTML();
+  const ownW=WPNS.filter(w=>myItems.has(w[0])).length,totW=WPNS.filter(w=>wSrcOk(WPN[w[0]])).length,ownA=ARMS.filter(a=>myItems.has(a[0])).length,totA=ARMS.filter(a=>aSrcOk(ARM[a[0]])).length;
+  $('fgCnt').textContent=`ぶき ${ownW}/${totW} ・ ぼうぐ ${ownA}/${totA} ・ 💎${pts.toLocaleString()}`;
+  const el=$('fgBody'),hd=el.querySelector('.fghero'),head=hd?hd.outerHTML:'';
+  if(FG.tab==='armor')drawArmor(el,head);else if(FG.tab==='up')drawUp(el,head);
+  el.querySelectorAll('.mcard').forEach((c,i)=>{const list=MATORD.filter(k=>!MATS[k][5]||uraOpen()||matN(k));if(list[i]){c.dataset.m=list[i];c.setAttribute('role','button');c.tabIndex=0}})};
+// ---- 開発者モード（なまえ「たま」）----
+const devTama=()=>slotName()==='たま';
+try{document.head.insertAdjacentHTML('beforeend',`<style>
+.fgbox>.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}.fgbox>.tabs .tab{padding:6px 2px;font-size:12px;white-space:nowrap}
+.atyps{grid-template-columns:repeat(4,minmax(0,1fr))}
+.aser{display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;padding:8px 12px;border-radius:14px;background:linear-gradient(90deg,color-mix(in srgb,var(--ec) 22%,#fff),#fffdf5);border:2px solid color-mix(in srgb,var(--ec) 45%,#e0d2b8);margin-top:4px}
+.aser>b{font:900 14px var(--body);color:var(--ink)}.aser>span{font:900 12px var(--body);color:#8a6a3a}.aser small{grid-column:1/-1;font:800 11px var(--body);color:#6a5a42}.aser small b{color:#c8402a}
+.plus{font-style:normal;color:#e0a800;font-weight:900}
+.rq[data-m]{cursor:pointer}.mcard[data-m]{cursor:pointer}
+.mwov{position:fixed;inset:0;z-index:60;background:rgba(40,28,14,.45);display:flex;align-items:flex-end;justify-content:center;padding:12px}.mwov[hidden]{display:none}
+.mwbox{width:100%;max-width:520px;max-height:70vh;overflow:auto;background:#fffdf5;border-radius:20px;padding:12px 14px 16px;box-shadow:0 -4px 24px rgba(0,0,0,.25);border:3px solid #e0d2b8}
+.mwh{display:flex;align-items:center;gap:8px}.mwh .mi svg{width:34px;height:34px}.mwh b{font:900 16px var(--body)}.mwh small{color:#e0a800;font-weight:900}.mwh .xbtn{margin-left:auto}
+.mwt{font:800 13px/1.5 var(--body);color:var(--ink);margin:8px 0}.mwt.sm{font-size:11px;color:var(--muted)}
+.mwl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.mwi{padding:6px 8px;border-radius:10px;background:#f4ece0;display:flex;flex-direction:column}.mwi b{font:900 12px var(--body)}.mwi small{font:800 10px var(--body);color:#8a7a62}.mwi.no{opacity:.6}
+.slots{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.tamab{position:fixed;left:8px;bottom:8px;z-index:70;background:#2a2a3a;color:#ffd23f;font:900 11px var(--body);padding:3px 8px;border-radius:99px;opacity:.85;pointer-events:none}
+</style>`)}catch(e){}
+//FORGE2_END
 
 function vintSheet(P,ri){const R=P.regions[ri],cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,ids=Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id&&VCARD[k][1]===ri);
   return `<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>テーマ：${R[2]} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
