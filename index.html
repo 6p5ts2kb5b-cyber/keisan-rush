@@ -1394,6 +1394,26 @@ html.iosbar #nzOv .nzwrap{padding-bottom:var(--iosbar,96px)}
 @keyframes hikW{0%{opacity:0}12%{opacity:1}100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){#hikDusk.on,.hikwhite{animation:none;display:none}}
 .nigate{display:block;font:900 11px var(--body);color:#c8402a;margin-bottom:2px}
+
+/* ===== 古着編 ===== */
+.q .vart{display:block;width:min(210px,52vw,24dvh);margin:0 auto}.q .vart svg{width:100%;height:auto;display:block}
+.q .qtx.vq{font-size:clamp(14px,4.1vw,17px);line-height:1.45}
+svg.denim{background:linear-gradient(180deg,#fffdf5,#f6ecd6);border-radius:10px}
+.vmini{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.vmini span{width:52px;height:46px;border-radius:8px;border:2px solid var(--wood);background:var(--cream);display:grid;place-items:center;font:900 16px var(--body);color:var(--muted);overflow:hidden}
+.vmini span svg{width:100%;height:100%}.vmini span.lock{opacity:.6}.vmini .pill{margin-left:auto}
+#vintOv{align-items:stretch;z-index:36}
+.vwrap{width:100%;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:8px;padding-block:12px max(14px,env(safe-area-inset-bottom));box-sizing:border-box;min-height:0}
+html.iosbar #vintOv .vwrap{padding-bottom:var(--iosbar,96px)}
+#vintBody{display:flex;flex-direction:column;gap:8px;min-height:0;flex:1;overflow-y:auto}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.vcard{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px;border-radius:12px;border:2px solid var(--wood);background:var(--cream);cursor:pointer;box-shadow:0 3px 0 rgba(90,65,40,.22);text-align:center}
+.vcard svg{width:100%;height:auto}.vcard b{font:900 12.5px/1.3 var(--body);color:var(--ink)}.vcard small{font:800 10.5px var(--body);color:var(--muted)}
+.vcard.lock{opacity:.6;cursor:default}.vcard .q{font:900 40px var(--display);color:var(--muted);height:90px;display:grid;place-items:center}
+.vdbox{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;background:#fffdf5;border:2px solid var(--wood);border-radius:12px;padding:8px}
+.vdbox svg{width:100%;height:auto}.vdbox b{display:block;font:900 15px var(--body);color:var(--ink)}.vdbox small{font:800 11px var(--body);color:var(--muted)}.vdbox p{margin:6px 0 0;font:800 12.5px/1.6 var(--body);color:var(--ink)}
+.vcardnew{margin:4px auto;max-width:260px;text-align:center}.vcardnew small{font:900 12px var(--body);color:#c8402a}
+.vcardnew .vc{background:#fffdf5;border:2px solid #e8b04a;border-radius:12px;padding:6px;animation:kcIn .7s cubic-bezier(.2,1.6,.4,1) both}.vcardnew svg{width:100%;height:auto}.vcardnew b{display:block;font:900 14px var(--body);color:var(--ink)}.vcardnew span{font:800 11px var(--body);color:var(--muted)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -1516,6 +1536,7 @@ html.iosbar #nzOv .nzwrap{padding-bottom:var(--iosbar,96px)}
   <div class="tabs" id="ptabs"></div>
   <div class="clist" id="clist"></div>
 </div></div>
+<div class="ov" id="vintOv" hidden><div class="vwrap"><div class="dexhead"><h2>👖 古着ずかん</h2><button class="xbtn" id="vintClose">とじる</button></div><div id="vintBody"></div></div></div>
 <div class="ov" id="nzOv" hidden><div class="nzwrap"><div class="dexhead"><h2>✍ なぞり書き</h2><button class="xbtn" id="nzClose">とじる</button></div><div id="nzBody"></div></div></div>
 <div class="ov" id="gachaOv" hidden><div class="gbox">
   <div class="dexhead"><h2>🎰 こんちゅうガチャ</h2><span class="cnt" id="gcnt"></span><button class="xbtn" id="gClose">とじる</button></div>
@@ -2438,7 +2459,7 @@ const MEM=new Map();
 const rawGet=k=>{try{const v=canSave?localStorage.getItem(k):MEM.get(k);return v==null?null:JSON.parse(v)}catch(e){return null}};
 const rawSet=(k,v)=>{const j=JSON.stringify(v);if(canSave){try{localStorage.setItem(k,j)}catch(e){}}else MEM.set(k,j)};
 const rawDel=k=>{if(canSave){try{localStorage.removeItem(k)}catch(e){}}else MEM.delete(k)};
-const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR','kr_subj','kr_trace'];
+const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR','kr_subj','kr_trace','kr_vint'];
 let SAVES=rawGet(SK),CUR=0;
 if(!Array.isArray(SAVES)||SAVES.length!==5){SAVES=[null,null,null,null,null];
   if(SLOTKEYS.some(k=>rawGet(k)!=null)){SLOTKEYS.forEach(k=>{const v=rawGet(k);if(v!=null)rawSet('kr_s0_'+k,v)});SAVES[0]={name:'ぼうけんしゃ',at:Date.now()}}rawSet(SK,SAVES)}
@@ -2986,7 +3007,7 @@ function dexDetail(m){const d=$('dexDetail');
    <h3 style="color:${has?RARC[m.rar]:'var(--muted)'}">${has?m.name:'？？？'}</h3><div class="stars" style="color:${RARC[m.rar]}">${starStr(m.rar)}</div>
    <p>${has?`<span style="color:${m.c}">【${m.type}${m.ins||m.ser?'':'タイプ'}】</span> ${elTag(elOfMon(m))}${m.desc}${m.ins||m.ser?`<br>大きさ：${m.size} ・ ${m.ser?'すみか':'分布'}：${m.region}`:''}<br>ゲット ${dex[m.no]}かい ・ ストック ${stockOf(m.no).length}体`+(m.fam!=null?`<span class="evo">${MONS.filter(x=>x.fam===m.fam).map(x=>`<span class="${dex[x.no]?'':'lock'}">${esvg(x,'normal',true)}</span>`).join('<i>▶</i>')}</span>`:''):(m.sp?`まだゲットしていない…。コンボ中に まれに出現する！${m.av?'（アバター・シリーズ）':''}`:m.ser?`まだゲットしていない…。${PACK[m.pk].i} ${PACK[m.pk].n}「${PACK[m.pk].regions[m.ri][0]}」で 出てくるよ。`:'まだゲットしていない…。'+GRADES[m.gi].n+'年生の問題で出てくるよ。')}</p>${has&&stockOf(m.no).length?`<button class="viewbtn" data-view="${m.no}">360°で見る・そうび ▶</button>`:''}</div>`}
 let dexSer='ins';
-const SERS=()=>[['ins','🐞','昆虫'],...PACKS.filter(p=>!p.ken&&(!p.hidden||uraOpen()||MONS.some(m=>m.pk===p.id&&dex[m.no]))).map(p=>[p.id,p.i,p.n.replace(/編$/,'')])];
+const SERS=()=>[['ins','🐞','昆虫'],...PACKS.filter(p=>!p.ken&&!p.vint&&(!p.hidden||uraOpen()||MONS.some(m=>m.pk===p.id&&dex[m.no]))).map(p=>[p.id,p.i,p.n.replace(/編$/,'')])];
 const serPool=k=>k==='ins'?MONS.filter(m=>!m.ser&&!m.sp):MONS.filter(m=>m.pk===k);
 function drawDexUI(){const vis=SERS();if(!vis.some(v=>v[0]===dexSer))dexSer='ins';$('dexTitle').textContent=dexSer==='ins'?'こんちゅう ずかん':`${PACK[dexSer].n.replace(/編$/,'')}の ずかん`;const base=serPool(dexSer),n=base.filter(m=>dex[m.no]).length;
   $('dexCnt').innerHTML=`ゲット <b>${n}</b> / ${base.length} ・ 💎 ${pts.toLocaleString()}`;$('dexMeter').style.width=(n/Math.max(1,base.length)*100)+'%';
@@ -4462,12 +4483,12 @@ function packQ(pk,ri){if(pk==='oki'&&Math.random()<.6)return okiQ(ri);const P=PA
     return chQ(`<span class="qpic">${insIcon(m)}</span><span class="qtx">この 生き物の なまえは？</span>`,m.name,pool,1)}
   if(kind==='where')return chQ(`<span class="qtx">「<b>${m.name}</b>」に 会えるのは どこ？</span>`,R[m.ri][0],R.map(x=>x[0]));
   const cats=[...new Set(MONS.filter(x=>x.ser&&x.type).map(x=>x.type))];return chQ(`<span class="qtx">「<b>${m.name}</b>」は なんの なかま？</span>`,m.type,cats)}
-function packCtx(pk,ri,si){if(KEN.has(pk))return kenCtx(pk,ri,si);const P=PACK[pk],R=P.regions[ri],pool=regMons(pk,ri),norm=pool.filter(m=>m.rar<5),bosses=pool.filter(m=>m.rar===5);
+function packCtx(pk,ri,si){if(KEN.has(pk))return kenCtx(pk,ri,si);if(VINTP.has(pk))return vintCtx(pk,ri,si);const P=PACK[pk],R=P.regions[ri],pool=regMons(pk,ri),norm=pool.filter(m=>m.rar<5),bosses=pool.filter(m=>m.rar===5);
   const qg=()=>packQ(pk,ri);const lv=regLv(pk,ri);
   return{pk,ri,si,world:1,hard:pk==='ura',n:Math.max(1,Math.ceil(lv/6)),c:P.c,isl:R[0],tag:`${P.i} ${R[0]}`,units:[[R[1][Math.max(0,si)],qg]],pool:norm.length?norm:pool,boss:pick(bosses.length?bosses:pool),lvb:lv}}
 // ----- screens -----
 function goPack(pk){if(S){S.tok=-1}if(pk)PK.id=pk;['mapScr','japanScr','app'].forEach(i=>$(i).hidden=true);$('clear').hidden=true;$('title').hidden=true;$('packScr').hidden=false;document.body.classList.remove('fever');drawPack()}
-function pkMapSvg(){const P=PACK[PK.id];if(P.map==='oki')return okiMapSvg();if(P.map==='kentei')return kenMapSvg(P);if(P.map==='americas')return amMapSvg(P);
+function pkMapSvg(){const P=PACK[PK.id];if(P.map==='oki')return okiMapSvg();if(P.map==='kentei')return kenMapSvg(P);if(P.map==='americas')return amMapSvg(P);if(P.map==='vint')return vintMapSvg(P);
   if(P.map==='jp'){const T=27,W=13*T,H=13*T,R=srand(9);let s=`<svg viewBox="-6 -6 ${W+12} ${H+12}" preserveAspectRatio="xMidYMid meet" role="group" aria-label="${P.n}の ちず">${P.id==='sky'?'<defs><radialGradient id="seaP" cx=".5" cy=".46" r=".75"><stop offset="0" stop-color="#e8f6ff"/><stop offset=".55" stop-color="#b8e0f8"/><stop offset="1" stop-color="#86c4ec"/></radialGradient></defs>':'<defs><radialGradient id="seaP" cx=".5" cy=".46" r=".75"><stop offset="0" stop-color="#7fdcec"/><stop offset=".55" stop-color="#46b4dc"/><stop offset="1" stop-color="#2385b8"/></radialGradient></defs>'}<rect x="-6" y="-6" width="${W+12}" height="${H+12}" fill="url(#seaP)"/>`;
     if(P.id==='sky')for(let i=0;i<9;i++){const x=R()*W,y=R()*H;s+=`<g opacity=".7" fill="#fff"><ellipse cx="${x}" cy="${y}" rx="${18+R()*14}" ry="8"/><ellipse cx="${x+10}" cy="${y-6}" rx="12" ry="8"/></g>`}
     else for(let i=0;i<24;i++){const x=R()*W,y=R()*H;s+=`<path d="M${x.toFixed(0)} ${y.toFixed(0)}q4 -3 8 0q4 3 8 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".4" stroke-linecap="round"/>`}
@@ -4496,9 +4517,9 @@ function pkMapSvg(){const P=PACK[PK.id];if(P.map==='oki')return okiMapSvg();if(P
       <rect x="${-(r[0].length*5+10)}" y="22" width="${r[0].length*10+20}" height="17" rx="8.5" fill="rgba(59,44,28,.88)"/><text y="34.5" text-anchor="middle" font-size="10.5" font-weight="900" fill="#fff" font-family="Zen Maru Gothic,sans-serif">${r[0]}</text></g>`});
   return s+'</svg>'}
 function drawPack(){try{ekMigrate()}catch(e){}const P=PACK[PK.id];$('app').classList.remove('mpbw');document.body.classList.remove('mppinch','mpq');setAreaBGM(P.id==='oki'?'okimap':null);$('pkName').textContent=`${P.i} ${P.n}`;const got=pkGot(P.id),tot=pkMons(P.id).length;
-  $('pkSub').textContent=P.ken?`${slotName()} ・ 🎖 ごうかく ${kenPassN(P.id)}/${P.regions.length} ・ 💎${pts.toLocaleString()}`:`${slotName()} ・ ずかん ${got}/${tot} ・ 💎${pts.toLocaleString()}`;
-  $('pktabs').innerHTML=pkList().map(p=>`<button class="tab" data-p="${p.id}" aria-pressed="${p.id===PK.id}" style="--pc:${p.c}">${worldOpen(p.id)?'':'🔒'}${p.i} ${p.n} <small>${p.ken?'🎖'+kenPassN(p.id):pkGot(p.id)+'/'+pkMons(p.id).length}</small></button>`).join('');
-  $('pkCalc').innerHTML=GRADES.map((g,i)=>`<option value="${i}" ${i===calcGi()?'selected':''}>けいさん ${g.n}年</option>`).join('');$('pkCalc').hidden=!!P.ken;$('pkNote').textContent=P.ken?(P.id==='kanken'?'漢字検定の 形の もんだいで たたかうよ':P.id==='eiken'?'英検の 形の もんだいで たたかうよ（🎧 音が でるよ）':'算数・数学検定の 形の もんだいで たたかうよ'):'計算と いきもの クイズで たたかうよ';
+  $('pkSub').textContent=P.vint?`${slotName()} ・ 👖 古着カード ${Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id&&vintGot.has(k)).length}/${Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id).length} ・ 💎${pts.toLocaleString()}`:P.ken?`${slotName()} ・ 🎖 ごうかく ${kenPassN(P.id)}/${P.regions.length} ・ 💎${pts.toLocaleString()}`:`${slotName()} ・ ずかん ${got}/${tot} ・ 💎${pts.toLocaleString()}`;
+  $('pktabs').innerHTML=pkList().map(p=>`<button class="tab" data-p="${p.id}" aria-pressed="${p.id===PK.id}" style="--pc:${p.c}">${worldOpen(p.id)?'':'🔒'}${p.i} ${p.n} <small>${p.vint?'👖':p.ken?'🎖'+kenPassN(p.id):pkGot(p.id)+'/'+pkMons(p.id).length}</small></button>`).join('');
+  $('pkCalc').innerHTML=GRADES.map((g,i)=>`<option value="${i}" ${i===calcGi()?'selected':''}>けいさん ${g.n}年</option>`).join('');$('pkCalc').hidden=!!(P.ken||P.vint);$('pkNote').textContent=P.vint?'古着クイズで たたかうよ（クリアで 古着カード）':P.ken?(P.id==='kanken'?'漢字検定の 形の もんだいで たたかうよ':P.id==='eiken'?'英検の 形の もんだいで たたかうよ（🎧 音が でるよ）':'算数・数学検定の 形の もんだいで たたかうよ'):'計算と いきもの クイズで たたかうよ';
   document.documentElement.style.setProperty('--pc',P.c);$('packScr').dataset.p=P.id;
   $('pkmap').innerHTML=pkMapSvg();$('pkmap').classList.toggle('locked',!worldOpen(P.id));drawPkSheet()}
 function drawPkSheet(){const P=PACK[PK.id],el=$('pksheet'),ri=PK.sel;
@@ -4507,9 +4528,9 @@ function drawPkSheet(){const P=PACK[PK.id],el=$('pksheet'),ri=PK.sel;
      <small style="font-weight:800;color:var(--muted)">こんな いきものが まってる！</small>
      <div class="teaser">${top.map((m,i)=>`<span class="${i>1?'q':''}"><span class="ic">${insIcon(m)}</span>${i>1?'？？？':m.name}</span>`).join('')}</div>
      <button class="btn trial" id="pkTrial" ${used?'disabled':''}>${used?'おためしは また あした':'⚔ おためしバトル（1日1かい）'}</button>${leftTag()}</div>`;return}
-  if(ri!=null&&!islOpen(P.id,ri)){el.innerHTML=okiLockSheet(P,ri);return}if(P.ken&&ri!=null){el.innerHTML=kenSheet(P,ri);return}
+  if(ri!=null&&!islOpen(P.id,ri)){el.innerHTML=okiLockSheet(P,ri);return}if(P.ken&&ri!=null){el.innerHTML=kenSheet(P,ri);return}if(P.vint&&ri!=null){el.innerHTML=vintSheet(P,ri);return}
   if(ri==null){el.innerHTML=`${P.id==='oki'?'<p class="okhost">🌺 <span>はいさい！ めんそーれ 沖縄へ〜！ 島の ボスを たおすと 船で つぎの 島へ わたれるよ。ちばりよー！</span></p>':''}<div class="stt"><b>${P.lab}を えらんでね</b><small>${P.desc}。${P.ken?'ステージを はんぶん クリアすると「ごうかく しけん」に ちょうせん できるよ。正解りつ 70%で ごうかく！':`ステージを はんぶん クリアすると その${P.lab}の ボスが あらわれるよ。`}</small></div>
-    <div class="srow"><div class="pmini" aria-label="いまの パーティ">${partyIcons()}</div><button class="pill" id="pkParty">👥 パーティ</button><button class="pill" id="pkChurch">⛪ きょうかい</button><button class="pill" id="pkForge">⚒ かじや</button></div>${P.id==='kanken'?'<div class="ksub"><button class="btn2 kntrace" id="pkTrace">✍ なぞり書き</button><small>書きじゅんを 指で なぞって 練習</small></div>':P.ken?'':`<div class="ksub">${subjSeg()}<small>計算の もんだいを えいご・かんじに できるよ</small></div>`}`;return}
+    <div class="srow"><div class="pmini" aria-label="いまの パーティ">${partyIcons()}</div><button class="pill" id="pkParty">👥 パーティ</button><button class="pill" id="pkChurch">⛪ きょうかい</button><button class="pill" id="pkForge">⚒ かじや</button></div>${P.vint?'<div class="ksub"><button class="btn2 kntrace" id="pkVint">👖 古着ずかん</button><small>ステージを クリアすると カードが ふえるよ</small></div>':''}${P.id==='kanken'?'<div class="ksub"><button class="btn2 kntrace" id="pkTrace">✍ なぞり書き</button><small>書きじゅんを 指で なぞって 練習</small></div>':P.ken||P.vint?'':`<div class="ksub">${subjSeg()}<small>計算の もんだいを えいご・かんじに できるよ</small></div>`}`;return}
   const R=P.regions[ri],mons=regMons(P.id,ri),cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,lv=regLv(P.id,ri);
   el.innerHTML=`<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>${R[2]?'首都：'+R[2]+' ・ ':''}${P.id==='ura'?'<b class="hardt">むずかしさ ★★★★★</b> てきは Lv40いじょう':'おすすめ Lv '+lv} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
    <div class="pkst">${R[1].map((c,si)=>{const st=pkSave[pkey(P.id,ri,si)];return `<button class="pkstage ${st?'done':''}" data-s="${si}"><b>${c}</b><span class="stars3">${st?'★'.repeat(st.stars)+'<i>'+'★'.repeat(3-st.stars)+'</i>':'<i>★★★</i>'}</span></button>`}).join('')}
@@ -4522,7 +4543,7 @@ $('pkmap').addEventListener('click',e=>{const g=e.target.closest('.pref');if(g)p
 $('pkmap').addEventListener('keydown',e=>{const g=e.target.closest('.pref');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pickReg(+g.dataset.r)}});
 $('pksheet').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
   if(t.id==='pkClose'){PK.sel=null;drawPack();return}if(t.id==='pkParty'){openParty();return}if(t.id==='pkChurch'){openChurch();return}
-  if(t.id==='pkTrial'){startTrial(PK.id);return}if(t.id==='pkTrace'){openTrace(PK.id==='kanken'&&PK.sel!=null?PK.sel+1:1);return}if(t.id==='pkForge'){openForge();return}if(t.id==='okPrev'){pickReg(okLast());return}
+  if(t.id==='pkTrial'){startTrial(PK.id);return}if(t.id==='pkVint'){openVint(PK.id);return}if(t.id==='pkTrace'){openTrace(PK.id==='kanken'&&PK.sel!=null?PK.sel+1:1);return}if(t.id==='pkForge'){openForge();return}if(t.id==='okPrev'){pickReg(okLast());return}
   if(t.dataset.s!=null&&!t.disabled){const a=PK.id,b2=PK.sel,c2=+t.dataset.s;gateBattle(()=>startPack(a,b2,c2))}});
 $('pkHub').onclick=()=>openHub();$('pkDex').onclick=()=>{dexSer=PK.id;openDex()};$('pkIsl').onclick=()=>{$('packScr').hidden=true;goMap()};
 // ----- stage flow -----
@@ -4532,11 +4553,11 @@ function startPack(pk,ri,si,trial){ensureAudio();setAreaBGM(pk==='oki'?'okibtl':
   buildParty();S.party.forEach(p=>{p.hp=deadOf(p)?0:p.s.hp;p.mp=p.s.mp});
   if(store.get('kr_bless')){store.set('kr_bless',0);S.party.forEach(p=>{p.s={...p.s,atk:Math.round(p.s.atk*1.25),def:Math.round(p.s.def*1.15)}});setTimeout(()=>{banner('⛪ しゅくふくの ちから！','#e0a800');flash('#fff2a8')},900)}
   drawParty();hud();buildBar();drawTop();const R=PACK[pk].regions[ri];banner(si<0?(KEN.has(pk)?'ごうかく しけん':'BOSS STAGE'):`${R[1][si]}`,PACK[pk].c);sFan();
-  (async()=>{const tok=S.tok;await say(si<0?(KEN.has(pk)?`${PACK[pk].n.replace(/の島$/,'')} ${R[0]}「ごうかく しけん」スタート！ 正解りつ 70%で ごうかく！`:`${R[0]}の ボスに ちょうせん！`):`${PACK[pk].i} ${R[0]}「${R[1][si]}」へ しゅっぱつ！ ${KEN.has(pk)?R[0]+'の もんだいで しょうぶ！':'計算と いきもの クイズで たたかおう！'}`,1600);if(tok===S.tok)runStage()})()}
+  (async()=>{const tok=S.tok;await say(si<0?(KEN.has(pk)?`${PACK[pk].n.replace(/の島$/,'')} ${R[0]}「ごうかく しけん」スタート！ 正解りつ 70%で ごうかく！`:`${R[0]}の ボスに ちょうせん！`):`${PACK[pk].i} ${R[0]}「${R[1][si]}」へ しゅっぱつ！ ${KEN.has(pk)?R[0]+'の もんだいで しょうぶ！':VINTP.has(pk)?R[2]+'の 古着クイズで しょうぶ！':'計算と いきもの クイズで たたかおう！'}`,1600);if(tok===S.tok)runStage()})()}
 function packClear(){if(S.ctx.trial)return trialClear();const c=S.ctx,P=PACK[c.pk],acc=S.gok/Math.max(1,S.gtot),stars=acc>=.999?3:acc>=.75?2:1,key=pkey(c.pk,c.ri,c.si),prev=pkSave[key],first=!prev;
   pkSave[key]={stars:Math.max(stars,prev?prev.stars:0),n:(prev?prev.n:0)+1};savePk();
   const bonus=(S.boss?400:120)*Math.ceil(c.lvb/5)*stars;addPts(bonus);touchSlot();setTimeout(saveToast,900);sFan();flash();rain(120);barrage(S.boss?10:5,220,true);
-  const bossNow=!S.boss&&first&&regCleared(c.pk,c.ri)===bossNeed(c.pk,c.ri);let extra='';if(c.ken&&S.boss){const pct=Math.round(acc*100);if(acc>=.7){if(!kenPass(c.pk,c.ri)){pkSave['_ok'+c.pk+c.ri]=1;savePk();addPts(800);extra+='<div class="note">🎖 はじめての ごうかく！ 💎+800</div>'}extra=kenCert(P,c.ri,pct)+extra;setTimeout(()=>{banner(`${P.regions[c.ri][0]} ごうかく！`,P.c,true);barrage(6,180,true)},600)}else extra+=`<div class="note">ごうかく ライン 70%（こんかい ${pct}%）… もういちど ちょうせん！</div>`}
+  const bossNow=!S.boss&&first&&regCleared(c.pk,c.ri)===bossNeed(c.pk,c.ri);let extra='';if(c.vint&&(first||S.boss))extra+=vintAward(c.pk,c.ri,S.boss,c.si);if(c.ken&&S.boss){const pct=Math.round(acc*100);if(acc>=.7){if(!kenPass(c.pk,c.ri)){pkSave['_ok'+c.pk+c.ri]=1;savePk();addPts(800);extra+='<div class="note">🎖 はじめての ごうかく！ 💎+800</div>'}extra=kenCert(P,c.ri,pct)+extra;setTimeout(()=>{banner(`${P.regions[c.ri][0]} ごうかく！`,P.c,true);barrage(6,180,true)},600)}else extra+=`<div class="note">ごうかく ライン 70%（こんかい ${pct}%）… もういちど ちょうせん！</div>`}
   if(S.boss&&first){addPts(1000);extra+=`<div class="note">👑 ${P.regions[c.ri][0]} せいは！ 💎+1,000</div>`;if(c.pk==='oki'&&c.ri<P.regions.length-1){PK.sailNext={from:c.ri,to:c.ri+1};extra+=`<div class="note">⛵ 船で ${P.regions[c.ri+1][0]}へ わたれるように なった！</div>`}const all=P.regions.every((r,i)=>regBoss(c.pk,i));if(all&&!pkSave['_b'+c.pk]){pkSave['_b'+c.pk]=1;savePk();addPts(5000);extra+=`<div class="note">🏅 ${P.n} かんぜん せいは！ 💎+5,000</div>`}}
   $('clearBox').innerHTML=`<div class="big">${S.boss?(c.ken?(acc>=.7?'ごうかく！':'しけん おわり'):'ボス げきは！'):'ステージ クリア！'}</div>
    <div class="stars-big">${[0,1,2].map(i=>`<span class="${i<stars?'on':''}" style="animation-delay:${(.15+i*.22).toFixed(2)}s">★</span>`).join('')}</div>
@@ -4559,7 +4580,7 @@ $('chs').addEventListener('click',e=>{const b=e.target.closest('.chb');if(b)pick
 // ----- hub -----
 function openHub(){const cards=[
    ['japan','🗾','にっぽん旅','都道府県 スタンプラリー',`せいは ${Object.keys(stp.done||{}).length}/47 ・ スタンプ ${allStamps()}/${totSpots}`,'#e0467a'],
-   ...pkList().map(p=>['pk:'+p.id,p.i,p.n,({oki:'船で 5つの 島を めぐる',sea:'魚・貝・海の いきもの',land:'森や 山の どうぶつ',sky:'日本の 空の 鳥たち',asia:'8つの 国・地域を たび',eu:'8つの 国を たび',ura:'南の島の ひきょう',suken:'11級〜3級 算数・数学検定',eiken:'Jr.ブロンズ〜3級 英検たいさく',kanken:'10級〜6級 漢字検定'})[p.id],p.ken?`🎖 ごうかく ${kenPassN(p.id)}/${p.regions.length}`:`ずかん ${pkGot(p.id)}/${pkMons(p.id).length}`,p.c]),
+   ...pkList().map(p=>['pk:'+p.id,p.i,p.n,({oki:'船で 5つの 島を めぐる',sea:'魚・貝・海の いきもの',land:'森や 山の どうぶつ',sky:'日本の 空の 鳥たち',asia:'8つの 国・地域を たび',eu:'8つの 国を たび',ura:'南の島の ひきょう',suken:'11級〜3級 算数・数学検定',eiken:'Jr.ブロンズ〜3級 英検たいさく',kanken:'10級〜6級 漢字検定',west:'Levi\'s・501・Gジャンを ほりさげる',east:'Lee・Wrangler・ストアブランド'})[p.id],p.vint?`👖 カード ${Object.keys(VCARD).filter(k=>VCARD[k][0]===p.id&&vintGot.has(k)).length}/${Object.keys(VCARD).filter(k=>VCARD[k][0]===p.id).length}`:p.ken?`🎖 ごうかく ${kenPassN(p.id)}/${p.regions.length}`:`ずかん ${pkGot(p.id)}/${pkMons(p.id).length}`,p.c]),
    ['trace','✍','なぞり書き','書きじゅんを 指で なぞる',`${(store.get('kr_trace')||[]).length}/835字`,'#c8402a'],
    ['music','🎵','楽器編','楽器クイズで 楽器を ゲット',`楽器 ${typeof instGot==='function'?instGot():0}/${typeof INSTS!=='undefined'?INSTS.length:0}`,'#d8a02a'],
    ['trade','🔁','こうかん','コードで 生き物を こうかん','ともだちと',`#3a9a8a`],...(kokuoReady()?[['secret','👑','？？？の けはい','だれかが きみを まっている…','ひみつの たたかい','#c8a030']]:!owned.has('kokuo')&&dexN()>=30?[['secret0','❔','？？？','ずかんを あつめると なにかが おきる…',`ずかん ${dexN()}/${KOKUO_NEED}`,'#8a7a5a']]:[]),['letter','💌','ひみつの てがみ','ひみつの なかまの ヒント',`ヒント ${hintN()}/12${hintN()>(store.get('kr_hintR')||0)?' ・ NEW!':''}`,'#c060a0'],['forge','⚒','かじや','そざいで ぶきを つくる',`ぶき ${WPNS.filter(w=>myItems.has(w[0])).length}しゅるい`,'#8a5226']];
@@ -4787,7 +4808,7 @@ const CHN={japan:'🗾 にっぽん旅',sea:'🌊 海編',land:'🦌 陸編',sky
 const japanDone=()=>Object.keys(stp.done||{}).length>=PREFS.length;
 const packDone=pk=>PACK[pk].regions.every((r,i)=>regBoss(pk,i));
 const worldDone=k=>k==='japan'?japanDone():packDone(k);
-function worldOpen(k){if(k==='japan'||k==='ura'||KEN.has(k))return true;if(k==='oki')return !!rawGet('kr_unlockall')||japanDone();if(rawGet('kr_unlockall'))return true;const i=CHAIN.indexOf(k);return i<=0||(worldOpen(CHAIN[i-1])&&worldDone(CHAIN[i-1]))}
+function worldOpen(k){if(k==='japan'||k==='ura'||KEN.has(k)||VINTP.has(k))return true;if(k==='oki')return !!rawGet('kr_unlockall')||japanDone();if(rawGet('kr_unlockall'))return true;const i=CHAIN.indexOf(k);return i<=0||(worldOpen(CHAIN[i-1])&&worldDone(CHAIN[i-1]))}
 const needOf=k=>CHAIN[CHAIN.indexOf(k)-1];
 function needTxt(k){const n=k==='oki'?'japan':needOf(k);if(n==='japan')return `にっぽん旅の スタンプラリーを コンプリート（47都道府県 せいは）で かいほう ・ いま ${Object.keys(stp.done||{}).length}/47`;
   const P=PACK[n];return `${P.i} ${P.n}を コンプリート（${P.regions.length}${P.lab}の ボスを たおす）で かいほう ・ いま ${P.regions.filter((r,i)=>regBoss(n,i)).length}/${P.regions.length}`}
@@ -4819,6 +4840,7 @@ $('pad').addEventListener('click',e=>{const b=e.target.closest('.k');if(b&&e.det
 addEventListener('keydown',e=>{
   if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'))return;
   if(!$('limOv').hidden){if(e.key==='Escape'){const c=$('limClose');if(c)c.click()}else if(LG.mode==='pin'&&/^[0-9]$/.test(e.key)){const b=$('limBody').querySelector(`[data-p="${e.key}"]`);if(b){e.preventDefault();b.click()}}else if(LG.mode==='pin'&&e.key==='Backspace'){const b=$('limBody').querySelector('[data-p="⌫"]');if(b){e.preventDefault();b.click()}}return}
+  if(!$('vintOv').hidden){if(e.key==='Escape')$('vintClose').click();return}
   if(!$('nzOv').hidden){if(e.key==='Escape')$('nzClose').click();return}
   if(!$('hubOv').hidden){if(e.key==='Escape')$('hubClose').click();return}
   if(!$('tradeOv').hidden){if(e.key==='Escape')$('trClose').click();return}
@@ -4842,7 +4864,7 @@ addEventListener('keydown',e=>{
 
 // ---------- title ----------
 
-const pkList=()=>['kanken','suken','eiken','sea','land','sky','asia','eu','oki','ura'].map(k=>PACK[k]).filter(p=>!p.hidden||uraOpen());
+const pkList=()=>['kanken','suken','eiken','sea','land','sky','asia','eu','oki','west','east','ura'].map(k=>PACK[k]).filter(p=>!p.hidden||uraOpen());
 
 // ================= MATERIALS & FORGE (そざい・かじや) =================
 // id:[name, icon shape, colour, rarity, where to get]
@@ -6519,6 +6541,318 @@ function nzDemo(){const k=KJ[NZ.c];if(!k||NZ.busy)return;NZ.busy=true;$('nzInk')
   const up=()=>{if(!drawing)return;const u=drawing;drawing=null;$('nzLine').setAttribute('points','');nzStroke(nzCheck(u))};
   ov.addEventListener('pointerup',up);ov.addEventListener('pointercancel',()=>{drawing=null;$('nzLine').setAttribute('points','')});
   ov.addEventListener('touchmove',e=>{if(e.target.closest('#nzSvg'))e.preventDefault()},{passive:false})})();
+
+// ===== 古着イラスト（ジーンズ・デニムジャケットの 図解）=====
+// jeans: front silhouette + back details. o={cut:'wide'|'straight'|'slim'|'taper'|'boot', rise:hi/mid, fly:'button'|'zip', back:'arcuate'|'lazys'|'w'|'plain', tab:'red'|'redE'|'rede'|'none', patch:'leather'|'paper'|'none', patchC, hidden:bool, selv:bool, wash:0..1, brand}
+function jeansSvg(o){const W=o.cut||'straight',ind=['#1c2f5c','#24407a','#3a5c98','#5a7cb0'][Math.round((o.wash||0)*3)],st=o.brand==='lee'?'#d8a03a':'#e8b04a';
+  const leg={wide:[44,40],straight:[40,34],slim:[38,28],taper:[40,24],boot:[40,40]}[W]||[40,34],thighW=leg[0],hemW=leg[1],knee=W==='boot'?thighW-8:(thighW+hemW)/2;
+  // front view (left half of the card)
+  let f=`<g transform="translate(6 6)"><path d="M14 18H86L88 44H12Z" fill="${ind}" stroke="#0e1a36" stroke-width="1.5"/>`;
+  f+=`<path d="M12 40L50 40L50 52Q50 60 46 66L${50-(W==='wide'?4:2)} 196L${50-hemW-(W==='boot'?6:0)} 196L${50-thighW+10} 118L12 44Z" fill="${ind}" stroke="#0e1a36" stroke-width="1.5"/>`;
+  f+=`<path d="M88 40L50 40L50 52Q50 60 54 66L${50+(W==='wide'?4:2)} 196L${50+hemW+(W==='boot'?6:0)} 196L${50+thighW-10} 118L88 44Z" fill="${ind}" stroke="#0e1a36" stroke-width="1.5"/>`;
+  f+=`<path d="M14 26H86" stroke="${st}" stroke-width="1" stroke-dasharray="2 1.5"/>`;
+  [20,34,66,80].forEach(x=>f+=`<rect x="${x-2}" y="16" width="4" height="12" rx="1" fill="${ind}" stroke="#0e1a36" stroke-width="1"/>`);
+  f+=`<path d="M22 30Q30 44 26 52M78 30Q70 44 74 52" stroke="${st}" stroke-width="1.2" fill="none"/>`;
+  f+=o.fly==='zip'?`<path d="M50 30V62" stroke="#c8c8c8" stroke-width="2"/><path d="M53 28V60Q53 64 50 66" stroke="${st}" stroke-width="1" fill="none"/>`:`<path d="M53 28V60Q53 64 50 66" stroke="${st}" stroke-width="1" fill="none"/>${[34,42,50,58].map(y=>`<circle cx="51" cy="${y}" r="1.4" fill="#c8a050"/>`).join('')}`;
+  f+=`<circle cx="50" cy="22" r="3" fill="#c8a050" stroke="#6a5020"/>`;
+  f+=o.selv?`<path d="M${50-hemW-(W==='boot'?6:0)+1} 190L${50-hemW-(W==='boot'?6:0)+1} 196" stroke="#e0302a" stroke-width="2"/>`:'';
+  f+=`</g>`;
+  // back view (right half)
+  let b=`<g transform="translate(108 6)"><path d="M12 18H88L90 44H10Z" fill="${ind}" stroke="#0e1a36" stroke-width="1.5"/><path d="M10 44L50 40L90 44L92 70Q50 60 8 70Z" fill="${ind}" stroke="#0e1a36" stroke-width="1.2"/>`;
+  b+=`<path d="M10 70L8 196L${50-6} 196L48 96Q50 84 52 96L${50+6} 196L92 196L92 70Q50 60 8 70Z" fill="${ind}" stroke="#0e1a36" stroke-width="1.5"/>`;
+  const loops=o.offset?[18,44,58,82]:[18,38,50,62,82];loops.forEach(x=>b+=`<rect x="${x-2}" y="16" width="4" height="12" rx="1" fill="${ind}" stroke="#0e1a36" stroke-width="1"/>`);
+  const pk=(x)=>`<path d="M${x} 76H${x+30}L${x+29} 108L${x+15} 116L${x+1} 108Z" fill="${ind}" stroke="#0e1a36" stroke-width="1.2"/>`;b+=pk(14)+pk(56);
+  const stitch=(x)=>o.back==='arcuate'?`<path d="M${x+3} 88Q${x+9} 80 ${x+15} 90Q${x+21} 80 ${x+27} 88" stroke="${st}" stroke-width="1.4" fill="none"/><path d="M${x+3} 92Q${x+9} 84 ${x+15} 94Q${x+21} 84 ${x+27} 92" stroke="${st}" stroke-width="1.2" fill="none"/>`
+    :o.back==='lazys'?`<path d="M${x+4} 92Q${x+10} 80 ${x+15} 90Q${x+20} 100 ${x+26} 86" stroke="${st}" stroke-width="1.5" fill="none"/>`
+    :o.back==='w'?`<path d="M${x+4} 84L${x+9} 96L${x+15} 86L${x+21} 96L${x+26} 84" stroke="${st}" stroke-width="1.4" fill="none"/>`:'';
+  b+=stitch(14)+stitch(56);
+  if(o.hidden)b+=[17,41,59,83].map(x=>`<circle cx="${x}" cy="78" r="1.6" fill="none" stroke="#c8a050" stroke-width=".8" stroke-dasharray="1 1"/>`).join('');else if(o.backRivets)b+=[17,41,59,83].map(x=>`<circle cx="${x}" cy="78" r="1.8" fill="#c8a050"/>`).join('');
+  if(o.tab&&o.tab!=='none')b+=`<rect x="56" y="${o.tabLow?96:90}" width="5" height="9" rx="1" fill="${o.tab==='orange'?'#ff8a2a':o.tab==='white'?'#f4f4f4':'#d8202a'}" stroke="#7a0a10" stroke-width=".6"/><text x="58.5" y="${o.tabLow?102:96}" font-size="3" fill="#fff" text-anchor="middle" font-weight="900" transform="rotate(90 58.5 ${o.tabLow?100:94})">${o.tab==='redE'?'LEVI\'S':o.tab==='rede'?'Levi\'s':''}</text>`;
+  if(o.patch&&o.patch!=='none')b+=`<rect x="66" y="20" width="18" height="11" rx="1.5" fill="${o.patch==='leather'?'#8a5a2a':o.patchC||'#e8d8b0'}" stroke="#4a3010" stroke-width=".8"/><text x="75" y="27.5" font-size="4.2" text-anchor="middle" fill="${o.patch==='leather'?'#f4dcb0':'#6a4a20'}" font-weight="900">${o.patchT||''}</text>`;
+  if(o.label)b+=`<rect x="${o.labelX||60}" y="${o.labelY||104}" width="14" height="6" rx="1" fill="${o.labelC||'#f4f4f4'}" stroke="#4a3010" stroke-width=".5"/><text x="${(o.labelX||60)+7}" y="${(o.labelY||104)+4.6}" font-size="3.6" text-anchor="middle" fill="#1a1a1a" font-weight="900">${o.label}</text>`;
+  b+=`</g>`;
+  return `<svg class="denim" viewBox="0 0 216 212" aria-hidden="true">${f}${b}<text x="56" y="210" font-size="7" text-anchor="middle" fill="#6a5a40" font-weight="800">まえ</text><text x="164" y="210" font-size="7" text-anchor="middle" fill="#6a5a40" font-weight="800">うしろ</text></svg>`}
+// jackets (front). o={pk:1|2, flap:'square'|'point'|'w', pleat:bool, v:bool, adj:bool, cinch:bool, corduroy:bool, brand, lining:'blanket'|null, slim:bool, handPk:bool}
+function jacketSvg(o){const ind=o.ind||'#2a4a86',st=o.brand==='lee'?'#d8a03a':'#e8b04a',sl=o.slim?6:0;
+  let s=`<svg class="denim" viewBox="0 0 200 170" aria-hidden="true">`;
+  s+=`<path d="M60 20L84 12H116L140 20L170 40L186 124L166 130L150 72L150 150Q100 158 50 150L50 72L34 130L14 124L30 40Z" fill="${ind}" stroke="#0e1a36" stroke-width="1.6" transform="${o.slim?'translate(10 0) scale(.9 1)':''}"/>`;
+  s+=`<g transform="${o.slim?'translate(10 0) scale(.9 1)':''}">`;
+  s+=`<path d="M84 12L100 34L116 12" fill="${o.corduroy?'#7a5a3a':ind}" stroke="#0e1a36" stroke-width="1.4"/>${o.corduroy?'<path d="M84 12L100 34L116 12" stroke="#5a3a20" stroke-width=".6" stroke-dasharray="1 1.5" fill="none"/>':''}`;
+  s+=`<path d="M100 34V150" stroke="#0e1a36" stroke-width="1.2"/><path d="M103 34V150" stroke="${st}" stroke-width=".9" stroke-dasharray="2 1.5"/>`;
+  [46,70,94,118,142].forEach(y=>s+=`<circle cx="97" cy="${y}" r="2.4" fill="#c8a050" stroke="#6a5020" stroke-width=".6"/>`);
+  s+=`<path d="M50 136H150" stroke="${st}" stroke-width="1" stroke-dasharray="2 1.5"/><path d="M50 138V150M150 138V150" stroke="#0e1a36" stroke-width="1"/>`;
+  s+=`<path d="M56 54Q78 48 96 52M144 54Q122 48 104 52" stroke="${st}" stroke-width="1" fill="none" stroke-dasharray="2 1.5"/>`;
+  const pocket=(x,mir)=>{const fl=o.flap==='point'?`M${x} 58H${x+26}V66L${x+13} 72L${x} 66Z`:o.flap==='w'?`M${x} 58H${x+26}V66L${x+19} 70L${x+13} 66L${x+7} 70L${x} 66Z`:`M${x} 58H${x+26}V68H${x}Z`;
+    return `<path d="M${x} 62H${x+26}V86H${x}Z" fill="${ind}" stroke="#0e1a36" stroke-width="1"/><path d="${fl}" fill="${ind}" stroke="#0e1a36" stroke-width="1.2"/><circle cx="${x+13}" cy="${o.flap==='point'?67:64}" r="2" fill="#c8a050"/>`};
+  if(o.pk>=1)s+=pocket(110);if(o.pk>=2)s+=pocket(64);
+  if(o.pleat)[[80,72],[118,72]].forEach(([x,y])=>s+=`<path d="M${x} ${y+16}V134M${x+4} ${y+16}V134" stroke="#0e1a36" stroke-width=".9"/><path d="M${x+2} ${y+16}V134" stroke="${st}" stroke-width=".7" stroke-dasharray="2 1.5"/>`);
+  if(o.v)s+=`<path d="M64 88L78 134M90 88L78 134M110 88L122 134M136 88L122 134" stroke="${st}" stroke-width="1" stroke-dasharray="2 1.5" fill="none"/>`;
+  if(o.adj)s+=`<path d="M54 128H66M134 128H146" stroke="#0e1a36" stroke-width="1"/><circle cx="62" cy="132" r="2" fill="#c8a050"/><circle cx="138" cy="132" r="2" fill="#c8a050"/>`;
+  if(o.handPk)s+=`<path d="M58 112L68 96M142 112L132 96" stroke="#0e1a36" stroke-width="1.4"/>`;
+  if(o.lining==='blanket')s+=`<path d="M100 34L84 12" stroke="#c84a3a" stroke-width="3" opacity=".7"/><rect x="40" y="150" width="20" height="6" fill="#c84a3a" opacity=".8"/>`;
+  if(o.tab)s+=`<rect x="${o.pk>=2?112:112}" y="82" width="4" height="7" rx="1" fill="#d8202a"/>`;
+  s+=`</g>`;
+  if(o.cinch)s+=`<text x="170" y="162" font-size="7.5" fill="#6a5a40" font-weight="800" text-anchor="end">うしろに シンチバック</text>`;
+  return s+'</svg>'}
+// ================= 古着編（西海岸編・東海岸編）=================
+const VINTP=new Set(['west','east']);
+PACKS.push(
+ {id:'west',n:'古着 西海岸編',i:'👖',c:'#2a4a86',map:'vint',bg:'#f2d8a8',lab:'スポット',vint:1,desc:'リーバイスの ふるさと 西海岸で、501・XX・BIG E・Gジャンの ひみつを ほりさげよう',
+  regions:[['サンフランシスコ',['はじまり','リベットの とっきょ','XX デニム','ツーホースの パッチ'],'Levi\'s の はじまり'],['ゴールドカントリー',['501XX','大戦モデル','かくしリベット','オフセット・ギャラ'],'XX の じだい'],
+   ['ローズボウル',['BIG E','66 前期・後期','赤耳','年代判別'],'年代を 見ぬく'],['メルローズ',['501','505・502','517','90s USA製'],'品番と シルエット'],['サンタモニカ',['1st 506XX','2nd 507XX','3rd 557XX','4th 70505'],'Gジャン']]},
+ {id:'east',n:'古着 東海岸編',i:'🧥',c:'#7a3a2a',map:'vint',bg:'#e8d0b0',lab:'スポット',vint:1,desc:'Lee・Wrangler・ストアブランドの 町を めぐって、歴史と ディテールを ほりさげよう',
+  regions:[['サライナ',['H.D.リー','ユニオンオール','バディ・リー','Lee の 歴史'],'Lee の はじまり'],['カンザスシティ',['Lee 101','101J','ストームライダー','91-J'],'Lee の 名品'],
+   ['グリーンズボロ',['ブルーベル社','13MWZ','111MJ・124MJ','Wrangler の ディテール'],'Wrangler'],['シカゴ',['シアーズ','モンゴメリー・ワード','カタログ通販','ストアの 名品'],'ストアブランド'],['ニューヨーク',['JCペニー','ビッグマック','フォアモスト','そうまとめ'],'ストアブランド・まとめ']]});
+VINTP.forEach(id=>{PACK[id]=PACKS.find(p=>p.id===id)});
+// fact bank: [region, stage(-1=any), question, answer, [wrong×3], explanation, art?]
+const VQ={west:[],east:[]};
+// collectible cards: id -> [pack, region, name, sub, art, text]
+const VCARD={};
+let vintGot=new Set(store.get('kr_vint')||[]);const vintSave=()=>store.set('kr_vint',[...vintGot]);
+function vArt(a){if(!a)return '';return a.j?jeansSvg(a.j):a.k?jacketSvg(a.k):''}
+function vintQ(pk,ri,si){const all=VQ[pk],here=all.filter(x=>x[0]===ri&&(si<0||x[1]<0||x[1]===si)),reg=all.filter(x=>x[0]===ri);
+  const pool=here.length&&Math.random()<.75?here:reg.length?reg:all;const[r,s,q,a,w,ex,art]=pick(pool);
+  const o=chQ(`${art?`<span class="vart">${vArt(art)}</span>`:''}<span class="qtx vq">${q}</span>`,a,w,1);o.ex=ex;o.exh='👖 古着 まめちしき';o.thr=art?9:8;o.vint=1;return o}
+function vintCtx(pk,ri,si){const P=PACK[pk],R=P.regions[ri],gi=Math.min(5,ri+1),pool=MONS.filter(m=>m.ins&&m.gi===gi&&m.rar<5),bosses=MONS.filter(m=>m.ins&&m.gi===gi&&m.rar>=4),lv=6+ri*3;
+  return{pk,ri,si,world:1,vint:1,n:Math.max(1,Math.ceil(lv/6)),c:P.c,isl:R[0],tag:`${P.i} ${R[0]}`,units:[[si<0?'ボス':R[1][si],()=>vintQ(pk,ri,si)]],pool,boss:pick(bosses),lvb:lv}}
+// award a card on clear
+function vintAward(pk,ri,boss,si){const all=Object.keys(VCARD).filter(k=>VCARD[k][0]===pk&&VCARD[k][1]===ri),ids=all.filter(k=>!vintGot.has(k));if(!ids.length)return '';const pref=all[si];const id=pref&&!vintGot.has(pref)?pref:boss?ids[ids.length-1]:ids[0];
+  vintGot.add(id);vintSave();const c=VCARD[id];return `<div class="vcardnew"><small>👖 古着カード ゲット！</small><div class="vc">${vArt(c[4])}<b>${c[2]}</b><span>${c[3]}</span></div></div>`}
+// collection
+function openVint(pk){vintGot=new Set(store.get('kr_vint')||[]);$('vintOv').hidden=false;drawVint(pk||'west')}
+function drawVint(pk){const ids=Object.keys(VCARD).filter(k=>VCARD[k][0]===pk),got=ids.filter(k=>vintGot.has(k)).length;
+  $('vintBody').innerHTML=`<div class="tabs vtabs">${[...VINTP].map(p=>`<button class="tab" data-vp="${p}" aria-pressed="${p===pk}">${PACK[p].i} ${PACK[p].n.replace('古着 ','')}</button>`).join('')}</div>
+   <p class="nzlead">ステージを クリアすると カードが ふえるよ ・ <b>${got}/${ids.length}</b></p>
+   <div class="vgrid">${ids.map(k=>{const c=VCARD[k],ok=vintGot.has(k);return `<button class="vcard ${ok?'':'lock'}" data-vc="${k}" ${ok?'':'disabled'}>${ok?vArt(c[4]):'<span class="q">？</span>'}<b>${ok?c[2]:'？？？'}</b><small>${ok?c[3]:PACK[pk].regions[c[1]][0]}</small></button>`}).join('')}</div>
+   <div class="vdetail" id="vDet"></div>`}
+(function vintWire(){const ov=$('vintOv');if(!ov)return;ov.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+  if(t.id==='vintClose'){ov.hidden=true;return}if(t.dataset.vp){drawVint(t.dataset.vp);return}
+  if(t.dataset.vc){const c=VCARD[t.dataset.vc];$('vDet').innerHTML=`<div class="vdbox">${vArt(c[4])}<div><b>${c[2]}</b><small>${c[3]}</small><p>${c[5]}</p></div></div>`;$('vDet').scrollIntoView({behavior:'smooth',block:'nearest'})}})})();
+// maps
+const VMAP={
+ west:{land:[[120,0],[220,0],[360,0],[360,360],[230,360],[206,330],[178,314],[150,300],[132,282],[120,262],[106,240],[94,214],[86,190],[80,170],[74,148],[78,124],[86,100],[96,72],[104,44],[110,20]],
+  nodes:[[96,166,'🌉'],[178,136,'⛏️'],[228,258,'🏟️'],[162,308,'🌴'],[104,226,'🏄']],deco:[['🌲',150,40],['🏔️',230,110],['🌵',290,240],['🎡',100,300],['☀️',300,40]],sea:'太平洋',seaX:20},
+ east:{land:[[0,60],[90,52],[170,48],[230,60],[262,72],[300,62],[340,50],[360,52],[360,128],[338,140],[322,160],[314,186],[300,212],[284,238],[278,262],[286,292],[280,312],[262,300],[248,276],[226,268],[196,276],[160,290],[120,292],[60,286],[0,288]],
+  nodes:[[56,170,'🌾'],[104,182,'🏭'],[262,226,'🌸'],[170,98,'🏙️'],[320,112,'🗽']],deco:[['🌽',30,240],['🚂',140,240],['🍁',230,90],['⛵',330,250],['🏈',200,190]],sea:'大西洋',seaX:300}};
+function vintMapSvg(P){const M=VMAP[P.id],W=360,H=360,R=srand(P.id.length*19);let s=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="group" aria-label="${P.n}の ちず"><defs><linearGradient id="vsea" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fd0e8"/><stop offset="1" stop-color="#2a7ab0"/></linearGradient>
+  <linearGradient id="vland${P.id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.id==='west'?'#d8e8a0':'#c8e0a0'}"/><stop offset="1" stop-color="${P.id==='west'?'#e8c890':'#a8c888'}"/></linearGradient>
+  <pattern id="vden" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><rect width="8" height="8" fill="none"/><path d="M0 0V8" stroke="rgba(40,60,110,.08)" stroke-width="3"/></pattern></defs><rect width="${W}" height="${H}" fill="url(#vsea)"/>`;
+  for(let i=0;i<22;i++){const x=R()*W,y=R()*H;s+=`<path d="M${x.toFixed(0)} ${y.toFixed(0)}q4 -3 8 0q4 3 8 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".35" stroke-linecap="round"/>`}
+  s+=`<path d="${amPath(M.land)}" fill="#f6e3a8" stroke="#f6e3a8" stroke-width="10" stroke-linejoin="round"/><path d="${amPath(M.land)}" fill="url(#vland${P.id})"/><path d="${amPath(M.land)}" fill="url(#vden)"/>`;
+  M.deco.forEach(([e,x,y])=>s+=`<text x="${x}" y="${y}" font-size="14" opacity=".7" text-anchor="middle">${e}</text>`);
+  s+=`<text x="${M.seaX}" y="350" font-size="9" font-weight="900" fill="#fff" opacity=".85" font-family="Zen Maru Gothic,sans-serif">${M.sea}</text>`;
+  const pts=M.nodes.map(n=>[n[0],n[1]]);s+=`<path d="${trailPath(pts)}" stroke="#fffdf5" stroke-width="6" fill="none" stroke-linecap="round" opacity=".85"/><path d="${trailPath(pts)}" stroke="#e8b04a" stroke-width="2.4" fill="none" stroke-dasharray="5 4" stroke-linecap="round"/>`;
+  P.regions.forEach((r,i)=>{const[x,y,e]=M.nodes[i],sel=PK.sel===i,st=regCleared(P.id,i),b=regBoss(P.id,i),n=r[1].length;
+    s+=`<g class="pref" data-r="${i}" tabindex="0" role="button" aria-label="${r[0]}" transform="translate(${x} ${y})">${sel?'<circle class="ring" r="25" fill="none" stroke="#ff3d8b" stroke-width="3" stroke-dasharray="6 4"/>':''}
+      <ellipse cy="15" rx="16" ry="4" fill="rgba(40,30,20,.3)"/><circle r="18" fill="${b?'#ffe9a8':'#fffdf5'}" stroke="${b?'#e0a800':P.c}" stroke-width="3.4" stroke-dasharray="${b?'':'3 2'}"/>
+      <text y="6" text-anchor="middle" font-size="16">${b?'👑':e}</text>
+      <rect x="${-(r[0].length*5+12)}" y="21" width="${r[0].length*10+24}" height="16" rx="8" fill="rgba(40,28,18,.9)"/><text y="32.5" text-anchor="middle" font-size="9.6" font-weight="900" fill="#fff" font-family="Zen Maru Gothic,sans-serif">${r[0]} ${st}/${n}</text></g>`});
+  return s+'</svg>'}
+
+// ----- 西海岸編: Levi's（公式資料＋ビンテージショップで 確認できた ことを 中心に。年が 資料で ずれる ものは「年代」で 出題）-----
+const LVJ={xx47:{cut:'straight',fly:'button',back:'arcuate',tab:'red',patch:'leather',patchT:'LEVI\'S',hidden:1,selv:1},
+ xx55:{cut:'wide',fly:'button',back:'arcuate',tab:'red',patch:'paper',patchT:'501XX',hidden:1,selv:1,offset:1},
+ bigE:{cut:'straight',fly:'button',back:'arcuate',tab:'redE',patch:'paper',patchT:'501',selv:1,wash:.2},
+ s66:{cut:'slim',fly:'button',back:'arcuate',tab:'rede',patch:'paper',patchT:'501',selv:1,wash:.35},
+ e80:{cut:'slim',fly:'button',back:'arcuate',tab:'rede',patch:'paper',patchT:'501',wash:.5},
+ usa90:{cut:'straight',fly:'button',back:'arcuate',tab:'rede',patch:'paper',patchT:'501',wash:.65},
+ l505:{cut:'slim',fly:'zip',back:'arcuate',tab:'rede',patch:'paper',patchT:'505',wash:.3},
+ l502:{cut:'taper',fly:'zip',back:'arcuate',tab:'redE',patch:'paper',patchT:'502',wash:.2},
+ l517:{cut:'boot',fly:'zip',back:'arcuate',tab:'rede',patch:'paper',patchT:'517',wash:.45},
+ ww2:{cut:'wide',fly:'button',back:'arcuate',tab:'red',patch:'leather',patchT:'S501',hidden:1,selv:1}};
+const LVK={t1:{pk:1,flap:'square',pleat:1,cinch:1},t2:{pk:2,flap:'square',pleat:1,adj:1},t3:{pk:2,flap:'point',v:1,adj:1},t4:{pk:2,flap:'point',v:1,adj:1,slim:1}};
+VQ.west.push(
+ [0,0,'リーバイ・ストラウスが 衣料や 雑貨の おろし売りを はじめた 町は？','サンフランシスコ',['ニューヨーク','カンザス州 サライナ','シカゴ'],'1853年、ドイツ（バイエルン）から 来た リーバイ・ストラウスが サンフランシスコで 開業。'],
+ [0,0,'リーバイ・ストラウスは もとは どこから 来た 移民？','ドイツ（バイエルン）',['イタリア','日本','メキシコ'],'バイエルン生まれ。ゴールドラッシュの ころの 西海岸で 商売を はじめた。'],
+ [0,0,'1906年の 大地震で リーバイスの 本社や 工場は どうなった？','焼けて なくなり、そのあと バレンシア通りに 工場を たてた',['なにも なかった','ニューヨークへ 引っこした','日本に 工場を たてた'],'地震と 火事の あと、11月に バレンシア通り工場が できた。のちの「555」工場。'],
+ [0,1,'ポケットの 角を 金属の リベットで 強くする アイデアを 出した 仕立て屋は？','ジェイコブ・デイビス',['ヘンリー・リー','ロデオ・ベン','C.C.ハドソン'],'ネバダ州 リノの 仕立て屋。リーバイスに 共同特許を もちかけた。'],
+ [0,1,'リベットの 特許が とれた「ジーンズの 誕生日」は？','1873年5月20日',['1853年1月1日','1936年9月1日','1947年5月20日'],'特許番号 139,121。リベットで 補強した「ウエストオーバーオール」の 特許。'],
+ [0,1,'1890年ごろ リベットの 特許が 切れると 何が おきた？','ほかの 会社も リベット付きの ジーンズを 作りはじめた',['リベットが 禁止された','ジーンズが 消えた','リーバイスが つぶれた'],'同じころ「501」という 品番が つけられた。'],
+ [0,1,'むかしの ジーンズは 何と よばれていた？','ウエストオーバーオール',['トラッカー','ジャンパー','チノ'],'1960年に 広告などで「オーバーオール」から「ジーンズ」と いう 名前に かわった。'],
+ [0,2,'のちに 501 と よばれる ジーンズの もとの 名前は？','XX（ダブルエックス）',['BIG E','66','S'],'XX の いみは「とても じょうぶ」などの 説が あるが はっきり しない。'],
+ [0,2,'1922年から リーバイスに デニムを ほぼ 独占で 作っていた 会社は？','コーンミルズ',['ブルーベル','シアーズ','エドウィン'],'ノースカロライナの コーンミルズ。ホワイトオーク工場は 2017年に 閉鎖。'],
+ [0,2,'1927年ごろ コーンミルズが 501 用に 作った、はしに 赤い 線が 入った デニムの 通称は？','赤耳（セルビッジ）',['ブロークンデニム','ジェルトデニム','ストレッチ'],'旧式の 織機で 織った 生地の みみに 赤い 線。'],
+ [0,2,'1922年に 501 に ついた パーツは？','ベルトループ',['ジッパー','赤タブ','紙パッチ'],'サスペンダーボタンや シンチも まだ のこっていた。'],
+ [0,2,'最初の ジーンズの うしろポケットは いくつ？','1つ',['2つ','3つ','0'],'1901年ごろ、2つめの うしろポケットが ついた。'],
+ [0,3,'1886年に 登場した 革パッチの 絵は？','2頭の 馬が ジーンズを 引っぱっても やぶれない 絵',['牛の 角','鷲','ブルーベルの 花'],'字が 読めない 人にも じょうぶさが わかる「ツーホース」マーク。'],
+ [0,3,'リーバイスの 赤タブが 生まれた 年は？','1936年',['1873年','1966年','1890年'],'遠くからでも リーバイスと わかるように 右うしろポケットに つけた。'],
+ [0,3,'赤タブが ついている 場所は？','右うしろポケットの わき',['前の 小ポケット','ベルトループの 上','すそ'],'1937年には ジャケットにも ついた。'],
+ [0,3,'うしろポケットの 弓形の ステッチを 何という？','アーキュエイトステッチ',['レイジーS','Wステッチ','チェーンステッチ'],'ジーンズが 生まれた ころから ある。1943年に 商標登録。'],
+ [0,3,'赤タブの なかに、文字が なく ® だけの タブが ある 理由は？','タブ そのものを 商標として まもるため',['作りわすれ','子ども用だから','安売り用だから'],'およそ 1わりの タブは ® だけ。'],
+ [1,0,'1947年モデルの 501XX の シルエットは？','すっきりした ストレート',['すそが 広がる ベルボトム','ひざから 細い テーパード','とても 太い ワイド'],'1947年は すっきり、1955年は もも まわりが ゆったりの ストレート。',{j:LVJ.xx47}],
+ [1,0,'この 501XX の パッチと タブから 考えて いちばん 近い 年代は？','1940年代後半（革パッチ・片面タブ）',['1970年代（紙パッチ・small e）','1990年代 USA製','2000年代'],'1947年モデルは 革パッチ・片面タブ。1950年代に 紙パッチ・両面タブへ。',{j:LVJ.xx47}],
+ [1,0,'1947年の 501XX で 復活した パーツは？','時計ポケットの リベット',['シンチバック','股リベット','サスペンダーボタン'],'戦後、時計ポケットの リベットは もどった。股リベットと シンチは もどらなかった。'],
+ [1,0,'戦後の アーキュエイトが 2本針ミシンで 縫われて できた、線が 交わる 部分の 形は？','ダイヤモンド（ひし形）',['ハート','星','まる'],'1947年から ステッチが もどり、まんなかに ひし形が できる。'],
+ [1,1,'第二次世界大戦中の 501（大戦モデル）の アーキュエイトは どうなっていた？','ペンキで 描かれた',['ステッチが 3本','ステッチが なかった だけ','金色の 刺しゅう'],'糸を せつやくするため ペンキで 描いた。'],
+ [1,1,'大戦モデル（S501XX）の 特ちょうで ないのは？','ジッパーフライ',['ドーナツボタン','シンチバックが ない','時計ポケットの リベットが ない'],'金属や 糸を へらすための 工夫が いっぱい。ボタンは 月桂樹や ドーナツボタン。'],
+ [1,1,'大戦モデルが 作られた ころは？','1942〜46年ごろ',['1873年ごろ','1966年ごろ','1983年ごろ'],'第二次世界大戦の ころ。袋布に ちがう 生地が 使われる ことも あった。'],
+ [1,1,'股（クロッチ）の リベットが なくなった ころは？','1940年代はじめ（大戦の ころ）',['1873年','1971年','2003年'],'理由は「戦時の 規則」説と「社長が キャンプで 熱くなった リベットで やけど」説が ある。'],
+ [1,2,'1937年に うしろポケットの リベットが 布で かくされた 理由は？','家具や 鞍を 傷つけたから',['リベットが 足りなかったから','雨で さびたから','おしゃれの ため'],'「かくしリベット」。同じ年に サスペンダーボタンも なくなった。',{j:Object.assign({},LVJ.xx55,{hidden:1})}],
+ [1,2,'かくしリベットが「かんぬき止め（バータック）」に かわった ころは？','1966年',['1937年','1947年','1873年'],'うしろポケットの 補強が リベットから 糸の かんぬき止めへ。'],
+ [1,2,'1954年に 出た ジッパーフライの 501 は？','501ZXX（501Z）',['505','517','606'],'ボタンフライに なれない 東海岸の 人むけ とも いわれる。'],
+ [1,3,'うしろの まんなかの ベルトループが 中心から ずれている ことを 何という？','オフセット',['ギャラなし','片面タブ','Vステッチ'],'1950年代なかば〜1960年代はじめごろの 501XX の 特ちょう。',{j:LVJ.xx55}],
+ [1,3,'紙パッチに「Every Garment Guaranteed」と 書いてある ものを 何と よぶ？','ギャラ入り',['ギャラなし','Wネーム','タイプ物'],'1960年代はじめに この 文字が なくなり「ギャラなし」に。'],
+ [1,3,'パッチが 革から 紙（カード）に かわった ころは？','1950年代',['1880年代','1970年代','1990年代'],'資料で 1954〜57年ごろと 少し ずれる。1950年代なかば〜後半。'],
+ [1,3,'赤タブの 文字が 片側だけの「片面タブ」が 両面に かわった ころは？','1950年代はじめ',['1936年','1971年','1983年'],'両面タブに なった ころ ® マークも 入った。'],
+ [1,3,'1955年モデルの 501XX の シルエットは？','もも まわりが ゆったりした 太めの ストレート',['ブーツカット','スキニー','ベルボトム'],'501 の なかで いちばん ゆったり と いわれる。',{j:LVJ.xx55}],
+ [2,0,'「BIG E」の いみは？','赤タブの LEVI\'S の E が 大文字',['ボタンが 大きい','ポケットが 大きい','サイズが 大きい'],'1971年ごろから 小文字の Levi\'s（small e）へ。',{j:LVJ.bigE}],
+ [2,0,'BIG E の 時代、品番が「501XX」から どう かわった？','XX が とれて「501」に',['505 に','66 に','S501 に'],'1960年代後半。パッチに 501XX と 501 が 両方 ある「Wネーム」も。'],
+ [2,0,'パッチに A や S などの 1文字が 入った 1960年代後半の 501 の 通称は？','タイプ物',['ギャラ入り','66前期','ハチマル'],'コレクターの よび名。A と S が 多く、F や I は めずらしい。'],
+ [2,0,'赤タブの V の 太さが 左右 同じ（均等V）と ちがう（不均等V）、古いのは？','均等V',['不均等V','どちらも 同じ','V は ない'],'均等V は 1950年代〜60年代なかば。不均等V は その あとの BIG E。'],
+ [2,0,'上の ボタンの 刻印「R」の 足が 長い ものを 何という？','足長R',['短足R','大R','R なし'],'1950年代なかば〜1970年ごろに 見られ、タブが なくても 年代の ヒントに。'],
+ [2,0,'ステッチの 糸が レモンイエローから かわった 色は？','オレンジ（銅色）',['白','黒','赤'],'1960年代なかばから オレンジの 糸が ふえた。'],
+ [2,0,'ボタンの わきの ウエストに ある V字の ステッチを 何という？','Vステッチ',['オフセット','Wステッチ','チェーンステッチ'],'501XX や 初期の BIG E に 見られ、のちに 平行ステッチへ。'],
+ [2,1,'「66」モデルの 名前の 由来は？','フラッシャー（紙ラベル）の ©1966 の 表記',['1966年に 作られたから','66番目の モデルだから','ボタンに 66 と ある'],'1970年代の 501。日本の コレクターが よぶ 名前。'],
+ [2,1,'66前期の うしろポケットの 内がわの ステッチは？','シングルステッチ',['チェーンステッチ','ステッチなし','ペンキ'],'66後期に なると チェーンステッチに かわる。',{j:LVJ.s66}],
+ [2,1,'66前期の デニムの 色落ちの 特ちょうは？','たて落ち',['横落ち','色落ちしない','まだら'],'たてに すじが 入る 色落ちが 人気。'],
+ [2,1,'66後期と 66前期を 見わける ポイントは？','うしろポケットの 内がわが チェーンステッチ',['赤タブが BIG E','革パッチ','ジッパーフライ'],'1970年代後半ごろの 66後期は チェーンステッチ。'],
+ [2,2,'リーバイスの 501 から 赤耳が なくなった 理由は？','はばの 広い 織機に かわったから',['赤い 糸が なくなったから','法律で 禁止','色が 落ちたから'],'1983年から 広幅織機へ。のこりの 生地で 1985〜86年ごろまで 赤耳が あった。'],
+ [2,2,'赤耳が ない 1980年代の 501 の わきの ぬい方を 何という？','脇割り',['巻きぬい','チェーン','ペンキ'],'わきの ぬいしろを 割って ロックミシンで 始末する。'],
+ [2,2,'1980年代の 501 で 前の かんぬき止めが 表に 見える ものを 何という？','表カンヌキ',['かくしリベット','オフセット','ギャラ'],'1982年ごろから 見られる。'],
+ [2,3,'品番の うしろの「-0117」の 01 の いみは？','防縮加工 していない（シュリンク・トゥ・フィット）',['防縮加工 ずみ','子ども用','黒デニム'],'02 なら 防縮加工ずみ。17 は インディゴ。'],
+ [2,3,'品番の うしろの「-0217」の 02 の いみは？','防縮加工ずみ（プリシュランク）',['生デニム','ブーツカット','女性用'],'01 は 防縮していない 生の デニム。'],
+ [2,3,'ボタン裏の 刻印「555」は どこの 工場？','サンフランシスコの バレンシア通り工場',['テキサス州 エルパソ','日本','メキシコ'],'1906年から 2002年ごろまで の 歴史ある 工場。'],
+ [2,3,'ボタン裏の 刻印「524」は どこの 工場？','テキサス州 エルパソ',['サンフランシスコ','ノックスビル','グリーンズボロ'],'エルパソは 時代で 16 → E → 6 → 524 と 刻印が かわった と いわれる。'],
+ [2,3,'アメリカ製の 501 が 終わった ころは？','2003年ごろ',['1966年','1983年','1873年'],'サンアントニオの 工場が 2003年の 終わりごろ 縫製を やめた。'],
+ [2,3,'この ジーンズの タブと 赤耳から いちばん 近い 年代は？','1960年代後半（BIG E）',['1940年代','1990年代','2010年代'],'BIG E の タブは 1971年ごろまで。',{j:LVJ.bigE}],
+ [3,0,'リーバイス 501 の 特ちょうは？','ボタンフライの ストレート',['ジッパーフライの ブーツカット','ジッパーの スキニー','ゴムの ウエスト'],'防縮していない 生デニムを 洗って 縮めて はく「シュリンク・トゥ・フィット」が もとの 形。'],
+ [3,0,'女性用の 501 が 出た 年は？','1981年',['1873年','1936年','2003年'],'1981年に 女性用 501 が 登場。'],
+ [3,0,'1960年代の 501 の シルエットの 特ちょうは？','ももが すっきりして 少し テーパード',['とても 太い','ベルボトム','ブーツカット'],'1955年の XX より すっきり。'],
+ [3,1,'1967年に 登場した 505 の 特ちょうは？','ジッパーフライで 防縮加工ずみ、少し テーパード',['ボタンフライの 生デニム','ブーツカット','オレンジタブの スーパースリム'],'501 の となりの 定番。うしろポケットも 少し 大きい。',{j:LVJ.l505}],
+ [3,1,'502 の 前あきは？','ジッパー',['ボタン','スナップ','ひも'],'1960年代の 502 は 501Z の あとつぎ とも いわれる。',{j:LVJ.l502}],
+ [3,1,'この シルエットの ジーンズは どれ？','505（ジッパー・ややテーパード）',['501XX 1955年','517 ブーツカット','606 スーパースリム'],'505 は 1967年 登場。',{j:LVJ.l505}],
+ [3,2,'ブーツカットの 定番 品番は？','517',['501','505','502'],'すそが 少し 広がり、ブーツに かぶせて はける。1969年 登場と される。',{j:LVJ.l517}],
+ [3,2,'この ジーンズの シルエットは？','ブーツカット（517）',['ストレート（501）','テーパード（502）','ワイド（501XX 1955）'],'ひざから すそに かけて 広がる。',{j:LVJ.l517}],
+ [3,2,'オレンジタブで、アーキュエイトも パッチも ない 1960年代の 細身モデルは？','606（スーパースリム）',['517','501XX','70505'],'1965年の Lot 351 から 1966年に 606 へ。'],
+ [3,3,'1990年代 アメリカ製 501 の ボタン裏に 多い 刻印の 形は？','3けたの 数字（555・524 など）',['1文字（A など）','刻印なし','漢字'],'1980年ごろから 3けたの 工場番号に。'],
+ [3,3,'1990年代の 501 の パッチに 入った 黒い 文字は？','501xx（小文字）',['BIG E','Two Horse だけ','66'],'1987年に 赤い 501xx、1990年代には 黒い 501xx の パッチが 見られる。',{j:LVJ.usa90}],
+ [3,3,'リーバイスの 復刻ライン「LVC（リーバイス・ビンテージ・クロージング）」が はじまった 年は？','1996年',['1873年','1966年','2003年'],'Type I・II・III という よび方も LVC で 使われるように なった。'],
+ [4,0,'ファースト（506XX）の 特ちょうの 組み合わせは？','胸ポケット1つ・プリーツ・シンチバック',['胸ポケット2つ・アジャスター','V字の ステッチ・プリーツなし','ジッパー前'],'ゆったりした 箱型。そでの リベットも。',{k:LVK.t1}],
+ [4,0,'ファーストの 大きい サイズで、せなかが 2まいの 布で T字に つながる ものを 何という？','Tバック',['シンチバック','オフセット','ギャラ'],'むかしの デニムは はばが せまく、1まいでは たりなかったため。'],
+ [4,0,'大戦中の S506XX で なくなった パーツは？','胸ポケットの フラップ',['えり','ボタン 全部','そで'],'前ボタンも 5つから 4つに。'],
+ [4,0,'この ジャケットは どれ？','ファースト（506XX）',['セカンド（507XX）','サード（557XX）','フォース（70505）'],'胸ポケット1つ・プリーツ・シンチバック。1953年ごろまで。',{k:LVK.t1}],
+ [4,1,'セカンド（507XX）で シンチバックの かわりに ついた ものは？','わきの ウエスト アジャスター（ボタン）',['ゴム','ひも','ジッパー'],'胸ポケットは フラップ付き 2つに ふえ、プリーツは のこった。',{k:LVK.t2}],
+ [4,1,'セカンドが 作られた ころは？','1953年ごろ〜1960年代はじめ',['1873年〜1900年','1967年〜1980年代','2000年代'],'ファーストの あとを ついだ 2ポケットの モデル。'],
+ [4,1,'この ジャケットは どれ？','セカンド（507XX）',['ファースト（506XX）','サード（557XX）','70506'],'フラップ付き 2ポケット・プリーツ・アジャスター。',{k:LVK.t2}],
+ [4,2,'サード（557XX）の 特ちょうは？','プリーツが なく、ポケットから V字の ステッチ',['胸ポケット1つ・シンチバック','前が ジッパー','フードつき'],'先の とがった フラップ、細身の シルエット、防縮デニム。1962〜67年ごろ。',{k:LVK.t3}],
+ [4,2,'この ジャケットは どれ？','サード（557XX）',['ファースト（506XX）','セカンド（507XX）','ストームライダー'],'V字の ステッチと とがった フラップ。',{k:LVK.t3}],
+ [4,2,'558XX と 559XX の ちがいで 正しいのは？','559XX は ブランケット裏地付き',['558XX は ポケットなし','559XX は 女性用','558XX は ジッパー前'],'558 は 丈の 長い 557、559 は ブランケット裏地付きの 557 と される。'],
+ [4,3,'1967年ごろ、505 に あわせて 557 から 名前が かわった ジャケットは？','70505（フォース）',['506XX','507XX','70506'],'丈が 長くなり、V字の ステッチが 下で とじない。',{k:LVK.t4}],
+ [4,3,'70505 の BIG E は いつごろまで？','1971年ごろ',['1937年','1953年','2003年'],'その あとは small e と 洗濯表示タグ。'],
+ [4,3,'1980年代の 70506 に 登場した ポケットは？','手を 入れる ハンドウォーマー ポケット',['胸ポケットが 3つ','せなかの ポケット','そでの ポケット'],'2ポケットの ものの あと、1980年代なかばから 4ポケットの ものが 出た。'],
+ [4,3,'「Type I・II・III」という よび方は もともと だれが 使いはじめた？','コレクター（のちに LVC で 公式にも）',['1873年の 特許','ジェイコブ・デイビス','アメリカ政府'],'リーバイス 自身は 品番で よんでいた。']);
+Object.assign(VCARD,{
+ w_2horse:['west',0,'ツーホースの 革パッチ','1886〜',{j:Object.assign({},LVJ.xx47,{patchT:'2HORSE'})},'2頭の 馬が 引っぱっても やぶれない じょうぶさの しるし。'],
+ w_redtab:['west',0,'赤タブ（片面タブ）','1936〜',{j:LVJ.xx47},'遠くからでも わかる 目印。はじめは 片面だけ 文字。'],
+ w_xx47:['west',1,'501XX（1947年）','革パッチ・片面タブ',{j:LVJ.xx47},'すっきりした ストレート。アーキュエイトは ダイヤモンド。'],
+ w_ww2:['west',1,'S501XX 大戦モデル','1942〜46年ごろ',{j:LVJ.ww2},'ペンキの アーキュエイト、ドーナツボタン、シンチなし。'],
+ w_xx55:['west',1,'501XX（1955年）','紙パッチ・オフセット',{j:LVJ.xx55},'もも まわりが ゆったりした 太め。ギャラ入りパッチ。'],
+ w_bigE:['west',2,'501 BIG E','1960年代後半',{j:LVJ.bigE},'タブの E が 大文字。タイプ物・足長R・Vステッチも ヒント。'],
+ w_66:['west',2,'501 66前期','1970年代',{j:LVJ.s66},'シングルステッチ、たて落ち、©1966 の フラッシャー。'],
+ w_80:['west',2,'501 ハチマル（80年代）','赤耳 → 脇割り',{j:LVJ.e80},'1983年から 広幅織機。表カンヌキ。'],
+ w_usa90:['west',3,'501 90s USA製','ボタン裏 555・524 など',{j:LVJ.usa90},'2003年ごろ アメリカ製が 終わった。'],
+ w_505:['west',3,'505','1967〜',{j:LVJ.l505},'ジッパーフライ・防縮加工・ややテーパード。'],
+ w_502:['west',3,'502','1960年代〜',{j:LVJ.l502},'ジッパーフライ。501Z の あとつぎ とも。'],
+ w_517:['west',3,'517 ブーツカット','1969〜',{j:LVJ.l517},'すそが 広がる ブーツカット。'],
+ w_t1:['west',4,'506XX ファースト','〜1953年ごろ',{k:LVK.t1},'胸ポケット1つ・プリーツ・シンチバック。大きい サイズは Tバック。'],
+ w_t2:['west',4,'507XX セカンド','1953〜1960年代はじめ',{k:LVK.t2},'フラップ付き 2ポケット・プリーツ・アジャスター。'],
+ w_t3:['west',4,'557XX サード','1962〜67年ごろ',{k:LVK.t3},'プリーツなし・V字ステッチ・とがった フラップ。'],
+ w_t4:['west',4,'70505 フォース','1967〜',{k:LVK.t4},'丈が 長く V字が 下で とじない。BIG E は 1971年ごろまで。']});
+
+function vintSheet(P,ri){const R=P.regions[ri],cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,ids=Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id&&VCARD[k][1]===ri);
+  return `<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>テーマ：${R[2]} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
+   <div class="pkst">${R[1].map((c,si)=>{const st=pkSave[pkey(P.id,ri,si)];return `<button class="pkstage ${st?'done':''}" data-s="${si}"><b>${c}</b><span class="stars3">${st?'★'.repeat(st.stars)+'<i>'+'★'.repeat(3-st.stars)+'</i>':'<i>★★★</i>'}</span></button>`}).join('')}
+     <button class="pkstage boss ${bo?'':'lock'}" data-s="-1" ${bo?'':'disabled'}><b>${bo?'ボス：'+R[2]+' マスター':'🔒 ボス'}</b><span>${bo?(regBoss(P.id,ri)?'👑 クリア':'ちょうせん！'):`あと ${need-cl}つ`}</span></button></div>
+   <div class="vmini">${ids.map(k=>`<span class="${vintGot.has(k)?'':'lock'}" title="${vintGot.has(k)?VCARD[k][2]:'？？？'}">${vintGot.has(k)?vArt(VCARD[k][4])||'🧸':'？'}</span>`).join('')}<button class="pill" id="pkVint">👖 古着ずかん</button></div>`}
+// ----- 東海岸編: ストアブランド（シカゴ=3, ニューヨーク=4）-----
+VQ.east.push(
+ [3,0,'古着で いう「三大ストアブランド」に 入らない お店は？','リーバイス',['シアーズ','JCペニー','モンゴメリーワード'],'三大ストアブランドは シアーズ・JCペニー・モンゴメリーワード。デパートや 通販の お店が 自分で 名前を つけて 売った 服だよ。'],
+ [3,0,'シアーズを はじめた 2人の 名前の 組み合わせは？','リチャード・シアーズと アルバ・ローバック',['ヘンリー・リーと バディ・リー','リーバイ・ストラウスと ジェイコブ・デイビス','アーロン・ワードと ジョージ・ソーン'],'「Sears, Roebuck and Co.」は 2人の 名前から。1893年に この 名前に なったよ。'],
+ [3,0,'シアーズが いちばん 最初に 通信販売で 売っていた ものは？','うで時計',['ジーンズ','自転車','おもちゃ'],'リチャード・シアーズは 鉄道の 駅で 時計を 売る 仕事から はじめた。カタログも 最初は 時計と アクセサリーだけ。'],
+ [3,1,'モンゴメリーワードの 最初の カタログは どんな もの？','絵の ない 紙1まいに 163品',['100ページの 絵入り 本','ジーンズ だけの パンフレット','テレビの CM'],'1872年 シカゴ。農家の 人に むけた、紙1まいの カタログが 通信販売の はじまりと いわれる。'],
+ [3,1,'モンゴメリーワードが 通信販売を はじめた 年は？','1872年',['1902年','1853年','1947年'],'アーロン・モンゴメリー・ワードが シカゴで はじめた。'],
+ [3,1,'モンゴメリーワードの ワークウェア ブランド「POWR HOUSE」の つづりの ひみつは？','POWER の E が ない',['O が 2つ','HOUSE が ない','ぜんぶ 小文字'],'「POWR HOUSE（パワーハウス）」は E を ぬいた つづり。デニムジャケットや ジーンズが 人気。'],
+ [3,1,'モンゴメリーワードの 西部風 デニム「101」の ボタンには 何が 刻まれている？','101',['501','XX','W'],'リーバイスの 品番を 意識した とも いわれる「101」。ボタンにも 101 の 刻印が ある。'],
+ [3,1,'モンゴメリーワードの 古い ワークウェア ブランドは どれ？','パイオニア（PIONEER）',['ヘラクレス','ビッグマック','フォアモスト'],'1930〜40年代の パイオニアは ヘラクレスと ならぶ 古い ストアブランド。青い 刺しゅうタグが 目印。'],
+ [3,2,'シアーズの ワークウェア ブランド「HERCULES」の 日本での 読み方は？','ヘラクレス',['ハーキュリーズ','エルクレス','ハーシーズ'],'日本の 古着屋では「ヘラクレス」。1908年ごろから 1965年ごろまで 使われた 名前だよ。'],
+ [3,2,'ヘラクレスの カバーオールで あごの 下に ついた ベルトの ことを 何という？','チンストラップ',['シンチバック','オフセット','ギャラ'],'えりを とじる チンストラップ。チェンジボタンも ついた ものは「チンチェン」と よばれて 人気。'],
+ [3,2,'シアーズが 1949年に 復活させた、テキサス生まれを うたった ウエスタンジーンズの 名前は？','ローバックス（ROEBUCKS）',['ヘラクレス','ピルグリム','タフスキン'],'創業者の 1人 ローバックの 名前を つけた ウエスタン ブランド。'],
+ [3,2,'1970年代 シアーズの 子ども用ジーンズで「やぶれる 前に 大きくなる」と いわれた じょうぶな ジーンズは？','タフスキン（Toughskins）',['ビッグマック','フォアモスト','ペイデイ'],'ナイロンや ポリエステルを まぜた じょうぶな 生地。1973年には リーバイスより 名前を 知られていた ほど。'],
+ [3,3,'ストアブランドの ジーンズが リーバイスと そっくりなのに 少し ちがう 理由は？','アーキュエイトや 赤タブは リーバイスの 商標だから',['ミシンが こわれていたから','わざと へたに 作ったから','法律で デニムが 禁止だったから'],'人気の 501 や 506XX を 手本にしつつ、ステッチや タブは 変えて 作られた。'],
+ [3,3,'タグに「SANFORIZED（サンフォライズド）」と あると わかる ことは？','1930年 以降の 防縮加工 デニム',['1850年代の デニム','日本製','子ども用'],'サンフォライズは 1930年に 特許が とられた 縮みにくくする 加工。年代を 見わける ヒントに なる。'],
+ [3,3,'古着の タグに バーコードが あったら だいたい いつごろ？','1980年代 以降',['1930年代','1940年代','1950年代'],'バーコード付きは 新しめ。古い ものほど「UNION MADE」タグや シンチバックなどが 目印。'],
+ [4,0,'JCペニーの 1号店が 開いた 場所は？','ワイオミング州 ケンメラー',['ニューヨーク','サンフランシスコ','カンザス州 サライナ'],'1902年、炭鉱の 町 ケンメラーで「ゴールデンルール」の お店として スタート。'],
+ [4,0,'JCペニーの 最初の お店の 名前に ついていた ことばは？','ゴールデンルール',['ビッグマック','ツーホース','ブルーベル'],'「人に してもらいたい ことを 人にも しなさい」という 考えが 店の 名前と 方針に なった。'],
+ [4,0,'JCペニーが シアーズや モンゴメリーワードと ちがう 点は？','通信販売より お店の チェーンから はじまった',['服を 売らなかった','カナダの 会社','ジーンズしか 売らなかった'],'シアーズと ワードは カタログ通販から。ペニーは お店から はじまり、カタログは 1963年から。'],
+ [4,0,'「J.C. Penney Company」という 名前に なった 年は？','1913年',['1873年','1947年','1971年'],'創業者 ジェームズ・キャッシュ・ペニーの 名前。1971年からは「JCPenney」の ロゴに。'],
+ [4,1,'JCペニーの ワークウェア ブランドで、今も つづく いちばん 古い ブランドは？','ビッグマック（BIG MAC）',['タウンクラフト','フォアモスト','ペイデイ'],'1922年ごろ スタートの ワークウェア。シャンブレーシャツや ネルシャツが 古着で 人気。'],
+ [4,1,'ビッグマックの シャンブレーシャツや ネルシャツの 特ちょうは？','ななめの 胸ポケットや 長い えり',['えりが ない','ボタンが ない','ポケットが 6つ'],'バイアス（ななめ）の ポケットや ロングポイントの えりが ビッグマックらしさ。'],
+ [4,1,'JCペニーの ブランド「PAY-DAY（ペイデイ）」は 何の 服で 有名？','オーバーオール・カバーオール',['スーツ','水着','パジャマ'],'ユニオンメイドの オーバーオールや カバーオール。1960年代 終わりに なくなった。'],
+ [4,2,'JCペニーの デニムで、リーバイス 501 に 対抗して 作られた ブランドは？','フォアモスト（FOREMOST）',['ビッグマック','タウンクラフト','ヘラクレス'],'リベット・バックルバック・革パッチなど 501 に そっくりで 安く 売られた。'],
+ [4,2,'フォアモストの 第二次世界大戦（1942〜46年）ごろの 特ちょうは？','バックルバックが なく ドーナツボタン',['赤タブが つく','ジッパーが 2本','ポケットが 5つ'],'戦争中は 金属を へらすため バックルが なくなり、ドーナツボタンが 使われた。'],
+ [4,2,'フォアモストの あとを ついだ JCペニーの ジーンズ ブランドは？','ランチクラフト（RANCHCRAFT）',['ローバックス','パイオニア','パワーハウス'],'1970年代 はじめに フォアモストが 終わり、ランチクラフトへ。'],
+ [4,2,'JCペニーの おしゃれ着 ブランドで、1960年代の レーヨンシャツが 人気なのは？','タウンクラフト（TOWNCRAFT）',['ビッグマック','ペイデイ','ヘラクレス'],'町で 着る 服の ライン。オンブレ（グラデーション）の レーヨンシャツなどが 人気。'],
+ [4,3,'三大ストアブランドで 2000年ごろに お店を とじたのは？','モンゴメリーワード',['シアーズ','JCペニー','どれも つづいている'],'ワードは 2000〜2001年に 閉店。シアーズは 2018年、JCペニーは 2020年に 経営破たんを 申し立てた。'],
+ [4,3,'シアーズの「ヘラクレス」に あたる、ワードの ワークウェアは？','パワーハウス（POWR HOUSE）',['フォアモスト','タウンクラフト','ローバックス'],'シアーズ＝ヘラクレス、ワード＝パワーハウス、ペニー＝ビッグマック と おぼえよう。'],
+ [4,3,'ジャケット「パワーハウス」の 1960年代 デニムジャケットが 手本に したと いわれる リーバイスの モデルは？','507XX（セカンド）',['506XX（ファースト）','70505（フォース）','517'],'低めの 胸ポケットが 2つ。グリッパー ジッパー付きの ものも ある。']);
+Object.assign(VCARD,{
+ e_herc:['east',3,'ヘラクレス カバーオール','シアーズ ・ 1930〜50年代',{k:{pk:2,flap:'square',ind:'#2a3a5a'}},'あごの 下の チンストラップ、チェンジボタンが 人気。'],
+ e_powr:['east',3,'パワーハウス デニムジャケット','モンゴメリーワード ・ 1960年代',{k:{pk:2,flap:'square',pleat:1,adj:1}},'507XX を 手本に した とされる 2ポケット。POWR は E なし。'],
+ e_101w:['east',3,'ワード 101 ジーンズ','モンゴメリーワード ・ 1940〜60年代',{j:{cut:'straight',fly:'button',back:'plain',patch:'paper',patchT:'101',patchC:'#c8302a'}},'ボタンに 101 の 刻印。赤い カウボーイタグの 時代も。'],
+ e_bigmac:['east',4,'ビッグマック シャンブレーシャツ','JCペニー ・ 1922〜',{k:{pk:2,flap:'square',ind:'#7a9ac8'}},'ななめの 胸ポケットと 長い えりが 目印の ワークシャツ。'],
+ e_fore:['east',4,'フォアモスト ジーンズ','JCペニー ・ 1920〜70年代',{j:{cut:'wide',fly:'button',back:'arcuate',patch:'leather',patchT:'FM',backRivets:1,selv:1}},'リベット・バックルバック・革パッチの 501 対抗馬。戦後は ポケットの ステッチが まっすぐに。']});
+// ----- 東海岸編: Lee（サライナ=0, カンザスシティ=1）・Wrangler（グリーンズボロ=2）-----
+VQ.east.push(
+ [0,0,'Lee の はじまり「H.D.リー・マーカンタイル」が できた 町は？','カンザス州 サライナ',['ノースカロライナ州 グリーンズボロ','サンフランシスコ','ニューヨーク'],'1889年、ヘンリー・デヴィッド・リーが サライナで はじめた。'],
+ [0,0,'H.D.リー・マーカンタイルは さいしょ 何の 会社だった？','食料品や 雑貨の おろし売り',['ジーンズ工場','鉄道会社','時計屋'],'さいしょは 食べものや 雑貨の 問屋。服づくりは あとから。'],
+ [0,0,'Lee が 自分の 工場で ワークウェアを 作りはじめた 理由は？','仕入れた 服の 品質や とどく 量に 不満だったから',['戦争で 命令されたから','ジーンズが 禁止されたから','おもちゃを 作るため'],'東部から 仕入れる 服に 満足できず、1911年ごろ 自社工場を つくった。'],
+ [0,1,'1913年に Lee が 出した、服の 上から 着る ワンピース型の つなぎは？','ユニオンオール（Union-All）',['ストームライダー','101J','13MWZ'],'Lee は「アメリカ初の ワンピース型 カバーオール」と している。'],
+ [0,1,'ジッパー付きの ユニオンオールに つけられた 公募の 愛称は？','ウィジット（Whizit）',['ロコ','バディ','ライダース'],'1927年、名前を みんなから ぼしゅうして「Whizit」に きまった。'],
+ [0,2,'1920年に 宣伝用に 生まれた、Lee の 服を 着た マスコット人形は？','バディ・リー',['ジム・ショルダーズ','ロデオ・ベン','ツーホース'],'お店に かざられた 宣伝人形。1962年に 生産終了。今では コレクターに 大人気。'],
+ [0,3,'Lee の 後ろポケットの ステッチ「レイジーS」は 左右 そろうと 何に 見える？','ロングホーン牛の 角',['馬の 足あと','カモメ','星'],'1944年ごろから 使われた 横向きの S字。それ より 前は リーバイスに にた ステッチだった。'],
+ [0,3,'Lee の パッチで、毛が ついたままの 牛革に ロゴを 焼いた ものを 何という？','ヘアオンハイド',['ツーホース','ギャラ入り','紙パッチ'],'牛ごとに 毛の もようが ちがうので、同じ パッチは 2つと ない。'],
+ [0,3,'1969年に Lee を 買収した 会社が 同じ年に 変えた 新しい 名前は？','VFコーポレーション',['ブルーベル','コントゥール','シアーズ'],'ヴァニティ・フェア・ミルズが Lee を 買って VF コーポレーションに。2019年からは Kontoor ブランズ。'],
+ [1,0,'Lee の カウボーイパンツに ついた 品番は？','101',['501','13MWZ','70505'],'1925年に 101 の 品番が ついた。2025年は「101 の 100周年」。'],
+ [1,0,'Lee 独自の、糸を 強く よって じょうぶに した デニムの 名前は？','ジェルトデニム',['XX デニム','ブロークンデニム','ホワイトオーク'],'1925年ごろの Lee オリジナル デニム。'],
+ [1,0,'Lee 101Z の「Z」の いみは？','ジッパー（Zipper）',['ゼブラ','ゼロ','Zカット'],'Lee は ジーンズの 前あきに ジッパーを 使った 早い ブランドの 1つ。'],
+ [1,0,'Lee が サイズを こまかくした ときに 取り入れた、股の 形の くふうは？','U字型の サドルクロッチ',['V字の 隠しリベット','オフセットループ','チンストラップ'],'ウエストと 股下の サイズ展開とともに、馬に のりやすい U字の 股に。'],
+ [1,0,'映画『理由なき反抗』で ジェームズ・ディーンが はいた Lee の ジーンズは？','101Z',['501XX','13MWZ','517'],'1950年代の 101Z は ウエスト中央の「センター黒タグ」も 特ちょう。'],
+ [1,1,'Lee の カウボーイジャケット 101J の 特ちょうで ないのは？','うしろに 大きな W ステッチ',['フラップ付き 胸ポケット2つ','前の たてプリーツ','わきの アジャスタータブ'],'101J は 2つの フラップポケット・プリーツ・アジャスター・ジグザグステッチ・短い丈が 目印。W ステッチは Wrangler。'],
+ [1,1,'Lee のデニムに 多い 綾の むきと、色落ちの 特ちょうは？','左綾で たてに 落ちる',['右綾で 横に 落ちる','綾が ない','ななめに まだらに 落ちる'],'Lee は 左綾（レフトハンド）で、たて落ちしやすい。'],
+ [1,1,'1948年の「ニュー・リー・ライダー・ジャケット」は 何の 会員に 先に 売られた？','ロデオ協会の 会員',['鉄道の 機関士','警察官','学校の 先生'],'1949年に デザイン特許。リーバイスの サード（1960年代）より 前に 登場。'],
+ [1,2,'Lee ストームライダーの 特ちょうの 組み合わせは？','ブランケットの 裏地と コーデュロイの えり',['ボアの 裏地と 毛皮の えり','裏地なしで えりなし','ナイロン裏地と フード'],'ブランケット裏地付きの 101LJ に コーデュロイ襟。「ストームライダー」の 名前は 1953〜54年ごろから。'],
+ [1,2,'映画『荒馬と女』（1961年）で マリリン・モンローが 着た Lee の ジャケットは？','ストームライダー',['91-J','101Z','111MJ'],'ポール・ニューマンも『ハッド』（1963年）で 着た。'],
+ [1,3,'Lee の 91-J が「ロコジャケット」と よばれる 理由は？','鉄道の 機関士（ロコモティブ）に 好まれたから',['ロデオで 使われたから','ロック歌手が 着たから','ロゴが 大きいから'],'時刻表を 入れる 内ポケットや、懐中時計と ペンの 胸ポケットが ある カバーオール。'],
+ [1,3,'Lee 91-J の 胸ポケットは 何を 入れる ため？','懐中時計と ペン',['スマホ','おべんとう','ハーモニカ'],'鉄道員の ための ワークジャケットらしい くふう。'],
+ [2,0,'Wrangler を 作った ブルーベル社が あった 町は？','ノースカロライナ州 グリーンズボロ',['カンザス州 サライナ','サンフランシスコ','シカゴ'],'C.C.ハドソンが 1904年に はじめた ハドソン・オーバーオール社が もと。'],
+ [2,0,'C.C.ハドソンが 20さいで グリーンズボロに 来て はじめた 仕事は？','オーバーオールの ボタンつけ',['リベットの 特許','カタログ通販','パンの 配達'],'日給25セントの ボタンつけから、のちに 自分の 会社を つくった。'],
+ [2,0,'ハドソン・オーバーオール社が「ブルーベル・オーバーオール社」に なった 年は？','1919年',['1873年','1947年','1986年'],'グリーンズボロの サウス・エルム通りに 最初の 工場を たてた 年。'],
+ [2,0,'ブルーベル社が「Wrangler」の 名前を 手に入れた きっかけは？','ケーシー・ジョーンズ社を 買収した',['リーバイスから 買った','くじで 当たった','大統領が 名づけた'],'1943年の 買収で、ほとんど 使われていなかった Wrangler の 名前が ついてきた。'],
+ [2,0,'1936年の「スーパー・ビッグベン」は どんな オーバーオール？','サンフォライズで 洗っても ほぼ 縮まない',['防水','電気で 光る','ひもで しめる'],'防縮加工の 生地で、縮みは 1%未満。'],
+ [2,0,'1986年に ブルーベル社を 買収した 会社は？','VF コーポレーション',['リーバイ・ストラウス','シアーズ','JCペニー'],'Lee と Wrangler が 同じ グループに。2019年からは Kontoor ブランズ。'],
+ [2,1,'Wrangler の ジーンズを デザインした フィラデルフィアの 仕立屋の 愛称は？','ロデオ・ベン',['バディ・リー','ジェイコブ・デイビス','ジム・ショルダーズ'],'本名 バーナード・リクテンシュタイン。ロデオの カウボーイが お客さん だった。'],
+ [2,1,'1947年 Wrangler の ジーンズを ためしに はいた 有名な 人たちは？','ロデオの カウボーイ',['宇宙飛行士','野球選手','映画監督'],'ジム・ショルダーズ、ビル・リンダーマン、フレックルズ・ブラウンなど。'],
+ [2,1,'品番「13MWZ」の M・W・Z の いみは？','メンズ・ウエスタン・ジッパー',['ミドル・ワイド・ジーンズ','マウンテン・ワーク・ゼブラ','メイド・ウィズ・ジッパー'],'M＝Men\'s、W＝Western、Z＝Zipper。J が つくと ジャケット。'],
+ [2,1,'今の Wrangler カウボーイカット「47MWZ」の 47 の いみは？','ジーンズ誕生の 1947年',['47オンス','47本め','ウエスト47インチ'],'1947年に ラングラー ジーンズが 生まれた ことに ちなむ。'],
+ [2,3,'Wrangler の「7つの アイコン」に 入らないのは？','赤タブ',['Wステッチ','フラットリベット','ロープロゴ'],'Wステッチ・フラットリベット・ロデオベンの時計ポケット・ベルトループ7本・パッチ・ロープロゴ・巻き縫い。赤タブは リーバイス。'],
+ [2,3,'Wrangler が 平らな リベットを 使った 理由は？','馬の 鞍や 車の シートを 傷つけないため',['安かったから','光らせないため','軽くするため'],'カウボーイの ための くふう。'],
+ [2,3,'Wrangler の 後ろポケットの「W」ステッチの いみは？','ウエスタン・ウェア（Western Wear）',['ワールド','ウィナー','ワーク'],'W は Western Wear の W。'],
+ [2,3,'綾の むきを 交互に きりかえて、洗っても 脚が ねじれにくい Wrangler の 生地は？','ブロークンデニム（ブロークンツイル）',['ジェルトデニム','XX デニム','セルビッジ'],'1960年代に 取り入れたと いう 資料が 多い。それ より 前は Lee と 同じ 左綾。'],
+ [2,3,'1940〜60年代の Wrangler の タグに 書かれている 会社の 名前は？','Blue Bell（ブルーベル）',['Levi Strauss','H.D. Lee','Sears'],'「Blue Bell」の 文字と「Sanforized」が 古い タグの 目印。1970年ごろ 黒タグへ。'],
+ [2,2,'Wrangler の 最初の デニムジャケット（11MJ・111MJ）の 特ちょうで ないのは？','フラップなしの 胸ポケット1つだけ',['丸カンで 押さえた ダブルプリーツ','ペンさし','せなかの ゴム'],'111MJ は プリーツ・フラップ付き 胸ポケット・ペンさし・背中の アクションプリーツと ゴムが 特ちょう。'],
+ [2,2,'Wrangler の ジャケットに あって、リーバイスや Lee の ジャケットに ない パーツは？','ペンさし',['ボタン','えり','胸ポケット'],'胸ポケットに ペンを させる くふう。'],
+ [2,2,'前が ジッパー開きで、ボタンが いちばん 上だけの Wrangler ジャケットは？','11MJZ',['111MJ','24MJZ','124MJ'],'ななめの ハンドポケットと 左胸の フラップポケット。背中の ゴムは 初期が 青、後期が グレー。'],
+ [2,2,'1960年代の 24MJZ の 特ちょうは？','ペンさし付きの 胸ポケット2つと ウエストの アジャスター',['シンチバック','ポケットなし','ボアの 裏地'],'背中に ゴムを 使った 最後の モデルと いわれる。']);
+Object.assign(VCARD,{
+ e_union:['east',0,'Lee ユニオンオール','1913〜',{k:{pk:2,flap:'square',ind:'#2a3a6a',brand:'lee'}},'服の 上から 着る ワンピース型の つなぎ。ジッパー版は「Whizit」。'],
+ e_buddy:['east',0,'バディ・リー人形','1920〜1962',null,'Lee の 服を 着た 宣伝人形。今では コレクターズアイテム。'],
+ e_101z:['east',1,'Lee 101Z','1950年代',{j:{cut:'straight',fly:'zip',back:'lazys',patch:'leather',patchT:'Lee',brand:'lee',selv:1}},'Z は ジッパー。レイジーS、センター黒タグ。'],
+ e_101j:['east',1,'Lee 101J','1948〜',{k:{pk:2,flap:'square',pleat:1,adj:1,brand:'lee'}},'フラップポケット2つ・プリーツ・アジャスター・ジグザグステッチ。左綾で たて落ち。'],
+ e_storm:['east',1,'Lee ストームライダー','1953〜54年ごろ〜',{k:{pk:2,flap:'square',pleat:1,adj:1,corduroy:1,lining:'blanket',brand:'lee'}},'ブランケット裏地と コーデュロイ襟の 101LJ。'],
+ e_91j:['east',1,'Lee 91-J ロコジャケット','1920年代〜',{k:{pk:2,flap:'square',handPk:1,ind:'#2a3a6a',brand:'lee'}},'鉄道機関士が 愛用。懐中時計と ペンの ポケット。'],
+ e_13mwz:['east',2,'Wrangler 13MWZ','1950年代〜',{j:{cut:'straight',fly:'zip',back:'w',patch:'paper',patchT:'W',patchC:'#e8d8b0'}},'Wステッチ・フラットリベット・ロデオベンの時計ポケット。'],
+ e_111mj:['east',2,'Wrangler 111MJ','1940年代末〜',{k:{pk:2,flap:'square',pleat:1,adj:1}},'丸カン留めの プリーツ、ペンさし、背中の ゴム。'],
+ e_24mjz:['east',2,'Wrangler 24MJZ','1960年代',{k:{pk:2,flap:'square',adj:1}},'ペンさし付き 胸ポケット2つと ウエストの アジャスター。']});
 
 document.addEventListener('click',e=>{const b=e.target.closest('.sjb');if(!b)return;setSubj(b.dataset.sj);try{if(!$('mapScr').hidden)drawSheet();if(!$('packScr').hidden)drawPkSheet()}catch(err){}});
 // ================= HOME (title) =================
