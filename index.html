@@ -474,6 +474,21 @@ body.fever{animation:feverc 1.4s linear infinite}
 #gachaOv .card.gq{padding:6px 10px;gap:4px}
 #gachaOv .gq .q{font-size:clamp(24px,5.4dvh,38px)}
 #gachaOv .gq .ans{font-size:clamp(22px,5dvh,34px);padding-block:2px}
+/* tighter gacha (v19) */
+#gachaOv .gbox{gap:5px;padding-top:8px}
+#gachaOv .dexhead h2{font-size:18px}
+#gachaOv .gstage{flex:1 1 170px;max-height:190px;min-height:80px}
+#gachaOv .gbox:has(#gpad:not([hidden])) .gstage{flex-basis:120px;max-height:140px}
+#gachaOv .gpad{gap:5px}
+#gachaOv .gpad .k{height:clamp(34px,5.6dvh,44px);font-size:clamp(16px,2.6vh,20px);border-radius:12px}
+#gachaOv .gq .q{font-size:clamp(22px,4.6dvh,32px)}
+#gachaOv .gq .ans{font-size:clamp(20px,4.2dvh,28px)}
+#gachaOv .gq .tzone small,#gachaOv .gq #gtl{font-size:10px}
+html.iosbar #gachaOv .gbox{padding-bottom:var(--iosbar,96px)}
+#gachaOv .dexhead{flex-wrap:nowrap;gap:6px}#gachaOv .dexhead h2{white-space:nowrap;font-size:clamp(15px,4.4vw,18px)}#gachaOv .dexhead .cnt{white-space:nowrap;font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis}#gachaOv .dexhead .xbtn{flex:none;margin-left:auto}
+#gachaOv .gbox:has(#gpad:not([hidden])) .gcap{scale:.8}
+@media (max-height:640px){#gachaOv .gbox:has(#gpad:not([hidden])) .gcap{scale:.68}}
+html.iosbar #partyOv .pbox{padding-bottom:var(--iosbar,96px)}
 @media (max-height:640px){#gachaOv .gsel select{padding:4px 8px}#gachaOv .dexhead h2{font-size:17px}#gachaOv .gq .tzone{margin:0}}
 .gpad .k{padding:8px 0;font-size:20px}
 .ghut{cursor:pointer}.ghut:focus{outline:none}.ghut:focus-visible rect{stroke:#39bcd6;stroke-width:4}
@@ -4619,6 +4634,10 @@ const trialUsed=pk=>!!lim().tr[pk];
 function startTrial(pk){if(trialUsed(pk)){banner('おためしは 1日1かい！','#e0467a');return}
   gateBattle(()=>{const L=lim();L.tr[pk]=1;saveLim(L);const P=PACK[pk],ri=Math.floor(Math.random()*P.regions.length);startPack(pk,ri,Math.floor(Math.random()*3),true)})}
 
+// ---------- iOS Safari (26+) floating bottom bar: reserve space ----------
+(function(){const ua=navigator.userAgent,ios=/iPhone|iPod/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1),
+  sa=/Safari/.test(ua)&&!/CriOS|FxiOS|EdgiOS/.test(ua),st=navigator.standalone||matchMedia('(display-mode: standalone)').matches;
+  if(ios&&sa&&!st)document.documentElement.classList.add('iosbar')})();
 // ---------- visible-height var (iOS Safari floating bar) ----------
 (function(){const vv=window.visualViewport;function f(){const h=Math.min(innerHeight,vv?vv.height:innerHeight);document.documentElement.style.setProperty('--vvh',Math.round(h)+'px')}
 f();addEventListener('resize',f);if(vv)vv.addEventListener('resize',f);addEventListener('orientationchange',()=>setTimeout(f,300))})();
