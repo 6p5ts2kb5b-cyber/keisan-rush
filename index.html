@@ -536,6 +536,7 @@ html.iosbar #partyOv .pbox{padding-bottom:var(--iosbar,96px)}
 .node:hover .base{stroke-width:4.5}
 .node .ring{transform-box:fill-box;transform-origin:center;animation:ringspin 4s linear infinite}
 @keyframes ringspin{to{transform:rotate(360deg)}}
+.sheet.hasdif{position:relative}.sheet.hasdif>:nth-child(2){padding-right:92px}.difc{position:absolute;top:8px;right:10px;z-index:2;display:flex;flex-direction:column;align-items:center;line-height:1.05;padding:4px 9px;border-radius:12px;border:2px solid var(--wood,#8a6a3a);background:var(--cream,#fffdf5);font:900 12px var(--body);color:var(--ink);box-shadow:0 3px 0 rgba(90,65,40,.25);cursor:pointer}.difc small{font-size:9px;font-weight:800;opacity:.75}.difc.on{background:linear-gradient(#ff8a4a,#e8402a);color:#fff;border-color:#a8281a}.difc.on small{opacity:.95}
 .sheet{background:var(--panel);border-radius:18px;padding:10px 12px;box-shadow:0 3px 0 rgba(90,65,40,.2);display:grid;gap:7px}
 .srow{display:flex;align-items:center;gap:8px;min-width:0}
 .stt{min-width:0;display:flex;flex-direction:column;gap:2px}
@@ -2459,7 +2460,7 @@ const MEM=new Map();
 const rawGet=k=>{try{const v=canSave?localStorage.getItem(k):MEM.get(k);return v==null?null:JSON.parse(v)}catch(e){return null}};
 const rawSet=(k,v)=>{const j=JSON.stringify(v);if(canSave){try{localStorage.setItem(k,j)}catch(e){}}else MEM.set(k,j)};
 const rawDel=k=>{if(canSave){try{localStorage.removeItem(k)}catch(e){}}else MEM.delete(k)};
-const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR','kr_subj','kr_trace','kr_vint'];
+const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR','kr_subj','kr_trace','kr_vint','kr_diff'];
 let SAVES=rawGet(SK),CUR=0;
 if(!Array.isArray(SAVES)||SAVES.length!==5){SAVES=[null,null,null,null,null];
   if(SLOTKEYS.some(k=>rawGet(k)!=null)){SLOTKEYS.forEach(k=>{const v=rawGet(k);if(v!=null)rawSet('kr_s0_'+k,v)});SAVES[0]={name:'ぼうけんしゃ',at:Date.now()}}rawSet(SK,SAVES)}
@@ -3148,13 +3149,18 @@ function drawFoeInfo(){const f=S.foe;$('foeName').innerHTML=`${f.boss?'<span cla
 function pickMon(minR=1){const w=RARW[tierOf(Math.max(1,S.combo))];let x=Math.random()*100,rar=1;for(let i=0;i<5;i++){if(x<w[i]){rar=i+1;break}x-=w[i]}
   rar=Math.min(Math.max(rar,minR),4);const PL=S.ctx?S.ctx.pool:MONS.filter(m=>m.gi===S.gi);let pool=PL.filter(m=>m.rar===rar);while(!pool.length&&rar>1){rar--;pool=PL.filter(m=>m.rar===rar)}if(!pool.length)pool=PL;
   const fresh=pool.filter(m=>!dex[m.no]);return(fresh.length&&Math.random()<.65?pick(fresh):pick(pool))}
-function foeLv(extra){if(S.ctx&&S.ctx.secret){const av=Math.round(S.party.reduce((a,p)=>a+p.lv,0)/Math.max(1,S.party.length));return av+6+extra}if(S.ctx&&S.ctx.hard){const av=Math.round(S.party.reduce((a,p)=>a+p.lv,0)/Math.max(1,S.party.length));return Math.max(40,av+8)+extra*2}const base=(S.ctx?S.ctx.lvb:1+3*S.gi)+extra,avg=Math.round(S.party.reduce((a,p)=>a+p.lv,0)/Math.max(1,S.party.length));return avg<base?Math.max(1,avg+Math.min(extra,1)):base}
+function foeLv(extra){if(S.ctx&&S.ctx.secret){const av=Math.round(S.party.reduce((a,p)=>a+p.lv,0)/Math.max(1,S.party.length));return av+6+extra}if(S.ctx&&S.ctx.hard){const av=Math.round(S.party.reduce((a,p)=>a+p.lv,0)/Math.max(1,S.party.length));return Math.max(40,av+8)+extra*2}const base=(S.ctx?S.ctx.lvb:1+3*S.gi)+extra,avg=Math.round(S.party.reduce((a,p)=>a+p.lv,0)/Math.max(1,S.party.length));if(avg<base)return Math.max(1,avg+Math.min(extra,1)+(difOn()?2:0));return Math.max(base,avg+lvBump()+extra)}
+// むずかしさ: 敵は なかまの レベルに あわせて 強くなる（内容が むずかしいほど 少し上）。つよい モードは さらに +4・ごほうび 2倍
+const difOn=()=>store.get('kr_diff')===1;
+function lvRank(){const c=S&&S.ctx;if(!c)return Math.min(1,(S?S.gi:0)/5);const P=PACK[c.pk];if(!P)return .5;const n=P.regions.length,ri=c.ri||0;
+  if(c.pk==='chu')return .6+ri*.2;if(c.pk==='kanken')return ri/Math.max(1,n-1)*.7;if(KEN.has(c.pk))return ri/Math.max(1,n-1);if(VINTP.has(c.pk))return .6;return Math.min(1,regLv(c.pk,ri)/30)}
+const lvBump=()=>Math.round(-2+4*lvRank())+(difOn()?4:0);
 function foeStats(mon,L,boss){const g=(L-1)/3,rf=[1,1.25,1.55,1.95,2.5][mon.rar-1],ef=[1,1.4,1.9,2.6,3.6][mon.rar-1];
   let hp=Math.round((26+g*22)*rf),atk=Math.round(7+g*9+mon.rar*2),def=Math.round(3+g*4+mon.rar),exp=Math.round((8+g*g*10+g*8)*ef);
   if(boss){hp=Math.round(hp*(g<1?1.6:2.0));atk=Math.round(atk*(g<1?1:1.1));def=Math.round(def*1.1);exp*=4}return{hp,max:hp,atk,def,exp,lv:L}}
 function spawnFoe(boss,strong){let mon;if(boss)mon=S.ctx?S.ctx.boss:bossMon(S.gi);
   else{const spc=S.ctx?0:tierOf(Math.max(1,S.combo))>=3?.06:.025;mon=Math.random()<spc?pick(MONS.filter(m=>m.sp)):pickMon(strong?3:1)}
-  if(boss){mpTilt();mpLowKey(2000)}else if(mon.rar>=5)mpOrbit();else if(mon.rar>=4)mpVertigo();if(!boss)popIn($('enemy'),{rot:-.35,T:1.1});S.foe={mon,boss,el:elOfMon(mon),poison:0,dead:false,...foeStats(mon,foeLv(boss?2:strong?1:0),boss)};if(S.ctx&&S.ctx.hard){const F=S.foe;F.hp=F.max=Math.round(F.hp*(boss?1.6:1.35));F.atk=Math.round(F.atk*1.25);F.def=Math.round(F.def*1.2);F.exp=Math.round(F.exp*1.5)}drawFoeInfo();drawEnemy('normal','in');
+  if(boss){mpTilt();mpLowKey(2000)}else if(mon.rar>=5)mpOrbit();else if(mon.rar>=4)mpVertigo();if(!boss)popIn($('enemy'),{rot:-.35,T:1.1});S.foe={mon,boss,el:elOfMon(mon),poison:0,dead:false,...foeStats(mon,foeLv(boss?2:strong?1:0),boss),dif:difOn()};if(S.foe.dif){const F=S.foe;F.atk=Math.round(F.atk*1.15);F.exp*=2}if(S.ctx&&S.ctx.hard){const F=S.foe;F.hp=F.max=Math.round(F.hp*(boss?1.6:1.35));F.atk=Math.round(F.atk*1.25);F.def=Math.round(F.def*1.2);F.exp=Math.round(F.exp*1.5)}drawFoeInfo();drawEnemy('normal','in');
   setTimeout(()=>{if(S&&S.foe&&!S.foe.dead&&$('enemy').classList.contains('in'))drawEnemy()},460)}
 function hitFoe(d,crit){const f=S.foe;if(crit){mpZoomIn();const en=$('enemy');en.classList.add('mpca');setTimeout(()=>en.classList.remove('mpca'),380)}f.hp=Math.max(0,f.hp-d);if(f.sleep>0&&Math.random()<.25){f.sleep=0;drawFoeInfo()}hpBar();drawEnemy('hit','hit');clearTimeout(foeT);foeT=setTimeout(()=>{if(S&&S.foe&&S.foe.hp>0)drawEnemy()},380);
   const B=center($('enemy'));if(S.curEl&&EL6[S.curEl]){elHit(S.curEl,B,crit?10:5);if(crit)tintField(S.curEl,300)}pop((crit?'かいしん ':'')+d,B.x+rnd(40),B.y-20+rnd(20),crit?'#ff3d8b':'#fff',crit?30:26);burst(B.x,B.y,crit?18:8);boom(crit?.2:.1)}
@@ -3249,7 +3255,7 @@ async function enemyTurn(){S.curEl=null;const f=S.foe;
   for(const[p]of list)if(p.hp<=0)await say(`${p.ch.name}は ちからつきた…`,1200)}
 
 async function win(){const f=S.foe;f.dead=true;clearTimeout(foeT);drawEnemy('ko','ko');const B=center($('enemy'));explode(B.x,B.y,'#ffd23f',true);ring(B.x,B.y,'#fff');
-  const bonus=150*CTX().n*(f.mon.rar+1)*(f.boss?3:1);S.score+=bonus;addPts(bonus/10);S.kills++;hud();sFan();if(f.boss)barrage(8,180,true);
+  const bonus=150*CTX().n*(f.mon.rar+1)*(f.boss?3:1)*(f.dif?2:1);S.score+=bonus;addPts(bonus/10);S.kills++;hud();sFan();if(f.boss)barrage(8,180,true);
   await say(`${f.mon.name}を たおした！`,1200);
   if(!f.mon.secret){const nw0=!dex[f.mon.no];capture(f.mon,B,f.lv);if(nw0||f.mon.rar>=4||f.boss){await wait(500);await caseReveal(f.mon,nw0,f.lv)}await say(`${f.mon.name}を つかまえた！ 💎 +${Math.round(bonus/10)}`,1300);}
   if(!f.mon.secret){const dr=dropsOf(f.mon,f.boss);addMats(dr);if(Object.keys(dr).length)await say(`そざい ゲット！ ${dropTxt(dr)}`,1400)}
@@ -3509,7 +3515,12 @@ function drawMap(){const gi=MAP.gi,g=GRADES[gi];$('mSub').textContent=`${slotNam
    `<button class="itab itok jt" data-j="1" aria-label="せかいの メニュー（にっぽん旅・海・陸・空・アジア・ヨーロッパ・楽器・こうかん）" style="--c:#e0467a;--p:0"><span class="tk w"><b>🌐</b></span><small>せかい</small></button>`;
   const mw=$('mapwrap');$('mapwrap').innerHTML=islandSvg(gi,mw.clientWidth&&mw.clientHeight?mw.clientWidth/mw.clientHeight:0);drawSheet();syncMapHud()}
 let mapRT=0;addEventListener('resize',()=>{clearTimeout(mapRT);mapRT=setTimeout(()=>{if(!$('mapScr').hidden)drawMap()},180)});
-function drawSheet(){const gi=MAP.gi,g=GRADES[gi],sel=MAP.sel,el=$('sheet');
+function difChip(){const on=difOn();return `<button type="button" class="difc${on?' on':''}" data-dif aria-pressed="${on}" aria-label="むずかしさ ${on?'つよい':'ふつう'}（おすと きりかえ）">${on?'🔥 つよい':'🙂 ふつう'}<small>${on?'ごほうび×2':'むずかしさ'}</small></button>`}
+function addDif(el){if(!el||el.querySelector('.difc'))return;el.classList.add('hasdif');el.insertAdjacentHTML('afterbegin',difChip())}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-dif]');if(!b)return;e.preventDefault();e.stopPropagation();store.set('kr_diff',difOn()?0:1);try{tone(difOn()?660:440,0,.12,'triangle',.08)}catch(_){}
+  const on=difOn();document.querySelectorAll('.difc').forEach(x=>x.outerHTML=difChip());if(on)try{pop('🔥 つよい モード！',innerWidth/2,innerHeight*.55,'#ff6a3d',22)}catch(_){}},true);
+function drawSheet(){try{return drawSheet0()}finally{addDif($('sheet'))}}
+function drawSheet0(){const gi=MAP.gi,g=GRADES[gi],sel=MAP.sel,el=$('sheet');
   const pm=`<div class="pmini" aria-label="いまの パーティ">${partyIcons()}</div><button class="pill" id="toParty">👥 パーティ</button>`;
   if(sel===null){el.innerHTML=`<div class="stt"><b>ステージを えらんでね</b><small>島の ${g.units.length}こ の たんげんを 4つ クリアすると ボスに ちょうせん できるよ。</small></div><div class="srow">${pm}</div><div class="ksub">${subjSeg()}</div>`;return}
   const boss=sel===-1,st=stSave[skey(gi,sel)],rec=1+3*gi+(boss?2:0),locked=boss&&!bossOpen(gi);
@@ -4522,7 +4533,8 @@ function drawPack(){try{ekMigrate()}catch(e){}const P=PACK[PK.id];$('app').class
   $('pkCalc').innerHTML=GRADES.map((g,i)=>`<option value="${i}" ${i===calcGi()?'selected':''}>けいさん ${g.n}年</option>`).join('');$('pkCalc').hidden=!!(P.ken||P.vint);$('pkNote').textContent=P.vint?'古着クイズで たたかうよ（クリアで 古着カード）':P.ken?(P.id==='kanken'?'漢字検定の 形の もんだいで たたかうよ':P.id==='chu'?'中学英語の 4つの 形で たたかうよ（🎧 音が でるよ）':P.id==='eiken'?'英検の 形の もんだいで たたかうよ（🎧 音が でるよ）':'算数・数学検定の 形の もんだいで たたかうよ'):'計算と いきもの クイズで たたかうよ';
   document.documentElement.style.setProperty('--pc',P.c);$('packScr').dataset.p=P.id;
   $('pkmap').innerHTML=pkMapSvg();$('pkmap').classList.toggle('locked',!worldOpen(P.id));drawPkSheet()}
-function drawPkSheet(){const P=PACK[PK.id],el=$('pksheet'),ri=PK.sel;
+function drawPkSheet(){try{return drawPkSheet0()}finally{addDif($('pksheet'))}}
+function drawPkSheet0(){const P=PACK[PK.id],el=$('pksheet'),ri=PK.sel;
   if(!worldOpen(P.id)){const top=pkMons(P.id).filter(m=>m.rar>=4).slice(0,4),used=trialUsed(P.id);
     el.innerHTML=`<div class="pklock"><div class="stt"><b>🔒 ${P.n}は まだ ひらいていないよ</b></div><div class="need">${needTxt(P.id)}</div>
      <small style="font-weight:800;color:var(--muted)">こんな いきものが まってる！</small>
@@ -7333,6 +7345,62 @@ PACKS.push({id:'chu',n:'中学英語の島',i:'🏫',c:'#7a4ad8',map:'kentei',bg
 PACK.chu=PACKS[PACKS.length-1];KEN.add('chu');
 function chuStageQ(ri,si){return chuQ(['c1','c2','c3'][ri],si>=0&&si<4?si:-1)}
 //CHU_END
+
+// ----- 西海岸編: ミッション地区（デイビス家と ワークウェア=6）＋ 501Z・505 の 背景 -----
+PACK.west.regions.push(['ミッション地区',['ヤコブ・デイビス','ベン デイビス','フリスコパンツ','チカーノ スタイル'],'デイビス家と ワークウェア']);
+VMAP.west.nodes.push([122,58,'🛠️']);
+VQ.west.push(
+ [6,0,'リベットで パンツを じょうぶにする アイデアを 考えた 人は？','ヤコブ・デイビス',['リーバイ・ストラウス','H.D.リー','ベン・デイビス'],'ネバダ州リノの 仕立て屋さん。リーバイ・ストラウスは 布を 売る 会社で、とっきょの パートナーに なった。'],
+ [6,0,'ヤコブ・デイビスの 仕事は？','仕立て屋（テーラー）',['金を ほる 人','鉄道の 運転士','牧場の 主人'],'服の ほかに テントや 馬用の 毛布、馬車の カバーも 作っていた。'],
+ [6,0,'ヤコブ・デイビスの お店が あった 町は？','ネバダ州 リノ',['ニューヨーク','テキサス州 エルパソ','カンザス州 サライナ'],'バージニア通りに お店が あった。'],
+ [6,0,'ヤコブ・デイビスが 生まれた 町は？','リガ（今の ラトビア）',['サンフランシスコ','ロンドン','ブッテンハイム（ドイツ）'],'ブッテンハイムは リーバイ・ストラウスの ふるさと。'],
+ [6,0,'ヤコブ・デイビスが パンツに うった リベットは、もともと 何に 使っていた？','馬用の 毛布の ベルト',['くつの かかと','かいちゅう時計','自転車の チェーン'],'その 銅の リベットを ポケットの すみに うった。'],
+ [6,0,'さいしょの リベットパンツを たのんだのは？','服を すぐ やぶる だんなさんの おくさん',['アメリカの 大統領','リーバイ・ストラウス','金を ほる 会社の 社長'],'「やぶれない ズボンを」と たのまれた。だんなさんは 木こりと いう 話も 伝わる。'],
+ [6,0,'デイビス本人の 証言で、さいしょの リベットパンツを 作ったのは？','1871年1月',['1853年','1890年','1906年'],'1874年の 裁判で 本人が そう 話している。'],
+ [6,0,'さいしょの リベットパンツの 生地は？','白い ダック（帆布）',['青い デニム','黒い デニム','コーデュロイ'],'本人の 証言。その あと デニムでも 作り、デニムが 人気に なった。'],
+ [6,0,'「ヤコブ・デイビスが リベットそのものを 発明した」は？','まちがい（リベットは 前から あった）',['正しい','リーバイが 発明した','日本で 発明された'],'新しかったのは「パンツの 力が かかる ところに うつ」アイデア。'],
+ [6,0,'ヤコブ・デイビスが ほかに とっきょを とった ものは？','仕立て用の アイロン台',['電話','電球','ミシン'],'アイデアマンで、いろいろな 道具を 考えた。'],
+ [6,1,'ヤコブ・デイビスが リーバイ・ストラウスに 手紙を 書いた 理由は？','とっきょの お金（約68ドル）が はらえなかった',['お店を 売りたかった','布の 色を かえてほしかった','仕事を さがしていた'],'権利の 半分と 引きかえに、いっしょに とっきょを とろうと もちかけた。'],
+ [6,1,'ヤコブ・デイビスが その 手紙を 書いた 年は？','1872年',['1853年','1873年','1890年'],'とっきょが みとめられたのは 次の 年、1873年。'],
+ [6,1,'リベットの とっきょ番号は？','139,121',['501','1,873','70,505'],'1873年5月20日に みとめられた。原本は アメリカ国立公文書館に ある。'],
+ [6,1,'とっきょの あと、ヤコブ・デイビスは？','サンフランシスコで リーバイスの 工場を まかされた',['リノで 金を ほった','自分の ジーンズ会社を 作った','日本へ わたった'],'1908年に なくなるまで、リベットパンツ作りを ささえた。'],
+ [6,1,'ベン デイビスは ヤコブ・デイビスの 何？','まご',['むすこ','お兄さん','ひいおじいさん'],'ジーンズを 生んだ 一家の ブランド。'],
+ [6,1,'ベン デイビスの ブランドが はじまった 年は？','1935年',['1873年','1947年','1967年'],'ベンと 父の サイモンが はじめた。'],
+ [6,1,'ベン デイビスが はじまった 町は？','サンフランシスコ',['ロサンゼルス','ニューヨーク','リノ'],'さいしょの お店は ミッション地区の バレンシア通りと いわれる。'],
+ [6,1,'ベン デイビスの ラベルに いる 動物は？','わらっている ゴリラ',['馬','ライオン','クマ'],'はじめから ずっと ゴリラ。なぜ ゴリラなのかは はっきり わかっていない。'],
+ [6,1,'ベン デイビスの 合いことば（スローガン）は？','Plenty Tough（とても じょうぶ）',['Can\'t Bust \'Em','Every Garment Guaranteed','Western Wear'],'じょうぶな ワークウェアが じまん。'],
+ [6,1,'ベン デイビスの 代表的な シャツは？','ハーフジップの ワークシャツ',['アロハシャツ','タキシードシャツ','ボウリングシャツ'],'えりもとが ジッパーの プルオーバー。'],
+ [6,1,'ベン デイビスの ワークパンツの 形の なまえで ないのは？','ブーツカット',['ゴリラカット','オリジナル ベンズ','トリムフィット'],'ゴリラカットが いちばん 有名。'],
+ [6,1,'ベン デイビスの ワークパンツの 生地は？','ポリエステルと 綿の あつい ツイル',['ウールの フランネル','麻の リネン','シルク'],'しわに なりにくく じょうぶ。'],
+ [6,1,'タグの 文字の うつりかわりで 正しい じゅんばんは？','Union Made → USA Made → Est. 1935',['Est. 1935 → USA Made → Union Made','USA Made → Union Made → Est. 1935','ずっと 同じ'],'Union Made から USA Made に かわったのは 2004年ごろ。タグも 年代の ヒント。'],
+ [6,2,'「フリスコ」は どこの 町の あだ名？','サンフランシスコ',['ロサンゼルス','フロリダ','フランス'],'1890年代には 使われていた あだ名。'],
+ [6,2,'サンフランシスコの 人は「フリスコ」と よばれるのを…','いやがる 人も 多い',['みんな 大好き','正式な 名前','法律で 決まっている'],'1953年には『フリスコと よばないで』という 本も 出た。'],
+ [6,2,'日本の 古着屋さんで「フリスコパンツ」と よく よばれるのは？','ベン デイビスの ワークパンツ',['リーバイス 501','Lee 101','ラングラー 13MWZ'],'古着屋さんでの よび名。ブランドの 正式な 商品名では ない。'],
+ [6,2,'もとの「フリスコ ジーンズ（Frisko Jeens）」を 作った サンフランシスコの ブランドは？','キャントバステム（Can\'t Bust \'Em）',['リーバイス','ラングラー','ベン デイビス'],'「やぶれないぞ」という いみの なまえ。'],
+ [6,2,'キャントバステムを 1946年に 買いとった 会社は？','Lee',['リーバイス','ブルーベル','シアーズ'],'Lee に なってからも フリスコ ジーンズは 作られた。'],
+ [6,2,'もとの フリスコ ジーンズの 生地は？','ツイルや ダック（デニムでは ない）',['デニムだけ','ナイロン','ウール'],'黒い ものも 多く、ヴィンテージは とても 高い。'],
+ [6,2,'もとの フリスコ ジーンズの うしろポケットの スナップボタンは？','左の ポケットだけ',['両方の ポケット','右の ポケットだけ','ついていない'],'見わけの ポイント。'],
+ [6,2,'「フリスコパンツ」の フリスコは 何から きた？','サンフランシスコ生まれの ワークウェアだから',['フランス語の「すずしい」','作った 人の なまえ','色の なまえ'],'ベン デイビスも キャントバステムも サンフランシスコの ブランド。'],
+ [6,3,'「チカーノ」とは？','メキシコ系 アメリカ人',['ブラジルの 人','カナダの 先住民','アイルランド系 アメリカ人'],'その 文化から 生まれた ファッションを チカーノ スタイルと いう。'],
+ [6,3,'1940年代の ロサンゼルスで メキシコ系の 若者が 着た、だぼっと 大きな スーツは？','ズートスーツ',['タキシード','モーニング','カバーオール'],'この スタイルの 若者は パチューコと よばれた。'],
+ [6,3,'1943年の ロサンゼルスで、ズートスーツを 着た メキシコ系の 若者たちに おきた ことは？','兵士たちに おそわれる 事件（ズートスーツ暴動）',['大きな 祭りが ひらかれた','スーツが 法律で 決まった','映画が 作られた'],'戦争中で 布が 足りず、大きな スーツが 目の かたきに された。'],
+ [6,3,'チカーノ スタイルで ワークパンツを はく おもな 理由は？','安くて じょうぶだから',['仕事で 決められたから','高級品だから','学校の 制服だから'],'安い 服を きちんと アイロンして、かっこよく 着るのが ほこり。'],
+ [6,3,'チカーノ スタイルの パンツの 特ちょうは？','太めで、アイロンの 折り目が くっきり',['ぴったり 細身で ダメージ加工','ひざ下で 切りっぱなし','すそに フリンジ'],'白い Tシャツも ぴしっと アイロン。'],
+ [6,3,'チカーノ スタイルで 定番の ネルシャツの 着方は？','いちばん上の ボタンだけ とめる',['うらがえしに 着る','そでを 切る','タートルネックの 上に 着る'],'ペンドルトンの ウールシャツも 人気。'],
+ [6,3,'チカーノ スタイルで 人気の ディッキーズ 874 が 発売された 年は？','1967年',['1935年','1873年','1990年'],'1980年代、南カリフォルニアの ラテン系の 人たちが 街で はきはじめた。'],
+ [6,3,'ベン デイビスが 西海岸の チカーノの 人たちに 人気に なった ころは？','1980年代後半',['1870年代','1920年代','2020年代'],'サンフランシスコの ミッション地区などで ひろまった。'],
+ [6,3,'チカーノ文化と 関係の 深い、車高を ひくくした 車の 文化は？','ローライダー',['F1','ラリー','トラクター'],'日本でも 1980年代から ファンが ふえた。'],
+ [3,1,'リーバイスが 1954年に 出した ジッパーの 501 を 何という？','501Z',['501XX','505','502'],'ボタンの かわりに ジッパー。'],
+ [3,1,'501Z は リーバイスの どんな 動きと 関係が ある？','東海岸など 新しい 地いきへの 進出',['ヨーロッパだけで 売る','子ども服 専門に なる','ブーツを 売りはじめる'],'リーバイス自身が 501Z を「新しい 地いきへの 進出」を あらわす モデルと 説明している。'],
+ [3,1,'リーバイスが 501 を 東海岸でも 売りはじめた ころは？','1950年代なかば',['1873年','1980年代','2003年'],'それまでは おもに 西部の 仕事着だった。'],
+ [3,1,'ジッパーの ジーンズが 出る 前、501 の 前あきは？','ボタンフライ',['ジッパー','マジックテープ','ひも'],'501 は 今も ボタンフライ。'],
+ [3,1,'505 が 登場した 年は？','1967年',['1954年','1873年','1990年'],'ジッパー・防縮加工・細め・股上 浅めの ジーンズ。'],
+ [3,1,'505 と 501 の ちがいで 正しいのは？','505 は ジッパーで、防縮加工ずみ',['505 は ボタンで、ちぢむ 生地','505 は Gジャン','505 は 子ども用'],'501 は はいて ちぢめる「シュリンク・トゥ・フィット」。'],
+ [3,1,'「505 は リーバイス さいしょの ジッパー ジーンズ」は？','まちがい（1954年の 501Z が 先）',['正しい','505 は ボタンだけ','リーバイスは ジッパーを 使わない'],'まちがえて 書かれている ことも ある ので 注意。'],
+ [3,1,'「505 は 東海岸に 進出するために 作られた」は？','いいすぎ（東海岸と 関係が 深いのは 501Z）',['完全に 正しい','505 は 西海岸だけで 売った','505 は 日本向けに 作った'],'東海岸への 進出は 1950年代の 501Z の 話。505 は 1967年に、もっと ひろく 毎日 はける ジーンズとして 登場。']);
+Object.assign(VCARD,{
+ w_bdw:['west',6,'ベン デイビス ワークパンツ','1935年〜 サンフランシスコ',{j:{cut:'wide',fly:'zip',back:'plain',tab:'none',patch:'none',black:'ato'}},'ヤコブ・デイビスの まごの ブランド。フリスコパンツの よび名でも 人気。'],
+ w_501z:['west',3,'501Z','1954年〜',{j:{cut:'straight',fly:'zip',back:'arcuate',tab:'redE',patch:'paper',patchT:'501Z'}},'ジッパーの 501。東海岸など 新しい 地いきへの 進出と 関係が ふかい。']});
 
 function vintSheet(P,ri){const R=P.regions[ri],cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,ids=Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id&&VCARD[k][1]===ri);
   return `<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>テーマ：${R[2]} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
