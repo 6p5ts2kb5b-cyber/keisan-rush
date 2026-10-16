@@ -4519,7 +4519,7 @@ function pkMapSvg(){const P=PACK[PK.id];if(P.map==='oki')return okiMapSvg();if(P
 function drawPack(){try{ekMigrate()}catch(e){}const P=PACK[PK.id];$('app').classList.remove('mpbw');document.body.classList.remove('mppinch','mpq');setAreaBGM(P.id==='oki'?'okimap':null);$('pkName').textContent=`${P.i} ${P.n}`;const got=pkGot(P.id),tot=pkMons(P.id).length;
   $('pkSub').textContent=P.vint?`${slotName()} ・ 👖 古着カード ${Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id&&vintGot.has(k)).length}/${Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id).length} ・ 💎${pts.toLocaleString()}`:P.ken?`${slotName()} ・ 🎖 ごうかく ${kenPassN(P.id)}/${P.regions.length} ・ 💎${pts.toLocaleString()}`:`${slotName()} ・ ずかん ${got}/${tot} ・ 💎${pts.toLocaleString()}`;
   $('pktabs').innerHTML=pkList().map(p=>`<button class="tab" data-p="${p.id}" aria-pressed="${p.id===PK.id}" style="--pc:${p.c}">${worldOpen(p.id)?'':'🔒'}${p.i} ${p.n} <small>${p.vint?'👖':p.ken?'🎖'+kenPassN(p.id):pkGot(p.id)+'/'+pkMons(p.id).length}</small></button>`).join('');
-  $('pkCalc').innerHTML=GRADES.map((g,i)=>`<option value="${i}" ${i===calcGi()?'selected':''}>けいさん ${g.n}年</option>`).join('');$('pkCalc').hidden=!!(P.ken||P.vint);$('pkNote').textContent=P.vint?'古着クイズで たたかうよ（クリアで 古着カード）':P.ken?(P.id==='kanken'?'漢字検定の 形の もんだいで たたかうよ':P.id==='eiken'?'英検の 形の もんだいで たたかうよ（🎧 音が でるよ）':'算数・数学検定の 形の もんだいで たたかうよ'):'計算と いきもの クイズで たたかうよ';
+  $('pkCalc').innerHTML=GRADES.map((g,i)=>`<option value="${i}" ${i===calcGi()?'selected':''}>けいさん ${g.n}年</option>`).join('');$('pkCalc').hidden=!!(P.ken||P.vint);$('pkNote').textContent=P.vint?'古着クイズで たたかうよ（クリアで 古着カード）':P.ken?(P.id==='kanken'?'漢字検定の 形の もんだいで たたかうよ':P.id==='chu'?'中学英語の 4つの 形で たたかうよ（🎧 音が でるよ）':P.id==='eiken'?'英検の 形の もんだいで たたかうよ（🎧 音が でるよ）':'算数・数学検定の 形の もんだいで たたかうよ'):'計算と いきもの クイズで たたかうよ';
   document.documentElement.style.setProperty('--pc',P.c);$('packScr').dataset.p=P.id;
   $('pkmap').innerHTML=pkMapSvg();$('pkmap').classList.toggle('locked',!worldOpen(P.id));drawPkSheet()}
 function drawPkSheet(){const P=PACK[PK.id],el=$('pksheet'),ri=PK.sel;
@@ -4864,7 +4864,7 @@ addEventListener('keydown',e=>{
 
 // ---------- title ----------
 
-const pkList=()=>['kanken','suken','eiken','sea','land','sky','asia','eu','oki','west','east','jpn','ura'].map(k=>PACK[k]).filter(p=>!p.hidden||uraOpen());
+const pkList=()=>['kanken','suken','eiken','chu','sea','land','sky','asia','eu','oki','west','east','jpn','ura'].map(k=>PACK[k]).filter(p=>!p.hidden||uraOpen());
 
 // ================= MATERIALS & FORGE (そざい・かじや) =================
 // id:[name, icon shape, colour, rarity, where to get]
@@ -6195,7 +6195,7 @@ EW.push(
  ['discover','はっけんする','','w3',6],['improve','よくする・上達する','','w3',6],['support','ささえる','','w3',6],['research','けんきゅう','🔬','w3',6],['effort','どりょく','','w3',6],['harmony','ちょうわ','','w3',6]);
 
 const ELV={e1:{n:'小1',w:1},e2:{n:'小2',w:1},e3:{n:'小3',w:2},e4:{n:'小4',w:2},e5:{n:'小5',w:3},e6:{n:'小6',w:3},jr:{n:'英検Jr.',w:2},g5:{n:'英検5級',w:4},g4:{n:'英検4級',w:5},g3:{n:'英検3級',w:6}};
-const ELVG=['e1','e2','e3','e4','e5','e6','g5','g4','g3'];   // by grade index 0..8 (小1..中3)
+const ELVG=['e1','e2','e3','e4','e5','e6','c1','c2','c3'];   // by grade index 0..8 (小1..中3)
 const EWX={};EW.forEach(w=>{(EWX[w[3]]=EWX[w[3]]||[]).push(w)});
 const ewords=(maxL,pic,minL=1)=>EW.filter(w=>w[4]<=maxL&&w[4]>=minL&&(!pic||w[2]));
 function eDis(w,pool,key){pool=pool.filter(x=>x!==w&&x[key]!==w[key]&&x[0]!==w[0]&&x[1]!==w[1]&&(!w[2]||x[2]!==w[2]));const same=pool.filter(x=>x[3]===w[3]),other=pool.filter(x=>x[3]!==w[3]);
@@ -6244,7 +6244,7 @@ function eOrder(g){const it=pick(GB(g)),full=it[0].replace('(  )',it[1]).replace
   const LOW=new Set(['this','that','these','those','my','she','he','they','we','you','it','the','do','does','did','is','are','was','were','have','has','who','what','where','when','how','which','whose',"let's",'please','if','there','can','will','shall','may','look!','wash','don\'t','a','an']),cap=w=>w.charAt(0).toUpperCase()+w.slice(1);if(LOW.has(ws[0].toLowerCase()))ws[0]=ws[0].toLowerCase();const join=a=>{const b=[...a];b[0]=cap(b[0]);return b.join(' ')+end},ok=join(ws),d=new Set();for(let t=0;t<60&&d.size<3;t++){const c=[...ws],i=r(0,c.length-2),j=r(i+1,c.length-1);[c[i],c[j]]=[c[j],c[i]];const s=join(c);if(s!==ok)d.add(s)}
   return eq({html:`<span class="qtx">「${it[3].replace(/。.*$/,'。')}」を あらわす 正しい 英文は？</span>`,a:ok,ch:eCh(ok,[...d]),sayA:ok,thr:11,ex:`${enB(ok)}<br><small>👉 ${it[4]}</small>`})}
 // main
-function engQ(lv){if(EJR[lv])return EJR[lv][pick(Object.keys(EJR[lv]))]();lv=ELV[lv]?lv:'e1';const L=ELV[lv].w,R=Math.random();
+function engQ(lv){if(typeof CHW!=='undefined'&&CHW[lv])return chuQ(lv);if(EJR[lv])return EJR[lv][pick(Object.keys(EJR[lv]))]();lv=ELV[lv]?lv:'e1';const L=ELV[lv].w,R=Math.random();
   if(lv==='e1')return R<.45&&canListen()?eListenPic(1):R<.8?ePicWord(1):ePhrase(1);
   if(lv==='e2')return R<.35&&canListen()?eListenPic(1):R<.6?ePicWord(1):R<.75?eNum(1):ePhrase(2);
   if(lv==='e3')return R<.25&&canListen()?eListenPic(2):R<.45?ePicWord(2):R<.6?eAbc(2):R<.72?eNum(2):ePhrase(3);
@@ -6390,11 +6390,11 @@ PACKS.forEach(p=>{PACK[p.id]=p});
 const EKL=['jr','g5','g4','g3'];
 const kenPass=(pk,ri)=>!!pkSave[`_ok${pk}${ri}`];
 const kenPassN=pk=>PACK[pk].regions.filter((_,i)=>kenPass(pk,i)).length;
-function kenQ(pk,ri,si){if(pk==='kanken')return kanjiQ(ri+1,['yomi','kaki','kaku'][si]||'mix');if(pk==='eiken')return ekQwithMiss(ri,si);
+function kenQ(pk,ri,si){if(pk==='kanken')return kanjiQ(ri+1,['yomi','kaki','kaku'][si]||'mix');if(pk==='eiken')return ekQwithMiss(ri,si);if(pk==='chu')return chuStageQ(ri,si);
   const us=unitsOf(ri),h=Math.ceil(us.length/2);
   if(si===0)return pick(us.slice(0,h))[1]();if(si===1)return pick(us.slice(h))[1]();if(si===2)return wpQ(ri);
   return Math.random()<.3?wpQ(ri):pick(us)[1]()}
-function kenCtx(pk,ri,si){const P=PACK[pk],R=P.regions[ri],gi=pk==='kanken'?ri:pk==='eiken'?[0,1,2,4,5,5][ri]:Math.min(5,Math.floor(ri*6/9)),pool=MONS.filter(m=>m.ins&&m.gi===gi&&m.rar<5),bosses=MONS.filter(m=>m.ins&&m.gi===gi&&m.rar>=4);
+function kenCtx(pk,ri,si){const P=PACK[pk],R=P.regions[ri],gi=pk==='kanken'?ri:pk==='eiken'?[0,1,2,4,5,5][ri]:pk==='chu'?5:Math.min(5,Math.floor(ri*6/9)),pool=MONS.filter(m=>m.ins&&m.gi===gi&&m.rar<5),bosses=MONS.filter(m=>m.ins&&m.gi===gi&&m.rar>=4);
   const lv=regLv(pk,ri);return{pk,ri,si,world:1,ken:1,n:Math.max(1,Math.ceil(lv/6)),c:P.c,isl:R[0],tag:`${P.i} ${R[0]}${pk==='suken'?'（'+R[2]+'）':''}`,units:[[si<0?'ごうかく しけん':R[1][si],()=>kenQ(pk,ri,si)]],pool,boss:pick(bosses),lvb:lv}}
 // map: one island, a winding road up to the summit; each 級 is a flag on the road
 function kenMapSvg(P){const W=360,H=360,n=P.regions.length,R=srand(P.id==='eiken'?83:29),pts=[];
@@ -6404,8 +6404,8 @@ function kenMapSvg(P){const W=360,H=360,n=P.regions.length,R=srand(P.id==='eiken
   for(let i=0;i<24;i++){const x=R()*W,y=R()*H;s+=`<path d="M${x.toFixed(0)} ${y.toFixed(0)}q4 -3 8 0q4 3 8 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".35" stroke-linecap="round"/>`}
   s+=`<path d="${blobPath(180,196,166,160,srand(P.id.length*7),22)}" fill="#f6e3a8"/>`;
   [[158,150,land[0]],[118,112,land[1]],[74,72,land[2]]].forEach(([rx,ry,c],k)=>{s+=`<path d="${blobPath(180,200-k*30,rx,ry,srand(k*11+P.id.length),20)}" fill="${c}"/>`});
-  s+=`<g transform="translate(${P.id==='eiken'?250:262} 46)"><path d="M-30 14L0-24L30 14Z" fill="#fffdf5" opacity=".9"/><text y="8" text-anchor="middle" font-size="20">${P.id==='eiken'?'🗽':P.id==='kanken'?'🖌':'🏆'}</text></g>`;
-  for(let i=0;i<14;i++){const a=R()*Math.PI*2,rr=60+R()*90,x=180+Math.cos(a)*rr,y=200+Math.sin(a)*rr*.85;s+=`<text x="${x.toFixed(0)}" y="${y.toFixed(0)}" font-size="${10+R()*6|0}" opacity=".55" text-anchor="middle">${pick(P.id==='eiken'?['🔤','💬','📘','✏️','🎧']:P.id==='kanken'?['山','川','木','日','花','✏️','📖']:['➕','✖️','📏','🔺','📐','➗'])}</text>`}
+  s+=`<g transform="translate(${P.id==='eiken'?250:262} 46)"><path d="M-30 14L0-24L30 14Z" fill="#fffdf5" opacity=".9"/><text y="8" text-anchor="middle" font-size="20">${P.top||(P.id==='eiken'?'🗽':P.id==='kanken'?'🖌':'🏆')}</text></g>`;
+  for(let i=0;i<14;i++){const a=R()*Math.PI*2,rr=60+R()*90,x=180+Math.cos(a)*rr,y=200+Math.sin(a)*rr*.85;s+=`<text x="${x.toFixed(0)}" y="${y.toFixed(0)}" font-size="${10+R()*6|0}" opacity=".55" text-anchor="middle">${pick(P.deco||(P.id==='eiken'?['🔤','💬','📘','✏️','🎧']:P.id==='kanken'?['山','川','木','日','花','✏️','📖']:['➕','✖️','📏','🔺','📐','➗']))}</text>`}
   s+=`<path d="${trailPath(pts)}" stroke="#fffdf5" stroke-width="7" fill="none" stroke-linecap="round" opacity=".85"/><path d="${trailPath(pts)}" stroke="${P.c}" stroke-width="2" fill="none" stroke-dasharray="2 6" stroke-linecap="round"/>`;
   P.regions.forEach((r,i)=>{const[x,y]=pts[i],sel=PK.sel===i,ok=kenPass(P.id,i),st=regCleared(P.id,i),lbl=r[0];
     s+=`<g class="pref" data-r="${i}" tabindex="0" role="button" aria-label="${lbl}（${r[2]}）${ok?' ごうかく':''}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">${sel?'<circle class="ring" r="24" fill="none" stroke="#ff3d8b" stroke-width="3" stroke-dasharray="6 4"/>':''}
@@ -6991,6 +6991,348 @@ Object.assign(VCARD,{
  w_blk1:['west',5,'501 先染めブラック','1980年代〜90年代前半',{j:{cut:'straight',fly:'button',back:'arcuate',tab:'rede',patch:'paper',patchT:'501',black:'sake'}},'たて糸 黒・横糸 白。ゴールドの ステッチで グレーに 色落ち。'],
  w_blk2:['west',5,'501-0660 後染めブラック','1990年代〜',{j:{cut:'straight',fly:'button',back:'arcuate',tab:'rede',patch:'paper',patchT:'501',black:'ato'}},'ステッチまで 黒。黒が のこりやすい。'],
  w_blk3:['west',5,'70506-0259 先染めブラック','1980年代',{k:{pk:2,flap:'point',v:1,adj:1,handPk:1,ind:'#3a3a42'}},'ハンドウォーマーポケット付きの フォース。']});
+
+// ----- 中学英語（中1・中2・中3）4つの形式：①日→英単語 ②英→日 ③リスニング受け答え ④空欄補充 -----
+// words: [english, japanese, pos(n/v/a/d), synonym-group?]
+const CHW={
+c1:[
+ ["school","学校","n"],["teacher","先生","n"],["student","生徒・学生","n"],["friend","友だち","n"],["family","家族","n"],["father","父","n"],["mother","母","n"],
+ ["brother","兄・弟","n"],["sister","姉・妹","n"],["uncle","おじ","n"],["aunt","おば","n"],["house","家","n"],["room","部屋","n"],["desk","机","n"],["chair","いす","n"],
+ ["notebook","ノート","n"],["pencil","えんぴつ","n"],["bag","かばん","n"],["window","窓","n"],["door","ドア","n"],["park","公園","n"],["library","図書館","n"],
+ ["station","駅","n"],["hospital","病院","n"],["restaurant","レストラン","n"],["city","市・都市","n"],["town","町","n"],["country","国","n"],["morning","朝","n"],
+ ["afternoon","午後","n"],["evening","夕方","n"],["night","夜","n"],["week","週","n"],["weekend","週末","n"],["month","（こよみの）月","n"],["year","年","n"],
+ ["breakfast","朝食","n"],["lunch","昼食","n"],["dinner","夕食","n"],["water","水","n"],["milk","牛乳","n"],["bread","パン","n"],["egg","卵","n"],["music","音楽","n"],
+ ["song","歌","n"],["picture","絵・写真","n"],["bike","自転車","n"],["train","電車","n"],["team","チーム","n"],["club","部・クラブ","n"],["homework","宿題","n"],
+ ["question","質問","n"],["answer","答え","n"],["word","単語・言葉","n"],["name","名前","n"],["birthday","誕生日","n"],["spring","春","n"],["summer","夏","n"],
+ ["fall","秋","n"],["winter","冬","n"],["weather","天気","n"],["flower","花","n"],["tree","木","n"],["river","川","n"],["mountain","山","n"],["sea","海","n"],
+ ["sky","空","n"],["kitchen","台所","n"],["lesson","授業","n"],["subject","教科","n"],["science","理科","n"],["math","数学","n"],["animal","動物","n"],
+ ["vegetable","野菜","n"],["fruit","果物","n"],
+ ["play","（スポーツを）する・演奏する","v"],["like","好きだ","v","like"],["love","大好きだ・愛する","v","like"],["have","持っている","v"],["want","ほしい","v"],
+ ["eat","食べる","v"],["drink","飲む","v"],["study","勉強する","v"],["read","読む","v"],["write","書く","v"],["speak","話す","v","say"],["talk","おしゃべりする","v","say"],
+ ["listen","聞く","v"],["watch","（テレビなどを）見る","v","see"],["see","見える・会う","v","see"],["look","（目を向けて）見る","v","see"],["go","行く","v"],["come","来る","v"],
+ ["walk","歩く","v"],["run","走る","v"],["swim","泳ぐ","v"],["sing","歌う","v"],["dance","踊る","v"],["cook","料理する","v"],["make","作る","v"],["use","使う","v"],
+ ["help","手伝う・助ける","v"],["live","住む","v"],["know","知っている","v"],["open","開ける","v"],["close","閉める","v"],["clean","そうじする","v"],["wash","洗う","v"],
+ ["practice","練習する","v"],["sleep","眠る","v"],["buy","買う","v"],["visit","訪れる","v"],["enjoy","楽しむ","v"],["wait","待つ","v"],["sit","すわる","v"],
+ ["stand","立つ","v"],["teach","教える","v"],["draw","（線で）描く","v"],["need","必要とする","v"],["ride","乗る","v"],["call","電話する・呼ぶ","v"],
+ ["big","大きい","a"],["small","小さい","a"],["new","新しい","a"],["old","古い・年をとった","a"],["long","長い","a"],["short","短い","a"],["beautiful","美しい","a"],
+ ["cute","かわいい","a"],["hot","暑い・熱い","a"],["cold","寒い・冷たい","a"],["warm","暖かい","a"],["cool","涼しい・かっこいい","a"],["happy","幸せな・うれしい","a"],
+ ["sad","悲しい","a"],["busy","忙しい","a"],["hungry","おなかがすいた","a"],["tired","疲れた","a"],["fast","速い","a"],["easy","簡単な","a"],["difficult","難しい","a"],
+ ["interesting","おもしろい・興味深い","a"],["famous","有名な","a"],["favorite","いちばん好きな","a"],["popular","人気のある","a"],["kind","親切な","a"],
+ ["tall","背が高い","a"],["young","若い","a"],["good","よい","a"],["bad","悪い","a"],["delicious","とてもおいしい","a"],["sunny","晴れた","a"],["rainy","雨の","a"],
+ ["always","いつも","d","freq"],["usually","ふつうは・たいてい","d","freq"],["often","よく・しばしば","d","freq"],["sometimes","ときどき","d","freq"],["very","とても","d"],
+ ["well","上手に","d"],["here","ここに","d"],["there","そこに","d"],["today","今日","d"],["now","今","d"],["together","いっしょに","d"],["tomorrow","明日","d"],["yesterday","昨日","d"]],
+c2:[
+ ["culture","文化","n"],["future","未来・将来","n"],["history","歴史","n"],["idea","考え・アイディア","n"],["language","言語","n"],["message","伝言","n"],
+ ["museum","博物館・美術館","n"],["airport","空港","n"],["hobby","趣味","n"],["job","仕事","n"],["festival","祭り","n"],["trip","旅行","n"],["dream","夢","n"],
+ ["information","情報","n"],["island","島","n"],["world","世界","n"],["village","村","n"],["temple","寺","n"],["shrine","神社","n"],["bridge","橋","n"],
+ ["building","建物","n"],["problem","（困った）問題","n"],["plan","計画","n"],["letter","手紙","n"],["umbrella","かさ","n"],["minute","（時間の）分","n"],
+ ["hour","1時間","n"],["dictionary","辞書","n"],["present","プレゼント","n"],["money","お金","n"],["ticket","切符・チケット","n"],["map","地図","n"],
+ ["person","人","n"],["child","子ども","n"],["tradition","伝統","n"],["health","健康","n"],["experience","経験","n"],["example","例","n"],["rule","規則・ルール","n"],
+ ["become","〜になる","v"],["begin","始まる・始める","v"],["bring","持ってくる","v","carry"],["build","建てる","v"],["carry","運ぶ","v","carry"],["catch","捕まえる","v"],
+ ["change","変える","v"],["decide","決める","v"],["finish","終える","v"],["forget","忘れる","v"],["remember","覚えている・思い出す","v"],["find","見つける","v"],
+ ["leave","去る・出発する","v"],["lose","なくす・負ける","v"],["meet","会う","v"],["send","送る","v"],["show","見せる","v"],["tell","（人に）伝える","v","say"],
+ ["say","言う","v","say"],["think","思う・考える","v"],["try","やってみる","v"],["understand","理解する","v"],["win","勝つ","v"],["worry","心配する","v"],
+ ["arrive","到着する","v"],["believe","信じる","v"],["collect","集める","v"],["hope","望む","v"],["grow","育てる・成長する","v"],["invite","招待する","v"],
+ ["borrow","借りる","v"],["lend","貸す","v"],["keep","保つ・飼う","v"],["hurry","急ぐ","v"],["cry","泣く","v"],["fly","飛ぶ","v"],["sell","売る","v"],["learn","学ぶ・身につける","v"],
+ ["important","大切な・重要な","a"],["useful","役に立つ","a"],["different","違った・異なる","a"],["special","特別な","a"],["dangerous","危険な","a"],
+ ["free","ひまな・無料の","a"],["sick","病気の","a"],["sure","確信して","a"],["strong","強い","a"],["weak","弱い","a"],["quiet","静かな","a"],["careful","注意深い","a"],
+ ["wonderful","すばらしい","a"],["excited","わくわくした","a"],["surprised","驚いた","a"],["afraid","こわがって","a"],["glad","うれしい","a"],["heavy","重い","a"],
+ ["light","軽い","a"],["poor","貧しい","a"],["rich","金持ちの","a"],["expensive","（値段が）高い","a","high"],["cheap","安い","a"],["high","（高さが）高い","a","high"],
+ ["healthy","健康な","a"],["angry","怒った","a"],["sleepy","眠い","a"],["true","本当の","a"],
+ ["soon","すぐに","d"],["later","あとで","d"],["early","（時刻・時期が）早く","d"],["late","遅く","d"],["again","もう一度・再び","d"],["someday","（未来の）いつか","d"],
+ ["abroad","外国へ・外国で","d"],["maybe","たぶん","d"],["almost","ほとんど","d"],["only","〜だけ","d"],["still","まだ・今でも","d"]],
+c3:[
+ ["environment","環境","n"],["energy","エネルギー","n"],["peace","平和","n"],["war","戦争","n"],["technology","科学技術","n"],["nature","自然","n"],
+ ["population","人口","n"],["opinion","意見","n"],["effort","努力","n"],["reason","理由","n"],["chance","機会・チャンス","n"],["medicine","薬","n"],
+ ["century","世紀","n"],["society","社会","n"],["product","製品","n"],["earth","地球","n"],["garbage","ごみ","n"],["pollution","汚染","n"],["resource","資源","n"],
+ ["solution","解決策","n"],["difference","違い","n"],["memory","思い出・記憶","n"],["ability","能力","n"],["goal","目標","n"],["government","政府","n"],
+ ["disaster","災害","n"],["area","地域","n"],["research","研究","n","res"],["survey","調査","n","res"],["speech","演説・スピーチ","n"],["custom","（社会の）習慣","n"],
+ ["protect","守る","v"],["solve","解決する","v"],["invent","発明する","v"],["discover","発見する","v"],["explain","説明する","v"],["introduce","紹介する","v"],
+ ["produce","生産する","v"],["respect","尊敬する","v"],["reduce","減らす","v"],["recycle","リサイクルする","v"],["develop","発達させる・開発する","v"],
+ ["imagine","想像する","v"],["realize","気づく・実現する","v"],["receive","受け取る","v"],["share","分かち合う・共有する","v"],["support","支える・支援する","v"],
+ ["communicate","意思を伝え合う","v"],["continue","続ける","v"],["increase","増える・増やす","v"],["save","救う・節約する","v"],["express","表現する","v"],
+ ["destroy","破壊する","v"],["prepare","準備する","v"],["agree","賛成する","v"],["allow","許す","v"],["spread","広がる・広げる","v"],["belong","所属する","v"],
+ ["translate","翻訳する","v"],["compare","比べる","v"],["waste","むだにする","v"],
+ ["possible","可能な","a"],["impossible","不可能な","a"],["necessary","必要な","a"],["natural","自然の","a"],["international","国際的な","a","intl"],["traditional","伝統的な","a"],
+ ["global","地球規模の","a","intl"],["similar","似ている","a"],["serious","深刻な・まじめな","a"],["terrible","ひどい","a"],["comfortable","快適な","a"],["simple","単純な","a"],
+ ["safe","安全な","a"],["enough","十分な","a"],["local","地元の","a"],["modern","現代の","a"],["foreign","外国の","a"],["ancient","古代の","a"],["various","さまざまな","a"],
+ ["proud","誇りに思って","a"],["positive","前向きな","a"],["convenient","便利な","a"],["clear","はっきりした","a"],
+ ["already","すでに","d","yet"],["yet","（否定文で）まだ","d","yet"],["ever","今までに","d","ever"],["once","一度・かつて","d","ever"],["recently","最近","d"],["instead","代わりに","d"],
+ ["finally","ついに・最後に","d"],["especially","特に","d"],["actually","実は","d"],["forever","永遠に","d"],["quickly","すばやく","d"],["suddenly","突然","d"],
+ ["probably","おそらく","d"],["twice","2回","d"]]};
+
+// listening: [heard, answer, [wrong×3], 日本語]
+const CHL={
+c1:[
+ ["Hello. I'm Ken. Nice to meet you.","Nice to meet you, too.",["You're welcome.","See you.","Yes, I am."],"こんにちは、ケンです。はじめまして。— こちらこそ、はじめまして。"],
+ ["How are you?","I'm fine, thank you.",["I'm twelve.","I'm from Japan.","Yes, I am."],"元気？— 元気です、ありがとう。"],
+ ["Are you a student?","Yes, I am.",["Yes, I do.","Yes, it is.","No, I don't."],"あなたは 生徒ですか。— はい、そうです。"],
+ ["Do you like soccer?","Yes, I do. I play it every day.",["Yes, I am.","No, it isn't.","Yes, I can."],"サッカーは 好き？— うん、毎日 しているよ。"],
+ ["Is this your bag?","Yes, it is.",["Yes, I am.","Yes, I do.","No, they aren't."],"これは あなたの かばんですか。— はい、そうです。"],
+ ["What's this?","It's a dictionary.",["Yes, it is.","It's Monday.","I'm fine."],"これは 何？— 辞書です。"],
+ ["Where do you live?","I live in Osaka.",["I'm thirteen.","Yes, I do.","At seven."],"どこに 住んでいるの？— 大阪です。"],
+ ["When is your birthday?","It's May fifth.",["It's sunny.","I'm twelve years old.","It's in my bag."],"誕生日は いつ？— 5月5日です。"],
+ ["How old are you?","I'm thirteen.",["I'm fine.","It's ten o'clock.","I have two."],"何歳？— 13歳です。"],
+ ["What time is it?","It's seven thirty.",["It's Tuesday.","It's cold.","Yes, it is."],"何時？— 7時30分です。"],
+ ["What day is it today?","It's Friday.",["It's rainy.","It's three o'clock.","I'm busy."],"今日は 何曜日？— 金曜日です。"],
+ ["Can you swim?","Yes, I can.",["Yes, I do.","Yes, I am.","No, it can't."],"泳げる？— うん、泳げるよ。"],
+ ["Whose notebook is this?","It's Yuki's.",["It's blue.","Yes, it is.","It's on the desk."],"これは だれの ノート？— ユキのです。"],
+ ["Which do you want, juice or milk?","I want milk.",["Yes, I do.","No, I don't.","I'm thirsty, too."],"ジュースと 牛乳、どちらが ほしい？— 牛乳が ほしい。"],
+ ["Who is that boy?","He's my brother, Taku.",["She's my sister.","It's my bike.","Yes, he is."],"あの 男の子は だれ？— 弟の タクです。"],
+ ["What are you doing?","I'm doing my homework.",["I do.","Yes, I am.","I'm a student."],"何を しているの？— 宿題を しているよ。"],
+ ["How many pens do you have?","I have three.",["It's three hundred yen.","Yes, I have.","I like pens."],"ペンを 何本 持っている？— 3本です。"],
+ ["How much is this T-shirt?","It's two thousand yen.",["It's two.","It's my T-shirt.","It's white."],"この Tシャツは いくら？— 2000円です。"],
+ ["Did you watch TV last night?","No, I didn't.",["No, I don't.","No, I wasn't.","No, it didn't."],"昨日の夜 テレビを 見た？— いいえ、見なかった。"],
+ ["What did you do yesterday?","I went to the library.",["I go to the library.","Yes, I did.","It was Sunday."],"昨日 何を した？— 図書館に 行ったよ。"],
+ ["Let's play tennis after school.","OK. Sounds good.",["No, I'm not.","Yes, I play.","You're welcome."],"放課後 テニスを しよう。— いいね。"],
+ ["Thank you for your help.","You're welcome.",["Yes, please.","Nice to meet you.","Me, too."],"手伝ってくれて ありがとう。— どういたしまして。"],
+ ["Where is my cap?","It's on the table.",["It's blue.","It's Kenta.","Yes, it is."],"ぼくの ぼうしは どこ？— テーブルの 上だよ。"],
+ ["How do you come to school?","I walk to school.",["I like school.","At eight.","It's big."],"どうやって 学校に 来るの？— 歩いて 来るよ。"],
+ ["Is your mother a teacher?","No, she isn't. She's a nurse.",["No, he isn't.","No, she doesn't.","No, I'm not."],"お母さんは 先生？— いいえ、看護師です。"],
+ ["Does your brother play baseball?","Yes, he does.",["Yes, he is.","Yes, she does.","Yes, I do."],"お兄さんは 野球を するの？— うん、するよ。"],
+ ["What sport do you like?","I like basketball.",["I like music.","Yes, I like.","I'm a student."],"何の スポーツが 好き？— バスケットボールです。"],
+ ["Are you hungry?","Yes. Let's have lunch.",["Yes, I do.","No, it isn't.","I'm Ken."],"おなか すいた？— うん、お昼に しよう。"],
+ ["Can I use your eraser?","Sure. Here you are.",["Yes, you are.","No, I'm not.","You're welcome."],"消しゴム 使っても いい？— いいよ、はい どうぞ。"],
+ ["Look at this picture.","Wow, it's beautiful!",["Yes, I do.","No, I'm not.","See you."],"この 絵を 見て。— わあ、きれい！"],
+ ["Good night, Mom.","Good night. Sleep well.",["Good morning.","Nice to meet you.","Thank you."],"おやすみ、お母さん。— おやすみ、よく 寝てね。"],
+ ["What's your favorite food?","My favorite food is curry.",["I'm hungry.","Yes, it is.","I eat at seven."],"いちばん 好きな 食べ物は？— カレーです。"],
+ ["What color is your bike?","It's red.",["It's new.","It's mine.","Yes, it is."],"自転車は 何色？— 赤です。"],
+ ["Were you busy yesterday?","Yes, I was.",["Yes, I did.","Yes, I am.","Yes, it was."],"昨日 忙しかった？— うん、忙しかった。"],
+ ["Where are you from?","I'm from Canada.",["I'm fine.","I'm a student.","I'm twelve."],"出身は どこ？— カナダです。"]],
+c2:[
+ ["What were you doing at eight last night?","I was taking a bath.",["I take a bath.","Yes, I was.","I'll take a bath."],"昨日の夜 8時に 何を していた？— おふろに 入っていたよ。"],
+ ["Will it be sunny tomorrow?","No, it won't. It will rain.",["No, it isn't.","No, it doesn't.","No, I won't."],"明日は 晴れる？— いいえ、雨が 降るでしょう。"],
+ ["What are you going to do this weekend?","I'm going to visit my grandmother.",["I visited my grandmother.","Yes, I am.","I went to Kyoto."],"週末は 何を する 予定？— 祖母を 訪ねる 予定です。"],
+ ["Must I finish this today?","No, you don't have to.",["No, you must.","Yes, you don't.","No, I mustn't."],"今日 これを 終えなければ いけませんか。— いいえ、その 必要は ないよ。"],
+ ["May I come in?","Sure. Come in.",["Yes, you are.","No, I may.","Here you are."],"入っても いいですか。— どうぞ、入って。"],
+ ["Shall I open the window?","Yes, please.",["Yes, I shall.","Yes, let's.","You're welcome."],"窓を 開けましょうか。— はい、お願いします。"],
+ ["Shall we go shopping?","Yes, let's.",["Yes, please.","Yes, I am.","You're welcome."],"買い物に 行きませんか。— ええ、行きましょう。"],
+ ["Will you help me with my homework?","Sure. What's the problem?",["Yes, you will.","No, I didn't.","You're welcome."],"宿題を 手伝ってくれる？— いいよ、どこが わからないの？"],
+ ["Is there a convenience store near here?","Yes, there is. It's next to the bank.",["Yes, it is.","Yes, they are.","No, I don't."],"この 近くに コンビニは ありますか。— はい、銀行の となりに あります。"],
+ ["Excuse me. How can I get to the station?","Go straight and turn left at the second corner.",["It's a big station.","I go there every day.","Yes, you can."],"すみません、駅へは どう 行けば いいですか。— まっすぐ 行って 2つ目の 角を 左です。"],
+ ["Hello. This is Mika. May I speak to Ken?","Sorry, he's out now.",["Yes, you speak.","I'm Mika, too.","Here you are."],"（電話）もしもし、ミカです。ケンさんは いますか。— ごめんね、今 出かけているの。"],
+ ["Can I take a message?","Yes, please. Tell him to call me.",["Yes, I can take.","No, I'm a message.","You're welcome."],"伝言を うかがいましょうか。— お願いします。電話を くれるよう 伝えてください。"],
+ ["Which is bigger, the sun or the earth?","The sun is.",["The earth is bigger than the sun.","Yes, it is.","The sun is hot."],"太陽と 地球、どちらが 大きい？— 太陽です。"],
+ ["Who is the tallest in your class?","Kenji is.",["Kenji does.","Yes, he is.","I'm not tall."],"クラスで いちばん 背が 高いのは だれ？— ケンジです。"],
+ ["Why were you late?","Because I missed the bus.",["Yes, I was.","At eight o'clock.","I'm late."],"どうして 遅れたの？— バスに 乗り遅れたからです。"],
+ ["What do you want to be in the future?","I want to be a doctor.",["I want to go to Kyoto.","I'm a student.","Yes, I do."],"将来 何に なりたい？— 医者に なりたいです。"],
+ ["How was your trip to Okinawa?","It was great. The sea was beautiful.",["I went there by plane.","Yes, it was.","I'll go next week."],"沖縄旅行は どうだった？— 最高！海が きれいだった。"],
+ ["You look tired.","Yes. I studied until late last night.",["Thank you. You too.","No, you don't.","Here you are."],"疲れているみたいだね。— うん、昨夜 遅くまで 勉強したんだ。"],
+ ["I have a cold.","That's too bad. Take care.",["That's great!","Congratulations!","You're welcome."],"かぜを ひいているんだ。— それは 大変。お大事に。"],
+ ["Have a nice weekend.","Thanks. You, too.",["Yes, I have.","No, I don't.","Nice to meet you."],"よい 週末を。— ありがとう、あなたもね。"],
+ ["Could you say that again?","Sure. I'll say it slowly.",["Yes, you could.","No, I can't hear.","You're welcome."],"もう一度 言って いただけますか。— いいですよ、ゆっくり 言いますね。"],
+ ["I'm going to take a math test tomorrow.","Good luck!",["Congratulations!","That's too bad.","You're welcome."],"明日 数学の テストなんだ。— がんばって！"],
+ ["What should I bring to the party?","Some drinks, please.",["Yes, you should.","I'll go to the party.","It was fun."],"パーティーに 何を 持っていけば いい？— 飲み物を お願い。"],
+ ["How long does it take to get to the museum?","About ten minutes on foot.",["It's ten o'clock.","I like museums.","It's a big museum."],"博物館まで どれくらい かかる？— 歩いて 10分くらい。"],
+ ["What kind of music do you like?","I like rock music.",["Yes, I like it.","It's a CD.","I listened to it yesterday."],"どんな 音楽が 好き？— ロックが 好き。"],
+ ["Would you like some more cake?","No, thank you. I'm full.",["Yes, I am.","You're welcome.","No, I don't like."],"ケーキを もう少し いかが？— いいえ、けっこうです。おなか いっぱい。"],
+ ["Can you come to my birthday party on Sunday?","I'd love to.",["Happy birthday!","Yes, I did.","It's Sunday."],"日曜日の 誕生日パーティーに 来られる？— ぜひ 行きたい！"],
+ ["When did you start playing the guitar?","When I was ten.",["For ten years.","I play it every day.","Yes, I did."],"いつ ギターを 始めたの？— 10歳の ときだよ。"],
+ ["Must we take off our shoes here?","Yes, you must.",["Yes, we mustn't.","No, we do.","Yes, it is."],"ここで くつを ぬがなければ なりませんか。— はい、ぬいでください。"],
+ ["Which bus goes to the stadium?","Take the number three bus.",["It's a big stadium.","It's three dollars.","By bus."],"どの バスが スタジアムへ 行きますか。— 3番の バスに 乗ってください。"],
+ ["There are many people here today.","Yes. There's a festival.",["Yes, there is.","No, I'm not.","Here you are."],"今日は ここに 人が たくさん いるね。— うん、お祭りが あるんだ。"],
+ ["Was the movie interesting?","Yes, it was very exciting.",["Yes, it is.","Yes, I was.","Yes, it did."],"映画は おもしろかった？— うん、すごく わくわくした。"],
+ ["If it's sunny tomorrow, what will you do?","I'll go fishing with my dad.",["I went fishing.","It'll be sunny.","Yes, I will."],"明日 晴れたら 何を する？— 父と つりに 行くよ。"],
+ ["Do you have to get up early tomorrow?","Yes. I have club practice at seven.",["Yes, I got up early.","No, you don't.","Yes, it is early."],"明日 早く 起きなきゃ いけないの？— うん、7時から 部活なんだ。"]],
+c3:[
+ ["Have you ever been to Kyoto?","Yes, I have. I went there last year.",["Yes, I did.","Yes, I am.","No, I don't."],"京都に 行ったことは ある？— うん、去年 行ったよ。"],
+ ["Have you finished your homework yet?","No, not yet.",["Yes, I am.","No, I don't.","Yes, it was."],"もう 宿題は 終わった？— いいえ、まだです。"],
+ ["How long have you lived in this town?","For five years.",["Five years ago.","Yes, I have.","It's a small town."],"この 町に どれくらい 住んでいるの？— 5年間です。"],
+ ["How many times have you been to Tokyo?","Three times.",["Three years ago.","For three days.","Yes, I have."],"東京には 何回 行ったことが ある？— 3回です。"],
+ ["Do you know where the post office is?","Yes. It's across from the park.",["It's a post office.","No, it isn't.","Yes, I'm going."],"郵便局が どこか 知っている？— うん、公園の 向かいだよ。"],
+ ["Do you know what time the movie starts?","It starts at six.",["It was a long movie.","Yes, I do. I like it.","It's six hundred yen."],"映画が 何時に 始まるか 知っている？— 6時に 始まるよ。"],
+ ["Is this temple visited by many people?","Yes, it is. It's very famous.",["Yes, it does.","Yes, they are.","Yes, I visited."],"この お寺には 多くの 人が 訪れますか。— はい、とても 有名です。"],
+ ["When was this bridge built?","It was built about one hundred years ago.",["It's one hundred meters long.","For one hundred years.","Yes, it was."],"この 橋は いつ 建てられたの？— 約100年前です。"],
+ ["What language is spoken in Brazil?","Portuguese is spoken there.",["Brazil is.","Yes, it is.","They are in Brazil."],"ブラジルでは 何語が 話されている？— ポルトガル語です。"],
+ ["How long have you been waiting?","For about twenty minutes.",["At twenty past three.","Twenty minutes ago.","I'm waiting for Ken."],"どれくらい 待っているの？— 20分くらいだよ。"],
+ ["I wish I could fly like a bird.","Me, too. That would be fun.",["Yes, you could.","No, I don't.","Thank you very much."],"鳥みたいに 飛べたら いいのに。— ぼくも。楽しいだろうね。"],
+ ["Who is the girl talking with Mr. Smith?","She's my cousin, Emi.",["He's my teacher.","Yes, she is.","She talked yesterday."],"スミス先生と 話している 女の子は だれ？— いとこの エミです。"],
+ ["Is this the book you were looking for?","Yes! Thank you. Where did you find it?",["Yes, I'm looking.","No, you don't.","It's a book."],"これが あなたの さがしていた 本？— そう！ありがとう。どこに あった？"],
+ ["Do you know the boy who is playing the guitar?","Yes. He's Taro's brother.",["Yes, I can play it.","No, he isn't.","The guitar is mine."],"ギターを ひいている 男の子を 知っている？— うん、タロウの お兄さんだよ。"],
+ ["What would you do if you had a million yen?","I would travel around the world.",["I will have a million yen.","I traveled last year.","Yes, I would."],"もし 100万円 あったら どうする？— 世界中を 旅するな。"],
+ ["It's very hot in here.","Shall I turn on the air conditioner?",["Yes, it's very cold.","You're welcome.","Here you are."],"ここ、とても 暑いね。— エアコンを つけようか。"],
+ ["Thank you for inviting me.","My pleasure. Please come again.",["No, thank you.","I'm sorry.","Nice to meet you."],"招待してくれて ありがとう。— どういたしまして。また 来てね。"],
+ ["Have you decided what to eat?","Yes. I'll have the pizza.",["Yes, I have eaten.","It was delicious.","Yes, you have."],"何を 食べるか 決めた？— うん、ピザに する。"],
+ ["How long has your father worked at the hospital?","Since 2010.",["In 2010.","He works there.","By bus."],"お父さんは どれくらい 病院で 働いているの？— 2010年からです。"],
+ ["Do you know when Ken will come back?","He'll be back at five.",["He came back at five.","He's Ken.","Yes, I came back."],"ケンが いつ もどるか 知っている？— 5時に もどるよ。"],
+ ["Can you tell me how to use this machine?","Sure. Just push this button.",["Yes, I can use.","It's a new machine.","No, I'm not."],"この 機械の 使い方を 教えてくれる？— いいよ、この ボタンを おすだけ。"],
+ ["What is the name of the song you sang?","It's called Blue Sky.",["I sang it yesterday.","It's a good song.","Yes, I sang."],"あなたが 歌った 歌の 名前は？— 『ブルースカイ』だよ。"],
+ ["I've lost my key.","Oh, no! Where did you see it last?",["That's great!","Congratulations!","Thank you for the key."],"かぎを なくしちゃった。— えっ！最後に 見たのは どこ？"],
+ ["Is English taught at your school?","Yes, it is. We study it every day.",["Yes, it does.","Yes, I teach.","No, they aren't."],"あなたの 学校では 英語が 教えられていますか。— はい、毎日 勉強します。"],
+ ["Have you ever seen a koala?","No, I haven't. I want to see one.",["No, I didn't see.","No, I don't.","No, it isn't."],"コアラを 見たことは ある？— ないよ。見てみたい。"],
+ ["It has been raining since this morning.","Yes. I hope it stops soon.",["You're welcome.","Here you are.","Yes, it was sunny."],"朝から ずっと 雨が 降っているね。— うん、早く やむと いいな。"],
+ ["Who painted this picture?","It was painted by Picasso.",["It is a picture.","He paints well.","Yes, it was painted."],"この 絵は だれが かいたの？— ピカソに よって かかれたんだ。"],
+ ["Can you tell me which bus goes to the airport?","The number five bus does.",["The airport is big.","Yes, I can go.","It went there."],"どの バスが 空港へ 行くか 教えてくれますか。— 5番の バスです。"],
+ ["I don't know what to do.","Why don't you ask your teacher?",["Yes, you do.","You're welcome.","I know it."],"どう すれば いいか わからない。— 先生に 聞いてみたら？"],
+ ["Would you like me to carry your bag?","Thank you. That's very kind of you.",["Yes, I would carry.","You're welcome.","Yes, you are."],"かばんを 運びましょうか。— ありがとう。ご親切に。"],
+ ["Have you been to the new library yet?","Not yet. Let's go together this weekend.",["Yes, I am.","No, it isn't new.","Yes, I go there."],"新しい 図書館には もう 行った？— まだ。週末に いっしょに 行こうよ。"]]};
+
+// fill: [日本語, English with (  ), answer, [wrong×3], point]
+const CHF={
+c1:[
+ ["私は 中学生です。","I (  ) a junior high school student.","am",["is","are","be"],"I の あとの be動詞は am。"],
+ ["あなたは 野球が 好きですか。","(  ) you like baseball?","Do",["Are","Is","Does"],"一般動詞の 疑問文は Do で 始める。"],
+ ["彼は 毎朝 牛乳を 飲みます。","He (  ) milk every morning.","drinks",["drink","drinking","drank"],"主語が 3人称単数・現在 → 動詞に s。"],
+ ["私の 姉は テニスを しません。","My sister (  ) play tennis.","doesn't",["don't","isn't","aren't"],"3人称単数の 否定は doesn't ＋ 動詞の原形。"],
+ ["これは 私の かばんです。","This is (  ) bag.","my",["I","me","mine"],"名詞の 前は my（私の）。"],
+ ["あの 女の子は だれですか。","(  ) is that girl?","Who",["What","Where","Whose"],"人を たずねる → Who。"],
+ ["あなたは どこに 住んでいますか。","(  ) do you live?","Where",["What","When","Who"],"場所を たずねる → Where。"],
+ ["窓を 開けなさい。","(  ) the window.","Open",["Opens","Opening","Opened"],"命令文は 動詞の原形で 始める。"],
+ ["ここで 走っては いけません。","(  ) run here.","Don't",["Not","No","Doesn't"],"「〜しては いけない」→ Don't ＋ 動詞の原形。"],
+ ["私は 上手に 泳ぐことが できます。","I (  ) swim well.","can",["am","is","does"],"「〜できる」→ can ＋ 動詞の原形。"],
+ ["彼女は ピアノを ひくことが できます。","She can (  ) the piano.","play",["plays","playing","played"],"can の あとは 動詞の原形。"],
+ ["私は 今 宿題を しているところです。","I am (  ) my homework now.","doing",["do","does","did"],"現在進行形 → be動詞 ＋ 〜ing。"],
+ ["彼らは 公園で サッカーを しています。","They (  ) playing soccer in the park.","are",["is","am","do"],"They の be動詞は are。"],
+ ["私は 昨日 京都へ 行きました。","I (  ) to Kyoto yesterday.","went",["go","goes","going"],"go の 過去形は went（不規則動詞）。"],
+ ["あなたは 昨日 テレビを 見ましたか。","(  ) you watch TV yesterday?","Did",["Do","Were","Are"],"過去の 疑問文 → Did ＋ 主語 ＋ 動詞の原形。"],
+ ["私は 犬を 2匹 飼っています。","I have two (  ).","dogs",["dog","doges","a dog"],"2つ以上 → 名詞を 複数形に。"],
+ ["あなたは 何時に 起きますか。","What (  ) do you get up?","time",["day","month","clock"],"「何時」→ What time。"],
+ ["あなたは ペンを 何本 持っていますか。","How (  ) pens do you have?","many",["much","long","old"],"数を たずねる → How many ＋ 複数形。"],
+ ["この 本は いくらですか。","How (  ) is this book?","much",["many","old","long"],"値段を たずねる → How much。"],
+ ["これは だれの 自転車ですか。","(  ) bike is this?","Whose",["Who","How","Where"],"「だれの」→ Whose ＋ 名詞。"],
+ ["私は 彼を よく 知っています。","I know (  ) well.","him",["he","his","he's"],"動詞の あと（目的語）は him。"],
+ ["彼女は 毎日 英語を 勉強します。","She (  ) English every day.","studies",["study","studys","studying"],"子音字＋y → y を i に かえて es。"],
+ ["ジュースと 牛乳、どちらが ほしいですか。","(  ) do you want, juice or milk?","Which",["Who","Where","Whose"],"「AとB どちら」→ Which。"],
+ ["私たちは 日曜日に 図書館へ 行きます。","We go to the library (  ) Sundays.","on",["in","at","to"],"曜日の 前は on。"],
+ ["私は 7時に 朝ごはんを 食べます。","I eat breakfast (  ) seven.","at",["on","in","to"],"時刻の 前は at。"],
+ ["私の 誕生日は 4月です。","My birthday is (  ) April.","in",["on","at","to"],"月の 前は in。"],
+ ["あの 背の高い 男性は 私たちの 先生です。","That tall man is (  ) teacher.","our",["we","us","ours"],"「私たちの」→ our。"],
+ ["ケンは 今 何を していますか。","What (  ) Ken doing now?","is",["does","do","are"],"Ken は 3人称単数 → is。進行形の 疑問文。"],
+ ["彼女は 昨日 とても 忙しかったです。","She (  ) very busy yesterday.","was",["is","were","did"],"is の 過去形は was。"],
+ ["私の 父は 車を 2台 持っています。","My father (  ) two cars.","has",["have","haves","having"],"have の 3人称単数・現在は has。"],
+ ["あなたは 自転車で 学校に 来ますか。","Do you come to school (  ) bike?","by",["on","in","with"],"交通手段 → by ＋ 乗り物（a は つけない）。"],
+ ["いっしょに 昼ごはんを 食べましょう。","(  ) have lunch together.","Let's",["Let","Shall","Don't"],"「〜しましょう」→ Let's ＋ 動詞の原形。"],
+ ["メアリーは 日本の 食べ物が 好きではありません。","Mary (  ) like Japanese food.","doesn't",["don't","isn't","not"],"3人称単数の 否定 → doesn't。"],
+ ["彼は 今 走っていません。","He (  ) running now.","isn't",["doesn't","don't","aren't"],"進行形の 否定 → be動詞 ＋ not。"],
+ ["私の 兄は 昨日 部屋を そうじしました。","My brother (  ) his room yesterday.","cleaned",["cleans","clean","cleaning"],"過去の 文 → 動詞に ed。"],
+ ["その ねこは 机の 下に います。","The cat is (  ) the desk.","under",["on","in","by"],"「〜の下に」→ under。"],
+ ["ケンと 私は 友だちです。","Ken and I (  ) friends.","are",["am","is","be"],"主語が 2人以上 → are。"],
+ ["あなたの お母さんは 上手に 料理しますか。","(  ) your mother cook well?","Does",["Do","Is","Are"],"3人称単数の 疑問文 → Does。"],
+ ["私たちは 昨日 野球を しませんでした。","We (  ) play baseball yesterday.","didn't",["don't","weren't","doesn't"],"過去の 否定 → didn't ＋ 動詞の原形。"],
+ ["これらは 私の 本です。","(  ) are my books.","These",["This","That","It"],"「これら」→ These（複数）。"],
+ ["あなたは 手に 何を 持っていますか。","What do you have (  ) your hand?","in",["on","at","by"],"手の 中に → in。"],
+ ["彼は 何曜日に 柔道を 練習しますか。","What (  ) does he practice judo?","day",["time","color","sport"],"「何曜日」→ What day。"],
+ ["私たちの 先生は 毎日 6時に 起きます。","Our teacher (  ) up at six every day.","gets",["get","getting","got"],"Our teacher は 3人称単数 → gets。"],
+ ["あの 女性は 英語を 上手に 話しますか。","Does that woman (  ) English well?","speak",["speaks","speaking","spoke"],"Does の 疑問文 → 動詞は 原形。"],
+ ["彼らは 私の 友だちです。私は 彼らが 好きです。","They are my friends. I like (  ).","them",["they","their","theirs"],"動詞の あと（目的語）は them。"]],
+c2:[
+ ["私は 昨夜 10時に 本を 読んでいました。","I (  ) reading a book at ten last night.","was",["am","were","did"],"過去進行形 → was/were ＋ 〜ing。"],
+ ["彼らは その時 テレビを 見ていました。","They were (  ) TV then.","watching",["watch","watched","watches"],"過去進行形 → were ＋ 〜ing。"],
+ ["明日は 雨が 降るでしょう。","It (  ) rain tomorrow.","will",["is","does","was"],"未来 → will ＋ 動詞の原形。"],
+ ["私は 来週 祖父を 訪ねる 予定です。","I'm going (  ) visit my grandfather next week.","to",["for","at","with"],"be going to ＋ 動詞の原形。"],
+ ["あなたは 今夜 何を する つもりですか。","What are you going to (  ) tonight?","do",["does","doing","did"],"be going to の あとは 動詞の原形。"],
+ ["私たちは 毎日 練習しなければ なりません。","We (  ) practice every day.","must",["can","may","will"],"「〜しなければ ならない」→ must。"],
+ ["彼は 早く 起きなければ なりません。","He (  ) to get up early.","has",["have","must","had"],"3人称単数 → has to。"],
+ ["あなたは 今日 宿題を しなくても よいです。","You don't (  ) to do your homework today.","have",["must","has","can"],"don't have to →「〜しなくてよい」。"],
+ ["この 部屋に 入っても いいですか。","(  ) I come in?","May",["Must","Will","Am"],"「〜しても いいですか」→ May I 〜?"],
+ ["窓を 開けましょうか。","(  ) I open the window?","Shall",["Will","Must","Do"],"「（私が）〜しましょうか」→ Shall I 〜?"],
+ ["あなたは 医者に みてもらう べきです。","You (  ) see a doctor.","should",["shall","may","are"],"「〜すべき」→ should。"],
+ ["私は 将来 先生に なりたいです。","I want (  ) be a teacher in the future.","to",["for","be","will"],"want to ＋ 動詞の原形 =「〜したい」。"],
+ ["私は 本を 買うために 書店へ 行きました。","I went to the bookstore (  ) buy a book.","to",["for","at","with"],"「〜するために」→ to ＋ 動詞の原形。"],
+ ["私には するべき 宿題が たくさん あります。","I have a lot of homework (  ) do.","to",["for","doing","at"],"名詞 ＋ to ＋ 動詞の原形 =「〜するべき…」。"],
+ ["私は 音楽を 聞くことが 好きです。","I like (  ) to music.","listening",["listen","listens","listened"],"like ＋ 〜ing（動名詞）=「〜することが 好き」。"],
+ ["彼は サッカーを して 楽しみました。","He enjoyed (  ) soccer.","playing",["play","to play","played"],"enjoy の あとは 〜ing だけ。to 〜 は ×。"],
+ ["私が 家に 帰ったとき、母は 料理を していました。","(  ) I came home, my mother was cooking.","When",["If","Because","That"],"「〜とき」→ when。"],
+ ["もし 明日 晴れたら、海へ 行きましょう。","(  ) it is sunny tomorrow, let's go to the sea.","If",["But","Because","That"],"「もし〜なら」→ if。未来でも 現在形。"],
+ ["疲れていたので、私は 早く 寝ました。","I went to bed early (  ) I was tired.","because",["if","but","so"],"「〜なので（理由）」→ because。"],
+ ["私は 彼が 正しいと 思います。","I think (  ) he is right.","that",["what","if","because"],"I think (that) 〜 =「〜だと思う」。"],
+ ["彼は 私より 背が 高いです。","He is (  ) than me.","taller",["tall","tallest","more tall"],"比較級 → 〜er ＋ than。"],
+ ["富士山は 日本で いちばん 高い 山です。","Mt. Fuji is the (  ) mountain in Japan.","highest",["higher","high","most high"],"最上級 → the 〜est。"],
+ ["この 本は あの 本より おもしろいです。","This book is (  ) interesting than that one.","more",["most","very","much"],"長い 語の 比較級 → more ＋ 形容詞。"],
+ ["彼女は クラスで いちばん 速く 走ります。","She runs the (  ) in her class.","fastest",["faster","fast","most fast"],"最上級 → the 〜est。"],
+ ["私の かばんは あなたのと 同じくらい 大きいです。","My bag is as (  ) as yours.","big",["bigger","biggest","more big"],"as ＋ 原級 ＋ as =「同じくらい〜」。"],
+ ["私は 春が いちばん 好きです。","I like spring the (  ).","best",["better","good","well"],"like 〜 the best =「〜が いちばん 好き」。"],
+ ["机の 上に ノートが 1冊 あります。","(  ) is a notebook on the desk.","There",["It","This","They"],"There is 〜 =「〜が ある」。"],
+ ["公園に 子どもが たくさん います。","There (  ) many children in the park.","are",["is","be","am"],"あとが 複数 → There are。"],
+ ["この 写真を あなたに 見せましょう。","I'll show (  ) this picture.","you",["your","yours","to"],"show ＋ 人 ＋ 物 =「人に 物を 見せる」。"],
+ ["父は 私に 時計を くれました。","My father gave (  ) a watch.","me",["my","I","mine"],"give ＋ 人 ＋ 物。人の ところは me。"],
+ ["私たちは その 犬を ポチと 呼びます。","We (  ) the dog Pochi.","call",["say","speak","tell"],"call A B =「A を B と 呼ぶ」。"],
+ ["その 知らせは 私を 悲しく させました。","The news made (  ) sad.","me",["my","I","mine"],"make A B =「A を B に する」。"],
+ ["私の 父は 料理を するのが 得意です。","My father is good at (  ).","cooking",["cook","to cook","cooks"],"前置詞（at）の あとは 〜ing。"],
+ ["この 歌は 多くの 人に 愛されています。","This song is (  ) by many people.","loved",["love","loving","loves"],"受け身 → be動詞 ＋ 過去分詞。"],
+ ["この 本は 夏目漱石に よって 書かれました。","This book was written (  ) Natsume Soseki.","by",["to","with","from"],"「〜に よって」→ by。"],
+ ["英語は 多くの 国で 話されています。","English is (  ) in many countries.","spoken",["speak","spoke","speaking"],"speak の 過去分詞は spoken。"],
+ ["私は 何か 冷たい 飲み物が ほしい。","I want something cold (  ) drink.","to",["for","of","and"],"something ＋ to ＋ 動詞の原形 =「何か〜する もの」。"],
+ ["彼は 昨日 学校に 遅れませんでした。","He (  ) late for school yesterday.","wasn't",["didn't","isn't","weren't"],"be late の 過去の 否定 → wasn't。"],
+ ["私たちは 昨年 カナダに いました。","We (  ) in Canada last year.","were",["was","are","did"],"We の be動詞の 過去形は were。"],
+ ["私の 兄は 来年 20歳に なります。","My brother (  ) be twenty next year.","will",["is","does","has"],"未来 → will ＋ be。"],
+ ["この 箱は あの 箱より 重いです。","This box is (  ) than that one.","heavier",["heavy","heaviest","more heavy"],"y → i に かえて er。"],
+ ["あなたは どの 季節が いちばん 好きですか。","Which season do you like the (  )?","best",["better","good","well"],"the best =「いちばん」。"],
+ ["私は 宿題を やり終えました。","I finished (  ) my homework.","doing",["do","to do","did"],"finish の あとは 〜ing だけ。"],
+ ["雨が やみました。","It stopped (  ).","raining",["rain","rained","rains"],"stop 〜ing =「〜するのを やめる」。"],
+ ["この かばんは あの かばんほど 高くありません。","This bag is not as (  ) as that one.","expensive",["more expensive","most expensive","expensiver"],"not as 〜 as … =「…ほど〜ない」。"]],
+c3:[
+ ["私は 東京に 3回 行ったことが あります。","I have (  ) to Tokyo three times.","been",["be","go","went"],"have been to 〜 =「〜に 行ったことが ある」。"],
+ ["あなたは 今までに 富士山を 見たことが ありますか。","Have you (  ) seen Mt. Fuji?","ever",["never","yet","already"],"経験の 疑問文 → ever（今までに）。"],
+ ["私は 一度も パンダを 見たことが ありません。","I have (  ) seen a panda.","never",["ever","yet","already"],"「一度も〜ない」→ never。"],
+ ["私は ちょうど 昼食を 食べたところです。","I have (  ) eaten lunch.","just",["yet","ever","since"],"完了「ちょうど〜したところ」→ just。"],
+ ["彼は すでに 宿題を 終えました。","He has (  ) finished his homework.","already",["yet","ever","since"],"完了「すでに」→ already。"],
+ ["あなたは もう 手紙を 書きましたか。","Have you written the letter (  )?","yet",["since","ever","just"],"完了の 疑問文「もう」→ yet（文の 最後）。"],
+ ["私は 10年間 ここに 住んでいます。","I have lived here (  ) ten years.","for",["since","in","during"],"期間「〜の間」→ for。"],
+ ["彼女は 2015年から 日本に 住んでいます。","She has lived in Japan (  ) 2015.","since",["for","from","in"],"起点「〜から ずっと」→ since。"],
+ ["あなたは どれくらい 長く ここに いるのですか。","How (  ) have you been here?","long",["many","much","old"],"期間を たずねる → How long。"],
+ ["私は 2時間 ずっと 勉強し続けています。","I have been (  ) for two hours.","studying",["study","studied","studies"],"現在完了進行形 → have been ＋ 〜ing。"],
+ ["この 部屋は 毎日 そうじされます。","This room is (  ) every day.","cleaned",["clean","cleaning","cleans"],"受け身 → be動詞 ＋ 過去分詞。"],
+ ["この 城は 400年前に 建てられました。","This castle was (  ) 400 years ago.","built",["build","building","builds"],"build の 過去分詞は built。"],
+ ["その 本は 子どもたちには 読まれていません。","The book (  ) read by children.","isn't",["doesn't","don't","hasn't"],"受け身の 否定 → be動詞 ＋ not。"],
+ ["ピアノを ひいている 女の子は 私の 姉です。","The girl (  ) the piano is my sister.","playing",["plays","played","play"],"名詞 ＋ 〜ing … =「〜している（名詞）」。"],
+ ["これは 中国で 作られた 自転車です。","This is a bike (  ) in China.","made",["making","makes","make"],"名詞 ＋ 過去分詞 … =「〜された（名詞）」。"],
+ ["私には 東京に 住んでいる おじが います。","I have an uncle (  ) lives in Tokyo.","who",["which","what","he"],"人を 説明する 関係代名詞 → who。"],
+ ["これは 父が 私に くれた 時計です。","This is the watch (  ) my father gave me.","that",["who","what","where"],"物を 説明する 関係代名詞（目的格）→ that / which。"],
+ ["これは 多くの 人に 愛されている 歌です。","This is a song (  ) is loved by many people.","which",["who","what","it"],"物を 説明する 関係代名詞 → which / that。"],
+ ["私は 彼が どこに 住んでいるか 知りません。","I don't know where he (  ).","lives",["live","living","is live"],"間接疑問 → 疑問詞 ＋ 主語 ＋ 動詞。"],
+ ["あなたは 彼女が 何を ほしいか 知っていますか。","Do you know what she (  )?","wants",["want","wanting","does want"],"間接疑問 → 疑問詞 ＋ 主語 ＋ 動詞（ふつうの 語順）。"],
+ ["駅への 行き方を 教えて いただけますか。","Could you tell me (  ) to get to the station?","how",["what","which","who"],"how to 〜 =「〜の しかた」。"],
+ ["英語を 話すことは 私にとって 簡単です。","It is easy for me (  ) speak English.","to",["for","of","that"],"It is 〜 for 人 to … =「人にとって …することは 〜だ」。"],
+ ["私は 彼に その 仕事を してほしいです。","I want him (  ) do the job.","to",["for","that","and"],"want 人 to 〜 =「人に 〜してほしい」。"],
+ ["母は 私に 部屋を そうじするように 言いました。","My mother told me (  ) clean my room.","to",["for","that","and"],"tell 人 to 〜 =「人に 〜するように 言う」。"],
+ ["私は 彼女に 手伝ってくれるよう 頼みました。","I asked her (  ) help me.","to",["for","that","and"],"ask 人 to 〜 =「人に 〜するよう 頼む」。"],
+ ["父は 私に 車を 運転させて くれました。","My father let me (  ) his car.","drive",["to drive","driving","drove"],"let 人 ＋ 動詞の原形 =「人に 〜させてあげる」。"],
+ ["私は 彼が 宿題を するのを 手伝いました。","I helped him (  ) his homework.","do",["did","does","doing"],"help 人 ＋ 動詞の原形 =「人が 〜するのを 手伝う」。"],
+ ["もし 私が 鳥なら、空を 飛べるのに。","If I (  ) a bird, I could fly.","were",["am","is","be"],"仮定法 → If I were 〜。"],
+ ["ピアノが ひけたら いいのに。","I wish I (  ) play the piano.","could",["can","will","am"],"I wish ＋ 過去形 =「〜なら いいのに」。"],
+ ["もし 時間が あれば、あなたを 手伝うのに。","If I had time, I (  ) help you.","would",["will","am","did"],"仮定法 → If 主語 ＋ 過去形, 主語 ＋ would ＋ 原形。"],
+ ["あれは 私が 今までに 見た中で いちばん 高い 建物です。","That is the tallest building I have ever (  ).","seen",["saw","see","seeing"],"have ＋ 過去分詞。see の 過去分詞は seen。"],
+ ["その 知らせを 聞いて うれしいです。","I'm happy (  ) hear the news.","to",["for","at","of"],"感情 ＋ to 〜 =「〜して（うれしい）」。"],
+ ["この 本は 難しすぎて 私には 読めません。","This book is (  ) difficult for me to read.","too",["so","very","enough"],"too 〜 to … =「〜すぎて …できない」。"],
+ ["彼は 何と 言えば いいか わかりませんでした。","He didn't know what (  ) say.","to",["he","for","and"],"what to 〜 =「何を〜すれば よいか」。"],
+ ["あなたの 国では 何語が 話されていますか。","What language is (  ) in your country?","spoken",["speaking","speak","spoke"],"受け身の 疑問文 → be動詞 ＋ 主語 ＋ 過去分詞。"],
+ ["私たちは 30分 ずっと バスを 待っています。","We have been (  ) for the bus for thirty minutes.","waiting",["wait","waited","waits"],"現在完了進行形 → have been ＋ 〜ing。"],
+ ["彼女は まだ 来ていません。","She hasn't come (  ).","yet",["already","ever","just"],"否定文の「まだ」→ yet（文の 最後）。"],
+ ["私は その 映画に 感動しました。","I was (  ) by the movie.","moved",["moving","move","moves"],"be moved =「感動する（心を動かされる）」。"],
+ ["窓の そばに 立っている 男性を 知っていますか。","Do you know the man (  ) by the window?","standing",["stands","stood","stand"],"名詞 ＋ 〜ing … =「〜している（名詞）」。"],
+ ["これは 私が 昨日 読んだ 本です。","This is the book I (  ) yesterday.","read",["reading","reads","have read"],"yesterday → 過去形。read の 過去形は read（発音は レッド）。"],
+ ["雪に おおわれた 山を 見て。","Look at the mountain (  ) with snow.","covered",["covering","covers","cover"],"名詞 ＋ 過去分詞 … =「〜された（名詞）」。"],
+ ["あなたは なぜ 彼が 怒っているのか 知っていますか。","Do you know (  ) he is angry?","why",["what","who","which"],"「なぜ」→ why ＋ 主語 ＋ 動詞。"],
+ ["この ケーキは 私の 母に よって 作られました。","This cake was made (  ) my mother.","by",["of","from","with"],"「〜に よって」→ by。"],
+ ["私は 一度 沖縄に 行ったことが あります。","I have been to Okinawa (  ).","once",["ever","yet","since"],"「一度」→ once。"],
+ ["メアリーが 日本に 来てから 3年に なります。","It has been three years (  ) Mary came to Japan.","since",["for","when","from"],"It has been 〜 since … =「…してから 〜になる」。"]]};
+
+Object.assign(ELV,{c1:{n:'中1',w:4},c2:{n:'中2',w:5},c3:{n:'中3',w:6}});
+const CBAG={};
+function cbag(k,n){let b=CBAG[k];if(!b||!b.length||b.n!==n){b=CBAG[k]=shuf([...Array(n).keys()]);b.n=n}return b.pop()}
+function chuDis(lv,w,key){const same=CHW[lv].filter(x=>x!==w&&x[2]===w[2]&&(!w[3]||x[3]!==w[3])&&x[key]!==w[key]);
+  let d=shuf(same).map(x=>x[key]);if(d.length<3)d=d.concat(shuf(Object.values(CHW).flat().filter(x=>x[2]===w[2]&&x[0]!==w[0]&&x[1]!==w[1]&&(!w[3]||x[3]!==w[3]))).map(x=>x[key]));
+  return [...new Set(d)].filter(x=>x!==w[key]).slice(0,3)}
+const PEEK=t=>`<details class="peek"><summary>📝 もじで 見る</summary><b class="en">${esc(t)}</b></details>`;
+const chuPart=(a,pt,words)=>pt==null||pt<0?a:words?a.filter((_,i)=>i%4===pt):a.slice(Math.floor(a.length*pt/4),Math.floor(a.length*(pt+1)/4));
+function chuQ(lv,pt){const L=chuPart(CHW[lv],pt,1),t=cbag(lv+'t'+pt,4),g=ELV[lv].n;
+  if(t===0){const w=L[cbag(lv+'w'+pt,L.length)];
+    return eq({html:`<span class="qtx">「<b>${w[1]}</b>」を あらわす 英単語は？</span>`,a:w[0],ch:eCh(w[0],chuDis(lv,w,0)),sayA:w[0],thr:6,exh:`💡 ${g} たんご`,ex:`${w[1]} ＝ ${enB(w[0])}`})}
+  if(t===1){const w=L[cbag(lv+'w'+pt,L.length)];
+    return eq({html:`<span class="qtx">${enB(w[0])} の いみは？</span>${canListen()?sayB(w[0],'きく'):''}`,a:w[1],ch:eCh(w[1],chuDis(lv,w,1)),say:w[0],thr:6,exh:`💡 ${g} たんご`,ex:`${enB(w[0])} ＝ ${w[1]}`})}
+  if(t===2){const P=chuPart(CHL[lv],pt),p=P[cbag(lv+'l'+pt,P.length)],ok=canListen();
+    return eq({html:`<span class="qtx">🎧 英文を きいて、正しい 受け答えを えらぼう</span>${ok?sayB(p[0])+sayB(p[0],'ゆっくり',1)+PEEK(p[0]):`<b class="en say">“${esc(p[0])}”</b>`}`,a:p[1],ch:eCh(p[1],p[2]),say:ok?p[0]:null,sayA:p[1],thr:12,exh:`💡 ${g} リスニング`,ex:`${enB(p[0])}<br>→ ${enB(p[1])}<br>${p[3]}`})}
+  const F=chuPart(CHF[lv],pt),f=F[cbag(lv+'f'+pt,F.length)],full=f[1].replace('(  )',f[2]);
+  return eq({html:`<span class="qtx">${f[0]}</span><b class="en sent">${esc(f[1]).replace('(  )','<u>（　　）</u>')}</b>`,a:f[2],ch:eCh(f[2],f[3]),sayA:full,thr:10,exh:`💡 ${g} ぶんぽう`,ex:`${enB(full)}<br>${f[0]}<br><small>👉 ${f[4]}</small>`})}
+try{document.head.insertAdjacentHTML('beforeend','<style>.peek{margin:6px auto 0;font:800 12px var(--body);color:var(--wood,#7a5a3a);text-align:center}.peek summary{cursor:pointer;list-style:none;display:inline-block;padding:3px 10px;border-radius:99px;border:1.5px dashed currentColor}.peek summary::-webkit-details-marker{display:none}.peek[open] summary{display:none}.peek b{display:block;font-size:15px;color:var(--ink);margin-top:4px}</style>')}catch(e){}
+// ----- 中学英語の島（1つの ステージ = 1つの 学年）-----
+PACKS.push({id:'chu',n:'中学英語の島',i:'🏫',c:'#7a4ad8',map:'kentei',bg:'#d8c8ff',lab:'年',ken:1,land:['#e4d8ff','#c4b0f4','#a48ae6'],top:'🏫',deco:['🔤','🎧','📘','✏️','💬'],
+  desc:'中学1年〜3年の 英語。1つの ステージは 1つの 学年だけ。たんご（日→英・英→日）・リスニング・空らんの 4つの 形が 同じくらい 出るよ',
+  regions:[['中1',['ステップ1','ステップ2','ステップ3','ステップ4'],'中学1年'],['中2',['ステップ1','ステップ2','ステップ3','ステップ4'],'中学2年'],['中3',['ステップ1','ステップ2','ステップ3','ステップ4'],'中学3年']]});
+PACK.chu=PACKS[PACKS.length-1];KEN.add('chu');
+function chuStageQ(ri,si){return chuQ(['c1','c2','c3'][ri],si>=0&&si<4?si:-1)}
+//CHU_END
 
 function vintSheet(P,ri){const R=P.regions[ri],cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,ids=Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id&&VCARD[k][1]===ri);
   return `<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>テーマ：${R[2]} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
