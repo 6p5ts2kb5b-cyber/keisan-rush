@@ -617,7 +617,19 @@ div.fd{cursor:default}.fd span{font-size:20px}.fd small{color:var(--muted)}.fd .
 .jh{font:900 14px var(--display);color:var(--wood2)}.jh small{font:800 11px var(--body);color:var(--muted)}
 .jrow{display:flex;align-items:center;gap:8px}.jrow .ic{width:38px;height:38px;flex:none}.jrow .ic svg{width:100%;height:100%}
 .jt{min-width:0;flex:1;display:flex;flex-direction:column}.jt b{font:900 13px var(--body);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.jt small{font-size:10.5px;color:var(--muted);font-weight:800}
-.jrow select{font:800 13px var(--body);border:2px solid var(--wood);border-radius:10px;padding:5px;background:var(--cream);color:var(--ink);max-width:150px}
+.jrow select{font:800 13px var(--body);border:2px solid var(--wood);border-radius:10px;padding:5px;background:var(--cream);color:var(--ink);max-width:150px;min-width:0}
+/* job rows: icon + name/desc on top, selects underneath (never squeeze the text) */
+.jrow{display:grid;grid-template-columns:38px minmax(0,1fr);gap:4px 8px;align-items:center}
+.jrow .jt small{line-height:1.35}
+.jsel{grid-column:2;display:flex;gap:6px;min-width:0}
+.jsel select{flex:1 1 0;max-width:none}
+@media (min-width:520px){.jrow{grid-template-columns:38px minmax(0,1fr) auto}.jsel{grid-column:3}.jsel select{flex:none;max-width:150px}}
+.jobs{flex:none;max-height:38%;overflow-y:auto;overscroll-behavior:contain}
+#partyOv .clist{min-height:150px}
+#partyOv .tabs,#partyOv .slots4,#partyOv .dexhead{flex:none}
+.jobs .jh{white-space:nowrap}.jobs .jh small{display:block;white-space:normal;margin-top:1px}
+#partyOv .pbox{padding-bottom:max(14px,env(safe-area-inset-bottom))}
+.ov{bottom:auto;height:var(--vvh,100%)}
 .mcircle{position:absolute;left:50%;top:52%;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;border:3px dashed #b86bff;box-shadow:0 0 26px #b86bff,inset 0 0 26px #b86bff;animation:mspin 4s linear infinite;pointer-events:none;z-index:2}
 .mcircle i{position:absolute;inset:18px;border-radius:50%;border:2px solid rgba(255,215,90,.8)}.mcircle i+i{inset:44px;border:2px dotted #fff;transform:rotate(45deg)}
 .mcircle.go{animation:mspin .6s linear infinite;box-shadow:0 0 60px #ffd23f,inset 0 0 60px #fff}.mcircle.fade{opacity:0;transition:opacity .8s}
@@ -3756,8 +3768,8 @@ $('vFood').addEventListener('click',e=>{const b=e.target.closest('.fd');if(!b||b
 const canKenja=inst=>(inst.lv||1)>=15||(inst.evo||0)>=2;
 function drawJobs(){const el=$('jobs');if(!el)return;const ins=ptRefs.filter(r=>r.k==='i').map(r=>box.find(b=>b.u===r.u)).filter(Boolean);
   el.innerHTML=`<div class="jh">🎓 しょくぎょう <small>パーティの 昆虫に しょくぎょうを つけよう</small></div>`+(ins.length?ins.map(inst=>{const mon=MONS[inst.no-1],j=JOBS[inst.job||'none'];
-    return `<div class="jrow"><span class="ic">${insArt(insCh(mon,inst))}</span><span class="jt"><b>${mon.name}${'＋'.repeat(inst.evo||0)}</b><small>${j.desc}</small></span><select data-u="${inst.u}" aria-label="${mon.name}の しょくぎょう">${Object.entries(JOBS).map(([k,jj])=>{const lock=k==='kenja'&&!canKenja(inst);
-      return `<option value="${k}" ${(inst.job||'none')===k?'selected':''} ${lock?'disabled':''}>${jj.i} ${jj.n}${lock?'（Lv15 か しんか2）':''}</option>`}).join('')}</select>${inst.job==='mahou'?`<select class="musel" data-mu="${inst.u}" aria-label="${mon.name}の 楽器"><option value="">🎵 楽器 なし</option>${INSTS.filter(a=>instSave[a[0]]&&instSave[a[0]].got).map(a=>`<option value="${a[0]}" ${inst.music===a[0]?'selected':''}>${a[2]} ${a[1]}</option>`).join('')}</select>`:''}</div>`}).join('')
+    return `<div class="jrow"><span class="ic">${insArt(insCh(mon,inst))}</span><span class="jt"><b>${mon.name}${'＋'.repeat(inst.evo||0)}</b><small>${j.desc}</small></span><span class="jsel"><select data-u="${inst.u}" aria-label="${mon.name}の しょくぎょう">${Object.entries(JOBS).map(([k,jj])=>{const lock=k==='kenja'&&!canKenja(inst);
+      return `<option value="${k}" ${(inst.job||'none')===k?'selected':''} ${lock?'disabled':''}>${jj.i} ${jj.n}${lock?'（Lv15 か しんか2）':''}</option>`}).join('')}</select>${inst.job==='mahou'?`<select class="musel" data-mu="${inst.u}" aria-label="${mon.name}の 楽器"><option value="">🎵 楽器 なし</option>${INSTS.filter(a=>instSave[a[0]]&&instSave[a[0]].got).map(a=>`<option value="${a[0]}" ${inst.music===a[0]?'selected':''}>${a[2]} ${a[1]}</option>`).join('')}</select>`:''}</span></div>`}).join('')
     :'<small>つかまえた 昆虫を パーティに いれると、せんし・まほうつかい・そうりょ・ぶとうか・けんじゃ から しょくぎょうを えらべるよ！ したの リストの「つかまえた昆虫」から えらんでね。</small>')}
 $('jobs').addEventListener('change',e=>{const s=e.target.closest('select');if(!s)return;if(s.dataset.mu){const it=box.find(b=>b.u===s.dataset.mu);if(it){if(s.value)it.music=s.value;else delete it.music;saveBox();tone(1319,0,.08,'triangle',.07);drawParty2()}return}const inst=box.find(b=>b.u===s.dataset.u);if(!inst)return;
   if(s.value==='none')delete inst.job;else inst.job=s.value;saveBox();ensureAudio();tone(1175,0,.08,'triangle',.07);tone(1568,.08,.1,'triangle',.07);drawParty2()});
