@@ -463,6 +463,18 @@ body.fever{animation:feverc 1.4s linear infinite}
 .card.gq{flex:none;min-height:0;padding:8px 10px;gap:6px}
 .gq.shake{animation:shake .35s}
 #gPull{align-self:center}
+/* gacha: fit the visible screen on phones (iOS Safari bottom bar) */
+#gachaOv{bottom:auto;height:var(--vvh,100dvh);padding-top:env(safe-area-inset-top)}
+#gachaOv .gbox{height:100%;max-height:none;padding-bottom:max(12px,env(safe-area-inset-bottom));gap:6px}
+#gachaOv .gstage{flex:1 1 220px;height:auto;min-height:92px;max-height:220px}
+#gachaOv .gbox:has(#gpad:not([hidden])) .gstreak{display:none}
+#gachaOv .gbox:has(#gpad:not([hidden])) .gmsg{min-height:0;font-size:13px}
+#gachaOv .gpad{gap:6px;flex:none}
+#gachaOv .gpad .k{padding:0;height:clamp(38px,6.4dvh,52px);font-size:clamp(17px,3vh,22px)}
+#gachaOv .card.gq{padding:6px 10px;gap:4px}
+#gachaOv .gq .q{font-size:clamp(24px,5.4dvh,38px)}
+#gachaOv .gq .ans{font-size:clamp(22px,5dvh,34px);padding-block:2px}
+@media (max-height:640px){#gachaOv .gsel select{padding:4px 8px}#gachaOv .dexhead h2{font-size:17px}#gachaOv .gq .tzone{margin:0}}
 .gpad .k{padding:8px 0;font-size:20px}
 .ghut{cursor:pointer}.ghut:focus{outline:none}.ghut:focus-visible rect{stroke:#39bcd6;stroke-width:4}
 /* save files */
@@ -4595,6 +4607,9 @@ const trialUsed=pk=>!!lim().tr[pk];
 function startTrial(pk){if(trialUsed(pk)){banner('おためしは 1日1かい！','#e0467a');return}
   gateBattle(()=>{const L=lim();L.tr[pk]=1;saveLim(L);const P=PACK[pk],ri=Math.floor(Math.random()*P.regions.length);startPack(pk,ri,Math.floor(Math.random()*3),true)})}
 
+// ---------- visible-height var (iOS Safari floating bar) ----------
+(function(){const vv=window.visualViewport;function f(){const h=Math.min(innerHeight,vv?vv.height:innerHeight);document.documentElement.style.setProperty('--vvh',Math.round(h)+'px')}
+f();addEventListener('resize',f);if(vv)vv.addEventListener('resize',f);addEventListener('orientationchange',()=>setTimeout(f,300))})();
 // ---------- input ----------
 function press(k){if(!S||$('app').hidden||!$('title').hidden||!$('clear').hidden||!$('dexOv').hidden||!$('viewOv').hidden||!$('partyOv').hidden)return;ensureAudio();
   if(S.phase==='cmd'){if(/^[1-5]$/.test(k)&&S.cmdOpts&&S.cmdOpts[+k-1]&&S.cmdRes)S.cmdRes(S.cmdOpts[+k-1][0]);return}
