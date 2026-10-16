@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>けいさんラッシュ</title>
+<title>まなびラッシュ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@500;800&family=Zen+Maru+Gothic:wght@700;900&display=swap">
@@ -1299,6 +1299,43 @@ body.mppinch #mpVig{opacity:1;animation:vigP 1.6s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.tw{animation:none;opacity:1}.typing::after{display:none}#banner .kc{animation:none!important}.mpl i{will-change:auto}}
 .setrow.col{flex-direction:column;align-items:stretch}.field .enemy.mpca{filter:drop-shadow(-5px 0 0 rgba(255,0,0,.7)) drop-shadow(5px 0 0 rgba(0,255,255,.7))}
 #ultOv.hit:not(.el-yami) #ultCv{filter:drop-shadow(8px 0 0 rgba(255,0,0,.55)) drop-shadow(-8px 0 0 rgba(0,255,255,.55))}
+
+/* ===== English / kentei ===== */
+.subjseg{display:flex;gap:4px;padding:3px;border-radius:99px;background:rgba(90,65,40,.1);width:max-content;max-width:100%}
+.sjb{border:none;border-radius:99px;padding:5px 11px;font:900 12.5px var(--body);color:var(--muted);background:transparent;cursor:pointer;white-space:nowrap}
+.sjb[aria-checked="true"]{background:var(--cream);color:var(--ink);box-shadow:0 2px 0 rgba(90,65,40,.25),0 0 0 2px var(--wood) inset}
+.sjb:focus-visible{outline:3px solid var(--cyan);outline-offset:1px}
+.sayb{display:inline-flex;align-items:center;gap:4px;margin:2px 3px;padding:4px 12px;border-radius:99px;border:2px solid #2a5ad8;background:#eaf1ff;color:#1a3a9a;font:900 15px var(--body);cursor:pointer;box-shadow:0 3px 0 rgba(42,90,216,.3);vertical-align:middle}
+.sayb small{font-size:11px}.sayb:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(42,90,216,.3)}
+.q .en{font-family:'M PLUS Rounded 1c','Zen Maru Gothic',system-ui,sans-serif;font-weight:800;color:#1a3a9a;letter-spacing:.01em}
+.q b.en.say{display:block;font-size:clamp(17px,5vw,22px)}
+.q b.en.sent{display:block;font-size:clamp(14px,4.2vw,18px);line-height:1.45;text-align:left;max-width:100%}
+.q b.en.sent u{text-decoration:none;color:#e0467a;white-space:nowrap}
+.q b.en.big{font-size:clamp(24px,7vw,34px);letter-spacing:.12em}
+.q .qpic.em{display:grid;place-items:center;font-size:min(58px,9dvh);line-height:1;width:auto;height:auto}
+.q .qtx.mq{font:900 clamp(17px,4.8vw,22px)/1.45 var(--body);color:var(--ink)}
+.q .qtx.mq sup{font-size:.6em}
+.chs.big .chb{justify-content:flex-start}.chs.big .chb span{font-size:clamp(26px,7.4vw,34px);line-height:1.1;font-family:'M PLUS Rounded 1c',system-ui,sans-serif}
+.chb span{overflow-wrap:anywhere}
+.gq .chs{margin-top:2px}
+.mame.eng b{color:#2a5ad8}
+.kensample{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.6);border-radius:12px;padding:6px 10px;min-height:34px}
+.kensample small{font:900 11px var(--body);color:#fff;background:var(--pc,#2a8a5a);border-radius:99px;padding:1px 8px;flex:none}
+.kensample .ks{font:800 13px/1.4 var(--body);color:var(--ink);min-width:0}.kensample .ks .qtx{font-size:13px}.kensample .ks .qpic{display:inline-block;width:auto;height:auto;font-size:22px;vertical-align:middle}
+.kensample .ks .fr{font-size:.9em}
+.kcert{position:relative;margin:4px auto 2px;padding:12px 16px 10px;max-width:300px;border-radius:12px;background:linear-gradient(160deg,#fffdf2,#fff3d0);border:3px double var(--kc,#e0a800);box-shadow:0 0 0 3px #fffdf2,0 0 0 5px var(--kc,#e0a800),0 6px 18px rgba(0,0,0,.25);text-align:center;animation:kcIn .7s cubic-bezier(.2,1.6,.4,1) both}
+.kcert small{display:block;font:900 11px var(--body);color:var(--kc);letter-spacing:.1em}
+.kcert b{display:block;font:400 clamp(24px,7vw,32px)/1.2 'Dela Gothic One',var(--display);color:#3b2c1c;letter-spacing:.06em}
+.kcert span{font:800 11.5px var(--body);color:#6a5a40}
+.kcert i{position:absolute;right:-10px;top:-14px;font-style:normal;font-size:34px;transform:rotate(14deg);filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
+@keyframes kcIn{from{opacity:0;transform:scale(.6) rotate(-6deg)}}
+.ksub{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.ksub small{font:800 11px var(--body);color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.kcert{animation:none}}
+
+#gachaOv .gbox:has(#gchs:not([hidden])) .gstreak{display:none}
+#gachaOv .gbox:has(#gchs:not([hidden])) .gstage{flex-basis:110px;max-height:130px}
+#gachaOv .gbox:has(#gchs:not([hidden])) .gmsg{min-height:0;font-size:13px}
+#gachaOv .gq .chs .chb{min-height:44px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -1375,7 +1412,7 @@ body.mppinch #mpVig{opacity:1;animation:vigP 1.6s ease-in-out infinite}
 <div id="packScr" hidden>
   <div class="mhead"><div style="min-width:0"><small id="pkSub"></small><h1 id="pkName"></h1></div><div class="sp"><button class="ib" id="pkHub" aria-label="せかいの メニュー">🌐</button><button class="ib" id="pkDex" aria-label="ずかん">📖</button><button class="ib" id="pkIsl" aria-label="島マップに もどる">🏝</button></div></div>
   <div class="tabs pktabs" id="pktabs"></div>
-  <div class="pkrow"><select id="pkCalc" aria-label="バトルに でる 計算の 学年"></select><small>計算と いきもの クイズで たたかうよ</small></div>
+  <div class="pkrow"><select id="pkCalc" aria-label="バトルに でる 計算の 学年"></select><small id="pkNote">計算と いきもの クイズで たたかうよ</small></div>
   <div class="mapwrap" id="pkmap"></div>
   <div class="sheet pksheet" id="pksheet"></div>
 </div>
@@ -1387,11 +1424,11 @@ body.mppinch #mpVig{opacity:1;animation:vigP 1.6s ease-in-out infinite}
   <div class="sky" aria-hidden="true"><i class="sun"></i><i class="cl c1"></i><i class="cl c2"></i><i class="cl c3"></i></div>
   <div class="homewrap">
     <section class="hero">
-      <h1 class="logo2" aria-label="けいさんラッシュ">
-        <span class="lr r1"><b style="--i:0;--r:-4deg">け</b><b style="--i:1;--r:3deg">い</b><b style="--i:2;--r:-2deg">さ</b><b style="--i:3;--r:5deg">ん</b></span>
+      <h1 class="logo2" aria-label="まなびラッシュ">
+        <span class="lr r1"><b style="--i:0;--r:-4deg">ま</b><b style="--i:1;--r:3deg">な</b><b style="--i:2;--r:-2deg">び</b></span>
         <span class="lr r2"><b style="--i:4;--r:-6deg;--c:#ff7a59">ラ<i>1</i></b><b style="--i:5;--r:4deg;--c:#ffb21e">ッ<i>2</i></b><b style="--i:6;--r:-3deg;--c:#3fb86a">シ<i>3</i></b><b style="--i:7;--r:6deg;--c:#2f9fd8">ュ<i>4</i></b></span>
       </h1>
-      <p class="plank">小1 → 小6　計算そうふくしゅう RPG</p>
+      <p class="plank">小1 → 中3　さんすう・えいご RPG</p>
       <div class="diorama" id="dex"></div>
     </section>
     <section class="journal" aria-labelledby="jh">
@@ -1428,7 +1465,7 @@ body.mppinch #mpVig{opacity:1;animation:vigP 1.6s ease-in-out infinite}
     <div class="gcap" id="gcap" hidden><span class="top"></span><span class="bot"></span></div><div class="greveal" id="greveal" hidden></div></div>
   <div class="gstreak" id="gstreak"></div>
   <div class="gmsg" id="gmsg" role="status" aria-live="polite"></div>
-  <div class="card gq" id="gq" hidden><div class="q" id="gqq"></div><div class="ans" id="gans"></div><div class="tzone" id="gtz"><span id="gtl"></span><div class="tbar"><i id="gtf"></i></div></div></div>
+  <div class="card gq" id="gq" hidden><div class="q" id="gqq"></div><div class="ans" id="gans"></div><div class="chs" id="gchs" hidden></div><div class="tzone" id="gtz"><span id="gtl"></span><div class="tbar"><i id="gtf"></i></div></div></div>
   <button class="btn" id="gPull">ガチャを まわす！</button>
   <div class="pad gpad" id="gpad" hidden>
     <button class="k" data-k="7">7</button><button class="k" data-k="8">8</button><button class="k" data-k="9">9</button><button class="k del" data-k="B" aria-label="けす">けす</button>
@@ -2342,7 +2379,7 @@ const MEM=new Map();
 const rawGet=k=>{try{const v=canSave?localStorage.getItem(k):MEM.get(k);return v==null?null:JSON.parse(v)}catch(e){return null}};
 const rawSet=(k,v)=>{const j=JSON.stringify(v);if(canSave){try{localStorage.setItem(k,j)}catch(e){}}else MEM.set(k,j)};
 const rawDel=k=>{if(canSave){try{localStorage.removeItem(k)}catch(e){}}else MEM.delete(k)};
-const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR'];
+const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR','kr_subj'];
 let SAVES=rawGet(SK),CUR=0;
 if(!Array.isArray(SAVES)||SAVES.length!==5){SAVES=[null,null,null,null,null];
   if(SLOTKEYS.some(k=>rawGet(k)!=null)){SLOTKEYS.forEach(k=>{const v=rawGet(k);if(v!=null)rawSet('kr_s0_'+k,v)});SAVES[0]={name:'ぼうけんしゃ',at:Date.now()}}rawSet(SK,SAVES)}
@@ -2890,7 +2927,7 @@ function dexDetail(m){const d=$('dexDetail');
    <h3 style="color:${has?RARC[m.rar]:'var(--muted)'}">${has?m.name:'？？？'}</h3><div class="stars" style="color:${RARC[m.rar]}">${starStr(m.rar)}</div>
    <p>${has?`<span style="color:${m.c}">【${m.type}${m.ins||m.ser?'':'タイプ'}】</span> ${elTag(elOfMon(m))}${m.desc}${m.ins||m.ser?`<br>大きさ：${m.size} ・ ${m.ser?'すみか':'分布'}：${m.region}`:''}<br>ゲット ${dex[m.no]}かい ・ ストック ${stockOf(m.no).length}体`+(m.fam!=null?`<span class="evo">${MONS.filter(x=>x.fam===m.fam).map(x=>`<span class="${dex[x.no]?'':'lock'}">${esvg(x,'normal',true)}</span>`).join('<i>▶</i>')}</span>`:''):(m.sp?`まだゲットしていない…。コンボ中に まれに出現する！${m.av?'（アバター・シリーズ）':''}`:m.ser?`まだゲットしていない…。${PACK[m.pk].i} ${PACK[m.pk].n}「${PACK[m.pk].regions[m.ri][0]}」で 出てくるよ。`:'まだゲットしていない…。'+GRADES[m.gi].n+'年生の問題で出てくるよ。')}</p>${has&&stockOf(m.no).length?`<button class="viewbtn" data-view="${m.no}">360°で見る・そうび ▶</button>`:''}</div>`}
 let dexSer='ins';
-const SERS=()=>[['ins','🐞','昆虫'],...PACKS.filter(p=>!p.hidden||uraOpen()||MONS.some(m=>m.pk===p.id&&dex[m.no])).map(p=>[p.id,p.i,p.n.replace(/編$/,'')])];
+const SERS=()=>[['ins','🐞','昆虫'],...PACKS.filter(p=>!p.ken&&(!p.hidden||uraOpen()||MONS.some(m=>m.pk===p.id&&dex[m.no]))).map(p=>[p.id,p.i,p.n.replace(/編$/,'')])];
 const serPool=k=>k==='ins'?MONS.filter(m=>!m.ser&&!m.sp):MONS.filter(m=>m.pk===k);
 function drawDexUI(){const vis=SERS();if(!vis.some(v=>v[0]===dexSer))dexSer='ins';$('dexTitle').textContent=dexSer==='ins'?'こんちゅう ずかん':`${PACK[dexSer].n.replace(/編$/,'')}の ずかん`;const base=serPool(dexSer),n=base.filter(m=>dex[m.no]).length;
   $('dexCnt').innerHTML=`ゲット <b>${n}</b> / ${base.length} ・ 💎 ${pts.toLocaleString()}`;$('dexMeter').style.width=(n/Math.max(1,base.length)*100)+'%';
@@ -3072,14 +3109,14 @@ function chooseCmd(m){return new Promise(res=>{S.phase='cmd';S.active=m;drawPart
   S.cmdRes=k=>{const o=opts.find(x=>x[0]===k);if(!o||cant(o[0],o[3]))return;S.cmdRes=null;tone(1046,0,.06,'square',.04);res(k)};
   setTimeout(()=>{const b=c.querySelector('.cmd:not([disabled])');if(b&&document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#cmds,body'))b.focus({preventScroll:true})},30)})}
 $('cmds').addEventListener('click',e=>{const b=e.target.closest('.cmd');if(b&&!b.disabled&&S&&S.cmdRes)S.cmdRes(b.dataset.k)});
-function ask(m,k){return new Promise(res=>{const g=CTX(),u=g.world?g.units[0]:S.boss?pick(g.units):g.units[S.ui];S.q=u[1]();S.input='';S.lock=false;S.phase='q';S.qres=res;
+function ask(m,k){return new Promise(res=>{const g=CTX(),u=g.world?g.units[0]:S.boss?pick(g.units):g.units[S.ui];S.q=S.ctx?u[1]():islandQ(S.gi,u);S.input='';S.lock=false;S.phase='q';S.qres=res;
   $('cmds').hidden=true;$('qwrap').hidden=false;$('card').className='card';
   const q=$('q');q.innerHTML=S.q.html+(S.q.ne?'':' <span>=</span>');q.className='q'+(S.q.ne?' long':'');void q.offsetWidth;q.classList.add('qin');
-  const isC=!!S.q.ch;$('ans').hidden=isC;$('pad').hidden=isC;$('chs').hidden=!isC;if(isC){q.className='q chq qin';$('chs').innerHTML=S.q.ch.map((c,i)=>`<button class="chb" data-i="${i}"><i>${i+1}</i><span>${esc(c)}</span></button>`).join('');popAll($('chs').children,{stagger:50,rot:-.15,T:.75})}
+  const isC=!!S.q.ch;$('ans').hidden=isC;$('pad').hidden=isC;$('chs').hidden=!isC;$('chs').className='chs'+(S.q.big?' big':'');if(isC){q.className='q chq qin';$('chs').innerHTML=S.q.ch.map((c,i)=>`<button class="chb" data-i="${i}"><i>${i+1}</i><span>${esc(c)}</span></button>`).join('');popAll($('chs').children,{stagger:50,rot:-.15,T:.75})}
   const lbl={atk:'こうげき',sp:'ひっさつ',sk:m.ch.skill.name,def:'ぼうぎょ',sm:'しょうかん',mus:'えんそう'}[k];
   $('hint').innerHTML=(S.q.hint?S.q.hint+'<br>':'')+`正解で <b style="color:${tcol(m.ch.c)}">${m.ch.name}の ${lbl}</b> が決まる！`+(S.q.a.includes('/')?' <small>（OKで けってい）</small>':'');
-  setMsg(`${m.ch.name}の ${lbl}！ はやく 正解するほど つよくなる！`);drawAns();mpFocus(true);mpFilm(!!(S.q.hint&&/れきし/.test(S.q.hint)));
-  S.thr=S.q.ch?4.5:2.5+.6*S.q.a.length+(S.q.ne?3:0)+(S.q.a.includes('/')?2:0);S.t0=performance.now();
+  setMsg(`${m.ch.name}の ${lbl}！ はやく 正解するほど つよくなる！`);drawAns();mpFocus(true);if(S.q.say)setTimeout(()=>sayEn(S.q.say),380);mpFilm(!!(S.q.hint&&/れきし/.test(S.q.hint)));
+  S.thr=S.q.thr||(S.q.ch?4.5:2.5+.6*S.q.a.length+(S.q.ne?3:0)+(S.q.a.includes('/')?2:0));S.t0=performance.now();
   const tz=$('tzone'),tf=$('tfill');tz.className='tzone';$('tlbl').textContent='⚡ クリティカル チャンス';tf.style.transition='none';tf.style.width='100%';void tf.offsetWidth;tf.style.transition=`width ${S.thr*2}s linear`;tf.style.width='0%';
   clearTimeout(S.tT1);clearTimeout(S.tT2);S.tT1=setTimeout(()=>{if(S.phase==='q'){tz.classList.add('mid');$('tlbl').textContent='はやい！ ボーナス'}},S.thr*1000);
   S.tT2=setTimeout(()=>{if(S.phase==='q'){tz.classList.add('slow');$('tlbl').textContent='じっくり とこう'}},S.thr*2000)})}
@@ -3184,7 +3221,7 @@ const CTX=()=>S.ctx||GRADES[S.gi];
 function setGradeColor(){document.documentElement.style.setProperty('--g',CTX().c);$('retreat').textContent='◀ マップ'}
 function buildBar(){bar.innerHTML='';bar.style.gridTemplateColumns=`repeat(${S.nb},1fr)`;for(let i=0;i<S.nb;i++){const d=document.createElement('div');d.className='seg';d.innerHTML=`<i style="background:${CTX().c}"></i>`;bar.appendChild(d)}}
 function drawBar(){[...bar.children].forEach((d,i)=>{d.firstChild.style.width=(i<S.bi?100:0)+'%'})}
-function drawTop(){const g=CTX();$('gname').textContent=g.world?(S.boss?g.tag+' ボス':g.tag):S.boss?`${g.n}年 ボス`:`${g.n}-${S.unit+1}`;$('uname').textContent=g.world?(S.boss?'':g.units[0][0]):S.boss?g.isl:g.units[S.unit][0];
+function drawTop(){const g=CTX();$('gname').textContent=g.world?(S.boss?g.tag+(g.ken?' しけん':' ボス'):g.tag):S.boss?`${g.n}年 ボス`:`${g.n}-${S.unit+1}`;$('uname').textContent=g.world?(S.boss?'':g.units[0][0]):S.boss?g.isl:g.units[S.unit][0];if(!g.world&&subj()!=='math')$('uname').textContent=subj()==='eng'?`🔤 えいご（${ELV[ELVG[S.gi]].n}）`:`${$('uname').textContent} ＋ 🔤えいご`;
   $('qnum').textContent=`バトル ${Math.min(S.bi+1,S.nb)} / ${S.nb}`;drawBar()}
 function hud(){const sc=$('score');sc.textContent=S.score.toLocaleString();const c=$('combo');c.textContent=S.combo;c.classList.toggle('hot',S.combo>=5);c.classList.toggle('rainbow',S.combo>=20);
   document.body.classList.toggle('fever',S.combo>=10);
@@ -3199,7 +3236,7 @@ function judge(){if(!S||S.phase!=='q'||S.lock)return;setTimeout(()=>{mpFocus(fal
   S.lock=true;let ok=isC?S.input===S.q.a:same(u,parse(S.q.a));if(ok&&S.q.strict){const pp=S.input.split('/');ok=pp.length===2&&gcd(+pp[0],+pp[1])===1}S.tot++;S.gtot++;
   const rc=$('card').getBoundingClientRect(),X=rc.left+rc.width/2,Y=rc.top+rc.height/2,tsec=(performance.now()-(S.t0||0))/1000;
   clearTimeout(S.tT1);clearTimeout(S.tT2);const tf=$('tfill');tf.style.width=getComputedStyle(tf).width;tf.style.transition='none';
-  S.spd=ok?(tsec<=S.thr?2:tsec<=S.thr*2?1:0):0;if(S.q.ex)mame(S.q.ex,ok);
+  S.spd=ok?(tsec<=S.thr?2:tsec<=S.thr*2?1:0):0;if(S.q.ex)mame(S.q.ex,ok,S.q.exh);if(S.q.sayA)setTimeout(()=>sayEn(S.q.sayA),300);
   if(isC)[...$('chs').children].forEach(b=>{const c=S.q.ch[+b.dataset.i];b.disabled=true;if(c===S.q.a)b.classList.add('ok');else if(c===S.input)b.classList.add('ng')});
   if(ok){S.ok++;S.gok++;S.combo++;S.max=Math.max(S.max,S.combo);const g0=S.gauge;S.gauge=Math.min(3,S.gauge+1);
     if(S.spd===2){pop(`⚡クリティカル！ ${tsec.toFixed(1)}びょう`,X,rc.bottom-44,'#e0467a',22);tone(1760,.05,.12,'square',.05)}else if(S.spd===1)pop(`はやい！ ${tsec.toFixed(1)}びょう`,X,rc.bottom-44,'#2f9e3f',19);
@@ -3392,13 +3429,13 @@ function drawMap(){const gi=MAP.gi,g=GRADES[gi];$('mSub').textContent=`${slotNam
 let mapRT=0;addEventListener('resize',()=>{clearTimeout(mapRT);mapRT=setTimeout(()=>{if(!$('mapScr').hidden)drawMap()},180)});
 function drawSheet(){const gi=MAP.gi,g=GRADES[gi],sel=MAP.sel,el=$('sheet');
   const pm=`<div class="pmini" aria-label="いまの パーティ">${partyIcons()}</div><button class="pill" id="toParty">👥 パーティ</button>`;
-  if(sel===null){el.innerHTML=`<div class="stt"><b>ステージを えらんでね</b><small>島の ${g.units.length}こ の たんげんを 4つ クリアすると ボスに ちょうせん できるよ。</small></div><div class="srow">${pm}</div>`;return}
+  if(sel===null){el.innerHTML=`<div class="stt"><b>ステージを えらんでね</b><small>島の ${g.units.length}こ の たんげんを 4つ クリアすると ボスに ちょうせん できるよ。</small></div><div class="srow">${pm}</div><div class="ksub">${subjSeg()}</div>`;return}
   const boss=sel===-1,st=stSave[skey(gi,sel)],rec=1+3*gi+(boss?2:0),locked=boss&&!bossOpen(gi);
-  let sample='';try{const q=(boss?pick(g.units):g.units[sel])[1]();sample=q.html+(q.ne?'':' ＝ ?')}catch(e){}
+  let sample='';try{const q=(boss?pick(g.units):g.units[sel])[1]();sample=q.html+(q.ne?'':' ＝ ?')}catch(e){}if(subj()==='eng')sample='🔤 えいご（'+ELV[ELVG[gi]].n+' レベル）';else if(subj()==='mix')sample+=' ／ 🔤 えいご';
   el.innerHTML=`<div class="srow"><span class="snum" style="background:${g.c}">${boss?'BOSS':g.n+'-'+(sel+1)}</span><div class="stt"><b>${boss?'ボス：'+bossMon(gi).name:g.units[sel][0]}</b>
     <small>${boss?`${elTag(elOfMon(bossMon(gi)))} ${strongVs(elOfMon(bossMon(gi))).map(x=>EL6[x].i+EL6[x].n).join('・')} が ばつぐん！ たんげんは ぜんぶ まざって 出るよ`:'れい：<span class="sq">'+sample+'</span>'}</small></div></div>
    <div class="srow"><span class="stars3">${st?'★'.repeat(st.stars)+'<i>'+'★'.repeat(3-st.stars)+'</i>':'<i>★★★</i>'}</span><small class="rec">おすすめ Lv ${rec} ・ パーティ Lv ${avgLvParty()}</small></div>
-   <div class="srow">${pm}<span class="gowrap">${leftTag()}<button class="btn go" id="goBtn" ${locked?'disabled':''}>${locked?`あと ${4-clearedN(gi)}つ クリア`:'しゅっぱつ！'}</button></span></div>`}
+   <div class="ksub">${subjSeg()}</div><div class="srow">${pm}<span class="gowrap">${leftTag()}<button class="btn go" id="goBtn" ${locked?'disabled':''}>${locked?`あと ${4-clearedN(gi)}つ クリア`:'しゅっぱつ！'}</button></span></div>`}
 $('itabs').addEventListener('click',e=>{const b=e.target.closest('.itab');if(!b)return;if(b.dataset.j){openHub();return}MAP.gi=+b.dataset.i;MAP.sel=null;store.set('kr_isl',MAP.gi);tone(880,0,.06,'triangle',.05);drawMap()});
 function pickNode(n){MAP.sel=+n.dataset.ui;ensureAudio();tone(1046,0,.07,'triangle',.06);drawMap();const f=$('mapwrap').querySelector(`.node[data-ui="${MAP.sel}"]`);if(f)f.focus({preventScroll:true})}
 $('mapwrap').addEventListener('click',e=>{const il=e.target.closest('.islet');if(il){MAP.gi=+il.dataset.isl;MAP.sel=null;store.set('kr_isl',MAP.gi);tone(880,0,.06,'triangle',.05);drawMap();return}if(e.target.closest('.fhut')){openForge();return}if(e.target.closest('.chut')){openChurch();return}if(e.target.closest('.ghut')){openGacha(MAP.gi);return}const n=e.target.closest('.node');if(n)pickNode(n)});
@@ -3473,15 +3510,16 @@ function gachaMachine(){const R=srand(77);let caps='';for(let i=0;i<16;i++){cons
    <ellipse cx="74" cy="44" rx="18" ry="9" fill="#fff" opacity=".75" transform="rotate(-25 74 44)"/>
    <g class="knob"><circle cx="82" cy="182" r="19" fill="#ffc93c" stroke="#8f5f35" stroke-width="3.5"/><rect x="78" y="166" width="8" height="32" rx="4" fill="#fffdf5" stroke="#8f5f35" stroke-width="2"/></g>
    <rect x="116" y="170" width="34" height="26" rx="8" fill="#5a4128"/><rect x="120" y="174" width="26" height="14" rx="5" fill="#2e2114"/>`}
-function gFill(){const gs=$('gGrade'),us=$('gUnit');gs.innerHTML=GRADES.map((g,i)=>`<option value="${i}" ${i===G.gi?'selected':''}>${g.n}年</option>`).join('');
-  us.innerHTML=`<option value="-1">🎲 ${GRADES[G.gi].isl}の たんげん ぜんぶ</option>`+GRADES[G.gi].units.map((u,i)=>`<option value="${i}" ${i===G.unit?'selected':''}>${i+1}. ${u[0]}</option>`).join('')}
+function gFill(){const gs=$('gGrade'),us=$('gUnit');gs.innerHTML=[0,1,2,3,4,5,6,7,8].map(i=>`<option value="${i}" ${i===G.gi?'selected':''}>${gName(i)}</option>`).join('');
+  const o=(v,t)=>`<option value="${v}" ${G.unit===v?'selected':''}>${t}</option>`;
+  us.innerHTML=o(-1,`🎲 ${gName(G.gi)}の さんすう ぜんぶ`)+o(-2,`🔤 えいご（${ELV[ELVG[G.gi]].n}）`)+o(-3,'🔀 さんすう ＋ えいご')+unitsOf(G.gi).map((u,i)=>o(i,`${i+1}. ${u[0]}`)).join('')}
 function gStat(){const left=5-(G.streak%5);$('gcnt').textContent=`まわした ${G.pulls} ・ ゲット ${G.gets}`;
   $('gstreak').innerHTML=`れんぞく正解 <b>${G.streak}</b> ・ ${G.streak>0&&G.streak%5===0?'<b class="eff">つぎは ボーナスカプセル（★3以上）！</b>':`あと ${left}回 正解で ボーナスカプセル`}`}
-function openGacha(gi){G.gi=gi;G.unit=-1;G.phase='idle';gFill();gStat();$('gmach').innerHTML=gachaMachine();$('gmach').classList.remove('spin');
+function openGacha(gi){G.gi=gi;G.unit={math:-1,eng:-2,mix:-3}[subj()];G.phase='idle';gFill();gStat();$('gmach').innerHTML=gachaMachine();$('gmach').classList.remove('spin');
   $('gstage').className='gstage';$('gcap').hidden=true;$('greveal').hidden=true;$('gq').hidden=true;$('gpad').hidden=true;
   $('gPull').hidden=false;$('gPull').textContent='ガチャを まわす！';$('gmsg').innerHTML='ガチャを まわして、出てきた 問題に 正解すると 昆虫ゲット！<br><small>はやく とくと レア度が アップする かも！（💎は つかわないよ）</small>';
   $('gachaOv').hidden=false;setTimeout(()=>$('gPull').focus(),30)}
-$('gGrade').onchange=e=>{G.gi=+e.target.value;G.unit=-1;gFill()};
+$('gGrade').onchange=e=>{G.gi=+e.target.value;G.unit=G.unit<0?G.unit:-1;gFill()};
 $('gUnit').onchange=e=>{G.unit=+e.target.value};
 $('gClose').onclick=()=>{G.phase='idle';$('gachaOv').hidden=true;if(!$('mapScr').hidden)drawMap()};
 function gRoll(){const w=[45,30,16,7,2];let x=Math.random()*100,rr=1;for(let i=0;i<5;i++){if(x<w[i]){rr=i+1;break}x-=w[i]}
@@ -3495,30 +3533,35 @@ function gPull(){if(G.phase!=='idle'&&G.phase!=='done')return;ensureAudio();G.ph
     $('gmsg').innerHTML=G.rar>=4?'<b class="eff">キラキラの カプセルだ！</b> 正解して あけよう！':'カプセルが でてきた！ 正解して あけよう！';
     if(G.rar>=4){flash(CAPC[G.rar]);const s=center($('gstage'));burst(s.x,s.y,20)}
     setTimeout(()=>{c.classList.add('wait');gAsk()},650)},950)}
-function gAsk(){const g=GRADES[G.gi],u=G.unit<0?pick(g.units):g.units[G.unit];G.q=u[1]();G.input='';G.lock=false;G.phase='q';
-  const q=$('gqq');q.innerHTML=G.q.html+(G.q.ne?'':' <span>=</span>');q.className='q'+(G.q.ne?' long':'');$('gq').className='card gq';$('gq').hidden=false;$('gpad').hidden=false;gAns();
+function gAsk(){const us=unitsOf(G.gi),eng=G.unit===-2||(G.unit===-3&&Math.random()<.5);G.q=eng?engQ(ELVG[G.gi]):(G.unit<0?pick(us):us[G.unit]||pick(us))[1]();G.input='';G.lock=false;G.phase='q';
+  const q=$('gqq');q.innerHTML=G.q.html+(G.q.ne?'':' <span>=</span>');q.className='q'+(G.q.ne?' long':'');$('gq').className='card gq';$('gq').hidden=false;
+  const isC=!!G.q.ch,gc=$('gchs');$('gpad').hidden=isC;$('gans').hidden=isC;gc.hidden=!isC;gc.className='chs'+(G.q.big?' big':'');
+  if(isC){q.className='q chq';gc.innerHTML=G.q.ch.map((c,i)=>`<button class="chb" data-i="${i}"><i>${i+1}</i><span>${esc(c)}</span></button>`).join('');popAll(gc.children,{stagger:45,rot:-.15,T:.7})}
+  gAns();if(G.q.say)setTimeout(()=>sayEn(G.q.say),380);
   if(G.q.hint||G.q.a.includes('/'))$('gmsg').innerHTML=(G.q.hint||'')+(G.q.a.includes('/')?' （OKで けってい）':'');
-  G.thr=2.5+.6*G.q.a.length+(G.q.ne?3:0)+(G.q.a.includes('/')?2:0);G.t0=performance.now();
+  G.thr=G.q.thr||(G.q.ch?4.5:2.5+.6*G.q.a.length+(G.q.ne?3:0)+(G.q.a.includes('/')?2:0));G.t0=performance.now();
   const tz=$('gtz'),tf=$('gtf');tz.className='tzone';$('gtl').textContent='⚡ はやく とくと ランクアップ チャンス';tf.style.transition='none';tf.style.width='100%';void tf.offsetWidth;tf.style.transition=`width ${G.thr}s linear`;tf.style.width='0%';
   clearTimeout(G.tT);G.tT=setTimeout(()=>{if(G.phase==='q'){tz.classList.add('slow');$('gtl').textContent='じっくり とこう'}},G.thr*1000)}
 function gAns(){const a=$('gans');a.className='ans';a.innerHTML=(G.input||'')+'<span class="caret"></span>'}
-function gPress(k){if(G.phase!=='q'||G.lock){if(k==='E'&&(G.phase==='idle'||G.phase==='done'))gPull();return}ensureAudio();
+function gPress(k){if(G.phase!=='q'||G.lock){if(k==='E'&&(G.phase==='idle'||G.phase==='done'))gPull();return}ensureAudio();if(G.q&&G.q.ch){if(/^[1-4]$/.test(k))gPick(+k-1);return}
   if(k==='B'){G.input=G.input.slice(0,-1);gAns();return}if(k==='E'){gJudge();return}if(G.input.length>=8)return;
   if(k==='.'&&(G.input.includes('.')||G.input.includes('/')))return;if(k==='/'&&(G.input.includes('/')||G.input.includes('.')||!G.input))return;
   G.input+=k;sKey();gAns();if(!G.q.a.includes('/')&&G.input.length>=G.q.a.length&&!G.input.endsWith('.'))gJudge()}
-function gJudge(){const u=parse(G.input);if(!u){const b=$('gq');b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return}
-  G.lock=true;let ok=same(u,parse(G.q.a));if(ok&&G.q.strict){const pp=G.input.split('/');ok=pp.length===2&&gcd(+pp[0],+pp[1])===1}
+function gPick(i){if(G.phase!=='q'||G.lock||!G.q||!G.q.ch)return;const c=G.q.ch[i];if(c==null)return;G.input=c;gJudge()}
+$('gchs').addEventListener('click',e=>{const b=e.target.closest('.chb');if(b)gPick(+b.dataset.i)});
+function gJudge(){const isC=!!(G.q&&G.q.ch);const u=isC?[1,1]:parse(G.input);if(!u){const b=$('gq');b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return}
+  G.lock=true;let ok=isC?G.input===G.q.a:same(u,parse(G.q.a));if(ok&&G.q.strict){const pp=G.input.split('/');ok=pp.length===2&&gcd(+pp[0],+pp[1])===1}
   const t=(performance.now()-G.t0)/1000,fast=ok&&t<=G.thr;clearTimeout(G.tT);const tf=$('gtf');tf.style.width=getComputedStyle(tf).width;tf.style.transition='none';
-  const c=$('gcap');c.classList.remove('wait');$('gpad').hidden=true;
-  if(ok){G.streak++;sOK(G.streak);mpBurstEl($('gans'),{s:.8});$('gq').className='card gq ok';$('gans').className='ans ok';
+  const c=$('gcap');c.classList.remove('wait');$('gpad').hidden=true;if(isC)[...$('gchs').children].forEach(b=>{const v=G.q.ch[+b.dataset.i];b.disabled=true;if(v===G.q.a)b.classList.add('ok');else if(v===G.input)b.classList.add('ng')});if(G.q.sayA)setTimeout(()=>sayEn(G.q.sayA),300);if(G.q.ex)mame(G.q.ex,ok,G.q.exh);
+  if(ok){G.streak++;sOK(G.streak);mpBurstEl(isC?($('gchs').querySelector('.chb.ok')||$('gq')):$('gans'),{s:.8});$('gq').className='card gq ok';$('gans').className='ans ok';
     let up=false;if(fast&&G.rar<5&&Math.random()<.5){G.rar++;up=true;c.style.setProperty('--capc',CAPC[G.rar]);if(G.rar===5)c.classList.add('r5')}
     $('gmsg').innerHTML=fast?`<b class="crit">⚡ ${t.toFixed(1)}びょう！</b>${up?' <b class="eff">スピードボーナス！ ランクアップ！</b>':''}`:`せいかい！ ${t.toFixed(1)}びょう`;
     setTimeout(()=>{c.classList.add('open');tone(1046,0,.1,'triangle',.09);const s=center($('gstage'));burst(s.x,s.y,30);setTimeout(gReveal,420)},up?900:500)}
   else{G.streak=0;sNG();$('gq').className='card gq ng';const a=$('gans');a.className='ans ng';a.innerHTML=`こたえ <b style="color:var(--lime)">${G.q.a}</b>`;
     c.classList.add('flee');$('gmsg').innerHTML='ざんねん… カプセルが ころがって にげちゃった！';gStat();
     setTimeout(()=>{c.hidden=true;$('gstage').classList.remove('hasCap');gDone()},900)}}
-function gReveal(){const pool=MONS.filter(m=>m.ins&&m.gi===G.gi&&m.rar===G.rar),fresh=pool.filter(m=>!dex[m.no]);
-  const mon=(fresh.length&&Math.random()<.6?pick(fresh):pick(pool))||pick(MONS.filter(m=>m.ins&&m.gi===G.gi));const isNew=!dex[mon.no];
+function gReveal(){const pool=MONS.filter(m=>m.ins&&m.gi===Math.min(5,G.gi)&&m.rar===G.rar),fresh=pool.filter(m=>!dex[m.no]);
+  const mon=(fresh.length&&Math.random()<.6?pick(fresh):pick(pool))||pick(MONS.filter(m=>m.ins&&m.gi===Math.min(5,G.gi)));const isNew=!dex[mon.no];
   dex[mon.no]=(dex[mon.no]||0)+1;store.set('kr_dex3',dex);const lv=1+2*G.gi;box.push({u:uid(),no:mon.no,eq:{},lv});if(box.length>3000)box.shift();saveBox();dexBtn();G.gets++;
   $('gcap').hidden=true;$('gstage').className='gstage hasRev';const u=R3T?thumbOf('m',mon):null,el=elOfMon(mon);
   const r=$('greveal');r.innerHTML=`<span class="ic">${u?imgSvg(u,mon.name):esvg(mon)}</span>${isNew?'<span class="nw">NEW！</span>':''}<b>${mon.name}</b>
@@ -4293,7 +4336,7 @@ const regLv=(pk,ri)=>({sea:4,land:8,sky:12,asia:18,eu:24,ura:40,oki:6}[pk]||4)+r
 // ----- quiz questions inside battles -----
 function chQ(html,a,pool,keep){const d=[...new Set(keep?pool:shuf(pool))].filter(x=>x!==a).slice(0,3);return{html,a,ch:shuf([a,...d]),ne:1}}
 function packQ(pk,ri){if(pk==='oki'&&Math.random()<.6)return okiQ(ri);const P=PACK[pk],R=P.regions,all=pkMons(pk),here=regMons(pk,ri),t=Math.random();
-  if(t<.45){const g=GRADES[pk==='ura'?Math.min(5,calcGi()+2):calcGi()],u=pick(g.units);return u[1]()}
+  if(t<.45){if(useEng())return engQ(ELVG[pk==='ura'?Math.min(8,calcGi()+2):calcGi()]);const g=GRADES[pk==='ura'?Math.min(5,calcGi()+2):calcGi()],u=pick(g.units);return u[1]()}
   const kind=pick(pk==='asia'||pk==='eu'?['pic','pic','where','cap','city','cat']:['pic','pic','where','cat','where']);
   if(kind==='cap'){const cs=R.filter(r=>r[2]);const r=pick(cs);return chQ(`<span class="qtx"><b>${r[0]}</b>の 首都は どこ？</span>`,r[2],cs.map(x=>x[2]))}
   if(kind==='city'){const r=R[ri],c=pick(r[1]);return chQ(`<span class="qtx">「<b>${c}</b>」が ある ${P.lab}は？</span>`,r[0],R.map(x=>x[0]))}
@@ -4302,12 +4345,12 @@ function packQ(pk,ri){if(pk==='oki'&&Math.random()<.6)return okiQ(ri);const P=PA
     return chQ(`<span class="qpic">${insIcon(m)}</span><span class="qtx">この 生き物の なまえは？</span>`,m.name,pool,1)}
   if(kind==='where')return chQ(`<span class="qtx">「<b>${m.name}</b>」に 会えるのは どこ？</span>`,R[m.ri][0],R.map(x=>x[0]));
   const cats=[...new Set(MONS.filter(x=>x.ser&&x.type).map(x=>x.type))];return chQ(`<span class="qtx">「<b>${m.name}</b>」は なんの なかま？</span>`,m.type,cats)}
-function packCtx(pk,ri,si){const P=PACK[pk],R=P.regions[ri],pool=regMons(pk,ri),norm=pool.filter(m=>m.rar<5),bosses=pool.filter(m=>m.rar===5);
+function packCtx(pk,ri,si){if(KEN.has(pk))return kenCtx(pk,ri,si);const P=PACK[pk],R=P.regions[ri],pool=regMons(pk,ri),norm=pool.filter(m=>m.rar<5),bosses=pool.filter(m=>m.rar===5);
   const qg=()=>packQ(pk,ri);const lv=regLv(pk,ri);
   return{pk,ri,si,world:1,hard:pk==='ura',n:Math.max(1,Math.ceil(lv/6)),c:P.c,isl:R[0],tag:`${P.i} ${R[0]}`,units:[[R[1][Math.max(0,si)],qg]],pool:norm.length?norm:pool,boss:pick(bosses.length?bosses:pool),lvb:lv}}
 // ----- screens -----
 function goPack(pk){if(S){S.tok=-1}if(pk)PK.id=pk;['mapScr','japanScr','app'].forEach(i=>$(i).hidden=true);$('clear').hidden=true;$('title').hidden=true;$('packScr').hidden=false;document.body.classList.remove('fever');drawPack()}
-function pkMapSvg(){const P=PACK[PK.id];if(P.map==='oki')return okiMapSvg();
+function pkMapSvg(){const P=PACK[PK.id];if(P.map==='oki')return okiMapSvg();if(P.map==='kentei')return kenMapSvg(P);
   if(P.map==='jp'){const T=27,W=13*T,H=13*T,R=srand(9);let s=`<svg viewBox="-6 -6 ${W+12} ${H+12}" preserveAspectRatio="xMidYMid meet" role="group" aria-label="${P.n}の ちず">${P.id==='sky'?'<defs><radialGradient id="seaP" cx=".5" cy=".46" r=".75"><stop offset="0" stop-color="#e8f6ff"/><stop offset=".55" stop-color="#b8e0f8"/><stop offset="1" stop-color="#86c4ec"/></radialGradient></defs>':'<defs><radialGradient id="seaP" cx=".5" cy=".46" r=".75"><stop offset="0" stop-color="#7fdcec"/><stop offset=".55" stop-color="#46b4dc"/><stop offset="1" stop-color="#2385b8"/></radialGradient></defs>'}<rect x="-6" y="-6" width="${W+12}" height="${H+12}" fill="url(#seaP)"/>`;
     if(P.id==='sky')for(let i=0;i<9;i++){const x=R()*W,y=R()*H;s+=`<g opacity=".7" fill="#fff"><ellipse cx="${x}" cy="${y}" rx="${18+R()*14}" ry="8"/><ellipse cx="${x+10}" cy="${y-6}" rx="12" ry="8"/></g>`}
     else for(let i=0;i<24;i++){const x=R()*W,y=R()*H;s+=`<path d="M${x.toFixed(0)} ${y.toFixed(0)}q4 -3 8 0q4 3 8 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".4" stroke-linecap="round"/>`}
@@ -4336,9 +4379,9 @@ function pkMapSvg(){const P=PACK[PK.id];if(P.map==='oki')return okiMapSvg();
       <rect x="${-(r[0].length*5+10)}" y="22" width="${r[0].length*10+20}" height="17" rx="8.5" fill="rgba(59,44,28,.88)"/><text y="34.5" text-anchor="middle" font-size="10.5" font-weight="900" fill="#fff" font-family="Zen Maru Gothic,sans-serif">${r[0]}</text></g>`});
   return s+'</svg>'}
 function drawPack(){const P=PACK[PK.id];$('app').classList.remove('mpbw');document.body.classList.remove('mppinch','mpq');setAreaBGM(P.id==='oki'?'okimap':null);$('pkName').textContent=`${P.i} ${P.n}`;const got=pkGot(P.id),tot=pkMons(P.id).length;
-  $('pkSub').textContent=`${slotName()} ・ ずかん ${got}/${tot} ・ 💎${pts.toLocaleString()}`;
-  $('pktabs').innerHTML=pkList().map(p=>`<button class="tab" data-p="${p.id}" aria-pressed="${p.id===PK.id}" style="--pc:${p.c}">${worldOpen(p.id)?'':'🔒'}${p.i} ${p.n} <small>${pkGot(p.id)}/${pkMons(p.id).length}</small></button>`).join('');
-  $('pkCalc').innerHTML=GRADES.map((g,i)=>`<option value="${i}" ${i===calcGi()?'selected':''}>けいさん ${g.n}年</option>`).join('');
+  $('pkSub').textContent=P.ken?`${slotName()} ・ 🎖 ごうかく ${kenPassN(P.id)}/${P.regions.length} ・ 💎${pts.toLocaleString()}`:`${slotName()} ・ ずかん ${got}/${tot} ・ 💎${pts.toLocaleString()}`;
+  $('pktabs').innerHTML=pkList().map(p=>`<button class="tab" data-p="${p.id}" aria-pressed="${p.id===PK.id}" style="--pc:${p.c}">${worldOpen(p.id)?'':'🔒'}${p.i} ${p.n} <small>${p.ken?'🎖'+kenPassN(p.id):pkGot(p.id)+'/'+pkMons(p.id).length}</small></button>`).join('');
+  $('pkCalc').innerHTML=GRADES.map((g,i)=>`<option value="${i}" ${i===calcGi()?'selected':''}>けいさん ${g.n}年</option>`).join('');$('pkCalc').hidden=!!P.ken;$('pkNote').textContent=P.ken?(P.id==='eiken'?'英検の 形の もんだいで たたかうよ（🎧 音が でるよ）':'算数・数学検定の 形の もんだいで たたかうよ'):'計算と いきもの クイズで たたかうよ';
   document.documentElement.style.setProperty('--pc',P.c);$('packScr').dataset.p=P.id;
   $('pkmap').innerHTML=pkMapSvg();$('pkmap').classList.toggle('locked',!worldOpen(P.id));drawPkSheet()}
 function drawPkSheet(){const P=PACK[PK.id],el=$('pksheet'),ri=PK.sel;
@@ -4347,9 +4390,9 @@ function drawPkSheet(){const P=PACK[PK.id],el=$('pksheet'),ri=PK.sel;
      <small style="font-weight:800;color:var(--muted)">こんな いきものが まってる！</small>
      <div class="teaser">${top.map((m,i)=>`<span class="${i>1?'q':''}"><span class="ic">${insIcon(m)}</span>${i>1?'？？？':m.name}</span>`).join('')}</div>
      <button class="btn trial" id="pkTrial" ${used?'disabled':''}>${used?'おためしは また あした':'⚔ おためしバトル（1日1かい）'}</button>${leftTag()}</div>`;return}
-  if(ri!=null&&!islOpen(P.id,ri)){el.innerHTML=okiLockSheet(P,ri);return}
-  if(ri==null){el.innerHTML=`${P.id==='oki'?'<p class="okhost">🌺 <span>はいさい！ めんそーれ 沖縄へ〜！ 島の ボスを たおすと 船で つぎの 島へ わたれるよ。ちばりよー！</span></p>':''}<div class="stt"><b>${P.lab}を えらんでね</b><small>${P.desc}。ステージを はんぶん クリアすると その${P.lab}の ボスが あらわれるよ。</small></div>
-    <div class="srow"><div class="pmini" aria-label="いまの パーティ">${partyIcons()}</div><button class="pill" id="pkParty">👥 パーティ</button><button class="pill" id="pkChurch">⛪ きょうかい</button><button class="pill" id="pkForge">⚒ かじや</button></div>`;return}
+  if(ri!=null&&!islOpen(P.id,ri)){el.innerHTML=okiLockSheet(P,ri);return}if(P.ken&&ri!=null){el.innerHTML=kenSheet(P,ri);return}
+  if(ri==null){el.innerHTML=`${P.id==='oki'?'<p class="okhost">🌺 <span>はいさい！ めんそーれ 沖縄へ〜！ 島の ボスを たおすと 船で つぎの 島へ わたれるよ。ちばりよー！</span></p>':''}<div class="stt"><b>${P.lab}を えらんでね</b><small>${P.desc}。${P.ken?'ステージを 2つ クリアすると「ごうかく しけん」に ちょうせん できるよ。正解りつ 70%で ごうかく！':`ステージを はんぶん クリアすると その${P.lab}の ボスが あらわれるよ。`}</small></div>
+    <div class="srow"><div class="pmini" aria-label="いまの パーティ">${partyIcons()}</div><button class="pill" id="pkParty">👥 パーティ</button><button class="pill" id="pkChurch">⛪ きょうかい</button><button class="pill" id="pkForge">⚒ かじや</button></div>${P.ken?'':`<div class="ksub">${subjSeg()}<small>計算の もんだいを えいごに できるよ</small></div>`}`;return}
   const R=P.regions[ri],mons=regMons(P.id,ri),cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,lv=regLv(P.id,ri);
   el.innerHTML=`<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>${R[2]?'首都：'+R[2]+' ・ ':''}${P.id==='ura'?'<b class="hardt">むずかしさ ★★★★★</b> てきは Lv40いじょう':'おすすめ Lv '+lv} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
    <div class="pkst">${R[1].map((c,si)=>{const st=pkSave[pkey(P.id,ri,si)];return `<button class="pkstage ${st?'done':''}" data-s="${si}"><b>${c}</b><span class="stars3">${st?'★'.repeat(st.stars)+'<i>'+'★'.repeat(3-st.stars)+'</i>':'<i>★★★</i>'}</span></button>`}).join('')}
@@ -4371,16 +4414,16 @@ function startPack(pk,ri,si,trial){ensureAudio();setAreaBGM(pk==='oki'?'okibtl':
   $('packScr').hidden=true;$('mapScr').hidden=true;$('app').hidden=false;$('clear').hidden=true;setGradeColor();
   buildParty();S.party.forEach(p=>{p.hp=deadOf(p)?0:p.s.hp;p.mp=p.s.mp});
   if(store.get('kr_bless')){store.set('kr_bless',0);S.party.forEach(p=>{p.s={...p.s,atk:Math.round(p.s.atk*1.25),def:Math.round(p.s.def*1.15)}});setTimeout(()=>{banner('⛪ しゅくふくの ちから！','#e0a800');flash('#fff2a8')},900)}
-  drawParty();hud();buildBar();drawTop();const R=PACK[pk].regions[ri];banner(si<0?'BOSS STAGE':`${R[1][si]}`,PACK[pk].c);sFan();
-  (async()=>{const tok=S.tok;await say(si<0?`${R[0]}の ボスに ちょうせん！`:`${PACK[pk].i} ${R[0]}「${R[1][si]}」へ しゅっぱつ！ 計算と いきもの クイズで たたかおう！`,1600);if(tok===S.tok)runStage()})()}
+  drawParty();hud();buildBar();drawTop();const R=PACK[pk].regions[ri];banner(si<0?(KEN.has(pk)?'ごうかく しけん':'BOSS STAGE'):`${R[1][si]}`,PACK[pk].c);sFan();
+  (async()=>{const tok=S.tok;await say(si<0?(KEN.has(pk)?`${PACK[pk].n.replace(/の島$/,'')} ${R[0]}「ごうかく しけん」スタート！ 正解りつ 70%で ごうかく！`:`${R[0]}の ボスに ちょうせん！`):`${PACK[pk].i} ${R[0]}「${R[1][si]}」へ しゅっぱつ！ ${KEN.has(pk)?R[0]+'の もんだいで しょうぶ！':'計算と いきもの クイズで たたかおう！'}`,1600);if(tok===S.tok)runStage()})()}
 function packClear(){if(S.ctx.trial)return trialClear();const c=S.ctx,P=PACK[c.pk],acc=S.gok/Math.max(1,S.gtot),stars=acc>=.999?3:acc>=.75?2:1,key=pkey(c.pk,c.ri,c.si),prev=pkSave[key],first=!prev;
   pkSave[key]={stars:Math.max(stars,prev?prev.stars:0),n:(prev?prev.n:0)+1};savePk();
   const bonus=(S.boss?400:120)*Math.ceil(c.lvb/5)*stars;addPts(bonus);touchSlot();setTimeout(saveToast,900);sFan();flash();rain(120);barrage(S.boss?10:5,220,true);
-  const bossNow=!S.boss&&first&&regCleared(c.pk,c.ri)===bossNeed(c.pk,c.ri);let extra='';
+  const bossNow=!S.boss&&first&&regCleared(c.pk,c.ri)===bossNeed(c.pk,c.ri);let extra='';if(c.ken&&S.boss){const pct=Math.round(acc*100);if(acc>=.7){if(!kenPass(c.pk,c.ri)){pkSave['_ok'+c.pk+c.ri]=1;savePk();addPts(800);extra+='<div class="note">🎖 はじめての ごうかく！ 💎+800</div>'}extra=kenCert(P,c.ri,pct)+extra;setTimeout(()=>{banner(`${P.regions[c.ri][0]} ごうかく！`,P.c,true);barrage(6,180,true)},600)}else extra+=`<div class="note">ごうかく ライン 70%（こんかい ${pct}%）… もういちど ちょうせん！</div>`}
   if(S.boss&&first){addPts(1000);extra+=`<div class="note">👑 ${P.regions[c.ri][0]} せいは！ 💎+1,000</div>`;if(c.pk==='oki'&&c.ri<P.regions.length-1){PK.sailNext={from:c.ri,to:c.ri+1};extra+=`<div class="note">⛵ 船で ${P.regions[c.ri+1][0]}へ わたれるように なった！</div>`}const all=P.regions.every((r,i)=>regBoss(c.pk,i));if(all&&!pkSave['_b'+c.pk]){pkSave['_b'+c.pk]=1;savePk();addPts(5000);extra+=`<div class="note">🏅 ${P.n} かんぜん せいは！ 💎+5,000</div>`}}
-  $('clearBox').innerHTML=`<div class="big">${S.boss?'ボス げきは！':'ステージ クリア！'}</div>
+  $('clearBox').innerHTML=`<div class="big">${S.boss?(c.ken?(acc>=.7?'ごうかく！':'しけん おわり'):'ボス げきは！'):'ステージ クリア！'}</div>
    <div class="stars-big">${[0,1,2].map(i=>`<span class="${i<stars?'on':''}" style="animation-delay:${(.15+i*.22).toFixed(2)}s">★</span>`).join('')}</div>
-   <div class="best">${P.i} ${P.regions[c.ri][0]}「${S.boss?'ボス':P.regions[c.ri][1][c.si]}」</div>
+   <div class="best">${P.i} ${P.regions[c.ri][0]}「${S.boss?(c.ken?'ごうかく しけん':'ボス'):P.regions[c.ri][1][c.si]}」</div>
    ${plist()}${S.party.some(p=>p.hp<=0)?'<div class="note">⛪ たおれた なかまが いるよ。きょうかいで いきかえらせよう！</div>':''}${bossNow?'<div class="note">🔓 ボスが あらわれた！</div>':''}${extra}
    <div class="stats"><div><b>${S.gok}/${S.gtot}</b><span>正解</span></div><div><b>${S.got}</b><span>つかまえた</span></div><div><b>+${bonus}</b><span>💎ボーナス</span></div></div>
    <div class="cbtns"><button class="btn2" id="again">もういちど</button><button class="btn2" id="toPt">👥 パーティ</button><button class="btn" id="toMap">マップへ ▶</button></div>`;
@@ -4399,7 +4442,7 @@ $('chs').addEventListener('click',e=>{const b=e.target.closest('.chb');if(b)pick
 // ----- hub -----
 function openHub(){const cards=[
    ['japan','🗾','にっぽん旅','都道府県 スタンプラリー',`せいは ${Object.keys(stp.done||{}).length}/47 ・ スタンプ ${allStamps()}/${totSpots}`,'#e0467a'],
-   ...pkList().map(p=>['pk:'+p.id,p.i,p.n,({oki:'船で 5つの 島を めぐる',sea:'魚・貝・海の いきもの',land:'森や 山の どうぶつ',sky:'日本の 空の 鳥たち',asia:'8つの 国・地域を たび',eu:'8つの 国を たび',ura:'南の島の ひきょう'})[p.id],`ずかん ${pkGot(p.id)}/${pkMons(p.id).length}`,p.c]),
+   ...pkList().map(p=>['pk:'+p.id,p.i,p.n,({oki:'船で 5つの 島を めぐる',sea:'魚・貝・海の いきもの',land:'森や 山の どうぶつ',sky:'日本の 空の 鳥たち',asia:'8つの 国・地域を たび',eu:'8つの 国を たび',ura:'南の島の ひきょう',suken:'11級〜3級 算数・数学検定',eiken:'Jr.〜3級 英検たいさく'})[p.id],p.ken?`🎖 ごうかく ${kenPassN(p.id)}/${p.regions.length}`:`ずかん ${pkGot(p.id)}/${pkMons(p.id).length}`,p.c]),
    ['music','🎵','楽器編','楽器クイズで 楽器を ゲット',`楽器 ${typeof instGot==='function'?instGot():0}/${typeof INSTS!=='undefined'?INSTS.length:0}`,'#d8a02a'],
    ['trade','🔁','こうかん','コードで 生き物を こうかん','ともだちと',`#3a9a8a`],...(kokuoReady()?[['secret','👑','？？？の けはい','だれかが きみを まっている…','ひみつの たたかい','#c8a030']]:!owned.has('kokuo')&&dexN()>=30?[['secret0','❔','？？？','ずかんを あつめると なにかが おきる…',`ずかん ${dexN()}/${KOKUO_NEED}`,'#8a7a5a']]:[]),['letter','💌','ひみつの てがみ','ひみつの なかまの ヒント',`ヒント ${hintN()}/12${hintN()>(store.get('kr_hintR')||0)?' ・ NEW!':''}`,'#c060a0'],['forge','⚒','かじや','そざいで ぶきを つくる',`ぶき ${WPNS.filter(w=>myItems.has(w[0])).length}しゅるい`,'#8a5226']];
   $('hubGrid').innerHTML=cards.map(([k,i,n,d,s,c])=>{const lk=k.startsWith('pk:')&&!worldOpen(k.slice(3));if(lk)s='🔒 おためしバトル OK';return `<button class="hubc ${lk?'locked':''} ${k==='secret'?'secret':''}" data-k="${k}" style="--hc:${c}">${lk?'<span class="lk">🔒</span>':''}<span class="hi">${i}</span><span class="ht"><b>${n}</b><small>${d}</small></span><span class="hs">${s}</span></button>`}).join('');
@@ -4626,7 +4669,7 @@ const CHN={japan:'🗾 にっぽん旅',sea:'🌊 海編',land:'🦌 陸編',sky
 const japanDone=()=>Object.keys(stp.done||{}).length>=PREFS.length;
 const packDone=pk=>PACK[pk].regions.every((r,i)=>regBoss(pk,i));
 const worldDone=k=>k==='japan'?japanDone():packDone(k);
-function worldOpen(k){if(k==='japan'||k==='ura')return true;if(k==='oki')return !!rawGet('kr_unlockall')||japanDone();if(rawGet('kr_unlockall'))return true;const i=CHAIN.indexOf(k);return i<=0||(worldOpen(CHAIN[i-1])&&worldDone(CHAIN[i-1]))}
+function worldOpen(k){if(k==='japan'||k==='ura'||KEN.has(k))return true;if(k==='oki')return !!rawGet('kr_unlockall')||japanDone();if(rawGet('kr_unlockall'))return true;const i=CHAIN.indexOf(k);return i<=0||(worldOpen(CHAIN[i-1])&&worldDone(CHAIN[i-1]))}
 const needOf=k=>CHAIN[CHAIN.indexOf(k)-1];
 function needTxt(k){const n=k==='oki'?'japan':needOf(k);if(n==='japan')return `にっぽん旅の スタンプラリーを コンプリート（47都道府県 せいは）で かいほう ・ いま ${Object.keys(stp.done||{}).length}/47`;
   const P=PACK[n];return `${P.i} ${P.n}を コンプリート（${P.regions.length}${P.lab}の ボスを たおす）で かいほう ・ いま ${P.regions.filter((r,i)=>regBoss(n,i)).length}/${P.regions.length}`}
@@ -4680,7 +4723,7 @@ addEventListener('keydown',e=>{
 
 // ---------- title ----------
 
-const pkList=()=>['sea','land','sky','asia','eu','oki','ura'].map(k=>PACK[k]).filter(p=>!p.hidden||uraOpen());
+const pkList=()=>['suken','eiken','sea','land','sky','asia','eu','oki','ura'].map(k=>PACK[k]).filter(p=>!p.hidden||uraOpen());
 
 // ================= MATERIALS & FORGE (そざい・かじや) =================
 // id:[name, icon shape, colour, rarity, where to get]
@@ -5033,7 +5076,7 @@ const OKHOST=['はいさい！','ちばりよー！','めんそーれ〜！','�
 function okiQ(ri){const here=OKQ.filter(x=>x[5]===ri),pool=here.length&&Math.random()<.45?here:OKQ,[c,q,a,w,ex]=pick(pool);
   const o=chQ(`<span class="qtx oki">${q}</span>`,a,w,1);o.hint=OKC[c];o.ex=ex;return o}
 // fun-fact toast (Okinawa / dialect)
-function mame(html,ok){document.querySelectorAll('.mame').forEach(x=>x.remove());const d=document.createElement('div');d.className='mame'+(ok?' ok':'');d.innerHTML=`<b>🌺 まめちしき</b><span>${html}</span>`;document.body.appendChild(d);setTimeout(()=>d.classList.add('out'),3800);setTimeout(()=>d.remove(),4300)}
+function mame(html,ok,h){document.querySelectorAll('.mame').forEach(x=>x.remove());const d=document.createElement('div');d.className='mame'+(ok?' ok':'')+(h?' eng':'');d.innerHTML=`<b>${h||'🌺 まめちしき'}</b><span>${html}</span>`;document.body.appendChild(d);const T=h&&!ok?5200:3800;setTimeout(()=>d.classList.add('out'),T);setTimeout(()=>d.remove(),T+500)}
 // islands open one by one (boat)
 const islOpen=(pk,ri)=>pk!=='oki'||ri===0||regBoss(pk,ri-1);
 const bossNeed=(pk,ri)=>Math.ceil(PACK[pk].regions[ri][1].length/2);
@@ -5263,7 +5306,7 @@ function caseStickers(mon,isNew,lv){const el=elOfMon(mon),E=EL6[el],u=THUMB['m'+
    <div class="stk sk-chk"></div>
    <div class="stk sk-name"><b>${esc(mon.name)}</b></div>
    <svg class="sk-rim" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="csRim" d="M100,100 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0"/></defs>
-    <text><textPath href="#csRim">KEISAN RUSH ・ No.${no} ・ ${esc(mon.name)} ・ ${E.n} ・ KEISAN RUSH ・ No.${no} ・</textPath></text></svg>`}
+    <text><textPath href="#csRim">MANABI RUSH ・ No.${no} ・ ${esc(mon.name)} ・ ${E.n} ・ MANABI RUSH ・ No.${no} ・</textPath></text></svg>`}
 function goldArt(){return `<svg class="sk-gold" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="#6a4a14" stroke-width=".9" opacity=".75">
   <circle cx="58" cy="56" r="7"/><circle cx="58" cy="56" r="2"/><circle cx="74" cy="56" r="4"/><path d="M62 56H70"/><path d="M40 92h22v16H40z"/><circle cx="51" cy="100" r="4"/>
   <path d="M120 40L150 52M132 30L140 60M156 70l12 30"/><circle cx="64" cy="150" r="16"/><circle cx="64" cy="150" r="2.5"/><path d="M138 142a14 10 0 1 0 28 0a14 10 0 1 0-28 0M152 132v-8h10"/>
@@ -5279,7 +5322,7 @@ function caseHTML(mon,isNew,lv){const k=discKind(mon.rar);
      <div class="cs-disc"><div class="cs-dspin"><div class="dsc-base"></div>${k==='gold'?goldArt():''}${caseStickers(mon,isNew,lv)}<div class="dsc-holo"></div><div class="dsc-hub"></div><div class="dsc-glint"></div></div></div>
      <i class="cs-frame"></i>
    </div>
-   <div class="cs-lid"><i class="cs-lidf"></i><i class="cs-lidhub"></i><i class="cs-lidsheen"></i><span class="cs-logo">けいさんラッシュ</span></div>
+   <div class="cs-lid"><i class="cs-lidf"></i><i class="cs-lidhub"></i><i class="cs-lidsheen"></i><span class="cs-logo">まなびラッシュ</span></div>
   </div>`}
 function caseApply(){const c=$('csCase'),r=$('csRig');if(!c||!r)return;const S0=CS.open?1:0;
   r.style.transform=`translateX(${CS.tx.toFixed(1)}px) scale(${(CS.sc||1).toFixed(3)}) rotateX(${CS.rx.toFixed(2)}deg) rotateY(${CS.ry.toFixed(2)}deg)`;
@@ -5650,6 +5693,457 @@ const MPdrawn=new Set();
 function mpMapDraw(){const gi=MAP.gi;if(MPdrawn.has(gi))return;MPdrawn.add(gi);const p=document.querySelector('#mapwrap .mptrail');if(!p)return;const nx=document.querySelector('#mapwrap .node.next');let c=null;
   if(nx){const m=(nx.getAttribute('transform')||'').match(/translate\(([-\d.]+)[ ,]+([-\d.]+)/);if(m)c=[+m[1],+m[2],26]}mpDraw(p,{circle:c})}
 
+// ================= ENGLISH (えいご): 小1〜小6 / 英検Jr.・5級・4級・3級 =================
+// ----- speech (Web Speech API, offline voices on iOS/macOS/Android) -----
+const TTS=typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined';
+let ENV=null;
+function enVoice(){if(!TTS)return null;if(ENV)return ENV;const vs=speechSynthesis.getVoices().filter(v=>/^en[-_]US/i.test(v.lang));
+  ENV=vs.find(v=>/Samantha|Google US English|Aria|Jenny|Ava|Allison/i.test(v.name))||vs.find(v=>v.localService)||vs[0]||null;return ENV}
+if(TTS){try{speechSynthesis.onvoiceschanged=()=>{ENV=null};speechSynthesis.getVoices()}catch(e){}}
+const canListen=()=>TTS&&!muted;
+function sayEn(t,rate){if(!TTS||muted||!t)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';const v=enVoice();if(v)u.voice=v;u.rate=rate||.86;u.pitch=1.05;speechSynthesis.speak(u)}catch(e){}}
+document.addEventListener('click',e=>{const b=e.target.closest('.sayb');if(!b)return;e.preventDefault();e.stopPropagation();ensureAudio();sayEn(b.dataset.say,+b.dataset.r||0)},true);
+const sayB=(t,lbl='もういちど',slow)=>`<button type="button" class="sayb" data-say="${esc(t)}"${slow?' data-r=".7"':''} aria-label="えいごを きく">🔊 <small>${lbl}</small></button>`;
+
+// ----- words: [english, japanese, emoji, category, level] level 1=小1-2 2=小3-4 3=小5-6 4=5級 5=4級 6=3級
+const EW=[
+ // animals
+ ['dog','いぬ','🐶','ani',1],['cat','ねこ','🐱','ani',1],['bird','とり','🐦','ani',1],['fish','さかな','🐟','ani',1],['rabbit','うさぎ','🐰','ani',1],['bear','くま','🐻','ani',1],
+ ['lion','ライオン','🦁','ani',1],['monkey','さる','🐵','ani',1],['elephant','ぞう','🐘','ani',1],['pig','ぶた','🐷','ani',1],['cow','うし','🐮','ani',1],['horse','うま','🐴','ani',1],
+ ['panda','パンダ','🐼','ani',1],['frog','かえる','🐸','ani',1],['duck','あひる','🦆','ani',1],['mouse','ねずみ','🐭','ani',1],['tiger','とら','🐯','ani',2],['giraffe','キリン','🦒','ani',2],
+ ['penguin','ペンギン','🐧','ani',2],['snake','へび','🐍','ani',2],['turtle','かめ','🐢','ani',2],['dolphin','イルカ','🐬','ani',2],['whale','くじら','🐳','ani',2],['koala','コアラ','🐨','ani',2],
+ ['bee','はち','🐝','bug',2],['butterfly','ちょう','🦋','bug',2],['ant','あり','🐜','bug',2],['beetle','こうちゅう（カブトムシ）','🪲','bug',3],['spider','くも','🕷️','bug',3],['ladybug','てんとうむし','🐞','bug',3],
+ // fruits & food
+ ['apple','りんご','🍎','food',1],['banana','バナナ','🍌','food',1],['orange','オレンジ','🍊','food',1],['grapes','ぶどう','🍇','food',1],['strawberry','いちご','🍓','food',1],['melon','メロン','🍈','food',1],
+ ['peach','もも','🍑','food',1],['lemon','レモン','🍋','food',1],['cherry','さくらんぼ','🍒','food',2],['watermelon','すいか','🍉','food',2],['pineapple','パイナップル','🍍','food',2],['tomato','トマト','🍅','food',2],
+ ['carrot','にんじん','🥕','food',2],['corn','とうもろこし','🌽','food',2],['potato','じゃがいも','🥔','food',2],['onion','たまねぎ','🧅','food',3],['mushroom','きのこ','🍄','food',3],
+ ['bread','パン','🍞','food',1],['rice','ごはん','🍚','food',2],['milk','ぎゅうにゅう','🥛','food',1],['egg','たまご','🥚','food',1],['cake','ケーキ','🍰','food',1],['ice cream','アイスクリーム','🍨','food',1],
+ ['pizza','ピザ','🍕','food',1],['hamburger','ハンバーガー','🍔','food',2],['sandwich','サンドイッチ','🥪','food',2],['cookie','クッキー','🍪','food',2],['juice','ジュース','🧃','food',2],['spaghetti','スパゲッティ','🍝','food',3],['curry and rice','カレーライス','🍛','food',3],
+ // colors
+ ['red','あか','🟥','col',1],['blue','あお','🟦','col',1],['yellow','きいろ','🟨','col',1],['green','みどり','🟩','col',1],['purple','むらさき','🟪','col',1],['black','くろ','⬛','col',1],['white','しろ','⬜','col',1],['brown','ちゃいろ','🟫','col',2],['pink','ピンク','🩷','col',1],
+ // numbers
+ ['one','1','1','num',1],['two','2','2','num',1],['three','3','3','num',1],['four','4','4','num',1],['five','5','5','num',1],['six','6','6','num',1],['seven','7','7','num',1],['eight','8','8','num',1],['nine','9','9','num',1],['ten','10','10','num',1],
+ ['eleven','11','11','num',2],['twelve','12','12','num',2],['thirteen','13','13','num',2],['fourteen','14','14','num',2],['fifteen','15','15','num',2],['sixteen','16','16','num',2],['seventeen','17','17','num',2],['eighteen','18','18','num',2],['nineteen','19','19','num',2],['twenty','20','20','num',2],
+ ['thirty','30','30','num',3],['forty','40','40','num',3],['fifty','50','50','num',3],['sixty','60','60','num',3],['seventy','70','70','num',3],['eighty','80','80','num',3],['ninety','90','90','num',3],['one hundred','100','100','num',3],
+ // body
+ ['eye','め','👁️','body',1],['ear','みみ','👂','body',1],['nose','はな','👃','body',1],['mouth','くち','👄','body',1],['hand','て','✋','body',1],['foot','あし（足首から下）','🦶','body',2],['leg','あし','🦵','body',2],['tooth','は（歯）','🦷','body',2],
+ // things
+ ['book','ほん','📕','thing',1],['pencil','えんぴつ','✏️','thing',1],['bag','かばん','🎒','thing',1],['cap','ぼうし（キャップ）','🧢','thing',1],['clock','とけい','🕰️','thing',2],['bike','じてんしゃ','🚲','thing',1],
+ ['car','くるま','🚗','thing',1],['bus','バス','🚌','thing',1],['train','でんしゃ','🚃','thing',1],['airplane','ひこうき','✈️','thing',2],['ship','ふね','🚢','thing',2],['house','いえ','🏠','thing',1],
+ ['umbrella','かさ','☂️','thing',2],['key','かぎ','🔑','thing',2],['phone','でんわ','📱','thing',2],['computer','コンピューター','💻','thing',2],['chair','いす','🪑','thing',2],['bed','ベッド','🛏️','thing',2],
+ ['door','ドア','🚪','thing',2],['box','はこ','📦','thing',1],['cup','カップ','☕','thing',1],['glasses','めがね','👓','thing',2],['gift','おくりもの','🎁','thing',3],
+ // nature & weather
+ ['flower','はな（花）','🌸','nat',1],['tree','き（木）','🌳','nat',1],['star','ほし','⭐','nat',1],['sun','たいよう','☀️','nat',1],['moon','つき','🌙','nat',1],['rainbow','にじ','🌈','nat',2],
+ ['mountain','やま','⛰️','nat',3],['sea','うみ','🌊','nat',3],['river','かわ','🏞️','nat',3],
+ ['sunny','はれ','☀️','wea',2],['cloudy','くもり','☁️','wea',2],['rainy','あめ','☔','wea',2],['snowy','ゆき','⛄','wea',2],['windy','かぜが つよい','🌬️','wea',3],
+ // sports
+ ['soccer','サッカー','⚽','spo',2],['baseball','やきゅう','⚾','spo',2],['basketball','バスケットボール','🏀','spo',2],['tennis','テニス','🎾','spo',2],['volleyball','バレーボール','🏐','spo',3],
+ ['swimming','すいえい','🏊','spo',2],['skiing','スキー','⛷️','spo',3],['table tennis','たっきゅう','🏓','spo',3],['badminton','バドミントン','🏸','spo',3],['rugby','ラグビー','🏉','spo',3],
+ // feelings
+ ['happy','うれしい','😊','feel',2],['sad','かなしい','😢','feel',2],['angry','おこっている','😠','feel',2],['hungry','おなかが すいた','🤤','feel',2],['sleepy','ねむい','😪','feel',2],
+ ['tired','つかれた','😩','feel',3],['fine','げんき','🙂','feel',2],['hot','あつい','🥵','feel',2],['cold','さむい','🥶','feel',2],['surprised','おどろいた','😲','feel',3],
+ // shapes
+ ['circle','まる','⚪','shape',2],['triangle','さんかく','🔺','shape',2],['square','しかく','🟧','shape',2],['heart','ハート','❤️','shape',2],['diamond','ひしがた','🔷','shape',3],
+ // days / months (no picture)
+ ['Sunday','日曜日','','day',2],['Monday','月曜日','','day',2],['Tuesday','火曜日','','day',2],['Wednesday','水曜日','','day',2],['Thursday','木曜日','','day',2],['Friday','金曜日','','day',2],['Saturday','土曜日','','day',2],
+ ['January','1月','🎍','mon',3],['February','2月','👹','mon',3],['March','3月','🎎','mon',3],['April','4月','🌸','mon',3],['May','5月','🎏','mon',3],['June','6月','☔','mon',3],
+ ['July','7月','🎋','mon',3],['August','8月','🍉','mon',3],['September','9月','🎑','mon',3],['October','10月','🎃','mon',3],['November','11月','🍁','mon',3],['December','12月','🎄','mon',3],
+ // school subjects
+ ['Japanese','こくご','📖','subj',3],['math','さんすう','➗','subj',3],['science','りか','🔬','subj',3],['social studies','しゃかい','🗾','subj',3],['music','おんがく','🎵','subj',3],['P.E.','たいいく','🤸','subj',3],['arts and crafts','ずがこうさく','🎨','subj',3],['English','えいご','🔤','subj',3],
+ // jobs
+ ['teacher','せんせい','🧑‍🏫','job',3],['doctor','いしゃ','🧑‍⚕️','job',3],['cook','りょうりにん','🧑‍🍳','job',3],['police officer','けいさつかん','👮','job',3],['firefighter','しょうぼうし','🧑‍🚒','job',3],
+ ['farmer','のうか','🧑‍🌾','job',3],['pilot','パイロット','🧑‍✈️','job',3],['singer','かしゅ','🎤','job',3],['scientist','かがくしゃ','🧑‍🔬','job',3],['astronaut','うちゅうひこうし','🧑‍🚀','job',3],['artist','がか','🧑‍🎨','job',3],
+ // places
+ ['school','がっこう','🏫','place',3],['hospital','びょういん','🏥','place',3],['park','こうえん','🌳','place',3],['station','えき','🚉','place',3],['library','としょかん','📚','place',3],['post office','ゆうびんきょく','🏣','place',3],
+ ['zoo','どうぶつえん','🦁','place',3],['aquarium','すいぞくかん','🐠','place',3],['supermarket','スーパーマーケット','🛒','place',3],['restaurant','レストラン','🍽️','place',3],['museum','はくぶつかん','🏛️','place',3],['castle','しろ','🏯','place',3],
+ // verbs
+ ['run','はしる','🏃','verb',3],['swim','およぐ','🏊','verb',3],['read','よむ','📖','verb',3],['write','かく','✍️','verb',3],['sing','うたう','🎤','verb',3],['dance','おどる','💃','verb',3],
+ ['clean','そうじする','🧹','verb',3],['sleep','ねむる','😴','verb',3],['study','べんきょうする','📝','verb',3],['walk','あるく','🚶','verb',3],['jump','とぶ（ジャンプする）','🤾','verb',3],['listen','きく','🎧','verb',3],
+ // adjectives
+ ['big','おおきい','','adj',3],['small','ちいさい','','adj',3],['long','ながい','','adj',3],['short','みじかい','','adj',3],['tall','せが たかい','','adj',3],['new','あたらしい','','adj',3],['old','ふるい','','adj',3],
+ ['fast','はやい','','adj',3],['beautiful','うつくしい','','adj',3],['cute','かわいい','','adj',3],['delicious','おいしい','','adj',3],['kind','しんせつな','','adj',3],['strong','つよい','','adj',3],['famous','ゆうめいな','','adj',3],
+ // 5級
+ ['morning','あさ','','w5',4],['afternoon','ごご','','w5',4],['evening','ゆうがた','','w5',4],['kitchen','だいどころ','','w5',4],['always','いつも','','w5',4],['usually','たいてい','','w5',4],['sometimes','ときどき','','w5',4],
+ ['often','よく（しばしば）','','w5',4],['week','しゅう（週）','','w5',4],['year','とし（年）','','w5',4],['hour','1じかん','','w5',4],['minute','ふん（分）','','w5',4],['want','ほしい','','w5',4],['need','ひつようと する','','w5',4],
+ ['know','しっている','','w5',4],['live','すむ','','w5',4],['help','てつだう','','w5',4],['open','ひらく','','w5',4],['close','しめる','','w5',4],['use','つかう','','w5',4],['teach','おしえる','','w5',4],['wait','まつ','','w5',4],
+ ['under','～の下に','','w5',4],['near','～の近くに','','w5',4],['tomorrow','あした','','w5',4],['yesterday','きのう','','w5',4],['tonight','こんや','','w5',4],['country','くに','','w5',4],['friend','ともだち','','w5',4],['family','かぞく','','w5',4],
+ // 4級
+ ['borrow','かりる','','w4',5],['lend','かす','','w4',5],['arrive','とうちゃくする','','w4',5],['leave','出発する・はなれる','','w4',5],['visit','たずねる','','w4',5],['decide','きめる','','w4',5],['forget','わすれる','','w4',5],
+ ['remember','おぼえている','','w4',5],['send','おくる','','w4',5],['invite','まねく','','w4',5],['practice','れんしゅうする','','w4',5],['enjoy','たのしむ','','w4',5],['finish','おえる','','w4',5],['travel','りょこうする','','w4',5],
+ ['healthy','けんこうな','','w4',5],['interesting','おもしろい（きょうみぶかい）','','w4',5],['important','たいせつな','','w4',5],['careful','ちゅういぶかい','','w4',5],['popular','にんきの ある','','w4',5],['expensive','（ねだんが）たかい','','w4',5],
+ ['cheap','やすい','','w4',5],['busy','いそがしい','','w4',5],['different','ちがう','','w4',5],['dangerous','きけんな','','w4',5],['weekend','しゅうまつ','','w4',5],['plan','けいかく','','w4',5],['sick','びょうきの','','w4',5],
+ // 3級
+ ['introduce','しょうかいする','','w3',6],['explain','せつめいする','','w3',6],['invent','はつめいする','','w3',6],['protect','まもる','','w3',6],['recycle','リサイクルする','','w3',6],['environment','かんきょう','','w3',6],
+ ['experience','けいけん','','w3',6],['culture','ぶんか','','w3',6],['communicate','つたえあう','','w3',6],['volunteer','ボランティア','','w3',6],['opinion','いけん','','w3',6],['information','じょうほう','','w3',6],
+ ['international','こくさいてきな','','w3',6],['convenient','べんりな','','w3',6],['necessary','ひつような','','w3',6],['understand','りかいする','','w3',6],['believe','しんじる','','w3',6],['continue','つづける','','w3',6],
+ ['prepare','じゅんびする','','w3',6],['save','すくう・たくわえる','','w3',6],['future','みらい','','w3',6],['trip','りょこう','','w3',6],['language','げんご','','w3',6],['nature','しぜん','','w3',6],['foreign','がいこくの','','w3',6],['several','いくつかの','','w3',6]];
+
+// ----- elementary phrases: [prompt, answer, [wrong×3], japanese, level 1..6]
+const EPH=[
+ ['Hello!','Hello!',['Good night.','Thank you.','See you.'],'こんにちは！',1],
+ ['Good morning!','Good morning!',['Good night!','Goodbye!','Thank you!'],'おはよう！',1],
+ ['Goodbye!','See you!',['Hello!','Good morning!','Thank you!'],'さようなら！— またね！',1],
+ ['Thank you.','You\'re welcome.',['Hello.','Good morning.','I\'m fine.'],'ありがとう。— どういたしまして。',1],
+ ['How are you?','I\'m fine.',['I\'m Ken.','It\'s a dog.','Goodbye.'],'げんき？— げんきだよ。',1],
+ ['What\'s this?','It\'s a dog.',['I\'m fine.','Yes, I do.','Hello.'],'これは なに？— いぬだよ。',2],
+ ['What\'s your name?','I\'m Yuki.',['I\'m fine.','It\'s red.','Thank you.'],'なまえは？— ユキです。',2],
+ ['How many apples?','Three apples.',['Red apples.','I like apples.','It\'s an apple.'],'りんごは いくつ？— 3こ。',2],
+ ['What color is it?','It\'s red.',['It\'s a cat.','It\'s three.','I\'m happy.'],'なにいろ？— あかだよ。',2],
+ ['Do you like soccer?','Yes, I do.',['Yes, I am.','I\'m soccer.','It\'s soccer.'],'サッカーは すき？— うん。',3],
+ ['What do you like?','I like bananas.',['I\'m a banana.','It\'s yellow.','Yes, I like.'],'なにが すき？— バナナが すき。',3],
+ ['How\'s the weather?','It\'s sunny.',['It\'s Monday.','I\'m sunny.','Yes, it is.'],'てんきは どう？— はれだよ。',3],
+ ['How are you?','I\'m hungry.',['I\'m ten.','It\'s hungry.','Yes, I\'m.'],'げんき？— おなかが すいた。',3],
+ ['What time is it?','It\'s three o\'clock.',['It\'s Monday.','It\'s sunny.','I\'m three.'],'なんじ？— 3じだよ。',4],
+ ['What day is it?','It\'s Monday.',['It\'s rainy.','It\'s two.','I\'m Monday.'],'なんようび？— げつようび。',4],
+ ['Do you have a pencil?','Yes, I do.',['Yes, I am.','It\'s a pencil.','I like pencils.'],'えんぴつ もってる？— うん。',4],
+ ['Let\'s play tag!','Yes, let\'s!',['No, I\'m not.','You\'re welcome.','I\'m tag.'],'おにごっこ しよう！— しよう！',4],
+ ['Where is the library?','It\'s on the second floor.',['It\'s a book.','I like books.','Yes, it is.'],'としょしつは どこ？— 2かいだよ。',4],
+ ['When is your birthday?','My birthday is July 7th.',['I\'m seven.','It\'s Sunday.','I like July.'],'たんじょうびは いつ？— 7月7日。',5],
+ ['Can you swim?','Yes, I can.',['Yes, I do.','Yes, I am.','I swim.'],'およげる？— うん、およげるよ。',5],
+ ['What would you like?','I\'d like pizza, please.',['I like pizza.','Pizza is good.','Yes, please.'],'なにに しますか？— ピザを おねがいします。',5],
+ ['Where is the station?','Go straight. It\'s on your right.',['It\'s a big station.','By train.','Yes, it is.'],'えきは どこ？— まっすぐ いって 右だよ。',5],
+ ['Who is this?','This is my sister.',['This is a cat.','I\'m fine.','It\'s mine.'],'これは だれ？— わたしの お姉さん。',5],
+ ['Where did you go this summer?','I went to the sea.',['I go to the sea.','I like summer.','It was hot.'],'この夏 どこへ 行った？— 海へ 行った。',6],
+ ['What do you want to be?','I want to be a teacher.',['I am a teacher.','I like teachers.','Yes, I want.'],'なにに なりたい？— せんせいに なりたい。',6],
+ ['How was your summer?','It was fun.',['It is summer.','I went to Hokkaido.','Yes, it was.'],'夏は どうだった？— たのしかった。',6],
+ ['What is your best memory?','My best memory is the school trip.',['I remember.','I like memories.','It\'s my memory.'],'いちばんの 思い出は？— 修学旅行です。',6],
+ ['What club do you want to join?','I want to join the tennis team.',['I like clubs.','I joined it.','Yes, I do.'],'なんの 部活に 入りたい？— テニス部。',6]];
+
+// ----- grammar: [sentence with ( ), answer, [wrong×3], japanese, point]
+const EG5=[
+ ['I (  ) a student.','am',['is','are','be'],'わたしは 学生です。','主語が I のときの be動詞は am'],
+ ['My sister (  ) tennis every day.','plays',['play','playing','to play'],'姉は 毎日 テニスを します。','主語が 3人称単数で 現在なら 動詞に s'],
+ ['(  ) you like music?','Do',['Are','Is','Does'],'あなたは 音楽が 好きですか。','一般動詞の 疑問文は Do で はじめる'],
+ ['Ken (  ) have a dog.','doesn\'t',['don\'t','isn\'t','aren\'t'],'ケンは 犬を かっていません。','3人称単数の 否定は doesn\'t ＋ 原形'],
+ ['These (  ) my books.','are',['is','am','be'],'これらは わたしの 本です。','These（これら）は 複数 → are'],
+ ['I have two (  ).','cats',['cat','a cat','cates'],'ねこを 2ひき かっています。','2つ以上は 名詞に s'],
+ ['(  ) is that girl? — She is Yumi.','Who',['What','Where','When'],'あの 女の子は だれですか。','「だれ」は Who'],
+ ['(  ) do you live? — In Osaka.','Where',['What','Who','How'],'どこに すんでいますか。— 大阪です。','「どこ」は Where'],
+ ['(  ) is your birthday? — It\'s May 5th.','When',['Where','Who','Which'],'誕生日は いつですか。','「いつ」は When'],
+ ['How (  ) pencils do you have?','many',['much','old','long'],'えんぴつを 何本 もっていますか。','数は How many ＋ 複数形'],
+ ['(  ) time is it? — It\'s seven.','What',['How','When','Which'],'何時ですか。— 7時です。','時刻は What time'],
+ ['She can (  ) the piano.','play',['plays','playing','played'],'彼女は ピアノを ひけます。','can の あとは 動詞の 原形'],
+ ['Look! The bird is (  ).','flying',['fly','flies','flew'],'見て！ 鳥が 飛んでいる。','現在進行形は be ＋ ～ing'],
+ ['I am (  ) lunch now.','eating',['eat','eats','ate'],'わたしは 今 昼ごはんを 食べています。','「今 ～している」は be ＋ ～ing'],
+ ['(  ) your hands.','Wash',['Washes','Washing','To wash'],'手を あらいなさい。','命令文は 動詞の 原形で はじめる'],
+ ['(  ) run in the classroom.','Don\'t',['Not','No','Doesn\'t'],'教室で 走らないで。','「～しないで」は Don\'t ＋ 原形'],
+ ['This is (  ) bag.','my',['I','me','mine'],'これは わたしの かばんです。','「わたしの」は my'],
+ ['Do you know (  )? — Yes, he is my friend.','him',['he','his','he\'s'],'彼を 知っていますか。','動詞の あとの「彼を」は him'],
+ ['That is (  ) umbrella.','an',['a','two','many'],'あれは かさです。','母音で はじまる 語の 前は an'],
+ ['I go to school (  ) bus.','by',['in','on','at'],'わたしは バスで 学校に 行きます。','乗り物で は by'],
+ ['My birthday is (  ) June.','in',['on','at','to'],'わたしの 誕生日は 6月です。','月の 前は in'],
+ ['We have English (  ) Monday.','on',['in','at','for'],'月曜日に 英語が あります。','曜日の 前は on'],
+ ['I get up (  ) six.','at',['in','on','to'],'わたしは 6時に 起きます。','時刻の 前は at'],
+ ['(  ) bag is this? — It\'s Tom\'s.','Whose',['Who','Which','What'],'これは だれの かばんですか。','「だれの」は Whose'],
+ ['Which do you like, dogs (  ) cats?','or',['and','but','so'],'犬と ねこ、どちらが 好きですか。','「A か B」は or'],
+ ['Is this your pen? — Yes, it (  ).','is',['does','are','do'],'これは あなたの ペンですか。— はい。','Is ～? には is で こたえる'],
+ ['Does your mother cook? — No, she (  ).','doesn\'t',['don\'t','isn\'t','not'],'お母さんは 料理を しますか。— いいえ。','Does ～? には does / doesn\'t'],
+ ['How (  ) is this T-shirt? — It\'s 1,000 yen.','much',['many','old','long'],'この Tシャツは いくらですか。','ねだんは How much'],
+ ['How (  ) are you? — I\'m twelve.','old',['many','much','tall'],'あなたは 何さいですか。','年れいは How old'],
+ ['Let\'s (  ) soccer after school.','play',['plays','playing','to play'],'放課後 サッカーを しよう。','Let\'s の あとは 原形'],
+ ['My father (  ) coffee every morning.','drinks',['drink','drinking','is drink'],'父は 毎朝 コーヒーを 飲みます。','3人称単数 現在は s を つける'],
+ ['I like (  ) very much.','them',['they','their','theirs'],'わたしは それらが とても 好きです。','動詞の あとの「それらを」は them']];
+const EG4=[
+ ['I (  ) to Kyoto last year.','went',['go','goes','going'],'わたしは 去年 京都へ 行きました。','last year は 過去 → go の 過去形 went'],
+ ['(  ) you see the movie yesterday?','Did',['Do','Does','Were'],'きのう その映画を 見ましたか。','過去の 疑問文は Did ＋ 主語 ＋ 原形'],
+ ['She (  ) at home last night.','was',['is','were','be'],'彼女は 昨夜 家に いました。','I / he / she の be動詞の 過去形は was'],
+ ['They (  ) playing soccer at that time.','were',['was','are','did'],'彼らは そのとき サッカーを していました。','過去進行形は were ＋ ～ing'],
+ ['It (  ) rain tomorrow.','will',['is','does','was'],'明日は 雨が ふるでしょう。','未来は will ＋ 原形'],
+ ['I am going (  ) visit my grandmother.','to',['for','at','and'],'祖母を たずねる つもりです。','be going to ＋ 原形 ＝ ～する つもり'],
+ ['I want (  ) a doctor.','to be',['be','being','am'],'わたしは 医者に なりたいです。','want to ＋ 原形 ＝ ～したい'],
+ ['He finished (  ) his homework.','doing',['do','to do','does'],'彼は 宿題を し終えました。','finish の あとは ～ing'],
+ ['I enjoyed (  ) with my friends.','talking',['talk','to talk','talked'],'友だちと 話して 楽しみました。','enjoy の あとは ～ing'],
+ ['This bag is (  ) than that one.','bigger',['big','biggest','more big'],'この かばんは あれより 大きい。','くらべる ときは 比較級 ＋ than'],
+ ['Mt. Fuji is the (  ) mountain in Japan.','highest',['higher','high','most high'],'富士山は 日本で いちばん 高い 山です。','いちばん ～ は the ＋ 最上級'],
+ ['This book is (  ) interesting than that one.','more',['most','much','very'],'この本は あの本より おもしろい。','長い 語は more ＋ 原級'],
+ ['Tom is as tall (  ) Ken.','as',['than','that','so'],'トムは ケンと 同じくらいの 背の 高さです。','as ～ as ＝ 同じくらい ～'],
+ ['There (  ) three apples on the table.','are',['is','be','am'],'テーブルの 上に りんごが 3つ あります。','複数 → There are'],
+ ['You (  ) do your homework.','must',['can\'t','will be','are'],'あなたは 宿題を しなければならない。','must ＝ ～しなければならない'],
+ ['I have (  ) get up early tomorrow.','to',['for','at','in'],'明日は 早く 起きなければならない。','have to ＋ 原形'],
+ ['(  ) I open the window? — Sure.','May',['Must','Will','Do'],'窓を 開けても いいですか。— もちろん。','May I ～? ＝ ～しても いいですか'],
+ ['(  ) you help me? — OK.','Will',['Shall','Must','May'],'手伝って くれますか。','Will you ～? ＝ ～して くれますか'],
+ ['(  ) we go shopping? — Yes, let\'s.','Shall',['Will','Must','Do'],'買い物に 行きましょうか。','Shall we ～? ＝ ～しましょうか'],
+ ['I was reading (  ) my mother came home.','when',['because','if','but'],'母が 帰ってきた とき、本を 読んでいた。','「～とき」は when'],
+ ['I stayed home (  ) I was sick.','because',['when','but','or'],'病気だったので 家に いました。','「～なので」は because'],
+ ['(  ) it is sunny, let\'s go to the park.','If',['But','So','Or'],'晴れたら 公園に 行こう。','「もし ～なら」は If'],
+ ['I know (  ) she is kind.','that',['what','who','this'],'彼女が 親切だと 知っている。','I know that ～ ＝ ～だと 知っている'],
+ ['He gave (  ) a present.','me',['I','my','mine'],'彼は わたしに プレゼントを くれた。','give ＋ 人 ＋ 物'],
+ ['I have something (  ) tell you.','to',['for','of','at'],'あなたに 話したい ことが ある。','something to ＋ 原形 ＝ ～する こと'],
+ ['I went to the library (  ) study.','to',['for','and','by'],'勉強する ために 図書館へ 行った。','to ＋ 原形 ＝ ～する ために'],
+ ['Kumi (  ) a letter yesterday.','wrote',['write','writes','written'],'クミは きのう 手紙を 書いた。','write の 過去形は wrote'],
+ ['We didn\'t (  ) TV last night.','watch',['watched','watches','watching'],'昨夜 テレビを 見なかった。','didn\'t の あとは 原形'],
+ ['Who (  ) this cake? — My sister did.','made',['make','makes','making'],'だれが この ケーキを 作ったの？— 姉です。','make の 過去形は made'],
+ ['Which is (  ), summer or winter?','better',['good','best','more good'],'夏と 冬、どちらが よいですか。','good の 比較級は better'],
+ ['Thank you for (  ) me.','helping',['help','to help','helped'],'手伝って くれて ありがとう。','前置詞 for の あとは ～ing']];
+const EG3=[
+ ['I have (  ) this movie three times.','seen',['saw','see','seeing'],'この映画を 3回 見たことが ある。','経験の 現在完了は have ＋ 過去分詞'],
+ ['Have you ever (  ) to Okinawa?','been',['gone','went','be'],'沖縄へ 行ったことが ありますか。','have been to ＝ ～へ 行ったことが ある'],
+ ['I have lived here (  ) 2015.','since',['for','from','during'],'2015年から ずっと ここに すんでいる。','「～から ずっと」は since'],
+ ['She has studied English (  ) five years.','for',['since','in','at'],'彼女は 5年間 英語を 勉強している。','期間は for'],
+ ['I have just (  ) my homework.','finished',['finish','finishing','finishes'],'ちょうど 宿題を 終えた ところだ。','完了 have just ＋ 過去分詞'],
+ ['Have you finished lunch (  )?','yet',['already','just','ever'],'もう 昼ごはんを 食べ終えましたか。','疑問文の「もう」は yet'],
+ ['This temple was (  ) 500 years ago.','built',['build','builds','building'],'この寺は 500年前に 建てられた。','受け身は be ＋ 過去分詞'],
+ ['English is (  ) in many countries.','spoken',['speak','spoke','speaking'],'英語は 多くの 国で 話されている。','speak の 過去分詞は spoken'],
+ ['The boy (  ) is running over there is my brother.','who',['which','what','whose'],'あそこを 走っている 男の子は 弟です。','人を 説明する 関係代名詞は who'],
+ ['This is the book (  ) I bought yesterday.','that',['who','what','where'],'これは きのう 買った 本です。','物を 説明する 関係代名詞は which / that'],
+ ['I have a friend (  ) father is a pilot.','whose',['who','which','that'],'お父さんが パイロットの 友だちが いる。','「その人の」は whose'],
+ ['Look at the cat (  ) on the sofa.','sleeping',['sleep','slept','sleeps'],'ソファで ねている ねこを 見て。','「～している ○○」は ～ing で うしろから 説明'],
+ ['I have a car (  ) in Germany.','made',['make','making','makes'],'ドイツで 作られた 車を もっている。','「～された ○○」は 過去分詞で うしろから 説明'],
+ ['It is important (  ) us to read books.','for',['of','to','with'],'わたしたちが 本を 読むことは 大切だ。','It is ～ for 人 to ＋ 原形'],
+ ['It is easy (  ) this question.','to answer',['answer','answering','answered'],'この 問題に 答えるのは かんたんだ。','It is ～ to ＋ 原形'],
+ ['Do you know where (  )?','she lives',['does she live','lives she','she live'],'彼女が どこに すんでいるか 知っていますか。','間接疑問は 疑問詞 ＋ 主語 ＋ 動詞'],
+ ['I don\'t know what (  ).','to do',['do','doing','did'],'何を すれば よいか わからない。','what to ＋ 原形 ＝ 何を ～すれば よいか'],
+ ['Please tell me how (  ) this machine.','to use',['use','using','used'],'この 機械の 使い方を 教えて。','how to ＋ 原形 ＝ ～の しかた'],
+ ['My mother told me (  ) my room.','to clean',['clean','cleaning','cleaned'],'母は わたしに 部屋を そうじするように 言った。','tell 人 to ＋ 原形'],
+ ['This song makes me (  ).','happy',['happily','happiness','to happy'],'この歌は わたしを 幸せに する。','make A B ＝ A を B に する'],
+ ['If I (  ) a bird, I could fly.','were',['am','is','be'],'もし 鳥なら 飛べるのに。','仮定法では were を 使う'],
+ ['I wish I (  ) swim fast.','could',['can','will','am'],'速く 泳げたら いいのに。','I wish ＋ 過去形 ＝ ～なら いいのに'],
+ ['He has been (  ) TV for two hours.','watching',['watched','watch','watches'],'彼は 2時間 テレビを 見続けている。','現在完了進行形 have been ＋ ～ing'],
+ ['This is the most beautiful picture I have ever (  ).','seen',['saw','see','seeing'],'今まで 見た中で いちばん 美しい 絵だ。','have ever ＋ 過去分詞'],
+ ['The letter was written (  ) Ms. Sato.','by',['to','with','from'],'その 手紙は 佐藤さんに よって 書かれた。','受け身の「～によって」は by'],
+ ['I am interested (  ) Japanese history.','in',['at','on','with'],'わたしは 日本の 歴史に 興味が ある。','be interested in ～'],
+ ['The mountain is covered (  ) snow.','with',['by','in','of'],'山は 雪で おおわれている。','be covered with ～'],
+ ['She is too tired (  ) walk.','to',['for','that','so'],'彼女は つかれすぎて 歩けない。','too ～ to ＋ 原形'],
+ ['He speaks English (  ) than I do.','better',['well','best','more well'],'彼は わたしより 英語を 上手に 話す。','well の 比較級は better'],
+ ['I want you (  ) me.','to help',['help','helping','helped'],'あなたに 手伝って ほしい。','want 人 to ＋ 原形']];
+
+// ----- conversations: [A, B(answer), [wrong×3], japanese]
+const EC5=[
+ ['How are you?','I\'m fine, thank you.',['I\'m ten.','It\'s sunny.','Yes, I do.'],'元気ですか。— 元気です、ありがとう。'],
+ ['What\'s your name?','My name is Aya.',['I\'m fine.','It\'s mine.','Yes, it is.'],'名前は 何ですか。— アヤです。'],
+ ['Nice to meet you.','Nice to meet you, too.',['You\'re welcome.','See you.','Good night.'],'はじめまして。— こちらこそ。'],
+ ['Thank you for the present.','You\'re welcome.',['Nice to meet you.','I\'m sorry.','Here you are.'],'プレゼント ありがとう。— どういたしまして。'],
+ ['Can I use your pen?','Sure. Here you are.',['No, I\'m not.','Yes, I am.','It\'s my pen.'],'ペンを 使っても いい？— どうぞ。'],
+ ['What do you want for your birthday?','A new bike.',['On Sunday.','I\'m eleven.','At school.'],'誕生日に 何が ほしい？— 新しい 自転車。'],
+ ['Where is my cap?','It\'s on the desk.',['It\'s blue.','It\'s three o\'clock.','Yes, it is.'],'ぼうしは どこ？— つくえの 上だよ。'],
+ ['How many brothers do you have?','I have two.',['I\'m twelve.','It\'s 500 yen.','At seven.'],'兄弟は 何人？— 2人。'],
+ ['What color do you like?','I like blue.',['I like tennis.','I\'m fine.','It\'s Monday.'],'何色が 好き？— 青が 好き。'],
+ ['What day is it today?','It\'s Friday.',['It\'s sunny.','It\'s May 3rd.','It\'s nine.'],'今日は 何曜日？— 金曜日。'],
+ ['Is this your notebook?','Yes, it is.',['Yes, I do.','No, I\'m not.','Yes, you are.'],'これは あなたの ノート？— はい。'],
+ ['Do you play the guitar?','No, I don\'t.',['No, it isn\'t.','No, I\'m not.','No, she doesn\'t.'],'ギターを ひきますか。— いいえ。'],
+ ['Whose shoes are these?','They\'re Ken\'s.',['They\'re new.','It\'s mine.','He is Ken.'],'これは だれの くつ？— ケンのです。'],
+ ['Let\'s play tennis.','OK. Let\'s go.',['No, I\'m not.','You\'re welcome.','I\'m tennis.'],'テニスを しよう。— いいよ、行こう。'],
+ ['Good night, Mom.','Good night. Sleep well.',['Good morning.','Nice to meet you.','Here you are.'],'おやすみ、ママ。— おやすみ。']];
+const EC4=[
+ ['What did you do last weekend?','I went fishing with my father.',['I will go to the park.','I\'m going to swim.','I play tennis.'],'先週末 何を した？— 父と つりに 行った。'],
+ ['May I help you?','Yes, I\'m looking for a sweater.',['No, you can\'t.','Yes, I\'m twelve.','You\'re welcome.'],'（お店で）いらっしゃいませ。— セーターを さがしています。'],
+ ['What\'s wrong?','I have a headache.',['I\'m fine, thanks.','That\'s right.','It\'s on Sunday.'],'どうしたの？— 頭が いたいんだ。'],
+ ['How was your trip?','It was great.',['It\'s next week.','By train.','For three days.'],'旅行は どうだった？— すばらしかった。'],
+ ['Would you like some tea?','Yes, please.',['Yes, I would like.','No, I\'m not.','Here you are.'],'お茶は いかが？— おねがいします。'],
+ ['How long does it take to the station?','About ten minutes.',['At ten.','Ten years old.','Ten dollars.'],'駅まで どのくらい かかる？— 10分くらい。'],
+ ['Shall I open the window?','Yes, please.',['Yes, you shall.','No, I don\'t.','Yes, it is.'],'窓を 開けましょうか。— おねがいします。'],
+ ['Can you come to my party?','Sorry, I can\'t. I\'m busy.',['Yes, I am.','No, it isn\'t.','I like parties.'],'パーティーに 来られる？— ごめん、いそがしいんだ。'],
+ ['Hello, this is Mike. Can I speak to Ken?','Sorry, he\'s out now.',['Yes, I\'m Mike.','Nice to meet you.','You\'re welcome.'],'（電話）ケンは いますか。— 今 出かけています。'],
+ ['How often do you practice the piano?','Three times a week.',['For three hours.','Three years ago.','At three.'],'どのくらい ピアノを 練習するの？— 週に 3回。'],
+ ['I lost my umbrella.','That\'s too bad.',['That\'s great.','You\'re welcome.','Me, too. Thank you.'],'かさを なくしちゃった。— それは 残念。'],
+ ['Why were you late?','Because I missed the bus.',['Yes, I was.','At eight.','By bus.'],'なぜ おくれたの？— バスに 乗りおくれたから。'],
+ ['Will you help me with my homework?','Sure.',['Yes, I will be.','No, I\'m not.','It\'s homework.'],'宿題を 手伝って くれる？— いいよ。'],
+ ['What are you going to do this summer?','I\'m going to visit Hokkaido.',['I visited Hokkaido.','I visit Hokkaido.','Hokkaido is big.'],'この夏は 何を する つもり？— 北海道へ 行く つもり。'],
+ ['Which bus goes to the zoo?','Take the number 5 bus.',['It\'s five o\'clock.','The zoo is big.','I like lions.'],'どの バスが 動物園に 行きますか。— 5番の バスです。']];
+const EC3=[
+ ['Have you ever been to Kyoto?','Yes, I have. Twice.',['Yes, I did.','No, I\'m not.','I will go.'],'京都に 行ったことは ある？— うん、2回。'],
+ ['How long have you lived in this town?','For ten years.',['Ten years ago.','In ten minutes.','Ten times.'],'この町に どのくらい すんでいるの？— 10年。'],
+ ['Could you tell me the way to the station?','Sure. Go straight and turn left.',['Yes, I could.','By train.','It\'s a big station.'],'駅への 道を 教えて いただけますか。'],
+ ['I\'m sorry I\'m late.','That\'s all right.',['You\'re welcome.','Me, too.','Nice to meet you.'],'おくれて ごめんなさい。— だいじょうぶ。'],
+ ['What do you think of this plan?','I think it\'s a good idea.',['I think so, too. Thanks.','It\'s mine.','Yes, I do.'],'この 計画を どう 思う？— いい アイデアだと 思う。'],
+ ['Have you finished your report yet?','Not yet. I\'m still writing it.',['Yes, I will.','No, I didn\'t.','I wrote it tomorrow.'],'レポートは もう 終わった？— まだ 書いているよ。'],
+ ['Why don\'t we go to the beach?','That sounds fun.',['Because it\'s hot.','I don\'t know why.','Yes, I don\'t.'],'海に 行かない？— 楽しそう！'],
+ ['Can I leave a message?','Sure. Go ahead.',['Yes, you leave.','No, I can\'t hear.','It\'s a message.'],'（電話で）伝言を おねがいできますか。— どうぞ。'],
+ ['How about having lunch together?','Good idea.',['I had lunch.','It\'s lunch time.','How about you?'],'いっしょに 昼ごはんを 食べない？— いいね。'],
+ ['Excuse me. Is this seat taken?','No, it\'s free.',['Yes, please take it.','I took it.','It\'s my seat number.'],'すみません、この 席は あいていますか。— あいていますよ。'],
+ ['Which do you like better, spring or fall?','I like spring better.',['I like it very much.','Yes, I do.','Spring is in March.'],'春と 秋、どちらが 好き？— 春の ほうが 好き。'],
+ ['I\'m going to take the test tomorrow.','Good luck!',['Congratulations!','You\'re welcome.','Me, too. Thanks.'],'明日 テストを 受けるんだ。— がんばって！'],
+ ['Do you know who wrote this book?','Yes. Natsume Soseki did.',['Yes, I wrote it.','It\'s a long book.','No, I don\'t read.'],'この本を だれが 書いたか 知ってる？— 夏目漱石だよ。'],
+ ['This is a present for you.','Thank you. Can I open it?',['You\'re welcome.','Here you are.','Me, too.'],'これは あなたへの プレゼントです。— ありがとう、開けても いい？'],
+ ['Do you mind if I sit here?','No, not at all.',['Yes, please sit.','No, I\'m not.','Yes, I do. Please.'],'ここに すわっても かまいませんか。— どうぞ。']];
+
+// ----- levels -----
+const ELV={e1:{n:'小1',w:1},e2:{n:'小2',w:1},e3:{n:'小3',w:2},e4:{n:'小4',w:2},e5:{n:'小5',w:3},e6:{n:'小6',w:3},jr:{n:'英検Jr.',w:2},g5:{n:'英検5級',w:4},g4:{n:'英検4級',w:5},g3:{n:'英検3級',w:6}};
+const ELVG=['e1','e2','e3','e4','e5','e6','g5','g4','g3'];   // by grade index 0..8 (小1..中3)
+const EWX={};EW.forEach(w=>{(EWX[w[3]]=EWX[w[3]]||[]).push(w)});
+const ewords=(maxL,pic,minL=1)=>EW.filter(w=>w[4]<=maxL&&w[4]>=minL&&(!pic||w[2]));
+function eDis(w,pool,key){pool=pool.filter(x=>x!==w&&x[key]!==w[key]&&x[0]!==w[0]&&x[1]!==w[1]&&(!w[2]||x[2]!==w[2]));const same=pool.filter(x=>x[3]===w[3]),other=pool.filter(x=>x[3]!==w[3]);
+  return [...new Set([...shuf(same),...shuf(other)].map(x=>x[key]))].slice(0,3)}
+function eWord(L,pic){const all=ewords(L,pic),top=all.filter(w=>w[4]===L);return(top.length&&Math.random()<.55?pick(top):pick(all))}
+function eq(o){return Object.assign({ne:1,eng:1,exh:'💡 えいご ポイント'},o)}
+function eCh(a,d){return shuf([a,...d.filter(x=>x!==a).slice(0,3)])}
+const enB=t=>`<b class="en">${esc(t)}</b>`;
+// question makers
+function eListenPic(L){const w=eWord(L,1),pool=ewords(Math.max(L,2),1);
+  return eq({html:`<span class="qtx">🎧 えいごを きいて、あう ものを えらぼう</span>${sayB(w[0])}`,a:w[2],ch:eCh(w[2],eDis(w,pool,2)),big:1,say:w[0],sayA:w[0],thr:7,ex:`${enB(w[0])} ＝ ${w[1]}`})}
+function ePicWord(L){const w=eWord(L,1),pool=ewords(Math.max(L,2),1);
+  return eq({html:`<span class="qpic em">${w[2]}</span><span class="qtx">これは えいごで なに？</span>`,a:w[0],ch:eCh(w[0],eDis(w,pool,0)),sayA:w[0],thr:6,ex:`${w[2]} ${enB(w[0])} ＝ ${w[1]}`})}
+function eMeaning(L){const w=eWord(L,0),pool=ewords(Math.max(L,3),0);
+  return eq({html:`<span class="qtx">${enB(w[0])} の いみは？</span>${canListen()?sayB(w[0],'きく'):''}`,a:w[1],ch:eCh(w[1],eDis(w,pool,1)),say:w[0],thr:6,ex:`${enB(w[0])} ＝ ${w[1]}`})}
+function eJaEn(L){const w=eWord(L,0),pool=ewords(Math.max(L,3),0);
+  return eq({html:`<span class="qtx">「<b>${w[1]}</b>」は えいごで？</span>`,a:w[0],ch:eCh(w[0],eDis(w,pool,0)),sayA:w[0],thr:6,ex:`${w[1]} ＝ ${enB(w[0])}`})}
+function misspell(s){const v='aeiou',c=s.split(''),k=r(0,3),i=r(0,c.length-1);
+  if(k===0&&c.length>3){const j=r(0,c.length-2);[c[j],c[j+1]]=[c[j+1],c[j]]}
+  else if(k===1){const vs=c.map((x,j)=>v.includes(x)?j:-1).filter(j=>j>=0);if(vs.length){const j=pick(vs);c[j]=pick([...v].filter(x=>x!==c[j]))}else c[i]=c[i]+c[i]}
+  else if(k===2){c[i]=c[i]+c[i]}else{if(c.length>3)c.splice(r(1,c.length-1),1);else c.push('e')}return c.join('')}
+function eSpell(L){let w;for(let t=0;t<20;t++){w=eWord(L,0);if(/^[a-z]{3,9}$/.test(w[0]))break}const words=new Set(EW.map(x=>x[0])),d=new Set();
+  for(let t=0;t<40&&d.size<3;t++){const m=misspell(w[0]);if(m!==w[0]&&!words.has(m))d.add(m)}
+  return eq({html:`${w[2]?`<span class="qpic em">${w[2]}</span>`:''}<span class="qtx">「<b>${w[1]}</b>」の 正しい つづりは？</span>`,a:w[0],ch:eCh(w[0],[...d]),sayA:w[0],thr:7,ex:`${w[1]} ＝ ${enB(w[0])}（${w[0].toUpperCase().split('').join('・')}）`})}
+const ABC='ABCDEFGHIJKLMNOPQRSTUVWXYZ',CONF={b:'dpq',d:'bpq',p:'qbd',q:'pgd',m:'nwu',n:'mhu',u:'vnw',v:'uwy',i:'jl',j:'ig',g:'qj',h:'nk',a:'oe',e:'ac',f:'tl',t:'fl',l:'it',r:'n',c:'eo',o:'ce',s:'z',z:'s',w:'mv',x:'k',y:'v',k:'x'};
+function eAbc(L){const t=r(0,2),U=pick([...ABC]),l=U.toLowerCase();
+  if(t===0&&canListen())return eq({html:`<span class="qtx">🎧 きこえた アルファベットは？</span>${sayB(U+'.')}`,a:U,ch:eCh(U,shuf([...ABC].filter(x=>x!==U)).slice(0,3)),big:1,say:U+'.',thr:6,ex:`「${U}」の 小文字は「${l}」`});
+  if(t<=1){const pool=[...(CONF[l]||'')].concat(shuf([...ABC.toLowerCase()])).filter(x=>x!==l);return eq({html:`<span class="qtx">「<b class="en">${U}</b>」の 小文字は？</span>`,a:l,ch:eCh(l,[...new Set(pool)]),big:1,sayA:U+'.',thr:5,ex:`${U} ↔ ${l}`})}
+  const i=r(1,23),seq=[...ABC.slice(i-1,i+3)],k=r(0,3),a=seq[k];seq[k]='＿';return eq({html:`<span class="qtx">＿ に 入る 文字は？</span><b class="en big">${seq.join(' ')}</b>`,a,ch:eCh(a,shuf([...ABC].filter(x=>x!==a)).slice(0,3)),big:1,thr:6,ex:`${ABC.slice(i-1,i+3).split('').join(' ')}`})}
+function eNum(L){const w=pick(EW.filter(x=>x[3]==='num'&&x[4]<=Math.max(2,L))),n=+w[1],near=[n+1,n-1,n+10,n-10,n*10,Math.floor(n/10)||n+2,n+2].filter(x=>x>0&&x!==n&&x<=100).map(String);
+  if(canListen())return eq({html:`<span class="qtx">🎧 きこえた かずは？</span>${sayB(w[0])}`,a:w[1],ch:eCh(w[1],shuf([...new Set(near)])),big:1,say:w[0],thr:6,ex:`${enB(w[0])} ＝ ${w[1]}`});
+  return eq({html:`<span class="qtx">${enB(w[0])} は いくつ？</span>`,a:w[1],ch:eCh(w[1],shuf([...new Set(near)])),big:1,thr:5,ex:`${enB(w[0])} ＝ ${w[1]}`})}
+function ePhrase(L){const all=EPH.filter(p=>p[4]<=L),top=all.filter(p=>p[4]>=L-1),p=(top.length&&Math.random()<.65?pick(top):pick(all));
+  return eq({html:`<span class="qtx">💬 こたえを えらぼう</span><b class="en say">“${esc(p[0])}”</b>${canListen()?sayB(p[0],'きく'):''}`,a:p[1],ch:eCh(p[1],p[2]),say:p[0],sayA:p[1],thr:8,ex:`${esc(p[0])} → ${esc(p[1])}<br>${p[3]}`})}
+function eGreetJa(L){const p=pick(EPH.filter(x=>x[4]<=Math.max(2,L)));const ja=p[3].split('—')[0].trim(),pool=EPH.filter(x=>x!==p).map(x=>x[3].split('—')[0].trim());
+  return eq({html:`<b class="en say">“${esc(p[0])}”</b>${canListen()?sayB(p[0],'きく'):''}<span class="qtx">の いみは？</span>`,a:ja,ch:eCh(ja,shuf([...new Set(pool)].filter(x=>x!==ja))),say:p[0],thr:7,ex:`${esc(p[0])} ＝ ${ja}`})}
+const GB=g=>({g5:EG5,g4:EG4,g3:EG3})[g];const CB=g=>({g5:EC5,g4:EC4,g3:EC3})[g];
+function eGram(g){const it=pick(GB(g)),[s,a,w,ja,pt]=it,full=s.replace('(  )',a);
+  return eq({html:`<span class="qtx">（ ）に 入る ものは？</span><b class="en sent">${esc(s).replace('(  )','<u>（　　）</u>')}</b>`,a,ch:eCh(a,w),sayA:full,thr:9,ex:`${enB(full)}<br>${ja}<br><small>👉 ${pt}</small>`})}
+function eConv(g){const[A,B,w,ja]=pick(CB(g));
+  return eq({html:`<span class="qtx">💬 会話を 完成させよう</span><b class="en sent">A: ${esc(A)}<br>B: <u>（　　　）</u></b>`,a:B,ch:eCh(B,w),say:canListen()?A:null,sayA:B,thr:10,ex:`A: ${esc(A)}<br>B: ${esc(B)}<br>${ja}`})}
+function eListenSent(g){const it=pick(GB(g)),full=it[0].replace('(  )',it[1]),pool=GB(g).filter(x=>x!==it).map(x=>x[3]);
+  if(!canListen())return eGram(g);
+  return eq({html:`<span class="qtx">🎧 英文を きいて、いみを えらぼう</span>${sayB(full)}${sayB(full,'ゆっくり',1)}`,a:it[3],ch:eCh(it[3],shuf(pool)),say:full,thr:11,ex:`${enB(full)}<br>${it[3]}`})}
+function eOrder(g){const it=pick(GB(g)),full=it[0].replace('(  )',it[1]).replace(/ — .*/,''),ws=full.replace(/([.?!])$/,' $1').split(' '),end=ws[ws.length-1].match(/^[.?!]$/)?ws.pop():'';
+  const LOW=new Set(['this','that','these','those','my','she','he','they','we','you','it','the','do','does','did','is','are','was','were','have','has','who','what','where','when','how','which','whose',"let's",'please','if','there','can','will','shall','may','look!','wash','don\'t','a','an']),cap=w=>w.charAt(0).toUpperCase()+w.slice(1);if(LOW.has(ws[0].toLowerCase()))ws[0]=ws[0].toLowerCase();const join=a=>{const b=[...a];b[0]=cap(b[0]);return b.join(' ')+end},ok=join(ws),d=new Set();for(let t=0;t<60&&d.size<3;t++){const c=[...ws],i=r(0,c.length-2),j=r(i+1,c.length-1);[c[i],c[j]]=[c[j],c[i]];const s=join(c);if(s!==ok)d.add(s)}
+  return eq({html:`<span class="qtx">「${it[3].replace(/。.*$/,'。')}」を あらわす 正しい 英文は？</span>`,a:ok,ch:eCh(ok,[...d]),sayA:ok,thr:11,ex:`${enB(ok)}<br><small>👉 ${it[4]}</small>`})}
+// main
+function engQ(lv){lv=ELV[lv]?lv:'e1';const L=ELV[lv].w,R=Math.random();
+  if(lv==='e1')return R<.45&&canListen()?eListenPic(1):R<.8?ePicWord(1):ePhrase(1);
+  if(lv==='e2')return R<.35&&canListen()?eListenPic(1):R<.6?ePicWord(1):R<.75?eNum(1):ePhrase(2);
+  if(lv==='e3')return R<.25&&canListen()?eListenPic(2):R<.45?ePicWord(2):R<.6?eAbc(2):R<.72?eNum(2):ePhrase(3);
+  if(lv==='e4'||lv==='jr')return R<.2&&canListen()?eListenPic(2):R<.4?ePicWord(2):R<.55?eAbc(2):R<.65?eNum(2):R<.8?eGreetJa(4):ePhrase(4);
+  if(lv==='e5')return R<.15&&canListen()?eListenPic(3):R<.35?ePicWord(3):R<.5?eMeaning(3):R<.65?eSpell(3):R<.75?eNum(3):ePhrase(5);
+  if(lv==='e6')return R<.15&&canListen()?eListenPic(3):R<.3?eMeaning(3):R<.45?eJaEn(3):R<.6?eSpell(3):ePhrase(6);
+  // 英検 5/4/3
+  return R<.3?eGram(lv):R<.5?eConv(lv):R<.65?(Math.random()<.5?eMeaning(L):eJaEn(L)):R<.8?eListenSent(lv):eOrder(lv)}
+// typed generators for kentei stages
+const ESTG={vocab:lv=>{const L=ELV[lv].w;return lv==='jr'?(Math.random()<.5&&canListen()?eListenPic(2):ePicWord(2)):(Math.random()<.5?eMeaning(L):eJaEn(L))},
+  conv:lv=>lv==='jr'?(Math.random()<.5?ePhrase(4):eGreetJa(4)):eConv(lv),
+  gram:lv=>lv==='jr'?(Math.random()<.6?eAbc(2):eNum(2)):(Math.random()<.7?eGram(lv):eOrder(lv)),
+  listen:lv=>lv==='jr'?(canListen()?(Math.random()<.6?eListenPic(2):eNum(2)):ePicWord(2)):(canListen()?(Math.random()<.5?eListenSent(lv):eConv(lv)):eGram(lv)),
+  mix:lv=>engQ(lv)};
+
+// ================= 中学数学 / 文章題 / 検定の島（英検・算数検定）/ 教科えらび =================
+const MN=n=>n<0?'−'+(-n):String(n);                 // display minus
+const PN=n=>n<0?`(−${-n})`:String(n);               // parenthesised negative
+const SG=(n,first)=>first?MN(n):(n<0?' − '+(-n):' + '+n);  // signed term
+function numQ(html,ans,hint,o={}){if(Number.isInteger(ans)&&ans>=0)return QX(html,String(ans),hint,o);
+  const pool=[-ans,ans+1,ans-1,ans+2,ans-2,ans*2,ans+10].filter(x=>x!==ans);
+  return Object.assign(chQ(`<span class="qtx mq">${html}</span>`,MN(ans),[...new Set(pool)].map(MN)),{hint,thr:7},o)}
+function polyS(a,b,c,v){let s='';[[a,v+'²'],[b,v],[c,'']].forEach(([k,t])=>{if(!k)return;const abs=Math.abs(k),body=(abs===1&&t?'':abs)+t;s+=s?(k<0?' − ':' + ')+body:(k<0?'−':'')+body});return s||'0'}
+const linS=(a,b,x='x',y='y')=>{let s='';[[a,x],[b,y]].forEach(([k,t])=>{if(!k)return;const abs=Math.abs(k),body=(abs===1?'':abs)+t;s+=s?(k<0?' − ':' + ')+body:(k<0?'−':'')+body});return s||'0'};
+const nz=(a,b)=>{let v=0;while(!v)v=r(a,b);return v};
+const JH=[
+ {n:'中1',c:'#e0672a',units:[
+  ['正負の数（たし算・ひき算）',()=>{const a=nz(-12,12),b=nz(-12,12);return Math.random()<.5?numQ(`${PN(a)} + ${PN(b)} ＝ ？`,a+b):numQ(`${PN(a)} − ${PN(b)} ＝ ？`,a-b)}],
+  ['正負の数（かけ算・わり算）',()=>{const a=nz(-9,9),b=nz(-9,9);return Math.random()<.5?numQ(`${PN(a)} × ${PN(b)} ＝ ？`,a*b):numQ(`${PN(a*b)} ÷ ${PN(b)} ＝ ？`,a)}],
+  ['累乗',()=>{const t=r(0,2),a=r(2,5);if(t===0)return numQ(`(−${a})<sup>2</sup> ＝ ？`,a*a,'(−a)² は ＋');if(t===1)return numQ(`−${a}<sup>2</sup> ＝ ？`,-a*a,'−a² は −(a×a)');return numQ(`(−2)<sup>3</sup> × ${a} ＝ ？`,-8*a)}],
+  ['文字式の 値',()=>{const x=nz(-6,6),a=nz(-5,5),b=nz(-9,9);return numQ(`x ＝ ${MN(x)} のとき<br>${linS(a,0)}${SG(b)} の 値は？`,a*x+b,'x に 数を 入れて 計算')}],
+  ['一次方程式',()=>{const x=nz(-9,12),a=nz(2,7)*(Math.random()<.2?-1:1),b=nz(-15,15);return numQ(`${linS(a,0)}${SG(b)} ＝ ${MN(a*x+b)}<br>x ＝ ？`,x,'移項して x ＝ の 形に')}],
+  ['比例・反比例',()=>{const t=r(0,2),a=nz(-6,6),x=nz(1,6);if(t===0)return numQ(`y は x に 比例し、x ＝ ${x} のとき y ＝ ${MN(a*x)}<br>比例定数は？`,a,'y ＝ ax の a');
+    if(t===1){const k=pick([12,18,24,36]),x2=pick([2,3,4,6].filter(v=>k%v===0));return numQ(`y ＝ ${k}/x で、x ＝ ${x2} のとき y ＝ ？`,k/x2,'反比例 y ＝ a/x')}
+    return numQ(`y ＝ ${MN(a)}x で、x ＝ ${MN(-x)} のとき y ＝ ？`,a*-x)}],
+  ['図形（おうぎ形・立体）',()=>{const t=r(0,2);if(t===0){const[rr,deg]=pick([[2,90],[4,90],[6,90],[2,180],[4,180],[6,180],[3,120],[6,120],[6,60],[3,240],[4,270],[2,270]]),k=rr*rr*deg/360;
+      return Object.assign(chQ(`<span class="qtx mq">半径 ${rr}cm、中心角 ${deg}° の おうぎ形の 面積は？（cm²）</span>`,k+'π',[rr*rr+'π',(k*2)+'π',(k+rr)+'π',(2*rr)+'π',(k*3)+'π',(k+1)+'π',(k+2)+'π']),{hint:'πr² × 中心角/360',thr:9})}
+    if(t===1){const a=r(2,9),b=r(2,9),h=r(2,10);return QX(`たて${a}cm・よこ${b}cm・高さ${h}cm の 直方体の 体積（cm³）`,String(a*b*h))}
+    const s=r(3,12),h=r(3,9)*3;return QX(`底面積 ${s}cm²、高さ ${h}cm の 角すいの 体積（cm³）`,String(s*h/3),'すいの 体積は 底面積×高さ×1/3')}]]},
+ {n:'中2',c:'#c0392b',units:[
+  ['式の 計算',()=>{const a=nz(-6,6),b=nz(-6,6),c=nz(-6,6),d=nz(-6,6),A=a+c,B=b+d;if(!A&&!B)return numQ(`${linS(a,b)} ＋ (${linS(c,d)}) の x の 係数は？`,A);
+    const ans=linS(A,B),pool=[linS(A,-B),linS(-A,B),linS(a-c,b-d),linS(A+1,B),linS(A,B-1)].filter(x=>x!==ans);return Object.assign(chQ(`<span class="qtx mq">(${linS(a,b)}) ＋ (${linS(c,d)})</span>`,ans,pool),{hint:'同じ 文字どうしを まとめよう',thr:9})}],
+  ['連立方程式',()=>{const x=nz(-5,8),y=nz(-5,8),a=nz(1,4),c=nz(1,3),d=nz(1,3);let b=nz(1,4)*(Math.random()<.5?-1:1);if(-a*d-b*c===0)b=-b;const ask=Math.random()<.5?'x':'y';
+    return numQ(`${linS(a,b)} ＝ ${MN(a*x+b*y)}<br>${linS(c,-d)} ＝ ${MN(c*x-d*y)}<br>${ask} ＝ ？`,ask==='x'?x:y,'加減法か 代入法で とこう')}],
+  ['一次関数',()=>{const t=r(0,2),a=nz(-5,5),b=nz(-8,8),x=nz(-4,5);if(t===0)return numQ(`y ＝ ${linS(a,0)}${SG(b)} で、x ＝ ${MN(x)} のとき y ＝ ？`,a*x+b);
+    if(t===1){const x1=r(-3,2),x2=x1+r(1,3);return numQ(`2点 (${x1}, ${a*x1+b}) と (${x2}, ${a*x2+b}) を 通る 直線の 傾きは？`.replace(/-/g,'−'),a,'傾き ＝ yの増加量 ÷ xの増加量')}
+    return numQ(`直線 y ＝ ${linS(a,0)}${SG(b)} の 切片は？`,b)}],
+  ['図形の 角',()=>{const t=r(0,2),n=r(5,12);if(t===0)return QX(`${n}角形の 内角の 和は 何度？`,String(180*(n-2)),'180 × (n − 2)');
+    if(t===1){const m=pick([3,4,5,6,8,9,10,12]);return QX(`正${m}角形の 1つの 外角は 何度？`,String(360/m),'外角の 和は 360°')}
+    const a=r(30,80),b=r(30,80);return QX(`三角形の 2つの 内角が ${a}° と ${b}°。<br>のこりの 角の 外角は 何度？`,String(a+b),'外角 ＝ となりあわない 2つの 内角の 和')}],
+  ['確率',()=>{const t=r(0,2);if(t===0){const s=r(4,10),n=[...Array(36)].filter((_,i)=>(i%6+1)+(Math.floor(i/6)+1)===s).length;return QX(`さいころを 2回 ふって、出た目の 和が ${s} になる 確率は？`,fs(n,36),FRH)}
+    if(t===1)return QX('コインを 3回 なげて、3回とも 表が 出る 確率は？','1/8',FRH);const N=pick([10,12,20]),k=pick([2,3,5].filter(v=>N%v===0||v===3));const c=Math.floor(N/k);return QX(`1から ${N}までの カードから 1まい ひいて、${k}の 倍数が 出る 確率は？`,fs(c,N),FRH)}]]},
+ {n:'中3',c:'#7a3ab8',units:[
+  ['式の 展開',()=>{const a=nz(-7,7),b=nz(-7,7),ans=polyS(1,a+b,a*b,'x'),pool=[polyS(1,a+b,-a*b,'x'),polyS(1,a*b,a+b,'x'),polyS(1,-(a+b),a*b,'x'),polyS(1,a+b+1,a*b,'x')].filter(x=>x!==ans);
+    return Object.assign(chQ(`<span class="qtx mq">(x${SG(a)})(x${SG(b)}) を 展開すると？</span>`,ans,pool),{hint:'(x+a)(x+b) ＝ x² + (a+b)x + ab',thr:9})}],
+  ['因数分解',()=>{const a=nz(-7,7),b=nz(-7,7),f=(p,q)=>`(x${SG(p)})(x${SG(q)})`,ans=f(a,b),pool=[f(-a,-b),f(a,-b),f(-a,b),f(a+1,b-1)].filter(x=>x!==ans&&x!==f(b,a));
+    return Object.assign(chQ(`<span class="qtx mq">${polyS(1,a+b,a*b,'x')} を 因数分解すると？</span>`,ans,pool),{hint:'たして x の係数、かけて 定数項に なる 2数',thr:10})}],
+  ['平方根',()=>{const t=r(0,2);if(t===0){const k=r(2,6),m=pick([2,3,5,6,7]);return QX(`√${k*k*m} ＝ □√${m}　□ は？`,String(k),'√(a²b) ＝ a√b')}
+    if(t===1){const a=pick([2,3,5,6]),k=r(2,5);return QX(`√${a} × √${a*k*k} ＝ ？`,String(a*k))}const n=r(2,15);return QX(`√${n*n} ＝ ？`,String(n))}],
+  ['二次方程式',()=>{let a=nz(-8,8),b=nz(-8,8);if(a===b)b=a+1||2;const lo=Math.min(a,b),hi=Math.max(a,b),fmt=(p,q)=>`x ＝ ${MN(p)}, ${MN(q)}`,ans=fmt(lo,hi);
+    const pool=[fmt(-hi,-lo),fmt(lo,-hi),fmt(-lo,hi),fmt(lo+1,hi+1)].filter(x=>x!==ans);return Object.assign(chQ(`<span class="qtx mq">${polyS(1,-(a+b),a*b,'x')} ＝ 0 を とくと？</span>`,ans,pool),{hint:'因数分解して (x − a)(x − b) ＝ 0',thr:10})}],
+  ['関数 y ＝ ax²',()=>{const a=nz(-3,3),x=nz(-4,4);return numQ(`y ＝ ${a===1?'':a===-1?'−':MN(a)}x² で、x ＝ ${MN(x)} のとき y ＝ ？`,a*x*x)}],
+  ['三平方の 定理',()=>{const[t,k]=[pick([[3,4,5],[5,12,13],[6,8,10],[8,15,17]]),r(1,3)];const[a,b,c]=t.map(v=>v*k);return Math.random()<.6?QX(`直角三角形で、直角を はさむ 2辺が ${a}cm と ${b}cm。<br>斜辺は 何cm？`,String(c),'a² + b² ＝ c²'):QX(`直角三角形で、斜辺 ${c}cm・1辺 ${a}cm。<br>のこりの 辺は 何cm？`,String(b),'a² + b² ＝ c²')}],
+  ['相似',()=>{const a=r(2,6),b=a+r(1,4),k=r(2,5);return QX(`相似な 三角形で、対応する 辺が ${a}cm と ${b}cm。<br>${a*k}cm の 辺に 対応する 辺は 何cm？`,String(b*k),'相似比を 使おう')}]]}];
+// 文章題 (word problems) by grade index 0..8
+function wpQ(gi){const t=Math.random();switch(gi){
+ case 0:{const a=r(2,9),b=r(1,9);if(t<.5)return QX(`りんごが ${a}こ あります。<br>${b}こ もらうと、ぜんぶで なんこ？`,String(a+b));const c=r(6,15),d=r(1,c-1);return QX(`こうえんで ${c}にん あそんでいます。<br>${d}にん かえると、のこりは なんにん？`,String(c-d))}
+ case 1:{if(t<.4){const a=r(2,9),b=r(2,9);return QX(`1はこに ${a}こずつ はいった おかしが ${b}はこ。<br>ぜんぶで なんこ？`,String(a*b))}if(t<.7){const a=r(30,90),b=r(10,99-a+10);return QX(`${a}円の ノートと ${b}円の えんぴつを かいます。<br>あわせて なん円？`,String(a+b))}const a=r(40,99),b=r(11,a-10);return QX(`シールが ${a}まい あります。${b}まい つかうと のこりは？`,String(a-b))}
+ case 2:{const b=r(2,9),q=r(2,9);if(t<.5)return QX(`${b*q}まいの カードを ${b}人で 同じ数ずつ 分けると、<br>1人 なんまい？`,String(q));const m=r(1,b-1);return QX(`${b*q+m}本の えんぴつを ${b}本ずつ たばに すると、<br>たばは なんたば できる？（あまりは のぞく）`,String(q))}
+ case 3:{if(t<.5){const a=r(3,15),b=r(3,15);return QX(`たて ${a}cm、よこ ${b}cm の 長方形の 面積は？（cm²）`,String(a*b))}const p=pick([60,80,90,120,150]),n=r(2,6);return QX(`1本 ${p}円の ペンを ${n}本 かって 1000円 はらうと、<br>おつりは なん円？`,String(1000-p*n))}
+ case 4:{if(t<.5){const base=pick([20,40,50,80,200]),p=pick([10,20,25,50]);return QX(`${base}人の クラスの ${p}% は なん人？`,String(base*p/100))}const n=r(3,5),avg=r(60,90),arr=Array.from({length:n-1},()=>avg+r(-8,8));arr.push(avg*n-arr.reduce((a,b)=>a+b,0));return QX(`テストの 点数が ${arr.join('点、')}点。<br>平均は なん点？`,String(avg))}
+ case 5:{if(t<.5){const v=pick([60,70,80]),m=r(5,20);return QX(`分速 ${v}m で ${m}分 歩くと、なんm 進む？`,String(v*m))}const a=r(1,4),b=a+r(1,3),k=r(2,9)*10;return QX(`${(a+b)*k}円を ${a}:${b} に 分けると、少ないほうは なん円？`,String(a*k))}
+ case 6:{const x=pick([80,90,100,120,150]),n=r(2,6),c=pick([50,100,150]);return QX(`1こ x円の パンを ${n}こと、${c}円の ジュースを かうと<br>代金は ${x*n+c}円。x は？`,String(x),'方程式を つくろう')}
+ case 7:{const a=r(2,8),b=r(2,8);return QX(`1こ 80円の みかんと 1こ 120円の りんごを<br>あわせて ${a+b}こ かって ${80*a+120*b}円。りんごは なんこ？`,String(b),'連立方程式で とこう')}
+ default:{if(t<.5){const s=r(4,15);return QX(`面積が ${s*s}m² の 正方形の 土地。<br>1辺は なんm？`,String(s))}const x=r(3,12);return QX(`ある 正の数を 2乗して 5を ひくと ${x*x-5}。<br>ある数は？`,String(x),'二次方程式')}}}
+// unit list per grade index 0..8 (小1..中3)
+const unitsOf=gi=>gi<6?GRADES[gi].units:JH[gi-6].units;
+const gName=gi=>gi<6?`小${gi+1}`:JH[gi-6].n;
+
+// ----- 教科えらび: さんすう / えいご / まぜる -----
+const SUBJ={math:['🔢','さんすう'],eng:['🔤','えいご'],mix:['🔀','まぜる']};
+const subj=()=>{const s=store.get('kr_subj');return SUBJ[s]?s:'math'};
+function setSubj(s){if(!SUBJ[s])return;store.set('kr_subj',s);ensureAudio();tone(s==='eng'?1318:s==='mix'?1175:988,0,.07,'triangle',.06)}
+const subjSeg=(id='')=>`<div class="subjseg" role="radiogroup" aria-label="もんだいの きょうか"${id?` id="${id}"`:''}>${Object.entries(SUBJ).map(([k,[i,n]])=>`<button type="button" class="sjb" role="radio" data-sj="${k}" aria-checked="${subj()===k}">${i} ${n}</button>`).join('')}</div>`;
+let mixFlip=0;
+function useEng(){const s=subj();if(s==='eng')return true;if(s==='mix'){mixFlip^=1;return !!mixFlip}return false}
+function islandQ(gi,u){return useEng()?engQ(ELVG[Math.min(gi,8)]):u[1]()}
+
+// ----- 検定の島 packs -----
+const KEN=new Set(['eiken','suken']);
+PACKS.push(
+ {id:'suken',n:'算数検定の島',i:'📐',c:'#2a8a5a',map:'kentei',bg:'#9fe0b8',lab:'級',ken:1,desc:'11級（小1）から 3級（中3）まで、すきな 級に ちょうせん',
+  regions:[['11級',['けいさん１','けいさん２','文章題','もぎ しけん'],'小1'],['10級',['けいさん１','けいさん２','文章題','もぎ しけん'],'小2'],['9級',['けいさん１','けいさん２','文章題','もぎ しけん'],'小3'],
+   ['8級',['けいさん１','けいさん２','文章題','もぎ しけん'],'小4'],['7級',['けいさん１','けいさん２','文章題','もぎ しけん'],'小5'],['6級',['けいさん１','けいさん２','文章題','もぎ しけん'],'小6'],
+   ['5級',['けいさん１','けいさん２','文章題','もぎ しけん'],'中1'],['4級',['けいさん１','けいさん２','文章題','もぎ しけん'],'中2'],['3級',['けいさん１','けいさん２','文章題','もぎ しけん'],'中3']]},
+ {id:'eiken',n:'英検の島',i:'🗽',c:'#2a5ad8',map:'kentei',bg:'#a8c8ff',lab:'級',ken:1,desc:'英検Jr. から 3級（中3）まで、すきな 級に ちょうせん',
+  regions:[['Jr.',['たんご','あいさつ','ABC と かず','リスニング'],'小学生'],['5級',['たんご','かいわ','ぶんぽう','リスニング'],'中1'],['4級',['たんご','かいわ','ぶんぽう','リスニング'],'中2'],['3級',['たんご','かいわ','ぶんぽう','リスニング'],'中3']]});
+PACKS.forEach(p=>{PACK[p.id]=p});
+const EKL=['jr','g5','g4','g3'];
+const kenPass=(pk,ri)=>!!pkSave[`_ok${pk}${ri}`];
+const kenPassN=pk=>PACK[pk].regions.filter((_,i)=>kenPass(pk,i)).length;
+function kenQ(pk,ri,si){if(pk==='eiken'){const lv=EKL[ri],k=['vocab','conv','gram','listen'][si]||'mix';return ESTG[k](lv)}
+  const us=unitsOf(ri),h=Math.ceil(us.length/2);
+  if(si===0)return pick(us.slice(0,h))[1]();if(si===1)return pick(us.slice(h))[1]();if(si===2)return wpQ(ri);
+  return Math.random()<.3?wpQ(ri):pick(us)[1]()}
+function kenCtx(pk,ri,si){const P=PACK[pk],R=P.regions[ri],gi=pk==='eiken'?[1,4,5,5][ri]:Math.min(5,Math.floor(ri*6/9)),pool=MONS.filter(m=>m.ins&&m.gi===gi&&m.rar<5),bosses=MONS.filter(m=>m.ins&&m.gi===gi&&m.rar>=4);
+  const lv=regLv(pk,ri);return{pk,ri,si,world:1,ken:1,n:Math.max(1,Math.ceil(lv/6)),c:P.c,isl:R[0],tag:`${P.i} ${R[0]}${pk==='suken'?'（'+R[2]+'）':''}`,units:[[si<0?'ごうかく しけん':R[1][si],()=>kenQ(pk,ri,si)]],pool,boss:pick(bosses),lvb:lv}}
+// map: one island, a winding road up to the summit; each 級 is a flag on the road
+function kenMapSvg(P){const W=360,H=360,n=P.regions.length,R=srand(P.id==='eiken'?83:29),pts=[];
+  (n>5?[[112,316],[236,304],[300,244],[196,222],[84,196],[150,146],[272,132],[204,86],[104,72]]:[[180,312],[96,236],[256,176],[168,96]]).forEach(p=>pts.push(p));
+  const land=P.id==='eiken'?['#b8d8ff','#8ab8f0','#6a9ae0']:['#b8e8a0','#94d47a','#76bf60'];
+  let s=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="group" aria-label="${P.n}の ちず"><defs><radialGradient id="seaK" cx=".5" cy=".45" r=".75"><stop offset="0" stop-color="#9fe8f0"/><stop offset=".6" stop-color="#4ab8dc"/><stop offset="1" stop-color="#1f7ab0"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#seaK)"/>`;
+  for(let i=0;i<24;i++){const x=R()*W,y=R()*H;s+=`<path d="M${x.toFixed(0)} ${y.toFixed(0)}q4 -3 8 0q4 3 8 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".35" stroke-linecap="round"/>`}
+  s+=`<path d="${blobPath(180,196,166,160,srand(P.id.length*7),22)}" fill="#f6e3a8"/>`;
+  [[158,150,land[0]],[118,112,land[1]],[74,72,land[2]]].forEach(([rx,ry,c],k)=>{s+=`<path d="${blobPath(180,200-k*30,rx,ry,srand(k*11+P.id.length),20)}" fill="${c}"/>`});
+  s+=`<g transform="translate(${P.id==='eiken'?250:262} 46)"><path d="M-30 14L0-24L30 14Z" fill="#fffdf5" opacity=".9"/><text y="8" text-anchor="middle" font-size="20">${P.id==='eiken'?'🗽':'🏆'}</text></g>`;
+  for(let i=0;i<14;i++){const a=R()*Math.PI*2,rr=60+R()*90,x=180+Math.cos(a)*rr,y=200+Math.sin(a)*rr*.85;s+=`<text x="${x.toFixed(0)}" y="${y.toFixed(0)}" font-size="${10+R()*6|0}" opacity=".55" text-anchor="middle">${pick(P.id==='eiken'?['🔤','💬','📘','✏️','🎧']:['➕','✖️','📏','🔺','📐','➗'])}</text>`}
+  s+=`<path d="${trailPath(pts)}" stroke="#fffdf5" stroke-width="7" fill="none" stroke-linecap="round" opacity=".85"/><path d="${trailPath(pts)}" stroke="${P.c}" stroke-width="2" fill="none" stroke-dasharray="2 6" stroke-linecap="round"/>`;
+  P.regions.forEach((r,i)=>{const[x,y]=pts[i],sel=PK.sel===i,ok=kenPass(P.id,i),st=regCleared(P.id,i),lbl=r[0];
+    s+=`<g class="pref" data-r="${i}" tabindex="0" role="button" aria-label="${lbl}（${r[2]}）${ok?' ごうかく':''}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">${sel?'<circle class="ring" r="24" fill="none" stroke="#ff3d8b" stroke-width="3" stroke-dasharray="6 4"/>':''}
+      <ellipse cy="14" rx="15" ry="4" fill="rgba(30,60,40,.3)"/><circle r="17" fill="${ok?'#ffe9a8':'#fffdf5'}" stroke="${ok?'#e0a800':P.c}" stroke-width="3.2"/>
+      <text y="${ok?6:4}" text-anchor="middle" font-size="${ok?16:lbl.length>3?9.5:12}" font-weight="900" fill="${P.c}" font-family="Zen Maru Gothic,M PLUS Rounded 1c,sans-serif">${ok?'🎖':lbl}</text>
+      <rect x="-24" y="19" width="48" height="15" rx="7.5" fill="rgba(30,40,50,.86)"/><text y="30" text-anchor="middle" font-size="9" font-weight="900" fill="#fff" font-family="Zen Maru Gothic,sans-serif">${ok?lbl+' 合格':r[2]+' '+st+'/4'}</text></g>`});
+  return s+'</svg>'}
+// certificate shown on the clear screen
+function kenCert(P,ri,pct){const r=P.regions[ri];return `<div class="kcert" style="--kc:${P.c}"><small>${P.i} ${P.n}</small><b>${r[0]} ごうかく</b><span>${slotName()} さん ・ 正解りつ ${pct}%</span><i aria-hidden="true">🎖</i></div>`}
+
+function kenSheet(P,ri){const R=P.regions[ri],cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,ok=kenPass(P.id,ri);
+  let sample='';try{const q=kenQ(P.id,ri,0);sample=q.ch?q.html.replace(/<button[\s\S]*?<\/button>/g,''):q.html+(q.ne?'':' ＝ ?')}catch(e){}
+  return `<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${P.n.replace(/の島$/,'')} ${R[0]} ${ok?'🎖 ごうかく':''}</b><small>${R[2]}レベル ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
+   <div class="kensample"><small>れい</small><div class="ks">${sample}</div></div>
+   <div class="pkst">${R[1].map((c,si)=>{const st=pkSave[pkey(P.id,ri,si)];return `<button class="pkstage ${st?'done':''}" data-s="${si}"><b>${c}</b><span class="stars3">${st?'★'.repeat(st.stars)+'<i>'+'★'.repeat(3-st.stars)+'</i>':'<i>★★★</i>'}</span></button>`}).join('')}
+     <button class="pkstage boss ${bo?'':'lock'}" data-s="-1" ${bo?'':'disabled'}><b>${bo?'🎖 ごうかく しけん':'🔒 ごうかく しけん'}</b><span>${bo?(ok?'ごうかく ずみ':'正解りつ 70%で ごうかく'):`あと ${need-cl}つ クリア`}</span></button></div>`}
+
+document.addEventListener('click',e=>{const b=e.target.closest('.sjb');if(!b)return;setSubj(b.dataset.sj);try{if(!$('mapScr').hidden)drawSheet();if(!$('packScr').hidden)drawPkSheet()}catch(err){}});
 // ================= HOME (title) =================
 function chUrl(c){return THUMB['p'+c.id]||null}
 function drawDex(){const R=srand(42),W=360;let s=`<svg viewBox="0 -24 ${W} 274" role="img" aria-label="6人の 昆虫の 戦士が 島で まっている"><defs>
