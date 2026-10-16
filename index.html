@@ -4580,7 +4580,7 @@ $('chs').addEventListener('click',e=>{const b=e.target.closest('.chb');if(b)pick
 // ----- hub -----
 function openHub(){const cards=[
    ['japan','🗾','にっぽん旅','都道府県 スタンプラリー',`せいは ${Object.keys(stp.done||{}).length}/47 ・ スタンプ ${allStamps()}/${totSpots}`,'#e0467a'],
-   ...pkList().map(p=>['pk:'+p.id,p.i,p.n,({oki:'船で 5つの 島を めぐる',sea:'魚・貝・海の いきもの',land:'森や 山の どうぶつ',sky:'日本の 空の 鳥たち',asia:'8つの 国・地域を たび',eu:'8つの 国を たび',ura:'南の島の ひきょう',suken:'11級〜3級 算数・数学検定',eiken:'Jr.ブロンズ〜3級 英検たいさく',kanken:'10級〜6級 漢字検定',west:'Levi\'s・501・Gジャンを ほりさげる',east:'Lee・Wrangler・ストアブランド'})[p.id],p.vint?`👖 カード ${Object.keys(VCARD).filter(k=>VCARD[k][0]===p.id&&vintGot.has(k)).length}/${Object.keys(VCARD).filter(k=>VCARD[k][0]===p.id).length}`:p.ken?`🎖 ごうかく ${kenPassN(p.id)}/${p.regions.length}`:`ずかん ${pkGot(p.id)}/${pkMons(p.id).length}`,p.c]),
+   ...pkList().map(p=>['pk:'+p.id,p.i,p.n,({oki:'船で 5つの 島を めぐる',sea:'魚・貝・海の いきもの',land:'森や 山の どうぶつ',sky:'日本の 空の 鳥たち',asia:'8つの 国・地域を たび',eu:'8つの 国を たび',ura:'南の島の ひきょう',suken:'11級〜3級 算数・数学検定',eiken:'Jr.ブロンズ〜3級 英検たいさく',kanken:'10級〜6級 漢字検定',west:'Levi\'s・501・Gジャンを ほりさげる',east:'Lee・Wrangler・ストアブランド',jpn:'古着屋さん・YouTube・極東リーバイス'})[p.id],p.vint?`👖 カード ${Object.keys(VCARD).filter(k=>VCARD[k][0]===p.id&&vintGot.has(k)).length}/${Object.keys(VCARD).filter(k=>VCARD[k][0]===p.id).length}`:p.ken?`🎖 ごうかく ${kenPassN(p.id)}/${p.regions.length}`:`ずかん ${pkGot(p.id)}/${pkMons(p.id).length}`,p.c]),
    ['trace','✍','なぞり書き','書きじゅんを 指で なぞる',`${(store.get('kr_trace')||[]).length}/835字`,'#c8402a'],
    ['music','🎵','楽器編','楽器クイズで 楽器を ゲット',`楽器 ${typeof instGot==='function'?instGot():0}/${typeof INSTS!=='undefined'?INSTS.length:0}`,'#d8a02a'],
    ['trade','🔁','こうかん','コードで 生き物を こうかん','ともだちと',`#3a9a8a`],...(kokuoReady()?[['secret','👑','？？？の けはい','だれかが きみを まっている…','ひみつの たたかい','#c8a030']]:!owned.has('kokuo')&&dexN()>=30?[['secret0','❔','？？？','ずかんを あつめると なにかが おきる…',`ずかん ${dexN()}/${KOKUO_NEED}`,'#8a7a5a']]:[]),['letter','💌','ひみつの てがみ','ひみつの なかまの ヒント',`ヒント ${hintN()}/12${hintN()>(store.get('kr_hintR')||0)?' ・ NEW!':''}`,'#c060a0'],['forge','⚒','かじや','そざいで ぶきを つくる',`ぶき ${WPNS.filter(w=>myItems.has(w[0])).length}しゅるい`,'#8a5226']];
@@ -4864,7 +4864,7 @@ addEventListener('keydown',e=>{
 
 // ---------- title ----------
 
-const pkList=()=>['kanken','suken','eiken','sea','land','sky','asia','eu','oki','west','east','ura'].map(k=>PACK[k]).filter(p=>!p.hidden||uraOpen());
+const pkList=()=>['kanken','suken','eiken','sea','land','sky','asia','eu','oki','west','east','jpn','ura'].map(k=>PACK[k]).filter(p=>!p.hidden||uraOpen());
 
 // ================= MATERIALS & FORGE (そざい・かじや) =================
 // id:[name, icon shape, colour, rarity, where to get]
@@ -6609,7 +6609,7 @@ const VQ={west:[],east:[]};
 // collectible cards: id -> [pack, region, name, sub, art, text]
 const VCARD={};
 let vintGot=new Set(store.get('kr_vint')||[]);const vintSave=()=>store.set('kr_vint',[...vintGot]);
-function vArt(a){if(!a)return '';return a.j?jeansSvg(a.j):a.k?jacketSvg(a.k):''}
+function vArt(a){if(!a)return '';return a.dz?detailSvg(a.dz):a.j?jeansSvg(a.j):a.k?jacketSvg(a.k):''}
 function vintQ(pk,ri,si){const all=VQ[pk],here=all.filter(x=>x[0]===ri&&(si<0||x[1]<0||x[1]===si)),reg=all.filter(x=>x[0]===ri);
   const pool=here.length&&Math.random()<.75?here:reg.length?reg:all;const[r,s,q,a,w,ex,art]=pick(pool);
   const o=chQ(`${art?`<span class="vart">${vArt(art)}</span>`:''}<span class="qtx vq">${q}</span>`,a,w,1);o.ex=ex;o.exh='👖 古着 まめちしき';o.thr=art?9:8;o.vint=1;return o}
@@ -6758,6 +6758,135 @@ Object.assign(VCARD,{
  w_t2:['west',4,'507XX セカンド','1953〜1960年代はじめ',{k:LVK.t2},'フラップ付き 2ポケット・プリーツ・アジャスター。'],
  w_t3:['west',4,'557XX サード','1962〜67年ごろ',{k:LVK.t3},'プリーツなし・V字ステッチ・とがった フラップ。'],
  w_t4:['west',4,'70505 フォース','1967〜',{k:LVK.t4},'丈が 長く V字が 下で とじない。BIG E は 1971年ごろまで。']});
+
+// ===== 古着「ここを見て」拡大図 =====
+const DIND='#22396e',DST='#e8b04a',DST2='#d8822a';
+function dBg(inner,label){return `<svg class="denim dzoom" viewBox="0 0 220 132" aria-hidden="true"><defs><pattern id="dtw" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><rect width="6" height="6" fill="${DIND}"/><path d="M0 0V6" stroke="#2c4682" stroke-width="2.2"/></pattern></defs><rect width="220" height="132" rx="10" fill="url(#dtw)"/>${inner}${label?`<rect x="6" y="110" width="${label.length*10.6+26}" height="17" rx="8.5" fill="rgba(255,253,245,.92)"/><text x="14" y="122.5" font-size="10" font-weight="900" fill="#3b2c1c" font-family="Zen Maru Gothic,sans-serif">🔍 ${label}</text>`:''}</svg>`}
+function detailSvg(d){const k=d.d,v=d.v,DB=(i,l)=>dBg(i,d.nolabel?'':l);
+ if(k==='patch'){let p='';
+   if(v==='twohorse')p=`<rect x="40" y="16" width="140" height="86" rx="6" fill="#8a5a2a" stroke="#4a2a10" stroke-width="2"/><rect x="46" y="22" width="128" height="74" rx="4" fill="none" stroke="#c89a5a" stroke-dasharray="3 2"/>
+     <text x="110" y="52" font-size="12" text-anchor="middle" fill="#f4dcb0" font-weight="900">革（レザー）</text><text x="110" y="72" font-size="9.5" text-anchor="middle" fill="#f4dcb0" font-weight="800">2頭の 馬の 絵が 押されている</text>`;
+   else{const g=v==='paperG',w=v==='wname',t=v==='typeA';p=`<rect x="36" y="14" width="148" height="90" rx="5" fill="#e8d8b0" stroke="#8a6a3a" stroke-width="2"/><text x="110" y="34" font-size="10" text-anchor="middle" fill="#6a3a1a" font-weight="900">紙（カード）</text><rect x="58" y="42" width="104" height="18" rx="2" fill="none" stroke="#8a6a3a" stroke-dasharray="2 2"/><text x="110" y="55" font-size="8" text-anchor="middle" fill="#8a6a3a">（絵と 会社名）</text>
+     <text x="110" y="76" font-size="${w?10:13}" text-anchor="middle" fill="#6a3a1a" font-weight="900">${w?'501XX  ·  501':t?'501   A':g?'501XX':'501'}</text>${g?'<text x="110" y="92" font-size="6.6" text-anchor="middle" fill="#6a3a1a" font-weight="800">EVERY GARMENT GUARANTEED</text>':'<text x="110" y="92" font-size="6.6" text-anchor="middle" fill="#8a6a3a">W  ____   L  ____</text>'}`}
+   return DB(p,{twohorse:'ツーホースの 革パッチ',paperG:'紙パッチ（ギャラ入り）',paperN:'紙パッチ（ギャラなし）',wname:'Wネーム',typeA:'タイプ物'}[v]||'')}
+ if(k==='tab'){const txt={bigE:'LEVI\'S',smalle:'Levi\'s',one:'LEVI\'S',blank:'®',orange:'Levi\'s'}[v]||'LEVI\'S';
+   const col=v==='orange'?'#ff8a2a':'#d8202a';
+   let p=`<path d="M40 96Q110 60 180 96V132H40Z" fill="#22396e"/><path d="M40 96Q110 60 180 96" stroke="${DST}" stroke-width="2" fill="none" stroke-dasharray="3 2"/><rect x="92" y="34" width="36" height="70" rx="3" fill="${col}" stroke="#7a0a10" stroke-width="1.5"/>
+     <text x="110" y="${v==='blank'?74:72}" font-size="${v==='blank'?20:14}" text-anchor="middle" fill="#fff" font-weight="900" transform="rotate(-90 110 69)" font-family="Georgia,serif">${txt}</text>`;
+   if(v==='evenV'||v==='unevenV')p=`<rect x="70" y="20" width="80" height="90" rx="4" fill="#d8202a"/><path d="M90 40L110 92L130 40" stroke="#fff" stroke-width="${v==='evenV'?6:3}" fill="none"/>${v==='unevenV'?'<path d="M90 40L110 92" stroke="#fff" stroke-width="9" fill="none"/>':''}`;
+   return DB(p,{bigE:'BIG E（大文字の E）',smalle:'small e（小文字の e）',one:'片面タブ（うらは 文字なし）',blank:'® だけの タブ',orange:'オレンジタブ',evenV:'均等V',unevenV:'不均等V'}[v]||'')}
+ if(k==='button'){const lab=v.length>4?v:'';const back=!v.startsWith('R');
+   const p=back?`<circle cx="110" cy="60" r="40" fill="#b8a070" stroke="#5a4a2a" stroke-width="3"/><circle cx="110" cy="60" r="30" fill="none" stroke="#7a6a40" stroke-width="1.5"/><text x="110" y="70" font-size="${v.length>2?24:30}" text-anchor="middle" fill="#3a2a10" font-weight="900" font-family="Georgia,serif">${v}</text>`
+     :`<circle cx="110" cy="60" r="40" fill="#c8b080" stroke="#5a4a2a" stroke-width="3"/><text x="110" y="78" font-size="34" text-anchor="middle" fill="#3a2a10" font-weight="900" font-family="Georgia,serif" transform="${v==='Rlong'?'scale(1 1.25) translate(0 -16)':''}">R</text>`;
+   return DB(p,v==='Rlong'?'足長R':v==='Rnorm'?'ふつうの R':`ボタン裏の 刻印「${v}」`)}
+ if(k==='selv'){const red=v==='red';const p=`<rect x="30" y="10" width="80" height="96" fill="#2c4682"/><rect x="110" y="10" width="80" height="96" fill="#f4f0e4"/>
+   ${red?'<rect x="104" y="10" width="12" height="96" fill="#fffdf5"/><rect x="108" y="10" width="4" height="96" fill="#d8202a"/>':'<path d="M108 10V106" stroke="#fffdf5" stroke-width="10"/><path d="M104 10V106M112 10V106" stroke="#e8e0c8" stroke-width="1.5" stroke-dasharray="1.5 1.5"/><path d="M103 14L113 18L103 22L113 26L103 30L113 34L103 38L113 42L103 46L113 50L103 54L113 58L103 62L113 66L103 70L113 74L103 78L113 82L103 86L113 90L103 94L113 98" stroke="#d8d0b8" stroke-width="1" fill="none"/>'}`;
+   return DB(p,red?'赤耳（セルビッジ）':'脇割り（ロックミシン）')}
+ if(k==='stitch'){const ch=v==='chain';const p=`<rect x="20" y="20" width="180" height="76" fill="#2c4682"/><path d="M20 60H200" stroke="#1a2a50" stroke-width="2"/>${ch?Array.from({length:14},(_,i)=>`<ellipse cx="${30+i*12}" cy="72" rx="6" ry="3" fill="none" stroke="${DST2}" stroke-width="2"/>`).join(''):Array.from({length:18},(_,i)=>`<path d="M${26+i*10} 72H${32+i*10}" stroke="${DST}" stroke-width="2.4"/>`).join('')}`;
+   return DB(p,ch?'チェーンステッチ（くさり状）':'シングルステッチ')}
+ if(k==='rivet'){const h=v==='hidden';const p=`<path d="M40 20H180V100L110 120L40 100Z" fill="#2c4682" stroke="#14244a" stroke-width="2"/>${h?'<circle cx="52" cy="30" r="6" fill="none" stroke="#c8a050" stroke-width="2" stroke-dasharray="2 2"/><circle cx="168" cy="30" r="6" fill="none" stroke="#c8a050" stroke-width="2" stroke-dasharray="2 2"/><text x="110" y="62" font-size="9" text-anchor="middle" fill="#fff" font-weight="900">うらに リベットが かくれている</text>':'<path d="M46 28L58 28M46 32L58 32M162 28L174 28M162 32L174 32" stroke="#e8b04a" stroke-width="2.4"/><text x="110" y="62" font-size="9" text-anchor="middle" fill="#fff" font-weight="900">糸の かんぬき止め（バータック）</text>'}`;
+   return DB(p,h?'かくしリベット':'バータック')}
+ if(k==='arcuate'){const pt=v==='paint';const p=`<path d="M40 14H180V100L110 120L40 100Z" fill="#2c4682" stroke="#14244a" stroke-width="2"/>${pt?'<path d="M56 54Q83 26 110 58Q137 26 164 54" stroke="#f0e8d0" stroke-width="5" fill="none" opacity=".85"/><path d="M56 62Q83 34 110 66Q137 34 164 62" stroke="#f0e8d0" stroke-width="5" fill="none" opacity=".85"/>':'<path d="M56 54Q83 26 110 62Q137 26 164 54" stroke="#e8b04a" stroke-width="2.2" fill="none" stroke-dasharray="3 1.5"/><path d="M56 62Q83 34 110 54Q137 34 164 62" stroke="#e8b04a" stroke-width="2.2" fill="none" stroke-dasharray="3 1.5"/>'}`;
+   return DB(p,pt?'ペンキの アーキュエイト':'ダイヤモンド（線が 交わる）')}
+ if(k==='loop'){const off=v==='offset';const p=`<rect x="10" y="20" width="200" height="30" fill="#2c4682" stroke="#14244a"/><path d="M10 50H210V110H10Z" fill="#22396e"/><path d="M110 50V110" stroke="#14244a" stroke-width="2"/><rect x="${off?122:104}" y="14" width="12" height="40" rx="2" fill="#2c4682" stroke="#e8b04a" stroke-width="1.6"/><path d="M110 46V58" stroke="#ff3d8b" stroke-width="2" stroke-dasharray="2 2"/>`;
+   return DB(p,off?'オフセット（中心から ずれる）':'センターループ')}
+ if(k==='lazys'||k==='wst'){const p=k==='lazys'?`<path d="M30 14H190V100L110 120L30 100Z" fill="#2c4682"/><path d="M50 62Q80 20 110 62Q140 104 170 52" stroke="#d8a03a" stroke-width="3" fill="none"/>`:`<path d="M30 14H190V100L110 120L30 100Z" fill="#2c4682"/><path d="M50 40L78 86L110 50L142 86L170 40" stroke="#e8b04a" stroke-width="3" fill="none"/>`;
+   return DB(p,k==='lazys'?'レイジーS（Lee）':'Wステッチ（Wrangler）')}
+ return ''}
+// ----- 「ここを見て」拡大図の 問題 -----
+const DZ=(d,v)=>({dz:{d,v,nolabel:1}});
+VQ.west.push(
+ [0,3,'この パッチは 何？','ツーホースの 革パッチ',['紙パッチ（ギャラ入り）','Wネーム','ヘアオンハイド'],'2頭の 馬が 引っぱる 絵の 革パッチ。1886年ごろ 登場。',DZ('patch','twohorse')],
+ [0,3,'この 赤タブは 何と よばれる？','BIG E',['small e','オレンジタブ','® だけの タブ'],'LEVI\'S の E が 大文字。1971年ごろまで。',DZ('tab','bigE')],
+ [2,0,'この 赤タブは 何と よばれる？','small e',['BIG E','片面タブ','オレンジタブ'],'1971年ごろから 小文字の Levi\'s に。',DZ('tab','smalle')],
+ [0,3,'文字が なく ® だけの この タブの 役わりは？','タブ そのものを 商標として まもる',['子ども用の しるし','作りわすれ','安売りの しるし'],'およそ 1わりの タブは ® だけ。',DZ('tab','blank')],
+ [1,3,'この パッチは どれ？','紙パッチ（ギャラ入り）',['紙パッチ（ギャラなし）','ツーホースの 革パッチ','タイプ物'],'「EVERY GARMENT GUARANTEED」の 文字が ある。1960年代はじめに なくなる。',DZ('patch','paperG')],
+ [1,3,'この パッチは どれ？','紙パッチ（ギャラなし）',['紙パッチ（ギャラ入り）','Wネーム','ツーホースの 革パッチ'],'保証の 文字が ない 紙パッチ。',DZ('patch','paperN')],
+ [2,0,'501XX と 501 の 両方が 書かれた この パッチは？','Wネーム',['タイプ物','ギャラ入り','片面パッチ'],'1966年ごろ、XX が とれる 前後に 見られる。',DZ('patch','wname')],
+ [2,0,'501 の 横に A などの 1文字が ある この パッチは？','タイプ物',['Wネーム','ギャラ入り','66'],'1960年代後半ごろ。A と S が 多い。',DZ('patch','typeA')],
+ [2,0,'この タブの V は どっち？','均等V',['不均等V','BIG E','small e'],'V の 左右の 太さが 同じ。1950年代〜60年代なかばごろ。',DZ('tab','evenV')],
+ [2,0,'この タブの V は どっち？','不均等V',['均等V','オレンジタブ','® タブ'],'左が 太い V。1960年代なかばごろからの BIG E。',DZ('tab','unevenV')],
+ [2,0,'足が 長い この ボタンの R を 何という？','足長R',['短足R','大R','ダブルR'],'1950年代なかば〜1970年ごろ。タブが なくても 年代の ヒントに。',DZ('button','Rlong')],
+ [2,3,'ボタン裏に この 刻印が ある 工場は？','サンフランシスコの バレンシア通り工場',['テキサス州 エルパソ','ノックスビル','日本'],'555 は バレンシア通り工場の 番号。',DZ('button','555')],
+ [2,3,'ボタン裏に この 刻印が ある 工場は？','テキサス州 エルパソ',['サンフランシスコ','サンアントニオ','グリーンズボロ'],'エルパソは 1980〜90年代 524。',DZ('button','524')],
+ [2,2,'この 生地の はしを 何という？','赤耳（セルビッジ）',['脇割り','チェーンステッチ','オフセット'],'旧式の せまい 織機の 生地の はし。1980年代なかばまで。',DZ('selv','red')],
+ [2,2,'この わきの 始末は？','脇割り（ロックミシン）',['赤耳','チェーンステッチ','かくしリベット'],'広幅織機に なってからの ぬい方。',DZ('selv','split')],
+ [2,1,'この ステッチは？','チェーンステッチ',['シングルステッチ','Wステッチ','ペンキ'],'くさりの ように つながる ぬい目。66後期の うしろポケット内側など。',DZ('stitch','chain')],
+ [2,1,'66前期の うしろポケット内側の ステッチは どれ？','シングルステッチ',['チェーンステッチ','ペンキ','レイジーS'],'66前期は シングル、後期は チェーン。',DZ('stitch','single')],
+ [1,2,'この うしろポケットの 補強は？','かくしリベット',['バータック','ペンキ','オフセット'],'1937年〜1966年ごろ。布の うらに リベットが かくれている。',DZ('rivet','hidden')],
+ [1,2,'1966年ごろから の うしろポケットの 補強は どれ？','バータック（かんぬき止め）',['かくしリベット','むき出しの リベット','ボタン'],'リベットから 糸の かんぬき止めへ。',DZ('rivet','bar')],
+ [1,1,'この アーキュエイトは？','ペンキで 描いた 大戦モデルの もの',['ダイヤモンドの ステッチ','レイジーS','Wステッチ'],'第二次世界大戦中、糸を せつやくするため ペンキに。',DZ('arcuate','paint')],
+ [1,0,'線が 交わって できる この 形を 何という？','ダイヤモンド',['オフセット','Vステッチ','ペンキ'],'戦後、2本針ミシンで 縫われて 中央に ひし形が できる。',DZ('arcuate','dia')],
+ [1,3,'うしろ中心の ベルトループが ずれている この ディテールは？','オフセット',['センターループ','Vステッチ','ギャラ'],'1950年代なかば〜1960年代はじめごろ。',DZ('loop','offset')]);
+VQ.east.push(
+ [0,3,'この うしろポケットの ステッチは？','レイジーS（Lee）',['Wステッチ（Wrangler）','アーキュエイト（Levi\'s）','まっすぐ（フォアモスト）'],'左右で ロングホーン牛の 角のように 見える Lee の ステッチ。',DZ('lazys','')],
+ [2,3,'この うしろポケットの ステッチは？','Wステッチ（Wrangler）',['レイジーS（Lee）','アーキュエイト（Levi\'s）','ステッチなし'],'W は Western Wear の W。',DZ('wst','')]);
+
+// ----- 古着 日本編: 古着の 先生たち（公開されている 記事・チャンネル説明で 確認できた ことだけ）＋ 極東リーバイス -----
+VINTP.add('jpn');
+PACKS.push({id:'jpn',n:'古着 日本編',i:'🗾',c:'#3a5a3a',map:'vint',bg:'#e0e8c8',lab:'スポット',vint:1,desc:'日本の 古着屋さん・古着 YouTube・極東リーバイスを たずねて、ニッポンの 古着文化を ほりさげよう',
+ regions:[['原宿',['ベルベルジン','教養としてのデニム','大戦モデルと Gジャン','デニムの 神様'],'ベルベルジン'],['富ヶ谷',['Mr.Clean','買い付けの 旅','サードと 501XX','情熱大陸'],'Mr.Clean'],
+  ['青葉台',['オワッテルマン','品番の きほん','66 と 丈','ヴィンテージの 始め方'],'オワッテルマン'],['YouTube',['古着屋パンダ','はきこみ レビュー','ネイジャパ','サンフランシスコ'],'古着チャンネル'],
+  ['極東',['極東リーバイス','日本製の 復刻','見わけ方','アジアの リーバイス'],'極東リーバイス']]});
+PACK.jpn=PACKS[PACKS.length-1];VQ.jpn=[];
+VMAP.jpn={land:[[250,10],[300,30],[320,70],[300,110],[270,140],[250,180],[226,214],[196,240],[160,262],[120,290],[84,316],[50,334],[30,318],[52,290],[86,262],[120,234],[150,206],[180,176],[204,140],[222,100],[230,60],[236,26]],
+ nodes:[[262,62,'👖'],[248,132,'🛒'],[194,190,'🎥'],[130,246,'▶️'],[66,304,'⛩️']],deco:[['🗻',150,170],['🌸',250,90],['🏯',90,300],['🍵',120,200],['⛵',300,250]],sea:'太平洋',seaX:280};
+VQ.jpn.push(
+ [0,0,'古着屋さん「ベルベルジン」が ある 町は？','原宿',['下北沢','高円寺','吉祥寺'],'東京・渋谷区神宮前に ある 古着屋さん。'],
+ [0,0,'ベルベルジンの ディレクター 藤原裕さんの 出身地は？','高知県',['岡山県','広島県','東京都'],'出版社の プロフィールより。岡山は デニムの 町なので ひっかけに 注意。'],
+ [0,1,'藤原裕さんが 2022年に 出した 本の タイトルは？','教養としてのデニム',['デニムの 歴史図鑑','ジーンズの 神様','古着の 教科書'],'正式には『日本人が見出したヴィンテージの価値 教養としてのデニム』（KADOKAWA）。'],
+ [0,1,'『教養としてのデニム』の 紹介文で、デニムは もともと だれの 作業着と されている？','ゴールドラッシュの 鉱夫',['宇宙飛行士','お医者さん','パイロット'],'金を ほる 人たちの じょうぶな 作業着が はじまり。'],
+ [0,1,'『教養としてのデニム』の 紹介で「和製英語」と されている デニム用語は？','ヒゲ',['インディゴ','リベット','デニム'],'色落ちの「ヒゲ」や「デッドストック」は 日本で 生まれた よび方。'],
+ [0,2,'ベルベルジンの YouTube の 動画タイトルにも 出てくる、第二次世界大戦中の 501 の よび名は？','大戦モデル（S501XX）',['BIG E','66前期','ハチマル'],'ペンキの アーキュエイトや ドーナツボタンが 特ちょう。'],
+ [0,2,'Gジャンの 506XX・507XX・70505 の なかで ファーストは？','506XX',['507XX','70505','557XX'],'507XX は セカンド、557XX は サード、70505 は フォース。'],
+ [0,3,'メディアで 藤原裕さんは 何と よばれている？','デニムの 神様',['ジーンズ王子','古着の 魔王','インディゴ博士'],'雑誌の 記事などで「デニムの神様」と しょうかい されている。'],
+ [0,3,'藤原裕さんが デニムを 初めて 買ったのは いつ？','中学生の とき',['大人に なってから','小学1年生','60さい'],'20さいで 初めて アメリカへ 買い付けに 行った。'],
+ [1,0,'栗原道彦さんの 古着屋さん「Mr.Clean」が ある 東京の 町は？','富ヶ谷',['原宿','代官山','中目黒'],'2020年に 横浜から 渋谷区富ヶ谷へ うつった。'],
+ [1,0,'Mr.Clean の 前の 名前は？','Mr. Clean Yokohama',['Mr. Clean Osaka','Mr. Clean Tokyo Bay','Mr. Clean Kyoto'],'2018年に 横浜で ひらき、2020年に 富ヶ谷で「Mr.Clean」に。'],
+ [1,1,'栗原道彦さんが アメリカで 買い付けを はじめた 年れいは？','18さい',['8さい','30さい','50さい'],'17さいで 古着屋さんに 入り、18さいで アメリカの 買い付けを はじめた。'],
+ [1,1,'栗原さんは 1年の うち どのくらいを アメリカで すごしている？','約半年',['約1日','ずっと 日本','約10年'],'記事より。買い付けの ため アメリカを まわる。'],
+ [1,2,'Mr.Clean の 店頭に ならんでいた 1960年代なかばの リーバイスの Gジャンは？','サード',['ファースト','セカンド','70506'],'サードは 557XX。プリーツが なく V字の ステッチ。'],
+ [1,3,'2025年に 栗原さんの 買い付けの 旅を つたえた テレビ番組は？','情熱大陸',['プロフェッショナル','世界の 果てまで','ドキュメント72時間'],'66日間・約2万km の アメリカ買い付けの 旅が 放送された。'],
+ [1,3,'情熱大陸で 放送された 栗原さんの アメリカ買い付けの 旅は 何日間？','66日',['6日','30日','365日'],'約2万km を 移動した。'],
+ [2,0,'オワッテルマンさんの YouTube チャンネル名に ある ことばは？','ヴィンテージファッションの始め方',['デニムの 神様','古着屋の うら側','ジーンズ日記'],'正式名は「owatterumanヴィンテージファッションの始め方」。'],
+ [2,0,'オワッテルマンさんの 拠点「OWATTERUMAN VINTAGE STUDIO」が ある 県は？','神奈川県（横浜市）',['北海道','沖縄県','高知県'],'横浜市青葉区。倉庫・撮影スタジオ・ときどき ポップアップ会場に。'],
+ [2,1,'501 の ほかに 覚えておくと よい リーバイスの 品番として 紹介されているのは？','502・505・606',['701・702・703','13MWZ','101Z'],'502 と 505 は ジッパー、606 は オレンジタブの 細身。'],
+ [2,2,'1970年代後半の リーバイスで、オワッテルマンさんも コーデで 紹介している 501 の よび名は？','66',['BIG E','大戦モデル','XX'],'フラッシャーの ©1966 から ついた よび名。'],
+ [2,3,'オワッテルマンさんが かかげる コンセプトは？','20年後の 自分でも 着られる ファッションを 今 着る',['毎日 ちがう 服を 買う','新品しか 着ない','ジーンズは はかない'],'長く 着られる 服を えらぶ 考え方。'],
+ [3,0,'「古着屋パンダ」は 本当に 古着屋さん？','いいえ、YouTube チャンネルの 名前',['はい、原宿の お店','はい、大阪の お店','はい、ネットショップ'],'チャンネル説明に「古着屋さんではありません」と 書かれている。'],
+ [3,0,'古着屋パンダの テーマの 年代は？','90年代の アメカジ・古着',['1850年代','2050年代','江戸時代'],'元ウェブファッション誌の 編集者が 2019年に はじめた チャンネル。'],
+ [3,1,'古着屋パンダで 定番の 動画は？','デニムを 長く はきこむ レビュー',['料理','ゲーム実況','車の 修理'],'リーバイス 501 を 1年半 はいた 記録などが ある。'],
+ [3,2,'「ネイジャパ」の 正式な チャンネル名は？','ネイティブジャパニーズ（NATIVE JAPANESE）',['NEIGHBORHOOD JAPAN','ネイビー ジャパン','ネイル ジャパン'],'ネイジャパは 愛称。'],
+ [3,2,'ネイジャパ（ネイティブジャパニーズ）は 何人組？','兄弟 2人',['1人','3人','5人'],'兄の KENTO さんと 弟の TAKUTO さん。'],
+ [3,3,'ネイジャパの 2人が すんでいた アメリカの 町は？','サンフランシスコ',['ニューヨーク','シカゴ','ホノルル'],'リーバイスの ふるさとと 同じ 町。'],
+ [3,3,'ネイジャパの 企画で、綿を そだてて 作った ものは？','Tシャツ',['くつ','ぼうし','かばん'],'アメリカの 古着や 文化、車、キャンプなども 発信している。']);
+Object.assign(VCARD,{
+ j_book:['jpn',0,'教養としてのデニム','藤原裕 ・ 2022年',null,'デニムの 価値を 日本人が どう 見出したかを 語る 本。'],
+ j_third:['jpn',1,'1960年代の サード','Mr.Clean の 店頭で',{k:LVK.t3},'プリーツなし・V字ステッチ・とがった フラップ。'],
+ j_66:['jpn',2,'1970年代後半の 66','オワッテルマンさんの コーデ',{j:LVJ.s66},'フラッシャーの ©1966 が 名前の 由来。'],
+ j_501:['jpn',3,'はきこんだ 501','古着屋パンダの レビュー',{j:Object.assign({},LVJ.usa90,{wash:.85})},'長く はくほど 色落ちが 育つ。']});
+VQ.jpn.push(
+ [4,0,'古着好きが いう「極東リーバイス」とは？','香港や フィリピンなど アジアの 工場で 作られ、日本・アジア向けに 売られた もの',['岡山だけで 作られた 限定品','ロシアの 極東で 作られた もの','1800年代の いちばん 古い ジーンズ'],'「Levi Strauss (Far East) Ltd.」名義の フィリピン製・香港製・マカオ製など。1970〜90年代ごろ。'],
+ [4,0,'極東リーバイスに 見られる、香港工場を あらわす ボタン裏の 数字は？','347',['555','J22','524'],'555 は バレンシア通り工場、J22 は 日本製の 復刻、524 は エルパソ。',DZ('button','347')],
+ [4,0,'1970年代の 極東リーバイスの 紙ラベルに 書かれた 会社名は？','Levi Strauss (Far East) Ltd.',['Blue Bell','H.D. Lee','Cone Mills'],'日本語の 品質表示や 洗濯表示が ついた ものも ある。'],
+ [4,0,'極東リーバイスの サイズ感の 特ちょうは？','同じ 表記サイズでも アメリカ製より 細め',['アメリカ製より とても 太い','子ども用しか ない','サイズ表記が ない'],'アジア向けに 作られたため。'],
+ [4,1,'香港の「リーバイ・ストラウス（ファーイースト）」の 日本支社が できた 年は？','1971年',['1953年','1982年','1996年'],'昭和46年。'],
+ [4,1,'「リーバイ・ストラウス ジャパン株式会社」が できた 年は？','1982年',['1971年','1965年','2001年'],'1983年に 支社の 資産や 社員を 引きついだ。'],
+ [4,1,'リーバイスが 日本で ツーホースマークを 商標登録した 年は？','1905年（明治38年）',['1945年','1971年','1890年'],'アメリカでの 登録から 19年後。'],
+ [4,1,'リーバイスジャパンの 日本製 ヴィンテージ復刻の 第一弾は？','502XX',['501XX','505','66501'],'ジッパー版 501（501ZXX）の 復刻。1986年ごろ。'],
+ [4,1,'1930年代の 501XX を 再現した 1990年代の 日本製 復刻の 品番は？','702XX',['601XX','901XX','511'],'501 の 品番を 使えなかったため と いう 説が ある（通説）。シンチバック付き。'],
+ [4,1,'1987年の『リーバイスブック』で 新しく できた 復刻カテゴリーは？','Vintage Levi\'s（ビンテージ・リーバイス）',['Levi\'s Red','Silver Tab','Made & Crafted'],'502xx・701xx・70701xx・70702xx が のっていた。'],
+ [4,2,'1990年代の 日本製 復刻の ボタン裏に よく ある 刻印は？','J22',['555','347','16'],'「J＋数字」は 日本の 工場。当時の オリジナルには ない。',DZ('button','J22')],
+ [4,2,'古い リーバイスの 内タグに 日本語や 電話番号が あったら？','復刻品か 現行品の 可能性が 高い',['1950年代の オリジナル','にせもの 確定','アメリカ製 確定'],'ただし 1970年代の 極東リーバイスにも 日本語タグが あるので、ほかの ディテールと あわせて 見る。'],
+ [4,2,'1992年製の 日本製 Gジャン「71506」の もとに なった モデルは？','大戦中の ファースト（S506XX）',['フォース（70505）','サード（557XX）','セカンド（507XX）'],'当時の 日本製 復刻は「7」から はじまる 5けたの 品番。'],
+ [4,2,'日本製 復刻の 赤タブと、大戦モデルの オリジナルの 赤タブの ちがいは？','復刻は 両面で ®付き、オリジナルは 片面',['どちらも 同じ','オリジナルは オレンジ','復刻は タブなし'],'ボタンや ウエストバンド裏の ステッチにも ちがいが ある。'],
+ [4,3,'1973年から リーバイスに デニム生地を おさめている 日本の 会社 カイハラの 本社が ある 県は？','広島県（福山市）',['岡山県','秋田県','大阪府'],'1893年創業。もとは 藍染の 絣（かすり）を 作っていた。'],
+ [4,3,'1980年代の 極東・アジアの リーバイスで、アメリカ製と デザインが ちがう ことで 知られる フィリピン製の 品番は？','505',['501XX','506XX','13MWZ'],'日本独自の 525 や 626 という 品番も あった。'],
+ [4,3,'極東リーバイスの 古着の 値段の イメージは？','手ごろな 価格帯',['どれも 数百万円','売っていない','お店では 買えない'],'高額ヴィンテージより 手ごろに 見つかる ことが 多い。']);
+Object.assign(VCARD,{
+ j_far:['jpn',4,'極東リーバイス 70505','香港製 ・ ボタン裏 347',{k:LVK.t4},'アジアの 工場で 作られ 日本・アジアで 売られた リーバイス。'],
+ j_702:['jpn',4,'702XX（日本製 復刻）','1990年代 ・ J22',{j:Object.assign({},LVJ.xx47,{patchT:'702XX'})},'1930年代の 501XX を 再現。シンチバック付き。'],
+ j_502xx:['jpn',4,'502XX（日本製 復刻 第一弾）','1986年ごろ',{j:Object.assign({},LVJ.xx55,{fly:'zip',patchT:'502XX'})},'ジッパー版 501 の 復刻。']});
 
 function vintSheet(P,ri){const R=P.regions[ri],cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,ids=Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id&&VCARD[k][1]===ri);
   return `<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>テーマ：${R[2]} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
