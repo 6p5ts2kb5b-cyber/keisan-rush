@@ -1,0 +1,52 @@
+# Codemagic（Mac が なくても iPhone アプリを 組み立てて App Store Connect に 送れる サービス）
+# 使い方は appstore/APPSTORE_GUIDE.md を 見てね
+workflows:
+  ios-appstore:
+    name: まなびラッシュ iOS（App Store）
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: manabi_asc_key        # Codemagic に 登録した App Store Connect API キーの 名前
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: jp.manabirush.app    # capacitor.config.json の appId と 同じに する
+      vars:
+        DEVWORD: ""                             # 裏機能の 合言葉（空なら なし）。Codemagic の 画面で 秘密の 変数に しても OK
+      node: 20
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events: [tag]
+      tag_patterns:
+        - pattern: 'app-v*'
+    scripts:
+      - name: Web版から App Store版を つくる
+        script: |
+          cd appstore
+          git clone --depth 1 --filter=blob:none --sparse https://github.com/google/fonts fonts-src
+          (cd fonts-src && git sparse-checkout set ofl/delagothicone ofl/zenmarugothic ofl/mplusrounded1c ofl/kleeone)
+          pip3 install fonttools
+          python3 tools/build_app.py
+      - name: npm
+        script: cd appstore && npm install
+      - name: iOS プロジェクト
+        script: |
+          cd appstore
+          test -d ios || npx cap add ios
+          npx capacitor-assets generate --ios
+          npx cap sync ios
+          BUILD_NUMBER=$PROJECT_BUILD_NUMBER bash tools/ios_setup.sh
+      - name: 署名
+        script: cd appstore/ios/App && xcode-project use-profiles
+      - name: ipa を つくる
+        script: |
+          cd appstore/ios/App
+          if [ -d App.xcworkspace ]; then xcode-project build-ipa --workspace App.xcworkspace --scheme App
+          else xcode-project build-ipa --project App.xcodeproj --scheme App; fi
+    artifacts:
+      - appstore/ios/App/build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

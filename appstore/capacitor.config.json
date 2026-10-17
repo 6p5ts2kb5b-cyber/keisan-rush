@@ -1,0 +1,13 @@
+{
+  "appId": "jp.manabirush.app",
+  "appName": "まなびラッシュ",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#cfe8ff",
+    "preferredContentMode": "mobile"
+  },
+  "plugins": {
+    "SplashScreen": { "launchShowDuration": 800, "backgroundColor": "#cfe8ff" }
+  }
+}
