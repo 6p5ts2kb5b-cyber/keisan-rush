@@ -13,6 +13,7 @@
 | `tools/ios_setup.sh` | iPhone専用・たて画面・カメラ説明文などを 設定 |
 | `../codemagic.yaml` | Mac なしで 組み立てる ときの 設定（Codemagic） |
 | `store/metadata_ja.md` | App Store Connect に 入力する 文章（コピペ用） |
+| `store/metadata_en.md` | 英語の ストア説明（English (U.S.) を 追加する ときの コピペ用） |
 | `store/screenshots/6.7inch/` | スクリーンショット 6枚 |
 | `../privacy.html` / `../support.html` | プライバシーポリシー・サポートページ（GitHub Pages で 公開ずみ） |
 
@@ -20,6 +21,7 @@
 - 古着編（西海岸・東海岸・日本編）を 外す（他社の 商標を ふくむ ため）
 - 「英検・漢検・算数検定」を「英語テスト・漢字テスト・算数テスト」に（他団体の 商標の ため）
 - Google Fonts を やめ、フォントを アプリに 内蔵（ネット なしで 動く）
+- 英語版（タイトルの「🌐 English」）も そのまま 入っている。海外でも 出すなら App Store Connect で English (U.S.) を 追加して `store/metadata_en.md` を コピペ
 - 裏機能「たま」は 外す（`DEVWORD=あいことば python3 tools/build_app.py` で 自分だけの 合言葉に できる）
 - タイトルに「クレジット・ライセンス」画面を 追加
 - セーブデータを iOS の 保存領域にも バックアップ

@@ -58,6 +58,13 @@ GitHub Pages を有効にすると、URLから遊べます。
 セーブデータはブラウザの localStorage に、写真は IndexedDB に保存されます（端末・ブラウザごと）。
 写真からの自動よみとりは Claude のアプリで開いたときだけ使えます。
 
+## 🌐 English version
+- タイトル画面の「🌐 English」ボタンで 英語版に きりかわる（もどすときは「🌐 日本語に する」）。セーブデータは そのまま。
+- 画面の 日本語は ぜんぶ 英語に ほんやく。さんすうの 文章題・昆虫の なまえと せつめい・にっぽん旅の クイズも 英語。
+- English：英語を 話す 子ども向けに、絵を見て 単語・聞いて 絵を えらぶ・つづり・ぬけた 文字・はじめの 文字・数・あいさつの 返事。
+- Kanji：「日本の 漢字を 学ぼう」— 漢字の 意味（英語）を えらぶ・意味から 漢字を えらぶ・画数・書き順。なぞり書きも 意味つき。
+- 日本人向けの 英語（英検の島・中学英語の島）と 古着編は 英語版では 出ない。
+
 ## クレジット
 - SPキャラの「Nouns」スタイルとメガネ「ノグルズ」は、CC0（パブリックドメイン）で公開されている [Nouns](https://nouns.wtf/) をもとにしています。
 - そのほかのキャラクター・生き物の3Dモデルは、このゲームのためのオリジナルです。
@@ -66,5 +73,5 @@ GitHub Pages を有効にすると、URLから遊べます。
 
 ## 漢字データのクレジット
 - 書きじゅん（ストロークデータ）：[KanjiVG](http://kanjivg.tagaini.net) © Ulrich Apel — CC BY-SA 3.0
-- 読み・画数：[KANJIDIC](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project)（EDRDG, CC BY-SA 4.0）を [kanji-data](https://github.com/davidluzgouveia/kanji-data)（MIT, David Gouveia）経由で利用
+- 読み・画数・英語版の 漢字の 意味：[KANJIDIC](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project)（EDRDG, CC BY-SA 4.0）を [kanji-data](https://github.com/davidluzgouveia/kanji-data)（MIT, David Gouveia）経由で利用
 - ゲーム内の漢字データ（KJD）はこれらを加工したもので、CC BY-SA の条件で再配布できます。例の言葉はオリジナルです
