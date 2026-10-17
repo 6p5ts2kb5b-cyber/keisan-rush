@@ -2462,7 +2462,7 @@ const MEM=new Map();
 const rawGet=k=>{try{const v=canSave?localStorage.getItem(k):MEM.get(k);return v==null?null:JSON.parse(v)}catch(e){return null}};
 const rawSet=(k,v)=>{const j=JSON.stringify(v);if(canSave){try{localStorage.setItem(k,j)}catch(e){}}else MEM.set(k,j)};
 const rawDel=k=>{if(canSave){try{localStorage.removeItem(k)}catch(e){}}else MEM.delete(k)};
-const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR','kr_subj','kr_trace','kr_vint','kr_diff','kr_fgl'];
+const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR','kr_subj','kr_trace','kr_vint','kr_diff','kr_fgl','kr_study'];
 let SAVES=rawGet(SK),CUR=0;
 if(!Array.isArray(SAVES)||SAVES.length!==5){SAVES=[null,null,null,null,null];
   if(SLOTKEYS.some(k=>rawGet(k)!=null)){SLOTKEYS.forEach(k=>{const v=rawGet(k);if(v!=null)rawSet('kr_s0_'+k,v)});SAVES[0]={name:'ぼうけんしゃ',at:Date.now()}}rawSet(SK,SAVES)}
@@ -3115,7 +3115,7 @@ const MINLV=[1,4,7,10,13,16];
 function statsOf(ch,lv){const b=ch.base,g=ch.grow;return{hp:Math.round(b.hp+g.hp*(lv-1)),mp:Math.round(b.mp+g.mp*(lv-1)),atk:Math.round(b.atk+g.atk*(lv-1)),def:Math.round(b.def+g.def*(lv-1))}}
 const lvOf=id=>(pSave[id]&&pSave[id].lv)||1;
 function floorLv(id,lv){const p=pSave[id]||{lv:1,exp:0};if(p.lv<lv){p.lv=lv;p.exp=0}pSave[id]=p;savePS()}
-function mkMember(ch){const lv=lvOf(ch.id),s=statsOf(ch,lv);return{id:ch.id,kind:'w',ch,lv,s,hp:s.hp,mp:s.mp,guard:false}}
+function mkMember(ch){const lv=lvOf(ch.id),s=wStats(ch,lv);return{id:ch.id,kind:'w',ch,lv,s,hp:s.hp,mp:s.mp,guard:false}}
 function buildParty(){S.party=partyNow()}
 function drawParty(){if(!S||!S.party)return;const el=$('party');el.style.setProperty('--n',S.party.length);el.className='party n'+S.party.length;
   el.innerHTML=S.party.map(m=>{const hp=Math.max(0,m.hp)/m.s.hp,mp=m.s.mp?m.mp/m.s.mp:0;
@@ -3147,7 +3147,7 @@ function effPop(e){if(e===1)return;const B=center($('enemy'));setTimeout(()=>pop
 // ---------- enemy ----------
 function drawEnemy(m,anim){const e=$('enemy'),f=S&&S.foe;if(!f)return;e.innerHTML=esvg(f.mon,m||'normal');e.className='enemy '+(anim||'idle')+(f.mon.rar>=4?' r'+f.mon.rar:'')+(f.boss?' boss':'')}
 function hpBar(){const f=S.foe,p=Math.max(0,f.hp/f.max),i=$('hp'),old=parseFloat(i.style.width);i.style.width=p*100+'%';if(isNaN(old)||f.hp===f.max&&old<1){$('hpG').style.width=p*100+'%'}else mpBar(i,old,p*100);i.style.background=p>.5?'#7cff6b':p>.25?'#ffd23f':'#ff4d5e'}
-function drawFoeInfo(){const f=S.foe;$('foeName').innerHTML=`${f.boss?'<span class="bossTag">BOSS</span>':''}<span style="color:${RARC[f.mon.rar]}">${'★'.repeat(f.mon.rar)}</span> ${f.mon.name} <small>Lv${f.lv||1}</small> ${elTag(f.el||elOfMon(f.mon))}${f.poison>0?' <span class="psn">どく</span>':''}${f.sleep>0?' <span class="psn slp">💤ねむり</span>':''}${f.stun>0?' <span class="psn stn">💫きぜつ</span>':''}`;hpBar()}
+function drawFoeInfo(){const f=S.foe;$('foeName').innerHTML=`${f.boss?'<span class="bossTag">BOSS</span>':''}<span style="color:${RARC[f.mon.rar]}">${'★'.repeat(f.mon.rar)}</span> ${f.mon.name} <small>Lv${f.lv||1}</small> ${elTag(f.el||elOfMon(f.mon))}${f.poison>0?' <span class="psn">どく</span>':''}${f.sleep>0?' <span class="psn slp">💤ねむり</span>':''}${f.stun>0?' <span class="psn stn">💫きぜつ</span>':''}${f.bar<1?' <span class="psn bar">🛡バリア</span>':''}`;hpBar()}
 function pickMon(minR=1){const w=RARW[tierOf(Math.max(1,S.combo))];let x=Math.random()*100,rar=1;for(let i=0;i<5;i++){if(x<w[i]){rar=i+1;break}x-=w[i]}
   rar=Math.min(Math.max(rar,minR),4);const PL=S.ctx?S.ctx.pool:MONS.filter(m=>m.gi===S.gi);let pool=PL.filter(m=>m.rar===rar);while(!pool.length&&rar>1){rar--;pool=PL.filter(m=>m.rar===rar)}if(!pool.length)pool=PL;
   const fresh=pool.filter(m=>!dex[m.no]);return(fresh.length&&Math.random()<.65?pick(fresh):pick(pool))}
@@ -3162,9 +3162,9 @@ function foeStats(mon,L,boss){const g=(L-1)/3,rf=[1,1.25,1.55,1.95,2.5][mon.rar-
   if(boss){hp=Math.round(hp*(g<1?1.6:2.0));atk=Math.round(atk*(g<1?1:1.1));def=Math.round(def*1.1);exp*=4}return{hp,max:hp,atk,def,exp,lv:L}}
 function spawnFoe(boss,strong){let mon;if(boss)mon=S.ctx?S.ctx.boss:bossMon(S.gi);
   else{const spc=S.ctx?0:tierOf(Math.max(1,S.combo))>=3?.06:.025;mon=Math.random()<spc?pick(MONS.filter(m=>m.sp)):pickMon(strong?3:1)}
-  if(boss){mpTilt();mpLowKey(2000)}else if(mon.rar>=5)mpOrbit();else if(mon.rar>=4)mpVertigo();if(!boss)popIn($('enemy'),{rot:-.35,T:1.1});S.foe={mon,boss,el:elOfMon(mon),poison:0,dead:false,...foeStats(mon,foeLv(boss?2:strong?1:0),boss),dif:difOn()};if(S.foe.dif){const F=S.foe;F.atk=Math.round(F.atk*1.15);F.exp*=2}if(S.party&&S.party.some(p=>p.hp>0&&['kabuto','hikyo'].includes(setOfM(p)))){S.gauge=Math.max(S.gauge,1);try{hud()}catch(e){}}if(!devTama())document.querySelectorAll('.tamab').forEach(x=>x.remove());if(devTama()){const F=S.foe;F.hp=F.max=1;F.atk=1;F.def=0;if(!document.querySelector('.tamab'))document.body.insertAdjacentHTML('beforeend','<div class="tamab">🛠 たま</div>')}if(S.ctx&&S.ctx.hard){const F=S.foe;F.hp=F.max=Math.round(F.hp*(boss?1.6:1.35));F.atk=Math.round(F.atk*1.25);F.def=Math.round(F.def*1.2);F.exp=Math.round(F.exp*1.5)}drawFoeInfo();drawEnemy('normal','in');
+  if(boss){mpTilt();mpLowKey(2000)}else if(mon.rar>=5)mpOrbit();else if(mon.rar>=4)mpVertigo();if(!boss)popIn($('enemy'),{rot:-.35,T:1.1});S.foe={mon,boss,el:elOfMon(mon),poison:0,dead:false,...foeStats(mon,foeLv(boss?2:strong?1:0),boss),dif:difOn()};if(S.foe.dif){const F=S.foe;F.atk=Math.round(F.atk*1.15);F.exp*=2}if(S.party&&S.party.some(p=>p.hp>0&&['kabuto','hikyo'].includes(setOfM(p)))){S.gauge=Math.max(S.gauge,1);try{hud()}catch(e){}}if(!devTama())document.querySelectorAll('.tamab').forEach(x=>x.remove());S.foe.bar=barFor(S.foe);if(devTama()){const F=S.foe;F.hp=F.max=1;F.atk=1;F.def=0;if(!document.querySelector('.tamab'))document.body.insertAdjacentHTML('beforeend','<div class="tamab">🛠 たま</div>')}if(S.ctx&&S.ctx.hard){const F=S.foe;F.hp=F.max=Math.round(F.hp*(boss?1.6:1.35));F.atk=Math.round(F.atk*1.25);F.def=Math.round(F.def*1.2);F.exp=Math.round(F.exp*1.5)}drawFoeInfo();drawEnemy('normal','in');
   setTimeout(()=>{if(S&&S.foe&&!S.foe.dead&&$('enemy').classList.contains('in'))drawEnemy()},460)}
-function hitFoe(d,crit){const f=S.foe;if(crit){mpZoomIn();const en=$('enemy');en.classList.add('mpca');setTimeout(()=>en.classList.remove('mpca'),380)}f.hp=Math.max(0,f.hp-d);if(f.sleep>0&&Math.random()<.25){f.sleep=0;drawFoeInfo()}hpBar();drawEnemy('hit','hit');clearTimeout(foeT);foeT=setTimeout(()=>{if(S&&S.foe&&S.foe.hp>0)drawEnemy()},380);
+function hitFoe(d,crit){const f=S.foe;if(f.bar&&f.bar<1)d=Math.max(1,Math.round(d*f.bar));if(crit){mpZoomIn();const en=$('enemy');en.classList.add('mpca');setTimeout(()=>en.classList.remove('mpca'),380)}f.hp=Math.max(0,f.hp-d);if(f.sleep>0&&Math.random()<.25){f.sleep=0;drawFoeInfo()}hpBar();drawEnemy('hit','hit');clearTimeout(foeT);foeT=setTimeout(()=>{if(S&&S.foe&&S.foe.hp>0)drawEnemy()},380);
   const B=center($('enemy'));if(S.curEl&&EL6[S.curEl]){elHit(S.curEl,B,crit?10:5);if(crit)tintField(S.curEl,300)}pop((crit?'かいしん ':'')+d,B.x+rnd(40),B.y-20+rnd(20),crit?'#ff3d8b':'#fff',crit?30:26);burst(B.x,B.y,crit?18:8);boom(crit?.2:.1)}
 const dmgCalc=(atk,def,mult)=>{const a=atk*mult;return Math.max(1,Math.round(Math.max(a*.18,a-def*.5)*(.9+Math.random()*.2)))};
 
@@ -3277,7 +3277,7 @@ async function battle(){const tok=S.tok;drawTop();
   if(S.boss){$('dim').className='';void $('dim').offsetWidth;$('dim').className='on';quake();mpPlate('BOSS!!','#ff6a7a');boom(.35)}
   spawnFoe(S.boss,!S.boss&&S.bi===S.nb-1);const f=S.foe;
   if(!S.boss&&f.mon.rar>=4){setTimeout(()=>{const B=center($('enemy'));pop(f.mon.av?'アバター 出現!!':f.mon.sp?'CC0コラボ 出現!!':S.ctx?'レア 出現！':'レア昆虫 出現！',B.x,B.y-60,RARC[f.mon.rar],20);tone(1319,0,.1,'triangle',.08);tone(1760,.1,.25,'triangle',.08)},300)}
-  await say(S.boss?`ボス <b>${f.mon.name}</b> が あらわれた！`:`${f.mon.name} が あらわれた！`,1300);
+  await say(S.boss?`ボス <b>${f.mon.name}</b> が あらわれた！`:`${f.mon.name} が あらわれた！`,1300);if(f.bar<1)await say(barMsg(f),2800);
   while(true){if(tok!==S.tok)return;S.guardAll=false;S.party.forEach(p=>p.guard=false);drawParty();
     await maybeSummon(tok);if(tok!==S.tok)return;await koronHelp(tok);if(tok!==S.tok)return;if(S.foe.hp<=0){await win();return}
     for(const m of S.party){if(m.hp<=0)continue;if(m.sleep>0){m.sleep--;drawParty();await say(`${m.ch.name}は ぐうぐう ねむっている… 💤`,1100);if(tok!==S.tok)return;continue}const k=await chooseCmd(m);if(tok!==S.tok)return;const ok=await ask(m,k);if(tok!==S.tok)return;
@@ -3328,7 +3328,7 @@ function judge(){if(!S||S.phase!=='q'||S.lock)return;setTimeout(()=>{mpFocus(fal
   S.spd=ok?(tsec<=S.thr?2:tsec<=S.thr*2?1:0):0;if(S.q.ex)mame(S.q.ex,ok,S.q.exh);if(S.q.sayA)setTimeout(()=>sayEn(S.q.sayA),300);
   if(isC)[...$('chs').children].forEach(b=>{const c=S.q.ch[+b.dataset.i];b.disabled=true;if(c===S.q.a)b.classList.add('ok');else if(c===S.input)b.classList.add('ng')});
   try{ekMiss(S.q,ok)}catch(e){}
-  if(ok){S.ok++;S.gok++;S.combo++;S.max=Math.max(S.max,S.combo);const g0=S.gauge;S.gauge=Math.min(3,S.gauge+1);
+  if(ok){studyAdd(S.q);S.ok++;S.gok++;S.combo++;S.max=Math.max(S.max,S.combo);const g0=S.gauge;S.gauge=Math.min(3,S.gauge+1);
     if(S.spd===2){pop(`⚡クリティカル！ ${tsec.toFixed(1)}びょう`,X,rc.bottom-44,'#e0467a',22);tone(1760,.05,.12,'square',.05)}else if(S.spd===1)pop(`はやい！ ${tsec.toFixed(1)}びょう`,X,rc.bottom-44,'#2f9e3f',19);
     if(S.gauge===3&&g0<3)setTimeout(()=>{pop('ひっさつ ゲージ MAX！',X,rc.top+60,'#e0a800',24);[0,7,12].forEach((k,j)=>tone(note(k+5),j*.07,.18,'triangle',.08))},300);
     let pt=100*CTX().n+Math.min(S.combo,50)*20;if(S.combo>=10)pt*=2;S.score+=pt;addPts(pt/10);
@@ -5069,7 +5069,7 @@ function wItem3(b,W,A){const w=A.w,at=d=>[w[0]+d[0],w[1]+d[1],w[2]+d[2]],bm=W.ti
 // hook 3D equipment: unknown ids fall through to weapons
 const _item3=item3;item3=function(b,id,A){if(WPN[id])return wItem3(b,WPN[id],A);return _item3(b,id,A)};
 // ----- battle -----
-function wpOf(m){const id=m&&m.kind==='i'&&m.inst&&m.inst.eq&&m.inst.eq.weapon;return(id&&WPN[id])||null}
+function wpOf(m){const e=eqOfM(m),id=e&&e.weapon;return(id&&WPN[id])||null}
 function atkLbl(m){const W=wpOf(m);if(!W)return EL6[m.ch.el].i+EL6[m.ch.el].n+'の こうげき';return `${W.t==='bowgun'?'🎯':EL6[W.el].i}${WT[W.t].n}「${W.n}」`}
 async function wpAttack(m,W,sm,st){const ch=m.ch,f=S.foe,T=W.t;let el=W.el;if(T==='bowgun'){const sv=strongVs(f.el);if(sv.length&&!sv.includes(el))el=sv[0]}
   S.curEl=el;const e=effMul(el,f.el),cb=(1+Math.min(S.combo,20)*.02)*e*sm,crit=sm>=1.8,col=EL6[el].c,nm=`${WT[T].n}「${W.n}」`,B=center($('enemy'));
@@ -7438,10 +7438,10 @@ const fgl=id=>(window.__fgl[id]|0);
 function ibonOf(id){const b=IBON[id];if(!b)return b;const n=(window.__fgl&&window.__fgl[id])|0;if(!n)return b;const o={};Object.entries(b).forEach(([k,v])=>o[k]=Math.round(v*(1+.2*n))+n);return o}
 // ---- set bonus ----
 function setOfEq(eq){if(!eq||!ARM)return null;const a=ARM[eq.ahead],b=ARM[eq.abody],c=ARM[eq.alegs];return a&&b&&c&&a.ser===b.ser&&b.ser===c.ser?a.ser:null}
-const setOfM=m=>m&&m.kind==='i'&&m.inst?setOfEq(m.inst.eq):null;
+const setOfM=m=>setOfEq(eqOfM(m));
 function setMul(eq){const s=setOfEq(eq);// [hp,atk,def,mp]
   return s==='kuwa'?[1,1.1,1,1]:s==='kemono'?[1,1,1.15,1]:s==='ryu'?[1.1,1.1,1.1,1]:s==='sango'?[1,1,1.1,1]:s==='hikyo'?[1.15,1.15,1.15,1.15]:[1,1,1,1]}
-const armOf=(m,sl)=>m&&m.kind==='i'&&m.inst&&m.inst.eq?ARM[m.inst.eq[sl]]:null;
+const armOf=(m,sl)=>{const e=eqOfM(m);return e?ARM[e[sl]]:null};
 const legBonus=m=>{const L=armOf(m,'alegs');return(L?.3+.2*L.tier:0)+(setOfM(m)==='tonbo'?1:0)};
 const sleepRes=m=>{const H=armOf(m,'ahead');return H?.3+.1*H.tier:0};
 const armRes=(m,el)=>{const B=armOf(m,'abody');return B&&B.el===el?.75:1};
@@ -7462,7 +7462,7 @@ function aItem3(b,X,A){const mt=nearMat(X.col),gm=EGLOW[X.el]||10,am=X.tier>=3?7
 const _item3c=item3;item3=function(b,id,A){if(ARM[id])return aItem3(b,ARM[id],A);return _item3c(b,id,A)};
 // ---- forge UI ----
 FG.at='all';
-const fgTabsHTML=()=>[['make','⚔️ ぶき'],['armor','🛡️ ぼうぐ'],['up','✨ きたえる'],['mats','🎒 そざい']].map(([k,l])=>`<button class="tab" data-t="${k}" aria-pressed="${FG.tab===k}">${l}</button>`).join('');
+const fgTabsHTML=()=>[['make','⚔️ ぶき'],['armor','🛡️ ぼうぐ'],['up','✨ きたえる'],['war','🧑 せんし'],['mats','🎒 そざい']].map(([k,l])=>`<button class="tab" data-t="${k}" aria-pressed="${FG.tab===k}">${l}</button>`).join('');
 function rqHTML(rc,gem){return Object.entries(rc).map(([k,n])=>{const h=matN(k);return `<span class="rq ${h>=n?'ok':''}" data-m="${k}" role="button" tabindex="0">${matIcon(k)}<b>${MATS[k][5]&&!h&&!uraOpen()?'？？？':MATS[k][0]}</b><i>${h}/${n}</i></span>`}).join('')+`<span class="rq gem ${pts>=gem?'ok':''}"><span class="gm">💎</span><b>${gem.toLocaleString()}</b></span>`}
 const aEff=X=>X.slot==='ahead'?`ねむりに なりにくい（${Math.round((.3+.1*X.tier)*100)}%）`:X.slot==='abody'?`${EL6[X.el].i}${EL6[X.el].n}の こうげきを 25% へらす`:`⚡クリティカルの 時間 +${(.3+.2*X.tier).toFixed(1)}びょう`;
 const canMakeA=X=>Object.entries(X.rc).every(([k,n])=>matN(k)>=n)&&pts>=X.gem;
@@ -7527,7 +7527,7 @@ const _drawForge2=drawForge;drawForge=function(){_drawForge2();$('fgTabs').inner
   const ownW=WPNS.filter(w=>myItems.has(w[0])).length,totW=WPNS.filter(w=>wSrcOk(WPN[w[0]])).length,ownA=ARMS.filter(a=>myItems.has(a[0])).length,totA=ARMS.filter(a=>aSrcOk(ARM[a[0]])).length;
   $('fgCnt').textContent=`ぶき ${ownW}/${totW} ・ ぼうぐ ${ownA}/${totA} ・ 💎${pts.toLocaleString()}`;
   const el=$('fgBody'),hd=el.querySelector('.fghero'),head=hd?hd.outerHTML:'';
-  if(FG.tab==='armor')drawArmor(el,head);else if(FG.tab==='up')drawUp(el,head);
+  if(FG.tab==='armor')drawArmor(el,head);else if(FG.tab==='up')drawUp(el,head);else if(FG.tab==='war')drawWar(el,head);
   el.querySelectorAll('.mcard').forEach((c,i)=>{const list=MATORD.filter(k=>!MATS[k][5]||uraOpen()||matN(k));if(list[i]){c.dataset.m=list[i];c.setAttribute('role','button');c.tabIndex=0}})};
 // ---- 開発者モード（なまえ「たま」）----
 const devTama=()=>slotName()==='たま';
@@ -7547,6 +7547,60 @@ try{document.head.insertAdjacentHTML('beforeend',`<style>
 .tamab{position:fixed;left:8px;bottom:8px;z-index:70;background:#2a2a3a;color:#ffd23f;font:900 11px var(--body);padding:3px 8px;border-radius:99px;opacity:.85;pointer-events:none}
 </style>`)}catch(e){}
 //FORGE2_END
+
+// ================= まなびバランス（教科べつ 正解数）・戦士の そうび・まなびバリア =================
+const SUBJ3=[['math','さんすう','🔢','#e0702a'],['eng','えいご','🔤','#2a6ad8'],['kok','かんじ','📝','#c8402a']];
+const RANKS=[0,30,100,250,500,1000];
+function studyRec(){let r=store.get('kr_study');if(!r){r={math:Math.min(250,Object.keys(stSave||{}).length*15),eng:0,kok:0};store.set('kr_study',r)}return r}
+function qSubj(q){return !q?null:q.sj||(q.eng?'eng':q.kj?'kok':!q.ch?'math':null)}
+function studyAdd(q){try{const k=qSubj(q);if(!k)return;const r=studyRec(),b0=balRank();r[k]=(r[k]||0)+1;store.set('kr_study',r);const b1=balRank();
+  if(b1>b0)setTimeout(()=>{banner(`📊 まなびバランス ランク${b1}！`,'#e0a800');if(b1===3)setTimeout(()=>banner('⚔️ 戦士が ぶきを そうび できるように なった！','#2f9e3a'),1600);if(b1===4)setTimeout(()=>banner('🛡️ 戦士が ぼうぐも そうび できるように なった！','#2f9e3a'),1600)},700)}catch(e){}}
+const subjRank=n=>{let k=0;RANKS.forEach((t,i)=>{if(n>=t)k=i});return k};
+function balRank(){const r=studyRec();return Math.min(...SUBJ3.map(([k])=>subjRank(r[k]||0)))}
+function balHTML(need){const r=studyRec(),B=balRank(),rks=SUBJ3.map(([k])=>subjRank(r[k]||0)),even=rks.every(x=>x===rks[0]);
+  return `<div class="balbox"><div class="balh"><b>📊 まなびバランス</b><span>ランク <em>${B}</em> / 5</span></div>${SUBJ3.map(([k,n,i,c])=>{const v=r[k]||0,rk=subjRank(v),nx=RANKS[Math.min(5,rk+1)],pv=RANKS[rk],pc=rk>=5?100:Math.round((v-pv)/(nx-pv)*100),low=need!=null?rk<need:!even&&rk===B&&rk<5;
+    return `<div class="balr ${low?'low':''}" style="--c:${c}"><span class="bn">${i} ${n}</span><span class="bbar"><i style="width:${pc}%"></i></span><span class="bv">${v}<small>${rk>=5?' MAX':'/'+nx}</small></span><span class="bs">${'★'.repeat(rk)}${'☆'.repeat(5-rk)}</span></div>`}).join('')}
+    <small class="balnote">ランクは 3つの 教科の うち いちばん ひくい ものに なるよ。まんべんなく がんばろう！</small></div>`}
+// ---- 戦士の そうび ----
+const W_UNLOCK={weapon:3,ahead:4,abody:4,alegs:4};
+function eqOfW(id){const p=pSave[id];if(!p||!p.eq)return null;const B=balRank(),o={};Object.entries(p.eq).forEach(([k,v])=>{if(v&&B>=(W_UNLOCK[k]||9)&&myItems.has(v))o[k]=v});return o}
+function eqOfM(m){if(!m)return null;if(m.kind==='i')return m.inst&&m.inst.eq;if(m.kind==='w')return eqOfW(m.id);return null}
+function wStats(ch,lv){const s=statsOf(ch,lv),e=eqOfW(ch.id);if(!e||!Object.keys(e).length)return s;const k=1+lv/10;let{hp,mp,atk,def}=s;
+  Object.values(e).forEach(id=>{const b=ibonOf(id);if(b){hp+=(b.hp||0)*k;mp+=(b.mp||0)*k;atk+=(b.atk||0)*k;def+=(b.def||0)*k}});const sf=setMul(e);hp*=sf[0];atk*=sf[1];def*=sf[2];mp*=sf[3];
+  return{hp:Math.round(hp),mp:Math.round(mp),atk:Math.round(atk),def:Math.round(def)}}
+function drawWar(el,head){const B=balRank(),wOk=B>=3,aOk=B>=4;
+  const lock=`<div class="wlock"><b>${wOk?(aOk?'🔓 ぜんぶ かいほう ずみ！':'🔓 ぶきは かいほう！ ぼうぐは あと すこし'):'🔒 戦士の そうびは まだ ひみつ'}</b>
+    <small>⚔️ ぶき：3教科とも <b>${RANKS[3]}問</b> 正解（ランク3）　🛡️ ぼうぐ：3教科とも <b>${RANKS[4]}問</b> 正解（ランク4）</small></div>`;
+  let body='';
+  if(wOk){const ws=CHARS.filter(c=>owned.has(c.id));const slots=[['weapon','⚔️ ぶき',wOk],['ahead','⛑️ かぶと',aOk],['abody','🛡️ よろい',aOk],['alegs','👢 くつ',aOk]];
+    body=`<div class="wlist">${ws.map(c=>{const p=pSave[c.id]||{},e=p.eq||{},st=setOfEq(eqOfW(c.id));return `<div class="wcard wwar" style="--ec:${c.c}"><span class="wic">${svg(c)}</span><div class="wtx"><span class="wtop"><b>${c.name}</b><small> Lv${lvOf(c.id)}</small></span>
+      <div class="wsl">${slots.map(([k,l,ok])=>{const opts=ITEMS.filter(i=>(k==='weapon'?i.slot==='weapon'&&i.craft:i.slot===k)&&myItems.has(i.id));
+        return `<label class="${ok?'':'off'}"><span>${l}</span><select data-wq="${c.id}" data-sl="${k}" ${ok?'':'disabled'}><option value="">${ok?'なし':'🔒 ランク4で かいほう'}</option>${ok?opts.map(i=>`<option value="${i.id}" ${e[k]===i.id?'selected':''}>${i.name}${fgl(i.id)?' +'+fgl(i.id):''}</option>`).join(''):''}</select></label>`}).join('')}</div>
+      ${st?`<small class="wd">✨ セット こうか：${ASER[st][4]}</small>`:''}</div></div>`}).join('')}</div>`}
+  el.innerHTML=head+lock+balHTML()+body}
+document.addEventListener('change',e=>{const t=e.target.closest('[data-wq]');if(!t)return;const id=t.dataset.wq,p=pSave[id]=pSave[id]||{lv:1,exp:0};p.eq=p.eq||{};
+  if(t.value)p.eq[t.dataset.sl]=t.value;else delete p.eq[t.dataset.sl];savePS();touchSlot();tone(1319,0,.08,'triangle',.08);const st=setOfEq(eqOfW(id));if(st)banner(`セット こうか！ ${ASER[st][4]}`,'#e0a800');drawForge()});
+// ---- まなびバリア（つよい 敵）----
+function barFor(f){if(!f||devTama())return 1;const strong=f.boss||f.mon.rar>=5;if(!strong)return 1;
+  const need=Math.min(5,Math.round(lvRank()*3)+(difOn()?1:0)+(S.ctx&&(S.ctx.hard||S.ctx.secret)?1:0)),B=balRank();f.need=need;if(B>=need)return 1;
+  const r=studyRec();f.lack=SUBJ3.filter(([k])=>subjRank(r[k]||0)<need).map(x=>x[1]);return Math.max(.3,1-.22*(need-B))}
+const barMsg=f=>`🛡️ ${f.mon.name}は <b>まなびバリア</b>を はっている！ ダメージが へってしまう…<br><small>${f.lack.join('・')}を もっと がんばると バリアが よわくなるよ（まなびバランス ランク${f.need}で きえる）</small>`;
+try{document.head.insertAdjacentHTML('beforeend',`<style>
+.fgbox>.tabs{grid-template-columns:repeat(5,minmax(0,1fr))!important}.fgbox>.tabs .tab{font-size:11px!important;padding:6px 1px!important}
+.balbox{padding:10px 12px;border-radius:16px;background:#fffdf5;border:2px solid #e0d2b8;display:grid;gap:6px}
+.balh{display:flex;align-items:center;justify-content:space-between}.balh b{font:900 14px var(--body)}.balh span{font:800 12px var(--body);color:#8a6a3a}.balh em{font-style:normal;font-size:18px;color:#e0a800}
+.balr{display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto;gap:1px 8px;align-items:center}.balr .bn{font:900 12px var(--body);color:var(--c)}
+.balr .bbar{height:10px;border-radius:99px;background:#efe6d6;overflow:hidden}.balr .bbar i{display:block;height:100%;background:var(--c);border-radius:99px}
+.balr .bv{font:900 12px var(--body)}.balr .bv small{color:var(--muted);font-weight:800}.balr .bs{grid-column:2/4;font-size:10px;color:#e0a800;letter-spacing:1px}
+.balr.low .bs::after{content:'  ← これを がんばろう！';color:#e0402a;font-size:10px;letter-spacing:0;font-weight:900}
+.balnote{font:800 11px var(--body);color:var(--muted)}
+.wlock{padding:10px 12px;border-radius:14px;background:linear-gradient(90deg,#fff2c8,#fffdf5);border:2px dashed #e0b84a;display:grid;gap:3px}.wlock b{font:900 14px var(--body)}.wlock small{font:800 11px/1.5 var(--body);color:#6a5a42}
+.wwar .wic svg{width:56px;height:56px}.wsl{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px}.wsl label{display:grid;gap:1px;font:800 10px var(--body);color:#6a5a42}.wsl label.off{opacity:.55}
+.wsl select{font:800 11px var(--body);padding:4px;border-radius:8px;border:1.5px solid #e0d2b8;background:#fff;max-width:100%}
+.wwar{grid-template-columns:62px minmax(0,1fr)!important}
+.psn.bar{color:#5ab8ff}
+</style>`)}catch(e){}
+//STUDY_END
 
 function vintSheet(P,ri){const R=P.regions[ri],cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,ids=Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id&&VCARD[k][1]===ri);
   return `<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>テーマ：${R[2]} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
