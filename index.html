@@ -7602,6 +7602,35 @@ try{document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`)}catch(e){}
 //STUDY_END
 
+// ----- 画数・書き順 もんだい ふやし -----
+const KJL=['ア','イ','ウ','エ'];
+function kjSvgP(k,hi,upto,cls){return `<svg class="kjsvg ${cls||''}" viewBox="0 0 109 109" aria-hidden="true"><path d="M54.5 4V105M4 54.5H105" class="kjg"/>${k.p.map((d,i)=>i===hi?`<path d="${d}" class="kjh"/>`:upto!=null&&i>=upto?'':`<path d="${d}" class="${upto!=null?'kjs':'kjs kjf'}"/>`).join('')}</svg>`}
+const kjSOk=k=>k&&k.p&&k.p.length===k.s;
+function kjPickS(lv,min){let k;for(let t=0;t<30;t++){k=kjPick(lv);if(kjSOk(k)&&k.s>=min)return k}return null}
+// 「n画目は どれ？」4つの 絵から えらぶ
+function kjJunPic(lv){const k=kjPickS(lv,4);if(!k)return kjJun(lv);const n=r(1,Math.min(k.s,lv<=2?5:8)),others=shuf([...Array(k.s).keys()].filter(i=>i!==n-1)).slice(0,3),opt=shuf([n-1,...others]),ai=opt.indexOf(n-1);
+  return KQ({html:`<span class="qtx"><b class="kjc">${k.c}</b> の <b>${n}画目</b>は どれ？</span><div class="kjm">${opt.map((h,i)=>`<span><i>${KJL[i]}</i>${kjSvgP(k,h,null,'m')}</span>`).join('')}</div>`,a:KJL[ai],ch:[...KJL],big:1,thr:8,ex:`${k.c} の ${n}画目は ${KJL[ai]}。ぜんぶで ${k.s}画<br>${kjSvgP(k,n-1,null,'q sm')}`})}
+// 「つぎに 書くのは どこ？」書きかけの 字
+function kjJunNext(lv){const k=kjPickS(lv,4);if(!k)return kjJun(lv);const n=r(1,k.s-1),rest=[...Array(k.s).keys()].filter(i=>i>n);if(rest.length<1)return kjJunPic(lv);
+  const pool=shuf(rest).slice(0,3);while(pool.length<3){const x=r(0,n-1);if(!pool.includes(x))pool.push(x)}const opt=shuf([n,...pool]),ai=opt.indexOf(n);
+  return KQ({html:`<span class="qtx"><b class="kjc">${k.c}</b> を ${n}画まで 書いたよ。<b>つぎに 書く</b>のは どれ？</span><div class="kjm">${opt.map((h,i)=>`<span><i>${KJL[i]}</i>${h<n?kjSvgP(k,h,n,'m'):kjSvgP(k,h,n,'m')}</span>`).join('')}</div>`,a:KJL[ai],ch:[...KJL],big:1,thr:9,ex:`${k.c} の ${n+1}画目は ${KJL[ai]}<br>${kjSvgP(k,n,n,'q sm')}`})}
+// 画数くらべ
+function kjKakuCmp(lv){for(let t=0;t<30;t++){const cs=new Map();for(let u=0;u<40&&cs.size<4;u++){const k=kjPick(lv);if(kjSOk(k)&&![...cs.values()].some(x=>x.s===k.s))cs.set(k.c,k)}if(cs.size<4)continue;
+  const L=[...cs.values()],most=Math.random()<.5,a=L.reduce((x,y)=>most?(y.s>x.s?y:x):(y.s<x.s?y:x));
+  return KQ({html:`<span class="qtx">画数が いちばん <b>${most?'多い':'少ない'}</b> 漢字は？</span>`,a:a.c,ch:shuf(L.map(x=>x.c)),big:1,kjf:1,thr:8,ex:L.sort((x,y)=>x.s-y.s).map(x=>`${x.c}＝${x.s}画`).join('　')})}return kjKaku(lv)}
+// 同じ画数
+function kjSameKaku(lv){for(let t=0;t<30;t++){const k=kjPick(lv);if(!kjSOk(k))continue;const all=kjAll(lv).map(c=>KJ[c]).filter(x=>kjSOk(x)&&x.c!==k.c);const same=all.filter(x=>x.s===k.s),diff=shuf(all.filter(x=>Math.abs(x.s-k.s)>=1&&x.s!==k.s));
+  if(!same.length||diff.length<3)continue;const a=pick(same),ds=[];for(const x of diff){if(ds.length>=3)break;if(!ds.some(y=>y.s===x.s))ds.push(x)}if(ds.length<3)continue;
+  return KQ({html:`<span class="qtx"><b class="kjc">${k.c}</b>（${k.s}画）と <b>同じ 画数</b>の 漢字は？</span>`,a:a.c,ch:shuf([a.c,...ds.map(x=>x.c)]),big:1,kjf:1,thr:8,ex:[a,...ds].map(x=>`${x.c}＝${x.s}画`).join('　')})}return kjKaku(lv)}
+function kjStrokeQ(lv){const R=Math.random();return R<.2?kjKaku(lv):R<.36?kjKakuCmp(lv):R<.48?kjSameKaku(lv):R<.62?kjJun(lv):R<.82?kjJunPic(lv):kjJunNext(lv)}
+const _kanjiQ0=kanjiQ;kanjiQ=function(lv,kind){lv=Math.max(1,Math.min(5,lv));const R=Math.random();
+  if(kind==='kaku')return R<.85?kjStrokeQ(lv):kjBushu(lv);
+  if(kind)return _kanjiQ0(lv,kind);
+  if(lv<=1)return R<.32?kjYomi(lv):R<.62?kjKaki(lv):kjStrokeQ(lv);
+  return R<.28?kjYomi(lv):R<.56?kjKaki(lv):R<.9?kjStrokeQ(lv):R<.95?kjBushu(lv):kjOkuri(lv)};
+try{document.head.insertAdjacentHTML('beforeend','<style>.kjm{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;width:100%;max-width:360px;margin:4px auto 0}.kjm span{position:relative;display:block}.kjm i{position:absolute;left:3px;top:1px;font:900 12px var(--body);color:#8a5a2a;font-style:normal}.kjsvg.m{width:100%;height:auto;aspect-ratio:1;display:block;background:#fffdf5;border:2px solid var(--wood);border-radius:10px}.kjsvg .kjf{opacity:1}.kjsvg.sm{width:70px;height:70px;display:inline-block;margin-top:4px}.kjc{font-size:1.25em;color:#c8402a}</style>')}catch(e){}
+//KJS_END
+
 function vintSheet(P,ri){const R=P.regions[ri],cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,ids=Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id&&VCARD[k][1]===ri);
   return `<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>テーマ：${R[2]} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
    <div class="pkst">${R[1].map((c,si)=>{const st=pkSave[pkey(P.id,ri,si)];return `<button class="pkstage ${st?'done':''}" data-s="${si}"><b>${c}</b><span class="stars3">${st?'★'.repeat(st.stars)+'<i>'+'★'.repeat(3-st.stars)+'</i>':'<i>★★★</i>'}</span></button>`}).join('')}
