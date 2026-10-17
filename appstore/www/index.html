@@ -7916,7 +7916,8 @@ $('dexGrid').addEventListener('click',e=>{const c=e.target.closest('[data-evu]')
 (function(){const st=document.createElement('style');st.textContent=`.evtab{background:linear-gradient(90deg,#fff2c8,#ffe0f0)!important}.evtab[aria-pressed="true"]{background:linear-gradient(90deg,#e0a800,#e0467a)!important;color:#fff!important}
 #dexGrid .evc .n{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}#dexGrid .evc.fz{border-color:#e0a800;background:linear-gradient(160deg,#fffdf2,#fff0c0)}
 #dexGrid .evc.vr6,#dexGrid .evc.vr5{border-color:#c88aff;background:linear-gradient(160deg,#fff,#f3e6ff)}#dexGrid .evc .ic img,#dexGrid .evc .ic svg{width:100%;height:100%;object-fit:contain}
-.evc{height:auto!important;align-self:start}#dexGrid:has(.evc),#dexGrid:has(.evnone){align-content:start;align-items:start;min-height:52dvh}
+.evc{height:auto!important;align-self:start}#dexGrid:has(.evc),#dexGrid:has(.evnone){align-content:start;align-items:start}
+.dexbox>*:not(.grid){flex-shrink:0}
 .evnone{grid-column:1/-1;text-align:center;font:800 13px/1.7 var(--body);color:var(--muted);padding:24px 8px}`;document.head.appendChild(st)})();
 //EVDEX_END
 
