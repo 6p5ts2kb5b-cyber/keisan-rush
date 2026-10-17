@@ -2462,7 +2462,7 @@ const MEM=new Map();
 const rawGet=k=>{try{const v=canSave?localStorage.getItem(k):MEM.get(k);return v==null?null:JSON.parse(v)}catch(e){return null}};
 const rawSet=(k,v)=>{const j=JSON.stringify(v);if(canSave){try{localStorage.setItem(k,j)}catch(e){}}else MEM.set(k,j)};
 const rawDel=k=>{if(canSave){try{localStorage.removeItem(k)}catch(e){}}else MEM.delete(k)};
-const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR','kr_subj','kr_trace','kr_vint','kr_diff','kr_fgl','kr_study'];
+const SK='kr_slots',GLOBALK=new Set(['kr_mute','kr_cur','kr_slots']),SLOTKEYS=['kr_dex3','kr_box3','kr_pts','kr_items','kr_friends2','kr_party','kr_pt','kr_stage','kr_isl','kr_best','kr_food','kr_stamp','kr_myspots','kr_bless','kr_pk','kr_calc','kr_ura','kr_inst','kr_tused','kr_bgm','kr_mats','kr_hint','kr_hintR','kr_subj','kr_trace','kr_vint','kr_diff','kr_fgl','kr_study','kr_cage'];
 let SAVES=rawGet(SK),CUR=0;
 if(!Array.isArray(SAVES)||SAVES.length!==5){SAVES=[null,null,null,null,null];
   if(SLOTKEYS.some(k=>rawGet(k)!=null)){SLOTKEYS.forEach(k=>{const v=rawGet(k);if(v!=null)rawSet('kr_s0_'+k,v)});SAVES[0]={name:'ぼうけんしゃ',at:Date.now()}}rawSet(SK,SAVES)}
@@ -2767,11 +2767,13 @@ const FIXP=[[1,.22,0],[.1,.4,0],[.15,.45,0],[0,.2,1],[1,.16,0],[0,.75,0],[.4,.3,
 function mats3(E){const c=[E.b,darken(E.d,.75),E.a,E.mc,E.a,'#050308',E.b,...FIXC],p=[[.12,.45,0],[.85,.26,0],[.35,.3,0],[0,.3,1],[.05,.55,0],[0,.9,0],[.8,.2,0],...FIXP];
   return{c:c.map(lin),p}}
 function buildFig(kind,obj,eq,withStage){const b=new Bld();let E,arch,st,rar=0;
-  if(kind==='p'){const P=PARTNER[obj.id];E=P.E;arch=P.arch;st=3}else{E=obj.E;arch=obj.arch;st=obj.st;rar=obj.rar}
+  if(kind==='p'){const P=PARTNER[obj.id];E=P.E;arch=P.arch;st=3}else{E=obj.E;arch=obj.arch;st=obj.st;rar=obj.rar}if(eq&&eq._vr)E=vrE(E,eq._vr);
   const A=(obj.ins?I3:(typeof W3!=='undefined'&&W3[arch])?W3:A3)[arch](b,st,E);A._ins=!!obj.ins;
   if(kind==='p')(PARTNER[obj.id].items||['scarf']).forEach(id=>item3(b,id,A));
   if(eq)Object.entries(eq).forEach(([sl,id])=>{if(ITEM[id]&&!(sl==='ahead'&&eq.head)&&!(sl==='abody'&&eq.body))item3(b,id,A)});
+  if(eq&&eq._fz)fzPart3(b,eq._fz,A);
   const b0=b.bounds(),RR=Math.max(.42,Math.min(1.15,Math.hypot(b0.mx[0]-b0.mn[0],b0.mx[2]-b0.mn[2])*.42)),TOP=Math.max(.6,b0.mx[1]);
+  if(eq&&eq._vr===6){b.to([0,.03,0],RR*1.4,.035,0,18,0,2).e([RR*1.2,TOP*1.1,0],[.05,.05,.05],18,0,3).e([-RR,TOP*1.25,.2],[.04,.04,.04],3,0,3)}
   if(rar>=4&&!(eq&&eq.aura)){b.to([0,.03,0],RR,.025,0,3,0,2);if(rar===5){b.to([0,.03,0],RR*1.2,.02,0,18,0,2);b.e([RR*1.15,TOP*1.05,.3],[.03,.03,.03],3,0,3).e([RR*.9,TOP*1.3,-.3],[.025,.025,.025],3,0,3)}}
   const evo=(eq&&eq._evo)||0;if(evo){const mt=[0,10,19,18][evo];b.to([0,.03,0],RR*(.78+.12*evo),.03,0,mt,0,2);if(evo>=2)b.to([0,.03,0],RR*(.95+.14*evo),.018,0,mt,0,2);if(evo>=3){b.e([RR*.8,TOP*.8,.2],[.05,.05,.05],18,0,3).e([-RR*.75,TOP,-.2],[.04,.04,.04],18,0,3)}}
   b.scale([0,.82,.92,1.02][st]*(1+.07*evo));
@@ -3053,7 +3055,7 @@ function drawStage(){const mon=vMon(),eq=eqx(vInst()),N=10,dz=1.7;let h='';
   $('spin').innerHTML=h}
 function drawViewer(){const mon=vMon(),inst=vInst(),list=stockOf(mon.no);
   $('vNo').textContent=`${mon.sp?'SP':'No.'+String(mon.no).padStart(3,'0')} ・ ${starStr(mon.rar)} ・ ${EL6[elOfMon(mon)].i}${EL6[elOfMon(mon)].n} ・ ${mon.type} ・ Lv ${inst.lv||defLv(mon)}`;
-  const nm=$('vName');nm.textContent=mon.name+'＋'.repeat(inst.evo||0)+(inst.job&&JOBS[inst.job]&&inst.job!=='none'?' '+JOBS[inst.job].i:'');nm.style.color=RARC[mon.rar];$('vPts').textContent=`💎 ${pts.toLocaleString()}`;
+  const nm=$('vName');nm.textContent=cgName(mon,inst)+'＋'.repeat(inst.evo||0)+(inst.job&&JOBS[inst.job]&&inst.job!=='none'?' '+JOBS[inst.job].i:'');nm.style.color=RARC[mon.rar];$('vPts').textContent=`💎 ${pts.toLocaleString()}`;
   drawStage();
   $('vStock').innerHTML=list.slice(0,40).map((it,i)=>{const u=thumbOf('m',mon,eqx(it));return `<button class="sk" data-u="${it.u}" aria-pressed="${it.u===V.u}">${u?imgSvg(u,mon.name):`<svg viewBox="-10 -10 120 120">${figure(mon,it.eq,'normal',true)}</svg>`}#${i+1}${it.evo?'＋'.repeat(it.evo):''}</button>`}).join('');
   $('vSlots').innerHTML=SLOTS.map(([k,l])=>`<button class="slot" data-slot="${k}" aria-pressed="${V.slot===k}">${l}<small>${inst.eq[k]?ITEM[inst.eq[k]].name:'なし'}</small></button>`).join('');
@@ -3328,7 +3330,7 @@ function judge(){if(!S||S.phase!=='q'||S.lock)return;setTimeout(()=>{mpFocus(fal
   S.spd=ok?(tsec<=S.thr?2:tsec<=S.thr*2?1:0):0;if(S.q.ex)mame(S.q.ex,ok,S.q.exh);if(S.q.sayA)setTimeout(()=>sayEn(S.q.sayA),300);
   if(isC)[...$('chs').children].forEach(b=>{const c=S.q.ch[+b.dataset.i];b.disabled=true;if(c===S.q.a)b.classList.add('ok');else if(c===S.input)b.classList.add('ng')});
   try{ekMiss(S.q,ok)}catch(e){}
-  if(ok){studyAdd(S.q);S.ok++;S.gok++;S.combo++;S.max=Math.max(S.max,S.combo);const g0=S.gauge;S.gauge=Math.min(3,S.gauge+1);
+  if(ok){studyAdd(S.q);cageGain();S.ok++;S.gok++;S.combo++;S.max=Math.max(S.max,S.combo);const g0=S.gauge;S.gauge=Math.min(3,S.gauge+1);
     if(S.spd===2){pop(`⚡クリティカル！ ${tsec.toFixed(1)}びょう`,X,rc.bottom-44,'#e0467a',22);tone(1760,.05,.12,'square',.05)}else if(S.spd===1)pop(`はやい！ ${tsec.toFixed(1)}びょう`,X,rc.bottom-44,'#2f9e3f',19);
     if(S.gauge===3&&g0<3)setTimeout(()=>{pop('ひっさつ ゲージ MAX！',X,rc.top+60,'#e0a800',24);[0,7,12].forEach((k,j)=>tone(note(k+5),j*.07,.18,'triangle',.08))},300);
     let pt=100*CTX().n+Math.min(S.combo,50)*20;if(S.combo>=10)pt*=2;S.score+=pt;addPts(pt/10);
@@ -3373,13 +3375,13 @@ const JOBS={none:{n:'なし',i:'・',m:[1,1,1,1],desc:'しょくぎょう なし
  souryo:{n:'そうりょ',i:'✚',m:[1.05,1.4,.85,1.05],desc:'みんなの HPを かいふく できる',skill:{name:'いやしの いのり',mp:5,type:'heal',desc:'みんなの HPを かいふく'}},
  butou:{n:'ぶとうか',i:'👊',m:[1.05,.7,1.25,.9],desc:'こうげきが たかく かいしんが でやすい',skill:{name:'せいけんづき',mp:4,type:'crit',desc:'かならず かいしん'}},
  kenja:{n:'けんじゃ',i:'📜',m:[1.1,1.7,1.15,1.05],desc:'こうげきと かいふくを いちどに！ しょうかんも でやすい',skill:{name:'せいなる ひかり',mp:7,type:'sage',desc:'こうげき＋みんな かいふく'}}};
-const eqx=inst=>inst&&inst.evo?{...inst.eq,_evo:inst.evo}:inst?inst.eq:{};
+const eqx=inst=>{if(!inst)return {};const x={...inst.eq};if(inst.evo)x._evo=inst.evo;if(inst.vr)x._vr=inst.vr;if(inst.fz)x._fz=inst.fz;return x};
 function insStats(mon,lv,eq,inst){const R=mon.rar,t=TB[mon.arch]||[1,1,1,1];
   let hp=(40+R*8+(6+R)*(lv-1))*t[0],mp=(10+R*2+1.5*(lv-1))*t[1],atk=(9+R*2+(2.2+R*.35)*(lv-1))*t[2],def=(6+R*2+(1.8+R*.3)*(lv-1))*t[3];const k=1+lv/10;
   Object.values(eq||{}).forEach(id=>{const b=ibonOf(id);if(b){hp+=(b.hp||0)*k;mp+=(b.mp||0)*k;atk+=(b.atk||0)*k;def+=(b.def||0)*k}});
-  {const sf=setMul(eq);hp*=sf[0];atk*=sf[1];def*=sf[2];mp*=sf[3]}if(inst){const ev=1+.15*(inst.evo||0),jm=(JOBS[inst.job]||JOBS.none).m;hp*=ev*jm[0];mp*=ev*jm[1];atk*=ev*jm[2];def*=ev*jm[3]}
+  {const sf=setMul(eq);hp*=sf[0];atk*=sf[1];def*=sf[2];mp*=sf[3]}if(inst){const ev=(1+.15*(inst.evo||0))*cgMul(inst),jm=(JOBS[inst.job]||JOBS.none).m;hp*=ev*jm[0];mp*=ev*jm[1];atk*=ev*jm[2];def*=ev*jm[3]}
   return{hp:Math.round(hp),mp:Math.round(mp),atk:Math.round(atk),def:Math.round(def)}}
-function insCh(mon,inst){const J=JOBS[inst.job];return{id:'i_'+inst.u,el:elOfMon(mon),name:mon.name+'＋'.repeat(inst.evo||0),c:mon.c,motif:mon.type,about:mon.desc,mon,eq:eqx(inst),job:inst.job,jobI:J&&inst.job!=='none'?J.i:'',skill:(J&&J.skill)||ISK[mon.arch]||ISK.noun,moves:insMoves(mon),draw:m=>mon.draw(m)}}
+function insCh(mon,inst){const J=JOBS[inst.job];return{id:'i_'+inst.u,el:elOfMon(mon),name:cgName(mon,inst)+'＋'.repeat(inst.evo||0),c:mon.c,motif:mon.type,about:mon.desc,mon,eq:eqx(inst),job:inst.job,jobI:J&&inst.job!=='none'?J.i:'',skill:(J&&J.skill)||ISK[mon.arch]||ISK.noun,moves:insMoves(mon),draw:m=>mon.draw(m)}}
 const WEL={jin:'hono',hayato:'mizu',genji:'hikari',zan:'kusa',raika:'denki',zenon:'yami'};CHARS.forEach(c=>{c.moves=MOVES[c.id];c.el=WEL[c.id]});
 owned.add('jin');store.set('kr_friends2',[...owned]);
 // ----- party refs -----
@@ -7630,6 +7632,165 @@ const _kanjiQ0=kanjiQ;kanjiQ=function(lv,kind){lv=Math.max(1,Math.min(5,lv));con
   return R<.28?kjYomi(lv):R<.56?kjKaki(lv):R<.9?kjStrokeQ(lv):R<.95?kjBushu(lv):kjOkuri(lv)};
 try{document.head.insertAdjacentHTML('beforeend','<style>.kjm{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;width:100%;max-width:360px;margin:4px auto 0}.kjm span{position:relative;display:block}.kjm i{position:absolute;left:3px;top:1px;font:900 12px var(--body);color:#8a5a2a;font-style:normal}.kjsvg.m{width:100%;height:auto;aspect-ratio:1;display:block;background:#fffdf5;border:2px solid var(--wood);border-radius:10px}.kjsvg .kjf{opacity:1}.kjsvg.sm{width:70px;height:70px;display:inline-block;margin-top:4px}.kjc{font-size:1.25em;color:#c8402a}</style>')}catch(e){}
 //KJS_END
+
+// ================= むしかご（育てる・うんち・進化・合体）=================
+var CGF={jelly:['🍮','こんちゅうゼリー'],leaf:['🍃','はっぱ'],jueki:['🪵','じゅえき'],fruit:['🍎','くだもの'],mushi:['🐛','ほかの 虫']};
+var DIET={kabuto:[['jelly','jueki','fruit'],'カブトムシは 木の しるや くだものを なめるよ。'],kuwa:[['jelly','jueki','fruit'],'クワガタも 木の しる（じゅえき）が 大すき。'],
+ kogane:[['jelly','jueki','fruit','leaf'],'コガネムシの なかまは 葉っぱや 花・くだものを 食べるよ。'],chou:[['jelly','fruit'],'チョウは 花の みつや くだものの しるを ストローの 口で すうよ。'],
+ semi:[['jueki'],'セミは ストローの 口を 木に さして しるを すうよ。'],batta:[['leaf'],'バッタは 草や 葉っぱを 食べるよ。'],kamikiri:[['leaf','jueki'],'カミキリムシは 木の 皮や 葉っぱを かじるよ。'],
+ kamakiri:[['mushi'],'カマキリは 生きた 虫を つかまえて 食べる ハンター！'],tonbo:[['mushi'],'トンボは とびながら 小さな 虫を つかまえて 食べるよ。'],
+ hachi:[['jelly','fruit','mushi'],'ハチの なかまは 花の みつや ほかの 虫を 食べるよ。'],ari:[['jelly','fruit','mushi'],'アリは あまい ものも 虫も 食べるよ。']};
+var DIETN=[[/ゲンゴロウ|タガメ|グンタイアリ|サシハリアリ/,['mushi'],'水の中や 地面で 虫を つかまえて 食べる ハンターだよ。'],[/キリギリス|コオロギ|ウェタ/,['leaf','mushi'],'葉っぱも 虫も 食べる なんでも 屋さん。'],
+ [/ホタル/,['jelly'],'おとなの ホタルは 水や つゆを のむだけ。ゼリーの 水分で 元気に なるよ。'],[/ヤママユ|ヨナグニサン|ミズアオ|カイコ/,[],'おとなの ガは 口が なくて 何も 食べないんだ（ようちゅうの ときに 葉っぱを たくさん 食べる）。'],[/ハキリアリ/,['leaf'],'葉っぱを 切って 巣に はこび、キノコを そだてて 食べるよ。']];
+function dietOf(mon){for(const[re,d,t]of DIETN)if(re.test(mon.name))return[d,t];return DIET[mon.arch]||[['jelly'],'']}
+// 進化（基本は 色ちがいなどの 個体。ふしぎ進化だけ 別の しゅるいへ）
+var VR=[null,
+ {k:'iro',p:'色ちがいの ',n:'色ちがい',rate:.30,lv:10,mats:{rinpun:2},d:'体の 色が ちがう めずらしい 個体。'},
+ {k:'gin',p:'白銀の ',n:'白銀（アルビノ）',rate:.25,lv:15,mats:{kara:4,shinju:1},d:'色の もとが すくない 白い 個体。自然でも ごくまれに いるよ。',E:{b:'#eeeef2',a:'#cfd6e4',d:'#8a90a0',mc:'#ffffff'}},
+ {k:'yako',p:'夜光の ',n:'夜光',rate:.22,lv:20,mats:{hane:4,mushidama:1},d:'くらやみで ぼんやり 光る ふしぎな 個体。',E:{b:'#1a2a4a',a:'#5af0ff',d:'#0a1428',mc:'#5af0ff'}},
+ {k:'kin',p:'金色の ',n:'金色',rate:.18,lv:25,mats:{kin:2,mushidama:1},d:'金ぴかに かがやく 個体。',E:{b:'#e8b820',a:'#ffe27a',d:'#7a5a10',mc:'#ffd23f'},q:{gold:1}},
+ {k:'niji',p:'にじいろの ',n:'にじいろ',rate:.12,lv:30,mats:{niji:1,mushidama:1},d:'見る 角度で 色が かわる 個体。',E:{b:'#ff7ab0',a:'#7ad8ff',d:'#6a4aff',mc:'#ffffff'},q:{rainbow:1}},
+ {k:'den',p:'伝説の ',n:'伝説の 個体',rate:.08,lv:40,mats:{densetsu:1,mushidama:2},d:'ずかんにも のっていない 伝説の すがた。',E:{b:'#2a1840',a:'#ff3d8b',d:'#120818',mc:'#ffd23f'}}];
+var VRB=[0,.05,.08,.1,.12,.15,.2];
+var FUSHIGI=[['カブトムシ','ヘラクレスオオカブト'],['ノコギリクワガタ','ギラファノコギリクワガタ'],['アゲハ','アレクサンドラトリバネアゲハ'],['オオカマキリ','ハナカマキリ']];
+var FSG={rate:.10,lv:30,mats:{mushidama:2,densetsu:1}};
+// 合体
+var FZ={fz_kk:{n:'カブクワキング',a:['kabuto','kuwa'],part:'jaw',d:'カブトの ツノと クワガタの 大あごを あわせもつ 王さま。'},
+ fz_km:{n:'カマキリビートル',a:['kabuto','kamakiri'],part:'scythe',d:'カブトの からだに カマキリの カマ！'},
+ fz_kt:{n:'スカイホーン',a:['kabuto','tonbo'],part:'dwing',d:'トンボの はねで 空を とぶ カブト。'},
+ fz_wh:{n:'スティングシザー',a:['kuwa','hachi'],part:'sting',d:'大あごと どく針を もつ クワガタ。'},
+ fz_mc:{n:'フラワーリーパー',a:['kamakiri','chou'],part:'bwing',d:'チョウの はねを もつ 花の カマキリ。'},
+ fz_bs:{n:'ソニックホッパー',a:['batta','semi'],part:'cwing',d:'セミの はねで 音より はやく とぶ バッタ。'},
+ fz_ak:{n:'アントタンク',a:['ari','kabuto'],part:'horn',d:'ツノを もった せんしゃの ような アリ。'},
+ fz_tc:{n:'バタフライドラゴン',a:['tonbo','chou'],part:'bwing',d:'チョウの はねを もつ トンボの りゅう。'}};
+var FZC={rate:.12,mats:{mushidama:2},gem:2000};
+function cgMul(inst){return(1+(VRB[(inst&&inst.vr)|0]||0))*(inst&&inst.fz?1.25:1)}
+function cgName(mon,inst){if(inst&&inst.fz&&FZ&&FZ[inst.fz])return FZ[inst.fz].n;return(inst&&inst.vr&&VR&&VR[inst.vr]?VR[inst.vr].p:'')+mon.name}
+// ---- 3D ----
+function hueRot(h,deg){const c=parseInt(h.slice(1),16);let r=(c>>16&255)/255,g=(c>>8&255)/255,b=(c&255)/255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2;let H=0,S=0;
+  if(mx!==mn){const d=mx-mn;S=l>.5?d/(2-mx-mn):d/(mx+mn);H=mx===r?(g-b)/d+(g<b?6:0):mx===g?(b-r)/d+2:(r-g)/d+4;H/=6}H=(H+deg/360)%1;
+  const f=(p,q,t)=>{t=(t+1)%1;return t<1/6?p+(q-p)*6*t:t<.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p};const q=l<.5?l*(1+S):l+S-l*S,p=2*l-q;
+  const x=v=>Math.round(v*255).toString(16).padStart(2,'0');return '#'+x(f(p,q,H+1/3))+x(f(p,q,H))+x(f(p,q,H-1/3))}
+function vrE(E,v){const V=VR[v];if(!V)return E;if(V.k==='iro')return{...E,b:hueRot(E.b,150),a:hueRot(E.a,150),d:hueRot(E.d,150),mc:hueRot(E.mc,150)};return{...E,...V.E,q:{...(E.q||{}),...(V.q||{})}}}
+function fzPart3(b,id,A){const F=FZ[id];if(!F)return;const h=['jaw','horn','scythe'].includes(F.part)&&A.f?[A.f[0],A.f[1]-.05,A.f[2]-.1]:A.h,d=A.b;
+  switch(F.part){
+  case 'jaw':b.rc([.1,h[1],h[2]+.05],.065,[.32,h[1]+.06,h[2]+.55],.045,7,.03,1).rc([.32,h[1]+.06,h[2]+.55],.045,[.12,h[1]+.12,h[2]+.85],.012,7,.02,1).rc([.3,h[1]+.06,h[2]+.5],.02,[.22,h[1]+.12,h[2]+.5],.006,7,0,1);break;
+  case 'scythe':b.rc([.16,h[1]-.02,h[2]-.25],.055,[.38,h[1]+.32,h[2]+.12],.04,7,.03,1).rc([.38,h[1]+.32,h[2]+.12],.04,[.34,h[1]-.02,h[2]+.45],.01,7,.02,1);break;
+  case 'dwing':[[.05,1.05],[-.18,.95]].forEach(([z,L])=>b.t([.08,d[1]+.06,d[2]+z],[.08+L,d[1]+.12,d[2]+z+.06],[.08+L*.9,d[1]+.12,d[2]+z-.14],.006,15,0,1));break;
+  case 'bwing':b.t([.06,d[1]+.06,d[2]],[.65,d[1]+.62,d[2]+.25],[.75,d[1]+.18,d[2]-.3],.008,2,0,1).t([.06,d[1]+.04,d[2]-.05],[.5,d[1]-.05,d[2]-.55],[.62,d[1]+.12,d[2]-.3],.008,2,0,1);break;
+  case 'cwing':b.t([.07,d[1]+.06,d[2]+.05],[.62,d[1]+.3,d[2]-.55],[.25,d[1]+.22,d[2]-.85],.006,15,0,1);break;
+  case 'sting':b.rc([0,d[1]-.18,d[2]-.55],.05,[0,d[1]-.3,d[2]-.95],.005,2,.02).t([.08,d[1]+.05,d[2]],[.6,d[1]+.3,d[2]-.25],[.45,d[1]+.12,d[2]-.5],.006,15,0,1);break;
+  case 'horn':b.rc([0,h[1]+.06,h[2]+.06],.08,[0,h[1]+.5,h[2]+.36],.02,7,.03).rc([0,h[1]+.5,h[2]+.36],.02,[.06,h[1]+.6,h[2]+.3],.006,7,0,1);break}}
+// ---- save ----
+function cgSave(){return store.get('kr_cage')||{u:[],f:{jelly:2,leaf:2,jueki:1,fruit:1},c:0,fzd:'',fzk:[]}}
+function cgPut(c){store.set('kr_cage',c)}
+const cgToday=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+const cgInsts=()=>{const c=cgSave();return c.u.map(u=>box.find(b=>b.u===u)).filter(Boolean)};
+function cgInit(inst){if(inst.hun==null){inst.hun=60;inst.nk=0;inst.poo=0}}
+const cgTama=()=>typeof devTama==='function'&&devTama();
+function cageTick(){try{const c=cgSave();if(!c.u.length)return;let ch=0;cgInsts().forEach(i=>{const m=MONS[i.no-1];if(!m)return;cgInit(i);const eats=dietOf(m)[0].length>0;
+  if(eats)i.hun=Math.max(0,i.hun-6);if(Math.random()<.3)i.poo=Math.min(5,(i.poo||0)+1);if(eats&&i.hun<25)i.nk=Math.max(0,i.nk-3);if(i.poo>=3)i.nk=Math.max(0,i.nk-3);i.pt=0;ch=1});if(ch)saveBox()}catch(e){}}
+function cageGain(){try{const c=cgSave();c.c=(c.c||0)+1;if(c.c%5===0){const R=Math.random(),k=R<.35?'jelly':R<.65?'leaf':R<.85?'jueki':'fruit';c.f[k]=(c.f[k]||0)+1;cgPut(c);
+  setTimeout(()=>{try{pop(`${CGF[k][0]} ${CGF[k][1]} ゲット！`,innerWidth/2,innerHeight*.3,'#2f9e3a',18)}catch(e){}},900)}else cgPut(c)}catch(e){}}
+// ---- UI ----
+const CG={mode:'home',u:null,msg:''};
+function cgPic(inst,big){const m=MONS[inst.no-1];let u=null;try{u=thumbOf('m',m,eqx(inst))}catch(e){}return u?imgSvg(u,cgName(m,inst)):esvg(m)}
+function cgMeter(l,v,c){return `<div class="cgm"><span>${l}</span><i><b style="width:${Math.max(0,Math.min(100,v))}%;background:${c}"></b></i><em>${Math.round(v)}</em></div>`}
+function fodderFor(inst){const inPt=new Set(ptRefs.filter(r=>r.k==='i').map(r=>r.u)),inCg=new Set(cgSave().u);
+  const cand=box.filter(b=>b!==inst&&!inPt.has(b.u)&&!inCg.has(b.u)&&MONS[b.no-1]&&MONS[b.no-1].ins&&MONS[b.no-1].rar<=3&&!b.vr&&!b.fz);
+  const cnt={};box.forEach(b=>cnt[b.no]=(cnt[b.no]||0)+1);const spare=cand.filter(b=>cnt[b.no]>=2);
+  return(spare.length?spare:[]).sort((x,y)=>MONS[x.no-1].rar-MONS[y.no-1].rar||(x.lv||1)-(y.lv||1))[0]||null}
+function drawCage(){const el=$('cgBody'),c=cgSave(),ins=cgInsts();$('cgCnt').innerHTML=Object.keys(CGF).filter(k=>k!=='mushi').map(k=>`${CGF[k][0]}×${c.f[k]||0}`).join(' ');
+  const msg=CG.msg?`<div class="cgmsg">${CG.msg}</div>`:'';
+  if(CG.mode==='pick'){const inCg=new Set(c.u),list=box.filter(b=>MONS[b.no-1]&&MONS[b.no-1].ins&&!inCg.has(b.u));
+    el.innerHTML=`<p class="trnote">むしかごに 入れる 虫を えらんでね（3びきまで）。</p><div class="cgpick">${list.length?list.slice(0,80).map(b=>{const m=MONS[b.no-1];return `<button class="cgp" data-addu="${b.u}">${esvg(m)}<b>${cgName(m,b)}</b><small>Lv${b.lv||defLv(m)}</small></button>`}).join(''):'<small>まだ 虫が いないよ。バトルで つかまえよう！</small>'}</div><div class="cbtns"><button class="btn2" data-cgback="1">もどる</button></div>`;return}
+  const inst=CG.u&&box.find(b=>b.u===CG.u),mon=inst&&MONS[inst.no-1];
+  if(CG.mode==='feed'&&inst){const[d,t]=dietOf(mon),fod=fodderFor(inst);
+    el.innerHTML=`${msg}<div class="cgsel">${cgPic(inst)}<div><b>${cgName(mon,inst)}</b><small>${t}</small></div></div><div class="cgfood">${Object.keys(CGF).map(k=>{const n=k==='mushi'?(fod?1:0):(c.f[k]||0);
+      return `<button class="cgf ${d.includes(k)?'ok':''}" data-food="${k}" ${n?'':'disabled'}><span>${CGF[k][0]}</span><b>${CGF[k][1]}</b><small>${k==='mushi'?(fod?`${MONS[fod.no-1].name}（あまり）`:'あまりの 虫が いない'):'×'+n}</small></button>`}).join('')}</div>
+      <p class="trnote">💡 正しい エサを えらぶと なかよし度が アップ！ 問題に 5問 正解するごとに エサが もらえるよ。</p><div class="cbtns"><button class="btn2" data-cgback="1">もどる</button></div>`;return}
+  if(CG.mode==='evo'&&inst){const B=typeof balRank==='function'?balRank():0,today=cgToday(),used=inst.evd===today&&!cgTama(),fs=FUSHIGI.find(x=>x[0]===mon.name),opts=[];
+    VR.forEach((V,i)=>{if(V&&i>(inst.vr|0))opts.push({k:'v'+i,n:V.n,d:V.d,rate:V.rate,lv:V.lv,mats:V.mats})});if(fs)opts.push({k:'f',n:`ふしぎ進化 → ${fs[1]}`,d:'ゲームの 中だけの ふしぎな 進化。ほんとうの 虫は べつの しゅるいには ならないよ。',rate:FSG.rate,lv:FSG.lv,mats:FSG.mats});
+    el.innerHTML=`${msg}<div class="cgsel">${cgPic(inst)}<div><b>${cgName(mon,inst)}</b><small>なかよし ${inst.nk|0}/100 ・ Lv${inst.lv||defLv(mon)}${used?' ・ <b class="red">きょうは もう ちょうせん したよ</b>':''}</small></div></div>
+      <p class="trnote">進化は <b>なかよし度 MAX</b> と そざいが ひつよう。せいこうするかは うんしだい！ <b>まなびバランス ランク${B}</b>で せいこうりつ +${B*2}%（1日1回まで）</p>
+      <div class="cgevo">${opts.length?opts.map(o=>{const lvOk=(inst.lv||defLv(mon))>=o.lv||cgTama(),nkOk=(inst.nk|0)>=100||cgTama(),mOk=cgTama()||Object.entries(o.mats).every(([k,n])=>matN(k)>=n),ok=lvOk&&nkOk&&mOk&&!used,rate=cgTama()?100:Math.round((o.rate+B*.02)*100);
+        return `<div class="cge ${ok?'can':''}"><div><b>${o.n}</b><small>${o.d}</small><div class="rqs"><span class="rq ${lvOk?'ok':''}">Lv${o.lv}〜</span><span class="rq ${nkOk?'ok':''}">💗なかよし MAX</span>${Object.entries(o.mats).map(([k,n])=>`<span class="rq ${matN(k)>=n?'ok':''}" data-m="${k}">${matIcon(k)}<b>${MATS[k][0]}</b><i>${matN(k)}/${n}</i></span>`).join('')}</div></div><span class="cgr">せいこう<br><b>${rate}%</b></span><button class="btn wmk" data-evo="${o.k}" ${ok?'':'disabled'}>ちょうせん</button></div>`}).join(''):'<small>✨ これ いじょうの 進化は ないよ！</small>'}</div><div class="cbtns"><button class="btn2" data-cgback="1">もどる</button></div>`;return}
+  if(CG.mode==='fz'&&inst){const B=typeof balRank==='function'?balRank():0,used=c.fzd===cgToday()&&!cgTama(),others=ins.filter(o=>o!==inst);
+    const pairs=others.map(o=>{const mo=MONS[o.no-1],id=Object.keys(FZ).find(k=>{const a=FZ[k].a;return(a[0]===mon.arch&&a[1]===mo.arch)||(a[1]===mon.arch&&a[0]===mo.arch)});return{o,mo,id}});
+    el.innerHTML=`${msg}<p class="trnote">むしかごの 2ひきを 合体！ ふたりとも <b>なかよし度 MAX</b>・いのちのたま×${FZC.mats.mushidama}・💎${FZC.gem.toLocaleString()} が ひつよう。<b>しっぱいすると あいての 虫が にげて しまう</b>よ…（1日1回・せいこうりつ ${cgTama()?100:Math.round((FZC.rate+B*.02)*100)}%）${used?'<br><b class="red">きょうは もう ちょうせん したよ</b>':''}</p>
+      <div class="cgevo">${pairs.length?pairs.map(({o,mo,id})=>{const F=FZ[id],known=F&&c.fzk.includes(id),nk=cgTama()||((inst.nk|0)>=100&&(o.nk|0)>=100),mt=cgTama()||(matN('mushidama')>=FZC.mats.mushidama&&pts>=FZC.gem),ok=F&&nk&&mt&&!used&&!inst.fz&&!o.fz;
+        return `<div class="cge ${ok?'can':''}"><div><b>${cgName(mon,inst)} ＋ ${cgName(mo,o)}</b><small>${F?(known?`→ ${F.n}：${F.d}`:'→ ？？？（なにが 生まれるかな）'):'この くみあわせでは 合体 できないみたい…'}</small></div><button class="btn wmk" data-fz="${o.u}" ${ok?'':'disabled'}>合体！</button></div>`}).join(''):'<small>むしかごに もう 1ぴき 入れてね。</small>'}</div>
+      <p class="trnote">ヒント：${Object.values(FZ).map(F=>`${CAT[F.a[0]]}＋${CAT[F.a[1]]}`).slice(0,8).join('、')}</p><div class="cbtns"><button class="btn2" data-cgback="1">もどる</button></div>`;return}
+  CG.mode='home';
+  el.innerHTML=`${msg}<div class="cgrow">${[0,1,2].map(i=>{const b=ins[i];if(!b)return `<button class="cgc empty" data-add="1"><span>＋</span>虫を 入れる</button>`;const m=MONS[b.no-1];cgInit(b);const eats=dietOf(m)[0].length>0;
+    return `<div class="cgc" data-u="${b.u}"><div class="cgpic" data-pet="${b.u}">${cgPic(b)}${[...Array(b.poo|0)].map((_,k)=>`<button class="poo" data-poo="${b.u}" style="left:${8+((k*37+b.u.charCodeAt(0))%70)}%;top:${55+((k*23)%30)}%" aria-label="うんちを かたづける">💩</button>`).join('')}${(b.nk|0)>=100?'<i class="heart">💗</i>':''}</div>
+      <b class="cgn">${cgName(m,b)}${b.fz?' 🧬':''}</b><small>Lv${b.lv||defLv(m)}</small>${eats?cgMeter('おなか',b.hun,'#ff9f3d'):'<div class="cgm"><span>おなか</span><small class="nofood">おとなは たべない</small></div>'}${cgMeter('きれい',100-(b.poo|0)*20,'#5ab8e8')}${cgMeter('なかよし',b.nk|0,'#ff5a8a')}
+      <div class="cgb"><button class="btn2" data-feed="${b.u}">🍽 エサ</button><button class="btn2" data-evo0="${b.u}">✨ 進化</button><button class="btn2" data-fz0="${b.u}">🧬 合体</button><button class="btn2 sm" data-out="${b.u}">出す</button></div></div>`}).join('')}</div>
+    <p class="trnote">💩は タップで かたづけよう。虫を タップすると なでられるよ。バトルを するたびに おなかが へって うんちが ふえるよ。</p>
+    <div class="cgdex"><b>🧬 合体ずかん ${c.fzk.length}/${Object.keys(FZ).length}</b><div>${Object.keys(FZ).map(k=>c.fzk.includes(k)?`<span>${FZ[k].n}</span>`:'<span class="no">？？？</span>').join('')}</div></div>`}
+function openCage(){CG.mode='home';CG.msg='';let o=$('cageOv');if(!o){document.body.insertAdjacentHTML('beforeend',`<div class="ov" id="cageOv" hidden><div class="gbox cgbox"><div class="dexhead"><h2>🏠 むしかご</h2><span class="cnt" id="cgCnt"></span><button class="xbtn" id="cgClose">とじる</button></div><div id="cgBody" class="cgbody"></div></div></div>`);o=$('cageOv')}
+  cgInsts().forEach(cgInit);drawCage();o.hidden=false}
+function cgSay(t){CG.msg=t;drawCage()}
+function cgResult(ok,title,sub,col){const el=$('cgBody');el.innerHTML=`<div class="cgroll"><b>…ドキドキ…</b></div>`;tone(660,0,.1,'square',.05);setTimeout(()=>tone(880,0,.1,'square',.05),400);setTimeout(()=>tone(1100,0,.1,'square',.05),800);
+  setTimeout(()=>{if(ok){flash(col||'#ffd23f');try{barrage(4,160,true)}catch(e){}rain(60);[0,4,7,12].forEach((k,j)=>tone(note(k+5),j*.08,.22,'triangle',.09))}else{tone(220,0,.4,'sawtooth',.06)}
+    el.innerHTML=`<div class="cgres ${ok?'ok':'ng'}"><span class="big">${ok?'✨':'💦'}</span><b>${title}</b><small>${sub}</small><div class="cbtns"><button class="btn" data-cgback="1">むしかごへ</button></div></div>`;try{saveToast()}catch(e){}},1500)}
+document.addEventListener('click',e=>{const o=$('cageOv');if(!o||o.hidden)return;const t=e.target;ensureAudio();
+  if(t.closest('#cgClose')){o.hidden=true;try{refreshMaps()}catch(_){}return}
+  const g=k=>t.closest('['+k+']'),c=cgSave();let b;
+  if(g('data-cgback')){CG.mode='home';CG.msg='';drawCage();return}
+  if(g('data-add')){CG.mode='pick';drawCage();return}
+  if(b=g('data-addu')){if(c.u.length<3&&!c.u.includes(b.dataset.addu)){c.u.push(b.dataset.addu);cgPut(c);const i=box.find(x=>x.u===b.dataset.addu);cgInit(i);saveBox()}CG.mode='home';cgSay('むしかごに 入れたよ！');return}
+  if(b=g('data-out')){c.u=c.u.filter(u=>u!==b.dataset.out);cgPut(c);cgSay('むしかごから 出したよ');return}
+  if(b=g('data-poo')){e.stopPropagation();const i=box.find(x=>x.u===b.dataset.poo);if(i&&i.poo>0){i.poo--;i.nk=Math.min(100,(i.nk|0)+2);saveBox();tone(1200,0,.06,'triangle',.06);const C=center(b);pop('きれいに なった！',C.x,C.y-10,'#2f9e3a',16)}drawCage();return}
+  if(b=g('data-pet')){const i=box.find(x=>x.u===b.dataset.pet);if(i&&!i.pt){i.pt=1;i.nk=Math.min(100,(i.nk|0)+1);saveBox()}const C=center(b);pop('💗',C.x,C.y-20,'#ff5a8a',26);tone(1500,0,.08,'sine',.05);setTimeout(drawCage,300);return}
+  if(b=g('data-feed')){CG.u=b.dataset.feed;CG.mode='feed';CG.msg='';drawCage();return}
+  if(b=g('data-evo0')){CG.u=b.dataset.evo0;CG.mode='evo';CG.msg='';drawCage();return}
+  if(b=g('data-fz0')){CG.u=b.dataset.fz0;CG.mode='fz';CG.msg='';drawCage();return}
+  if(b=g('data-food')){if(b.disabled)return;const i=box.find(x=>x.u===CG.u),m=MONS[i.no-1],[d,tx]=dietOf(m),k=b.dataset.food;
+    if(!d.includes(k)){cgSay(`🙅 ${m.name}は ${CGF[k][1]}を 食べないよ。<br>${tx}`);tone(300,0,.2,'square',.05);return}
+    if(i.hun>=100){cgSay('おなか いっぱいみたい。また あとで あげよう！');return}
+    if(k==='mushi'){const f=fodderFor(i);if(!f)return;box.splice(box.indexOf(f),1)}else{c.f[k]--;cgPut(c)}
+    i.hun=Math.min(100,(i.hun|0)+35);i.nk=Math.min(100,(i.nk|0)+8);saveBox();tone(988,0,.06,'triangle',.06);tone(1319,.08,.1,'triangle',.06);cgSay(`😋 もぐもぐ… ${m.name}が よろこんでる！ なかよし度 +8${i.nk>=100?'<br>💗 なかよし度 MAX！ 進化や 合体に ちょうせん できるよ':''}`);return}
+  if(b=g('data-evo')){if(b.disabled)return;const i=box.find(x=>x.u===CG.u),m=MONS[i.no-1],k=b.dataset.evo,B=typeof balRank==='function'?balRank():0,tm=cgTama();
+    const o=k==='f'?{rate:FSG.rate,mats:FSG.mats}:VR[+k.slice(1)];if(!tm)Object.entries(o.mats).forEach(([mk,n])=>mats[mk]-=n);saveMats();i.evd=cgToday();
+    const ok=tm||Math.random()<o.rate+B*.02;
+    if(ok){if(k==='f'){const fs=FUSHIGI.find(x=>x[0]===m.name),to=MONS.find(x=>x.name===fs[1]);i.no=to.no;dex[to.no]=(dex[to.no]||0)+1;store.set('kr_dex3',dex);saveBox();cgResult(true,`ふしぎ進化 せいこう！`,`${m.name}は ${to.name}に なった！`,'#ff3d8b');return}
+      i.vr=+k.slice(1);saveBox();cgResult(true,'進化 せいこう！',`${m.name}は ${VR[i.vr].n}の すがたに なった！ のうりょく アップ！`,'#ffd23f');return}
+    i.nk=Math.max(0,(i.nk|0)-20);saveBox();cgResult(false,'ざんねん… しっぱい',`そざいは なくなって しまった。なかよし度も すこし さがったよ。また あした ちょうせん しよう！`);return}
+  if(b=g('data-fz')){if(b.disabled)return;const A=box.find(x=>x.u===CG.u),Bi=box.find(x=>x.u===b.dataset.fz),ma=MONS[A.no-1],mb=MONS[Bi.no-1],id=Object.keys(FZ).find(k=>{const a=FZ[k].a;return(a[0]===ma.arch&&a[1]===mb.arch)||(a[1]===ma.arch&&a[0]===mb.arch)});if(!id)return;
+    const tm=cgTama(),Br=typeof balRank==='function'?balRank():0;if(!tm){mats.mushidama-=FZC.mats.mushidama;saveMats();pts-=FZC.gem;store.set('kr_pts',pts);addPts(0)}c.fzd=cgToday();
+    const base=FZ[id].a[0]===ma.arch?A:Bi,part=base===A?Bi:A,ok=tm||Math.random()<FZC.rate+Br*.02;
+    box.splice(box.indexOf(part),1);ptRefs=ptRefs.filter(r=>!(r.k==='i'&&r.u===part.u));savePt();c.u=c.u.filter(u=>u!==part.u);
+    if(ok){base.fz=id;if(!c.fzk.includes(id))c.fzk.push(id);cgPut(c);saveBox();cgResult(true,`合体 せいこう！ ${FZ[id].n} たんじょう！`,FZ[id].d,'#7a4aff');return}
+    cgPut(c);saveBox();cgResult(false,'合体 しっぱい…',`${MONS[part.no-1].name}は びっくりして にげて しまった…。また ちょうせん しよう。`);return}
+},true);
+// むしかご ボタン（シートの ボタン列に 追加）
+function addCageBtn(el){if(!el||el.querySelector('.cgbtn'))return;const rs=[...el.querySelectorAll('.srow')],r=rs.find(x=>/パーティ/.test(x.textContent))||rs[rs.length-1];if(!r)return;const last=[...r.querySelectorAll('button.pill')].pop();const h='<button class="pill cgbtn" data-cage="1">🏠 むしかご</button>';if(last)last.insertAdjacentHTML('afterend',h);else r.insertAdjacentHTML('beforeend',h)}
+document.addEventListener('click',e=>{if(e.target.closest('[data-cage]')){e.stopPropagation();ensureAudio();openCage()}},true);
+const _dsC=drawSheet;drawSheet=function(){const r=_dsC.apply(this,arguments);addCageBtn($('sheet'));return r};
+const _dpC=drawPkSheet;drawPkSheet=function(){const r=_dpC.apply(this,arguments);addCageBtn($('pksheet'));return r};
+const _winC=win;win=async function(){cageTick();return _winC.apply(this,arguments)};
+try{document.head.insertAdjacentHTML('beforeend',`<style>
+.cgbox{overflow-y:auto;background:linear-gradient(180deg,#eaf6dc,#fffdf5 180px)}.cgbody{display:flex;flex-direction:column;gap:10px}
+.cgrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.cgc{background:#fffdf5;border:2px solid #cfe2b8;border-radius:16px;padding:6px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.cgc.empty{align-items:center;justify-content:center;min-height:220px;font:900 12px var(--body);color:#6a8a4a;border-style:dashed;cursor:pointer}.cgc.empty span{font-size:34px}
+.cgpic{position:relative;aspect-ratio:1;border-radius:12px;background:radial-gradient(circle at 50% 70%,#d6c29a,#a8d48a 70%);overflow:hidden;cursor:pointer}.cgpic svg{width:100%;height:100%;display:block}
+.poo{position:absolute;font-size:20px;border:0;background:none;padding:0;cursor:pointer;transform:translate(-50%,-50%);filter:drop-shadow(0 2px 1px rgba(0,0,0,.25))}
+.cgpic .heart{position:absolute;right:4px;top:2px;font-style:normal;font-size:16px}
+.cgn{font:900 11px var(--body);line-height:1.2}.cgc>small{font:800 10px var(--body);color:var(--muted)}
+.cgm{display:grid;grid-template-columns:auto 1fr auto;gap:3px;align-items:center;font:800 9px var(--body)}.cgm i{height:7px;border-radius:9px;background:#efe6d6;overflow:hidden;display:block}.cgm i b{display:block;height:100%;border-radius:9px}.cgm em{font-style:normal;font-size:9px;color:var(--muted)}.cgm .nofood{grid-column:2/4;font-size:9px;color:var(--muted)}
+.cgb{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:2px}.cgb .btn2{font-size:10px;padding:5px 2px}
+.cgmsg{padding:8px 12px;border-radius:12px;background:#fff6d8;border:2px solid #f0d27a;font:800 12px/1.5 var(--body)}
+.cgsel{display:grid;grid-template-columns:80px 1fr;gap:10px;align-items:center}.cgsel>svg,.cgsel>img{width:80px;height:80px}.cgsel b{font:900 15px var(--body)}.cgsel small{display:block;font:800 11px/1.5 var(--body);color:#6a5a42}.red{color:#e0402a}
+.cgfood{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.cgf{display:flex;flex-direction:column;align-items:center;padding:8px 4px;border-radius:12px;border:2px solid #e0d2b8;background:#fffdf5;font:800 11px var(--body);cursor:pointer}.cgf span{font-size:26px}.cgf small{font-size:9px;color:var(--muted)}.cgf:disabled{opacity:.45}
+.cgevo{display:grid;gap:6px}.cge{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;padding:8px;border-radius:14px;border:2px solid #e0d2b8;background:#fffdf5}.cge.can{border-color:#9bd27a;background:#f4fbe8}.cge b{font:900 13px var(--body)}.cge small{display:block;font:800 10px/1.4 var(--body);color:#6a5a42}.cgr{font:800 9px var(--body);text-align:center;color:#8a6a3a}.cgr b{font-size:15px;color:#e0402a}
+.cgpick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cgp{display:flex;flex-direction:column;align-items:center;padding:4px;border-radius:12px;border:2px solid #e0d2b8;background:#fffdf5;cursor:pointer}.cgp svg{width:100%;height:auto;aspect-ratio:1}.cgp b{font:900 9px var(--body);text-align:center}.cgp small{font-size:9px;color:var(--muted)}
+.cgdex{padding:8px 12px;border-radius:14px;background:#f4ecff;border:2px solid #d8c8ff}.cgdex b{font:900 13px var(--body)}.cgdex div{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}.cgdex span{font:800 10px var(--body);padding:2px 8px;border-radius:99px;background:#fff}.cgdex span.no{color:#aaa}
+.cgroll{display:grid;place-items:center;min-height:240px}.cgroll b{font:900 24px var(--body);animation:cgshake .25s infinite alternate}@keyframes cgshake{from{transform:rotate(-4deg) scale(1)}to{transform:rotate(4deg) scale(1.08)}}
+.cgres{display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px 10px;text-align:center}.cgres .big{font-size:60px}.cgres b{font:900 20px var(--body)}.cgres small{font:800 12px/1.5 var(--body);color:#6a5a42}
+</style>`)}catch(e){}
+//CAGE_END
 
 function vintSheet(P,ri){const R=P.regions[ri],cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,ids=Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id&&VCARD[k][1]===ri);
   return `<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>テーマ：${R[2]} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
