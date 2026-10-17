@@ -7766,7 +7766,7 @@ document.addEventListener('click',e=>{const o=$('cageOv');if(!o||o.hidden)return
     cgPut(c);saveBox();cgResult(false,'合体 しっぱい…',`${MONS[part.no-1].name}は びっくりして にげて しまった…。また ちょうせん しよう。`);return}
 },true);
 // むしかご ボタン（シートの ボタン列に 追加）
-function addCageBtn(el){if(!el||el.querySelector('.cgbtn'))return;const rs=[...el.querySelectorAll('.srow')],r=rs.find(x=>/パーティ|Party/.test(x.textContent))||rs[rs.length-1];if(!r)return;const last=[...r.querySelectorAll('button.pill')].pop();const h='<button class="pill cgbtn" data-cage="1">🏠 むしかご</button>';if(last)last.insertAdjacentHTML('afterend',h);else r.insertAdjacentHTML('beforeend',h)}
+function addCageBtn(el){if(!el||el.querySelector('.cgbtn'))return;const rs=[...el.querySelectorAll('.srow')];let r=rs.find(x=>[...x.querySelectorAll('button')].some(b=>/パーティ|Party/.test(b.textContent)));if(!r){r=document.createElement('div');r.className='srow cgrow';el.appendChild(r)}const last=[...r.querySelectorAll('button.pill')].pop();const h='<button class="pill cgbtn" data-cage="1">🏠 むしかご</button>';if(last)last.insertAdjacentHTML('afterend',h);else r.insertAdjacentHTML('beforeend',h)}
 document.addEventListener('click',e=>{if(e.target.closest('[data-cage]')){e.stopPropagation();ensureAudio();openCage()}},true);
 const _dsC=drawSheet;drawSheet=function(){const r=_dsC.apply(this,arguments);addCageBtn($('sheet'));return r};
 const _dpC=drawPkSheet;drawPkSheet=function(){const r=_dpC.apply(this,arguments);addCageBtn($('pksheet'));return r};
@@ -7918,6 +7918,7 @@ $('dexGrid').addEventListener('click',e=>{const c=e.target.closest('[data-evu]')
 #dexGrid .evc.vr6,#dexGrid .evc.vr5{border-color:#c88aff;background:linear-gradient(160deg,#fff,#f3e6ff)}#dexGrid .evc .ic img,#dexGrid .evc .ic svg{width:100%;height:100%;object-fit:contain}
 .evc{height:auto!important;align-self:start}#dexGrid:has(.evc),#dexGrid:has(.evnone){align-content:start;align-items:start}
 .dexbox>*:not(.grid){flex-shrink:0}
+.srow:has(.cgbtn){flex-wrap:wrap;row-gap:6px}.srow.cgrow{display:flex!important;gap:8px;justify-content:flex-start}.srow.cgrow>*{flex:0 0 auto!important;width:auto!important;min-width:44px;margin-left:0!important}
 .evnone{grid-column:1/-1;text-align:center;font:800 13px/1.7 var(--body);color:var(--muted);padding:24px 8px}`;document.head.appendChild(st)})();
 //EVDEX_END
 
