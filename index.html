@@ -3549,14 +3549,14 @@ function candList(){const w=CHARS.filter(c=>owned.has(c.id)).map(c=>{const lv=lv
   return PT.tab==='w'?w:PT.tab==='i'?ins:[...w,...ins]}
 function drawParty2(){validRefs();
   $('slots4').innerHTML=[0,1,2,3].map(i=>{const r=ptRefs[i],m=r&&memberFromRef(r);if(!m)return `<div class="slot4">あき</div>`;
-    return `<button class="slot4 on ${deadOf(m)?'dead':''}" data-i="${i}" aria-label="${m.ch.name}を はずす"><span class="ic">${svg(m.ch)}</span><b>${m.ch.name}</b><small>${deadOf(m)?'☠ たおれている':'Lv '+m.lv}</small></button>`}).join('');
+    return `<button class="slot4 on ${deadOf(m)?'dead':''}" data-i="${i}" aria-label="${m.ch.name}を はずす"><span class="ic">${m.kind==='i'?insPic(MONS[m.inst.no-1],m.inst,m.ch):svg(m.ch)}</span><b>${m.ch.name}</b><small>${deadOf(m)?'☠ たおれている':'Lv '+m.lv}</small></button>`}).join('');
   $('pcnt').textContent=`${ptRefs.length} / 4人`;
-  $('ptabs').innerHTML=[['all','すべて'],['w','せんし'],['i','つかまえた昆虫']].map(([k,l])=>`<button class="tab" data-t="${k}" aria-pressed="${PT.tab===k}">${l}</button>`).join('');
+  $('ptabs').innerHTML=[['all','すべて'],['w','せんし'],['i','つかまえた昆虫'],['ev','✨進化・合体'],['fav','⭐お気に入り']].map(([k,l])=>`<button class="tab" data-t="${k}" aria-pressed="${PT.tab===k}">${l}</button>`).join('');
   PT.list=candList();
   $('clist').innerHTML=PT.list.length?PT.list.map((c,idx)=>{const on=ptRefs.some(r=>refEq(r,c.ref));
-    return `<button class="cc ${on?'on':''}" data-idx="${idx}"><span class="ic">${svg(c.ch)}</span><span class="cct"><b>${c.ch.name}</b><small>Lv ${c.lv} ・ ${EL6[c.ch.el].i}${EL6[c.ch.el].n} ・ ${c.w?c.ch.motif+'の戦士':'★'.repeat(c.rar)+(c.ch.job&&c.ch.job!=='none'?' '+JOBS[c.ch.job].i+JOBS[c.ch.job].n:'')}</small>
-      <small>HP ${c.s.hp} こう ${c.s.atk} ぼう ${c.s.def}</small><small>とくぎ：${c.ch.skill.name}</small></span>${on?'<em>IN</em>':''}</button>`}).join('')
-    :'<p class="best">まだ いないよ。バトルで 昆虫を つかまえよう！</p>';drawJobs()}
+    return `<button class="cc ${on?'on':''}" data-idx="${idx}"><span class="ic">${ccPic(c)}</span><span class="cct"><b>${ccBadge(c)}${c.ch.name}</b><small>Lv ${c.lv} ・ ${EL6[c.ch.el].i}${EL6[c.ch.el].n} ・ ${c.w?c.ch.motif+'の戦士':'★'.repeat(c.rar)+(c.ch.job&&c.ch.job!=='none'?' '+JOBS[c.ch.job].i+JOBS[c.ch.job].n:'')}</small>
+      <small>HP ${c.s.hp} こう ${c.s.atk} ぼう ${c.s.def}</small><small>とくぎ：${c.ch.skill.name}</small></span>${on?'<em>IN</em>':''}<i class="ccfav ${c.fav?'on':''}" ${c.w?`data-wfav="${c.id}"`:`data-fav="${c.u}"`} role="button" aria-label="お気に入り">⭐</i></button>`}).join('')
+    :`<p class="best">${PT.tab==='fav'?'☆を タップすると お気に入りに なるよ！':PT.tab==='ev'?'むしかごで 進化・合体した 虫が ここに でるよ。':'まだ いないよ。バトルで 昆虫を つかまえよう！'}</p>`;drawJobs()}
 function openParty(){PT.tab='all';drawParty2();$('partyOv').hidden=false;setTimeout(()=>$('pClose').focus(),30)}
 $('clist').addEventListener('click',e=>{const b=e.target.closest('.cc');if(!b)return;const c=PT.list[+b.dataset.idx];const i=ptRefs.findIndex(r=>refEq(r,c.ref));
   if(i>=0){if(ptRefs.length>1)ptRefs.splice(i,1);else{$('pcnt').textContent='1人は ひつようだよ';return}}else if(ptRefs.length<4)ptRefs.push(c.ref);else{$('pcnt').textContent='4人まで だよ';return}
@@ -3923,7 +3923,7 @@ $('vFood').addEventListener('click',e=>{const b=e.target.closest('.fd');if(!b||b
 const canKenja=inst=>(inst.lv||1)>=15||(inst.evo||0)>=2;
 function drawJobs(){const el=$('jobs');if(!el)return;const ins=ptRefs.filter(r=>r.k==='i').map(r=>box.find(b=>b.u===r.u)).filter(Boolean);
   el.innerHTML=`<div class="jh">🎓 しょくぎょう <small>パーティの 昆虫に しょくぎょうを つけよう</small></div>`+(ins.length?ins.map(inst=>{const mon=MONS[inst.no-1],j=JOBS[inst.job||'none'];
-    return `<div class="jrow"><span class="ic">${insArt(insCh(mon,inst))}</span><span class="jt"><b>${mon.name}${'＋'.repeat(inst.evo||0)}</b><small>${j.desc}</small></span><span class="jsel"><select data-u="${inst.u}" aria-label="${mon.name}の しょくぎょう">${Object.entries(JOBS).map(([k,jj])=>{const lock=k==='kenja'&&!canKenja(inst);
+    return `<div class="jrow"><span class="ic">${insPic(mon,inst)}</span><span class="jt"><b>${cgName(mon,inst)}${'＋'.repeat(inst.evo||0)}</b><small>${j.desc}</small></span><span class="jsel"><select data-u="${inst.u}" aria-label="${mon.name}の しょくぎょう">${Object.entries(JOBS).map(([k,jj])=>{const lock=k==='kenja'&&!canKenja(inst);
       return `<option value="${k}" ${(inst.job||'none')===k?'selected':''} ${lock?'disabled':''}>${jj.i} ${jj.n}${lock?'（Lv15 か しんか2）':''}</option>`}).join('')}</select>${inst.job==='mahou'?`<select class="musel" data-mu="${inst.u}" aria-label="${mon.name}の 楽器"><option value="">🎵 楽器 なし</option>${INSTS.filter(a=>instSave[a[0]]&&instSave[a[0]].got).map(a=>`<option value="${a[0]}" ${inst.music===a[0]?'selected':''}>${a[2]} ${a[1]}</option>`).join('')}</select>`:''}</span></div>`}).join('')
     :'<small>つかまえた 昆虫を パーティに いれると、せんし・まほうつかい・そうりょ・ぶとうか・けんじゃ から しょくぎょうを えらべるよ！ したの リストの「つかまえた昆虫」から えらんでね。</small>')}
 $('jobs').addEventListener('change',e=>{const s=e.target.closest('select');if(!s)return;if(s.dataset.mu){const it=box.find(b=>b.u===s.dataset.mu);if(it){if(s.value)it.music=s.value;else delete it.music;saveBox();tone(1319,0,.08,'triangle',.07);drawParty2()}return}const inst=box.find(b=>b.u===s.dataset.u);if(!inst)return;
@@ -7723,7 +7723,7 @@ function drawCage(){const el=$('cgBody'),c=cgSave(),ins=cgInsts();$('cgCnt').inn
       <p class="trnote">ヒント：${Object.values(FZ).map(F=>`${CAT[F.a[0]]}＋${CAT[F.a[1]]}`).slice(0,8).join('、')}</p><div class="cbtns"><button class="btn2" data-cgback="1">もどる</button></div>`;return}
   CG.mode='home';
   el.innerHTML=`${msg}<div class="cgrow">${[0,1,2].map(i=>{const b=ins[i];if(!b)return `<button class="cgc empty" data-add="1"><span>＋</span>虫を 入れる</button>`;const m=MONS[b.no-1];cgInit(b);const eats=dietOf(m)[0].length>0;
-    return `<div class="cgc" data-u="${b.u}"><div class="cgpic" data-pet="${b.u}">${cgPic(b)}${[...Array(b.poo|0)].map((_,k)=>`<button class="poo" data-poo="${b.u}" style="left:${8+((k*37+b.u.charCodeAt(0))%70)}%;top:${55+((k*23)%30)}%" aria-label="うんちを かたづける">💩</button>`).join('')}${(b.nk|0)>=100?'<i class="heart">💗</i>':''}</div>
+    return `<div class="cgc" data-u="${b.u}"><div class="cgpic" data-pet="${b.u}">${cgPic(b)}<i class="cgfav ${b.fav?'on':''}" data-fav="${b.u}" role="button" aria-label="お気に入り">⭐</i>${[...Array(b.poo|0)].map((_,k)=>`<button class="poo" data-poo="${b.u}" style="left:${8+((k*37+b.u.charCodeAt(0))%70)}%;top:${55+((k*23)%30)}%" aria-label="うんちを かたづける">💩</button>`).join('')}${(b.nk|0)>=100?'<i class="heart">💗</i>':''}</div>
       <b class="cgn">${cgName(m,b)}${b.fz?' 🧬':''}</b><small>Lv${b.lv||defLv(m)}</small>${eats?cgMeter('おなか',b.hun,'#ff9f3d'):'<div class="cgm"><span>おなか</span><small class="nofood">おとなは たべない</small></div>'}${cgMeter('きれい',100-(b.poo|0)*20,'#5ab8e8')}${cgMeter('なかよし',b.nk|0,'#ff5a8a')}
       <div class="cgb"><button class="btn2" data-feed="${b.u}">🍽 エサ</button><button class="btn2" data-evo0="${b.u}">✨ 進化</button><button class="btn2" data-fz0="${b.u}">🧬 合体</button><button class="btn2 sm" data-out="${b.u}">出す</button></div></div>`}).join('')}</div>
     <p class="trnote">💩は タップで かたづけよう。虫を タップすると なでられるよ。バトルを するたびに おなかが へって うんちが ふえるよ。</p>
@@ -7734,7 +7734,7 @@ function cgSay(t){CG.msg=t;drawCage()}
 function cgResult(ok,title,sub,col){const el=$('cgBody');el.innerHTML=`<div class="cgroll"><b>…ドキドキ…</b></div>`;tone(660,0,.1,'square',.05);setTimeout(()=>tone(880,0,.1,'square',.05),400);setTimeout(()=>tone(1100,0,.1,'square',.05),800);
   setTimeout(()=>{if(ok){flash(col||'#ffd23f');try{barrage(4,160,true)}catch(e){}rain(60);[0,4,7,12].forEach((k,j)=>tone(note(k+5),j*.08,.22,'triangle',.09))}else{tone(220,0,.4,'sawtooth',.06)}
     el.innerHTML=`<div class="cgres ${ok?'ok':'ng'}"><span class="big">${ok?'✨':'💦'}</span><b>${title}</b><small>${sub}</small><div class="cbtns"><button class="btn" data-cgback="1">むしかごへ</button></div></div>`;try{saveToast()}catch(e){}},1500)}
-document.addEventListener('click',e=>{const o=$('cageOv');if(!o||o.hidden)return;const t=e.target;ensureAudio();
+document.addEventListener('click',e=>{const o=$('cageOv');if(!o||o.hidden)return;const t=e.target;if(t.closest('[data-fav]'))return;ensureAudio();
   if(t.closest('#cgClose')){o.hidden=true;try{refreshMaps()}catch(_){}return}
   const g=k=>t.closest('['+k+']'),c=cgSave();let b;
   if(g('data-cgback')){CG.mode='home';CG.msg='';drawCage();return}
@@ -7791,6 +7791,23 @@ try{document.head.insertAdjacentHTML('beforeend',`<style>
 .cgres{display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px 10px;text-align:center}.cgres .big{font-size:60px}.cgres b{font:900 20px var(--body)}.cgres small{font:800 12px/1.5 var(--body);color:#6a5a42}
 </style>`)}catch(e){}
 //CAGE_END
+
+// ----- パーティえらび：進化・合体した 虫 / お気に入り -----
+function insPic(mon,inst,ch){let u=null;try{u=thumbOf('m',mon,eqx(inst))}catch(e){}return u?imgSvg(u,ch?ch.name:mon.name):svg(ch||insCh(mon,inst))}
+function ccPic(c){if(c.w)return svg(c.ch);const b=box.find(x=>x.u===c.u);return b?insPic(c.ch.mon,b,c.ch):svg(c.ch)}
+function ccBadge(c){if(c.w)return c.fav?'⭐':'';const b=box.find(x=>x.u===c.u)||{};return(c.fav?'⭐':'')+(b.fz?'🧬':b.vr?'✨':'')+(c.cage?'🏠':'')}
+candList=function(){const cg=new Set((cgSave().u)||[]);
+  const w=CHARS.filter(c=>owned.has(c.id)).map(c=>{const lv=lvOf(c.id);return{ref:{k:'w',id:c.id},ch:c,lv,s:wStats(c,lv),w:1,fav:!!(pSave[c.id]&&pSave[c.id].fav),id:c.id}});
+  let ins=box.map(b=>{const mon=MONS[b.no-1];if(!mon)return null;const lv=b.lv||defLv(mon);return{ref:{k:'i',u:b.u},u:b.u,ch:insCh(mon,b),lv,s:insStats(mon,lv,b.eq,b),rar:mon.rar,fav:!!b.fav,sp:!!(b.vr||b.fz||b.evo),cage:cg.has(b.u)}}).filter(Boolean)
+    .sort((a,b)=>(b.fav-a.fav)||(b.sp-a.sp)||b.lv-a.lv||b.rar-a.rar);
+  const wf=[...w].sort((a,b)=>b.fav-a.fav);
+  if(PT.tab==='w')return wf;if(PT.tab==='ev')return ins.filter(x=>x.sp);if(PT.tab==='fav')return[...w.filter(x=>x.fav),...ins.filter(x=>x.fav)];
+  ins=ins.slice(0,200);return PT.tab==='i'?ins:[...wf,...ins]};
+document.addEventListener('click',e=>{const f=e.target.closest('[data-fav],[data-wfav]');if(!f)return;e.stopPropagation();e.preventDefault();ensureAudio();
+  if(f.dataset.fav){const b=box.find(x=>x.u===f.dataset.fav);if(b){b.fav=b.fav?0:1;saveBox()}}else{const id=f.dataset.wfav,p=pSave[id]=pSave[id]||{lv:1,exp:0};p.fav=p.fav?0:1;savePS()}
+  tone(1319,0,.07,'triangle',.06);if(!$('partyOv').hidden)drawParty2();if($('cageOv')&&!$('cageOv').hidden)drawCage()},true);
+try{document.head.insertAdjacentHTML('beforeend','<style>.cc{position:relative}.ccfav{position:absolute;right:6px;top:4px;font-style:normal;font-size:20px;line-height:1;padding:4px;cursor:pointer;filter:grayscale(1);opacity:.55}.ccfav.on{filter:none;opacity:1}.cc em{right:34px!important}.cc .cct{padding-right:24px}#ptabs{flex-wrap:wrap}.cgfav{position:absolute;left:4px;top:2px;font-style:normal;font-size:16px;cursor:pointer;filter:grayscale(1);opacity:.6}.cgfav.on{filter:none;opacity:1}</style>')}catch(e){}
+//PFAV_END
 
 function vintSheet(P,ri){const R=P.regions[ri],cl=regCleared(P.id,ri),need=bossNeed(P.id,ri),bo=cl>=need,ids=Object.keys(VCARD).filter(k=>VCARD[k][0]===P.id&&VCARD[k][1]===ri);
   return `<div class="srow"><span class="snum" style="background:${P.c}">${P.i}</span><div class="stt"><b>${R[0]} ${regBoss(P.id,ri)?'👑':''}</b><small>テーマ：${R[2]} ・ パーティ Lv ${avgLvParty()}</small>${leftTag()}</div><button class="pill" id="pkClose" aria-label="えらびなおす" style="margin-left:auto">✕</button></div>
