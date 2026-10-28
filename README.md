@@ -69,7 +69,7 @@ GitHub Pages を有効にすると、URLから遊べます。
 - SPキャラの「Nouns」スタイルとメガネ「ノグルズ」は、CC0（パブリックドメイン）で公開されている [Nouns](https://nouns.wtf/) をもとにしています。
 - そのほかのキャラクター・生き物の3Dモデルは、このゲームのためのオリジナルです。
 - 楽器編のBGMは、パブリックドメインの曲（きらきら星、歓喜の歌、さくらさくら など）と、オリジナルの曲です。
-- 演出の動き（ポップイン・バースト・タイプライター・カウントアップ・パララックス・マスクトランジション・インパクトシェイクなど41種）は Motion Prompt（MIT License, © 2026 Shohei Ohtaki, https://showheyohtaki.github.io/motion-prompt/）の仕様をもとにしています。
+- 演出の動き（ポップイン・バースト・タイプライター・カウントアップ・パララックス・マスクトランジション・インパクトシェイク・リップル・トースト・ボトムシート・ビフォーアフター・ガラス割れ・レンズフレアなど160種）は Motion Prompt（MIT License, © 2026 Shohei Ohtaki, https://showheyohtaki.github.io/motion-prompt/）の仕様をもとにしています。
 
 ## 漢字データのクレジット
 - 書きじゅん（ストロークデータ）：[KanjiVG](http://kanjivg.tagaini.net) © Ulrich Apel — CC BY-SA 3.0
