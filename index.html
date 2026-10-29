@@ -7935,6 +7935,1265 @@ $('dexGrid').addEventListener('click',e=>{const c=e.target.closest('[data-evu]')
 .evnone{grid-column:1/-1;text-align:center;font:800 13px/1.7 var(--body);color:var(--muted);padding:24px 8px}`;document.head.appendChild(st)})();
 //EVDEX_END
 
+// ================= 特別支援学校 入試の島
+// ===== 分校入試 問題ジェネレーター（BUNKO）=====
+/* ============================================================
+   分校入試 問題ジェネレーター（単体で動く版）
+   分校入試れんしゅう帳 のデータと問題づくりのしくみを、そのまま1ファイルにしたもの。
+   ・ブラウザ：<script src="bunko_generators.js"><\/script> → window.BUNKO
+   ・Node.js：const BUNKO = require("./bunko_generators.js")
+   使い方は 指示書 の「ジェネレーターの使い方」を見てください。
+   問題文はすべてオリジナル（公開問題の分析にもとづく）。
+   ============================================================ */
+(function(root){
+/* ---------- gen.js ---------- */
+/* ============================================================
+   共通の道具
+   ============================================================ */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const sample=(a,n)=>shuffle(a).slice(0,n);
+const WD=["日","月","火","水","木","金","土"];
+/* 一日の分（0〜1439）→「午前9時20分」 */
+function tj(t,ampm=true){t=((t%1440)+1440)%1440;const h=Math.floor(t/60),m=t%60;
+  if(!ampm) return `${h}時${m?m+"分":""}`;
+  if(h===12)return `昼の12時${m?m+"分":""}`;
+  return `${h<12?"午前":"午後"}${h%12}時${m?m+"分":""}`;}
+/* 分 →「1時間35分」 */
+const dur=m=>`${Math.floor(m/60)?Math.floor(m/60)+"時間":""}${m%60?m%60+"分":""}`||"0分";
+/* 0.1単位の整数 → 小数の文字 */
+const dec1=v=>v%10===0?String(v/10):`${Math.floor(v/10)}.${v%10}`;
+const yen=n=>n.toLocaleString("ja-JP");
+/* 選択肢：正解を先頭に、重ならない4つ */
+function opts(correct,cands,filler){
+  const out=[String(correct)];
+  for(const c of cands){if(out.length>=4)break;const s=c==null?null:String(c);if(s&&!out.includes(s))out.push(s)}
+  let k=1;while(out.length<4&&filler&&k<40){const s=String(filler(k++));if(!out.includes(s))out.push(s)}
+  return out.slice(0,4);
+}
+/* 分数の表示用トークン  [[f:整数:分子:分母]] */
+const fr=(w,n,d)=>`[[f:${w||""}:${n}:${d}]]`;
+function frNorm(total,d){const w=Math.floor(total/d),n=total%d;return n?fr(w,n,d):String(w)}
+
+/* 漢数字 */
+function kanjiNum(n){
+  const dig="〇一二三四五六七八九";
+  const four=x=>{let s="";[[1000,"千"],[100,"百"],[10,"十"]].forEach(([v,k])=>{const q=Math.floor(x/v)%10;if(q)s+=(q===1?"":dig[q])+k});const o=x%10;if(o)s+=dig[o];return s};
+  if(n===0)return "〇";
+  let s="";const oku=Math.floor(n/1e8),man=Math.floor(n/1e4)%1e4,rest=n%1e4;
+  if(oku)s+=four(oku)+"億";if(man)s+=four(man)+"万";if(rest)s+=four(rest);return s;
+}
+
+/* ============================================================
+   図（SVG）。色は currentColor なので画面でも印刷でも読める
+   ============================================================ */
+function clockSVG(h,m){
+  const ticks=[...Array(60)].map((_,i)=>{const a=i*6*Math.PI/180,big=i%5===0,r1=big?80:85;
+    return `<line x1="${(100+r1*Math.sin(a)).toFixed(1)}" y1="${(100-r1*Math.cos(a)).toFixed(1)}" x2="${(100+90*Math.sin(a)).toFixed(1)}" y2="${(100-90*Math.cos(a)).toFixed(1)}" stroke="currentColor" stroke-width="${big?3:1}"/>`}).join("");
+  const nums=[...Array(12)].map((_,i)=>{const n=i+1,a=n*30*Math.PI/180;
+    return `<text x="${(100+66*Math.sin(a)).toFixed(1)}" y="${(100-66*Math.cos(a)+7).toFixed(1)}" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor" font-family="sans-serif">${n}</text>`}).join("");
+  const ha=((h%12)+m/60)*30*Math.PI/180,ma=m*6*Math.PI/180;
+  return `<svg class="clock" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="とけい"><circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="4"/>${ticks}${nums}<line x1="100" y1="100" x2="${(100+45*Math.sin(ha)).toFixed(1)}" y2="${(100-45*Math.cos(ha)).toFixed(1)}" stroke="currentColor" stroke-width="8" stroke-linecap="round"/><line x1="100" y1="100" x2="${(100+74*Math.sin(ma)).toFixed(1)}" y2="${(100-74*Math.cos(ma)).toFixed(1)}" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="100" cy="100" r="6" fill="currentColor"/></svg>`;
+}
+/* 数直線：start から step ずつ、10目もり。arrow 番目に矢印 */
+function lineSVG(start,step,arrow,labelEvery=5){
+  const W=340,x0=20,dx=30;let s="";
+  s+=`<line x1="${x0-10}" y1="50" x2="${x0+dx*10+10}" y2="50" stroke="currentColor" stroke-width="2"/>`;
+  for(let i=0;i<=10;i++){const x=x0+dx*i,big=i%labelEvery===0;
+    s+=`<line x1="${x}" y1="${big?38:43}" x2="${x}" y2="${big?62:57}" stroke="currentColor" stroke-width="${big?2.5:1.5}"/>`;
+    if(big)s+=`<text x="${x}" y="82" text-anchor="middle" font-size="15" fill="currentColor" font-family="sans-serif">${yen(start+step*i)}</text>`;}
+  const ax=x0+dx*arrow;
+  s+=`<path d="M${ax} 34 L${ax-7} 20 L${ax+7} 20 Z" fill="currentColor"/><text x="${ax}" y="14" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="sans-serif">ア</text>`;
+  return `<svg class="wide" viewBox="0 0 ${W} 92" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="数直線">${s}</svg>`;
+}
+/* 方眼の図形（1マス1cm）。cells: [[x,y],...] */
+function gridSVG(cells,cols,rows){
+  const c=26,W=cols*c+2,H=rows*c+2;let s="";
+  for(let x=0;x<=cols;x++)s+=`<line x1="${x*c+1}" y1="1" x2="${x*c+1}" y2="${rows*c+1}" stroke="currentColor" stroke-opacity=".35" stroke-width="1"/>`;
+  for(let y=0;y<=rows;y++)s+=`<line x1="1" y1="${y*c+1}" x2="${cols*c+1}" y2="${y*c+1}" stroke="currentColor" stroke-opacity=".35" stroke-width="1"/>`;
+  cells.forEach(([x,y])=>s+=`<rect x="${x*c+1}" y="${y*c+1}" width="${c}" height="${c}" fill="currentColor" fill-opacity=".28" stroke="currentColor" stroke-width="1.5"/>`);
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="方眼の図形" style="max-width:${W*1.1}px">${s}</svg>`;
+}
+/* 棒グラフ・折れ線グラフ */
+function chartSVG(labels,series,{kind="bar",unit="",max,step=1,labelStep=5,names}={}){
+  const W=360,H=230,L=40,B=40,T=24,Rm=12,pw=W-L-Rm,ph=H-T-B;
+  max=max||Math.ceil(Math.max(...series.flat())/labelStep)*labelStep;
+  const y=v=>T+ph-(v/max)*ph,bw=pw/labels.length;let s="";
+  for(let v=0;v<=max;v+=step){const major=v%labelStep===0;
+    s+=`<line x1="${L}" y1="${y(v).toFixed(1)}" x2="${W-Rm}" y2="${y(v).toFixed(1)}" stroke="currentColor" stroke-opacity="${major?.45:.15}" stroke-width="1"/>`;
+    if(major)s+=`<text x="${L-6}" y="${(y(v)+5).toFixed(1)}" text-anchor="end" font-size="12" fill="currentColor" font-family="sans-serif">${v}</text>`;}
+  s+=`<text x="${L-6}" y="${T-10}" text-anchor="end" font-size="11" fill="currentColor" font-family="sans-serif">(${unit})</text>`;
+  labels.forEach((lb,i)=>s+=`<text x="${(L+bw*i+bw/2).toFixed(1)}" y="${H-B+18}" text-anchor="middle" font-size="${labels.length>8?11:13}" fill="currentColor" font-family="sans-serif">${lb}</text>`);
+  s+=`<line x1="${L}" y1="${T+ph}" x2="${W-Rm}" y2="${T+ph}" stroke="currentColor" stroke-width="1.5"/><line x1="${L}" y1="${T}" x2="${L}" y2="${T+ph}" stroke="currentColor" stroke-width="1.5"/>`;
+  series.forEach((vals,si)=>{
+    if(kind==="bar"){vals.forEach((v,i)=>s+=`<rect x="${(L+bw*i+bw*.22).toFixed(1)}" y="${y(v).toFixed(1)}" width="${(bw*.56).toFixed(1)}" height="${(T+ph-y(v)).toFixed(1)}" fill="currentColor" fill-opacity=".55"/>`)}
+    else{const pts=vals.map((v,i)=>`${(L+bw*i+bw/2).toFixed(1)},${y(v).toFixed(1)}`);
+      s+=`<polyline points="${pts.join(" ")}" fill="none" stroke="currentColor" stroke-width="2.5" ${si?'stroke-dasharray="6 4"':""}/>`;
+      vals.forEach((v,i)=>s+=si?`<rect x="${(L+bw*i+bw/2-4).toFixed(1)}" y="${(y(v)-4).toFixed(1)}" width="8" height="8" fill="currentColor"/>`:`<circle cx="${(L+bw*i+bw/2).toFixed(1)}" cy="${y(v).toFixed(1)}" r="4" fill="currentColor"/>`)}});
+  if(names)names.forEach((n,i)=>s+=`<g transform="translate(${L+10+i*120},${T-14})"><line x1="0" y1="0" x2="22" y2="0" stroke="currentColor" stroke-width="2.5" ${i?'stroke-dasharray="6 4"':""}/><text x="28" y="4" font-size="12" fill="currentColor" font-family="sans-serif">${n}</text></g>`);
+  return `<svg class="wide" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="グラフ">${s}</svg>`;
+}
+/* 表 */
+const tbl=(head,rows)=>`<table class="qtable"><thead><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+
+/* 図形（三角形と四角形） */
+const SHAPES={
+  "正方形":()=>{const s=R(50,70),x=(100-s)/2,y=(100-s)/2;return `<rect x="${x}" y="${y}" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="3"/>`+rmark(x,y+s,1,-1)},
+  "長方形":()=>{const w=R(72,86),h=R(36,50),x=(100-w)/2,y=(100-h)/2;return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="currentColor" stroke-width="3"/>`+rmark(x,y+h,1,-1)},
+  "直角三角形":()=>{const a=R(55,75),b=R(45,70),x=(100-a)/2,y=(100+b)/2;return `<path d="M${x} ${y} L${x+a} ${y} L${x} ${y-b} Z" fill="none" stroke="currentColor" stroke-width="3"/>`+rmark(x,y,1,-1)},
+  "直角三角形2":()=>{const a=R(55,75),b=R(45,70),x=(100+a)/2,y=(100+b)/2;return `<path d="M${x} ${y} L${x-a} ${y} L${x} ${y-b} Z" fill="none" stroke="currentColor" stroke-width="3"/>`+rmark(x,y,-1,-1)},
+  "三角形":()=>{const p=pick([[[15,82],[85,82],[62,18]],[[20,80],[88,70],[35,15]],[[12,70],[90,85],[50,20]]]);return `<path d="M${p.map(q=>q.join(" ")).join(" L")} Z" fill="none" stroke="currentColor" stroke-width="3"/>`},
+  "台形":()=>`<path d="M12 78 L88 78 L70 25 L32 25 Z" fill="none" stroke="currentColor" stroke-width="3"/>`,
+  "平行四辺形":()=>`<path d="M10 75 L70 75 L90 28 L30 28 Z" fill="none" stroke="currentColor" stroke-width="3"/>`
+};
+function rmark(x,y,sx,sy){const k=9;return `<path d="M${x+sx*k} ${y} L${x+sx*k} ${y+sy*k} L${x} ${y+sy*k}" fill="none" stroke="currentColor" stroke-width="1.5"/>`}
+const KANA_LBL=["ア","イ","ウ","エ","オ","カ"];
+
+/* ============================================================
+   数学の問題を作る型（gens）
+   u: 単元  p: 出題傾向（県）  f: 問題を作る
+   返す形: {q, a(数), u(単位)} / {q, c:[正解,…]} / {q, parts:[..], us:[..]} / {q, c, multi:[正解の位置]}
+   ============================================================ */
+const ALLP=["saitama","tokyo","hokkaido","shiga","osaka","aichi","hiroshima"];
+const GENS=[
+/* ---------- 計算 ---------- */
+{u:"たし算",p:["common",...ALLP],f:()=>{if(Math.random()<.55){const a=R(15,89),b=R(16,89);return{q:`${a} ＋ ${b} ＝`,a:a+b,ex:`${a}＋${b}＝${a+b}。一の位から 計算して、くり上がりに 気をつけます。`}}
+  const a=R(120,680),b=R(105,399);return{q:`${a} ＋ ${b} ＝`,a:a+b,ex:`${a}＋${b}＝${a+b}。位を そろえて 計算します。`}}},
+{u:"ひき算",p:["common",...ALLP],f:()=>{if(Math.random()<.35){const a=R(41,98),b=R(12,a-10);return{q:`${a} − ${b} ＝`,a:a-b,ex:`${a}−${b}＝${a-b}。`}}
+  const a=R(301,999),b=R(102,a-40);return{q:`${a} − ${b} ＝`,a:a-b,ex:`${a}−${b}＝${a-b}。くり下がりに 気をつけます。`}}},
+{u:"かけ算",p:["common",...ALLP],f:()=>{const k=Math.random();if(k<.35){const a=R(2,9),b=R(2,9);return{q:`${a} × ${b} ＝`,a:a*b,ex:`九九の ${a}の段で ${a*b}。`}}
+  if(k<.8){const a=R(12,98),b=R(2,9),t=Math.floor(a/10)*10,o=a%10;return{q:`${a} × ${b} ＝`,a:a*b,ex:`${t}×${b}＝${t*b}、${o}×${b}＝${o*b}。あわせて ${a*b}。`}}
+  const a=R(105,480),b=R(12,35);return{q:`${a} × ${b} ＝`,a:a*b,ex:`筆算で 計算します。${a}×${b}＝${a*b}。`}}},
+{u:"わり算",p:["common",...ALLP],f:()=>{const k=Math.random();if(k<.4){const b=R(2,9),q=R(2,9);return{q:`${b*q} ÷ ${b} ＝`,a:q,ex:`${b}×${q}＝${b*q} なので ${q}。`}}
+  if(k<.75){const b=R(2,9),q=R(12,99);return{q:`${b*q} ÷ ${b} ＝`,a:q,ex:`${b}×${q}＝${b*q} なので ${q}。筆算で 上の位から わります。`}}
+  const b=R(3,9),q=R(3,9),r=R(1,b-1),a=b*q+r;return{q:`${a} ÷ ${b} ＝ □ あまり ○\n□ と ○ を 答えましょう。`,parts:[q,r],us:["あまり",""],ex:`${b}×${q}＝${b*q}。${a}−${b*q}＝${r} なので ${q} あまり ${r}。`}}},
+{u:"小数の計算",p:["common","saitama","tokyo","shiga","aichi","hiroshima"],f:()=>{const k=Math.random();
+  if(k<.35){const x=R(12,89),y=R(5,59);return{q:`${dec1(x)} ＋ ${dec1(y)} ＝`,a:dec1(x+y),ex:`0.1が ${x}こと ${y}こで ${x+y}こ。だから ${dec1(x+y)}。`}}
+  if(k<.75){const x=R(25,99),y=R(5,x-6);return{q:`${dec1(x)} − ${dec1(y)} ＝`,a:dec1(x-y),ex:`小数点を そろえて 計算します。${dec1(x)}−${dec1(y)}＝${dec1(x-y)}。`}}
+  const x=R(12,48),b=R(2,6);return{q:`${dec1(x)} × ${b} ＝`,a:dec1(x*b),ex:`${x}×${b}＝${x*b} を 計算して、小数点を 1けた 動かして ${dec1(x*b)}。`}}},
+{u:"分数の計算",p:["saitama","shiga","aichi","tokyo"],f:()=>{const d=R(4,9),k=Math.random();
+  if(k<.35){const x=R(1,d-2),y=R(1,d-1-x);const ans=fr(0,x+y,d);return{q:`${fr(0,x,d)} ＋ ${fr(0,y,d)} ＝`,c:opts(ans,[fr(0,x+y,d+d),fr(0,x*y,d),fr(0,Math.abs(x-y)||1,d)]),ex:`分母は そのまま、分子を たします。${x}＋${y}＝${x+y}。`}}
+  if(k<.65){const x=R(1,d-1);const ans=fr(0,d-x,d);return{q:`1 − ${fr(0,x,d)} ＝`,c:opts(ans,[fr(0,x,d),fr(0,1,d),fr(0,d-x,d+1)],i=>fr(0,(d-x+i)%d||1,d)),ex:`1 は ${fr(0,d,d)}。${d}−${x}＝${d-x} なので ${fr(0,d-x,d)}。`}}
+  const a=R(1,2),b=R(1,2),x=R(1,d-1),y=R(1,d-1),tot=(a+b)*d+x+y;const ans=frNorm(tot,d);
+  return{q:`${fr(a,x,d)} ＋ ${fr(b,y,d)} ＝`,c:opts(ans,[fr(a+b,(x+y)%d||1,d),frNorm(tot+d,d),fr(a+b,x+y,d+d)],i=>frNorm(tot+i,d)),ex:`整数は 整数どうし、分数は 分数どうし たします。分子が 分母と 同じか 大きく なったら 1 くり上げます。答えは ${ans.replace(/\[\[f:(\d*):(\d+):(\d+)\]\]/,(m,w,n,dd)=>(w?w+"と":"")+n+"/"+dd)}。`}}},
+{u:"計算のじゅんじょ",p:["saitama","tokyo","shiga","aichi"],f:()=>{const k=Math.random();
+  if(k<.4){const a=R(1,9)*10,b=R(2,9)*10,c=R(2,9);return{q:`${a} ＋ ${b} × ${c} ＝`,a:a+b*c,ex:`かけ算を 先に します。${b}×${c}＝${b*c}、${a}＋${b*c}＝${a+b*c}。`}}
+  if(k<.75){const c=R(2,9),q=R(3,12),s=c*q,a=R(1,s-1),b=s-a;return{q:`( ${a} ＋ ${b} ) ÷ ${c} ＝`,a:q,ex:`( ) の中を 先に 計算します。${a}＋${b}＝${s}、${s}÷${c}＝${q}。`}}
+  const b=R(2,9),q=R(2,9),a=b*q+R(5,40);return{q:`${a} − ${b*q} ÷ ${b} ＝`,a:a-q,ex:`わり算を 先に します。${b*q}÷${b}＝${q}、${a}−${q}＝${a-q}。`}}},
+{u:"□にあてはまる数",p:["hokkaido","tokyo","common"],f:()=>{const k=R(0,3);
+  if(k===0){const x=R(12,68),b=R(11,39);return{q:`□ ＋ ${b} ＝ ${x+b}`,a:x,ex:`□＝${x+b}−${b}＝${x}。`}}
+  if(k===1){const x=R(2,9),b=R(2,9);return{q:`□ × ${b} ＝ ${x*b}`,a:x,ex:`${b}の段で ${x*b}に なるのは ${x}。`}}
+  if(k===2){const x=R(30,90),b=R(11,x-5);return{q:`□ − ${b} ＝ ${x-b}`,a:x,ex:`□＝${x-b}＋${b}＝${x}。`}}
+  const x=R(2,9),q=R(2,9);return{q:`${x*q} ÷ □ ＝ ${q}`,a:x,ex:`${q}×□＝${x*q} なので □＝${x}。`}}},
+{u:"計算の記号",p:["osaka"],f:()=>{for(let t=0;t<50;t++){const op=pick(["＋","−","×","÷"]);let a,b,c;
+    if(op==="＋"){a=R(12,60);b=R(3,40);c=a+b}else if(op==="−"){a=R(30,90);b=R(3,a-10);c=a-b}else if(op==="×"){a=R(3,12);b=R(3,9);c=a*b}else{b=R(2,9);c=R(3,9);a=b*c}
+    const res={"＋":a+b,"−":a-b,"×":a*b,"÷":a/b};if(Object.values(res).filter(v=>v===c).length!==1)continue;
+    return{q:`□に 入る 記号は どれですか。\n${a} □ ${b} ＝ ${c}`,c:[op,...["＋","−","×","÷"].filter(o=>o!==op)],fixed:["＋","−","×","÷"],ex:`${a}${op}${b}＝${c} です。`}}}},
+
+/* ---------- 数と単位 ---------- */
+{u:"大きな数・漢数字",p:["saitama","shiga","tokyo"],f:()=>{const k=Math.random();
+  if(k<.6){const n=Math.random()<.6?R(10001,99999):R(100001,9999999);return{q:`「${kanjiNum(n)}」を 数字で 書きましょう。`,a:n,ex:`${kanjiNum(n)} ＝ ${yen(n)}。0 の 位に 気をつけます。`}}
+  if(k<.8){const a=R(2,9),b=R(2,9)*1000;return{q:`1万を ${a}こと、1000を ${b/1000}こ あわせた 数は いくつですか。`,a:a*10000+b,ex:`${a}万＋${b/1000}千＝${yen(a*10000+b)}。`}}
+  const n=R(12,980),m=pick([10,100,1000]);return{q:`${n} を ${m}倍 した 数は いくつですか。`,a:n*m,ex:`${m}倍すると 0 が ${String(m).length-1}こ つきます。${yen(n*m)}。`}}},
+{u:"四捨五入",p:["saitama","shiga"],f:()=>{const n=R(1201,98760),place=pick(["百","千"]),unit=place==="百"?100:1000,r=Math.round(n/unit)*unit,look=place==="百"?"十":"百";
+  return{q:`${yen(n)} を 四捨五入して、${place}の位までの がい数に しましょう。`,a:r,ex:`${look}の位の 数字を 見ます。${look}の位が ${Math.floor(n/(unit/10))%10} なので ${Math.floor(n/(unit/10))%10>=5?"切り上げ":"切り捨て"}て ${yen(r)}。`}}},
+{u:"目もりの読み取り",p:["saitama","shiga"],f:()=>{const step=pick([1,10,100,1000]),start=step*R(1,9)*10,arrow=pick([1,2,3,4,6,7,8,9]),ans=start+step*arrow;
+  return{q:`数直線の アの 目もりが 表す 数は いくつですか。`,fig:lineSVG(start,step,arrow),a:ans,ex:`1目もりは ${yen(step)}。${yen(start)}から ${arrow}目もり すすんで ${yen(ans)}。`}}},
+{u:"単位えらび",p:["saitama","tokyo"],f:()=>{const L=["mm","cm","m","km"],G=["g","kg","t","mL"],V=["mL","dL","L","kg"];
+  const it=pick([["ペットボトルの お茶 1本の かさ","500","mL",V],["牛乳パック 1本の かさ","1","L",V],["コップ 1ぱいの 水","2","dL",V],["おふろの お湯の かさ","200","L",V],["大人の 体重","60","kg",G],["1円玉 1まいの 重さ","1","g",G],["りんご 1この 重さ","300","g",G],["トラック 1台の 重さ","4","t",G],["えんぴつの 長さ","17","cm",L],["教室の たての 長さ","8","m",L],["ノートの あつさ","3","mm",L],["マラソンの 道のり","42.195","km",L],["学校の プールの 長さ","25","m",L],["富士山の 高さ","3776","m",L]]);
+  return{q:`（　）に 入る 単位を えらびましょう。\n${it[0]}　…　${it[1]}（　）`,c:[it[2],...it[3].filter(x=>x!==it[2])],fixed:it[3].includes(it[2])?it[3]:null,ex:`${it[0]}は ${it[1]}${it[2]} くらいです。`}}},
+{u:"単位のかん算",p:["aichi","shiga","tokyo","saitama","common"],f:()=>{const k=R(0,8);
+  if(k===0){const n=R(2,9);return{q:`${n}m は 何cm ですか。`,a:n*100,u:"cm",ex:`1m＝100cm。${n}m＝${n*100}cm。`}}
+  if(k===1){const v=R(105,398);return{q:`${v}cm は 何m何cm ですか。`,parts:[Math.floor(v/100),v%100],us:["m","cm"],ex:`100cm＝1m。${v}cm＝${Math.floor(v/100)}m${v%100}cm。`}}
+  if(k===2){const n=R(2,9),g=R(1,9)*100;return{q:`${n}kg${g}g は 何g ですか。`,a:n*1000+g,u:"g",ex:`${n}kg＝${n*1000}g。${n*1000}＋${g}＝${n*1000+g}g。`}}
+  if(k===3){const g=R(12,89)*100;return{q:`${yen(g)}g は 何kg何g ですか。`,parts:[Math.floor(g/1000),g%1000],us:["kg","g"],ex:`1000g＝1kg。${yen(g)}g＝${Math.floor(g/1000)}kg${g%1000}g。`}}
+  if(k===4){const n=R(2,9);return{q:`${n}L は 何mL ですか。`,a:n*1000,u:"mL",ex:`1L＝1000mL。${n}L＝${n*1000}mL。`}}
+  if(k===5){const n=R(2,9),d=R(1,9);return{q:`${n}L${d}dL は 何dL ですか。`,a:n*10+d,u:"dL",ex:`1L＝10dL。${n*10}＋${d}＝${n*10+d}dL。`}}
+  if(k===6){const km=R(2,9),m=R(1,9)*100;return{q:`${km}km${m}m は 何m ですか。`,a:km*1000+m,u:"m",ex:`1km＝1000m。${km*1000}＋${m}＝${km*1000+m}m。`}}
+  if(k===7){const kg=R(2,4),g=R(1,9)*10+R(0,9)*100,b=R(1,4)*100;const tot=kg*1000+g-b;return{q:`${kg}kg${g}g の 荷物から ${b}g の 箱を とり出しました。のこりは 何kg何g ですか。`,parts:[Math.floor(tot/1000),tot%1000],us:["kg","g"],ex:`${kg*1000+g}g−${b}g＝${tot}g＝${Math.floor(tot/1000)}kg${tot%1000}g。`}}
+  const cm=R(3,15),mm=R(1,9);return{q:`${cm}cm${mm}mm は 何mm ですか。`,a:cm*10+mm,u:"mm",ex:`1cm＝10mm。${cm*10}＋${mm}＝${cm*10+mm}mm。`}}},
+
+/* ---------- 時計・時間 ---------- */
+{u:"時計の読み方",p:["common","osaka","saitama","hokkaido"],f:()=>{const h=R(1,12),m=pick([0,5,10,15,20,25,30,35,40,45,50,55,R(1,59)]),t=h*60+m,f=x=>tj(x,false).replace(/^0時/,"12時");
+  const ans=f(t);const swap=m%5===0?`${m/5||12}時${(h*5)%60?(h*5)%60+"分":""}`:null;
+  return{q:"とけいは 何時何分を さして いますか。",fig:clockSVG(h,m),c:opts(ans,[swap,f(t+60),f(t-60),f(t+5),f(t-5)],i=>f(t+10*i)),ex:`みじかい はりが「時」、ながい はりが「分」を さします。${ans}です。`}}},
+{u:"時こく",p:["common","aichi","osaka","hokkaido"],f:()=>{const k=Math.random();
+  if(k<.6){const h=R(7,10),m=R(1,11)*5,d=pick([15,20,25,30,35,40,45]),now=h*60+m,after=Math.random()<.65,t=after?now+d:now-d,ans=tj(t);
+    const naive=after&&m+d>=60?`午前${h}時${m+d}分`:null;
+    return{q:`いま ${tj(now)}です。${d}分${after?"{後|ご}":"{前|まえ}"}は 何時何分ですか。`,c:opts(ans,[naive,tj(t+60),tj(t-60),tj(t+10),tj(t-10)]),ex:after?`${tj(now)}から ${d}分 すすめると ${ans}。`:`${tj(now)}から ${d}分 もどすと ${ans}。`}}
+  const h=R(13,17),m=R(0,11)*5,dh=R(1,3),dm=pick([10,20,30,40,50]),now=h*60+m,t=now-dh*60-dm,ans=tj(t);
+  return{q:`${tj(now)}の ${dh}時間${dm}分 {前|まえ}の 時こくは 何時何分ですか。`,c:opts(ans,[tj(t+60),tj(now-dh*60+dm),tj(t-60),tj(t+20)]),ex:`${dh}時間 もどして ${tj(now-dh*60)}、さらに ${dm}分 もどして ${ans}。`}}},
+{u:"時間のかん算",p:["aichi","tokyo","common"],f:()=>{const k=R(0,3);
+  if(k===0){const h=R(1,3),m=pick([10,15,20,30,40,45,50]),v=h*60+m;return{q:`${v}分は 何時間何分ですか。`,parts:[h,m],us:["時間","分"],ex:`60分＝1時間。${v}分＝${h}時間${m}分。`}}
+  if(k===1){const h=R(1,3),m=pick([10,15,20,30,40]);return{q:`${h}時間${m}分は 何分ですか。`,a:h*60+m,u:"分",ex:`${h}時間＝${h*60}分。${h*60}＋${m}＝${h*60+m}分。`}}
+  if(k===2){const n=R(2,5);return{q:`${n}分は 何秒ですか。`,a:n*60,u:"秒",ex:`1分＝60秒。60×${n}＝${n*60}秒。`}}
+  const h=R(13,22),m=pick([0,10,20,30,40,50]);return{q:`{午後|ごご}${h-12}時${m?m+"分":""}を、24時間の 表し方で 書きましょう。`,parts:[h,m],us:["時","分"],ex:`午後は 12を たします。${h-12}＋12＝${h}。${h}時${m}分。`}}},
+{u:"かかった時間",p:["saitama","osaka","common"],f:()=>{if(Math.random()<.5){const s=R(8*12,10*12)*5,d=R(13,23)*5,e=s+d;
+    return{q:`${tj(s)}に 家を 出て、${tj(e)}に 着きました。かかった 時間は 何時間何分ですか。`,parts:[Math.floor(d/60),d%60],us:["時間","分"],ex:`${tj(s)}から ${tj(e)}まで ${dur(d)}です。`}}
+  const s=R(10*12,15*12)*5,d=R(4,11)*5;return{q:`ショーが ${tj(s)}に 終わりました。次の ショーは ${tj(s+d)}から 始まります。何分 待ちますか。`,a:d,u:"分",ex:`${tj(s)}から ${tj(s+d)}まで ${d}分です。`}}},
+{u:"出発時こく（逆算）",p:["saitama","shiga","common"],f:()=>{const T=R(9*4,10*4)*15,w1=R(5,15),bus=R(15,35),w2=R(3,10),tot=w1+bus+w2,ans=T-tot;
+  return{q:`${tj(T)}に 駅前に 集合します。家から バス停まで 歩いて ${w1}分、バスに ${bus}分 のり、バスを おりて ${w2}分 歩きます。\nおそくとも 午前何時何分に 家を 出れば よいですか。`,parts:[Math.floor(ans/60),ans%60],us:["時","分"],pre:"午前",ex:`かかる 時間は ${w1}＋${bus}＋${w2}＝${tot}分。${tj(T)}の ${tot}分前は ${tj(ans)}。`}}},
+{u:"時刻表",p:["saitama","hokkaido"],f:()=>{const base=R(7,8)*60,gap=pick([15,20]),off=R(0,3)*5,times=[...Array(6)].map((_,i)=>base+off+gap*i),ride=R(12,25),goal=times[R(2,4)]+ride+R(0,gap-6);
+  let best=null;times.forEach(t=>{if(t+ride<=goal)best=t});
+  return{q:`バスで 駅まで ${ride}分 かかります。${tj(goal)}までに 駅に 着くには、いちばん おそくて 何時何分の バスに のれば よいですか。`,table:tbl(["バスの 時こく"],times.map(t=>[tj(t)])),c:opts(tj(best),times.filter(t=>t!==best).map(t=>tj(t)).sort((a,b)=>Math.abs(times.indexOf(a))-0)),ex:`${tj(best)}の バスなら ${tj(best+ride)}に 着きます。次の バスでは まにあいません。`}}},
+{u:"カレンダー",p:["saitama","osaka","tokyo","hiroshima"],f:()=>{if(Math.random()<.3){const D=new Date(2026,R(3,10),R(1,26)),w=pick([["あした",1],["あさって",2],["きのう",-1],["おととい",-2]]),E=new Date(D);E.setDate(D.getDate()+w[1]);const s=x=>`${x.getMonth()+1}月${x.getDate()}日 ${WD[x.getDay()]}曜日`;const F=n=>{const z=new Date(D);z.setDate(D.getDate()+n);return s(z)};
+    return{q:`きょうは ${s(D)}です。${w[0]}は 何月何日 何曜日ですか。`,c:opts(s(E),[F(-w[1]),F(w[1]+(w[1]>0?1:-1)),F(w[1]-(w[1]>0?1:-1)),F(w[1]*3)]),ex:`${w[0]}は ${w[1]>0?w[1]+"日後":(-w[1])+"日前"}。${s(E)}です。`}}
+  const y=2026,mo=R(4,11),d=R(1,20),add=R(5,16),D=new Date(y,mo-1,d),E=new Date(y,mo-1,d+add);
+  const s=x=>`${x.getMonth()+1}月${x.getDate()}日 ${WD[x.getDay()]}曜日`,ans=s(E),W=n=>{const z=new Date(E);z.setDate(z.getDate()+n);return z};
+  const alt=[`${E.getMonth()+1}月${E.getDate()}日 ${WD[(E.getDay()+1)%7]}曜日`,s(W(1)),s(W(-1)),`${E.getMonth()+1}月${E.getDate()}日 ${WD[(E.getDay()+6)%7]}曜日`];
+  return{q:`${y}年${mo}月${d}日は ${WD[D.getDay()]}曜日です。その ${add}日後は 何月何日 何曜日ですか。`,c:opts(ans,alt),ex:`7日ごとに 同じ 曜日に なります。${add}日後は ${ans}です。`}}},
+
+/* ---------- お金・生活 ---------- */
+{u:"お金の合計",p:["saitama","common","hokkaido"],f:()=>{const m=[[1000,R(0,2)],[500,R(0,1)],[100,R(1,5)],[50,R(0,2)],[10,R(1,7)],[5,R(0,1)],[1,R(0,4)]].filter(x=>x[1]);const tot=m.reduce((s,[v,n])=>s+v*n,0);
+  return{q:`さいふの 中に 次の お金が あります。全部で いくらですか。`,table:tbl(["お金","まい数"],m.map(([v,n])=>[v>=1000?`${yen(v)}円さつ`:`${v}円玉`,`${n}まい`])),a:tot,u:"円",ex:m.map(([v,n])=>`${v}×${n}＝${v*n}`).join("、")+`。あわせて ${yen(tot)}円。`}}},
+{u:"買い物とのこり",p:["saitama","shiga","common","hokkaido"],f:()=>{const k=Math.random();
+  if(k<.5){const item=pick(["お茶","ジュース","パン","ノート","おにぎり"]),p=R(9,19)*10,n=R(2,5),have=pick([1000,1500,2000]);const left=have-p*n;
+    return{q:`${yen(have)}円 もって います。1つ ${p}円の ${item}を ${n}こ 買うと、のこりは いくらですか。`,a:left,u:"円",ex:`${p}×${n}＝${p*n}円。${yen(have)}−${p*n}＝${yen(left)}円。`}}
+  const its=sample([["えんぴつ",80],["ノート",150],["けしゴム",90],["のり",120],["はさみ",350],["じょうぎ",160]],3),tot=its.reduce((s,x)=>s+x[1],0),pay=tot>500?1000:500;
+  return{q:`${its.map(x=>`${x[0]}（${x[1]}円）`).join("と ")}を 1つずつ 買って、${yen(pay)}円 出しました。おつりは いくらですか。`,a:pay-tot,u:"円",ex:`合計 ${its.map(x=>x[1]).join("＋")}＝${tot}円。${yen(pay)}−${tot}＝${pay-tot}円。`}}},
+{u:"予算内の買い物",p:["hokkaido","osaka"],f:()=>{const menu=[["おにぎり",R(12,16)*10],["サンドイッチ",R(25,32)*10],["お茶",R(10,14)*10],["からあげ",R(20,26)*10],["サラダ",R(15,20)*10],["ヨーグルト",R(9,13)*10]];
+  const budget=pick([500,600,700]);const combos=[];for(let t=0;t<200&&combos.length<12;t++){const c=sample(menu,3);const s=c.reduce((a,x)=>a+x[1],0);const key=c.map(x=>x[0]).sort().join();if(!combos.some(z=>z.key===key))combos.push({c,s,key})}
+  const ok=combos.filter(z=>z.s<=budget),ng=combos.filter(z=>z.s>budget);if(!ok.length||ng.length<3)return null;
+  const good=pick(ok),bad=sample(ng,3);const lab=z=>z.c.map(x=>x[0]).join("・");
+  return{q:`${budget}円で 3つ 買います。予算内で 買える 組み合わせは どれですか。`,table:tbl(["しなもの","ねだん"],menu.map(x=>[x[0],x[1]+"円"])),c:[lab(good),...bad.map(lab)],ex:`${lab(good)}は ${good.s}円で、${budget}円 以内です。ほかは ${budget}円を こえます。`}}},
+{u:"わりびき",p:["osaka","shiga"],f:()=>{const a=["パン",R(14,22)*10],b=["ジュース",R(12,16)*10],n=R(2,3),off=pick([50,80,100]);const tot=a[1]*n+b[1]-off;
+  return{q:`${a[0]}は 1こ ${a[1]}円、${b[0]}は 1本 ${b[1]}円です。「合計で 2つ 以上 買うと ${off}円 引き」の とき、${a[0]} ${n}こと ${b[0]} 1本で いくらですか。`,a:tot,u:"円",ex:`${a[1]}×${n}＋${b[1]}＝${a[1]*n+b[1]}円。${off}円 引いて ${tot}円。`}}},
+{u:"料金表",p:["tokyo"],f:()=>{const size=["小","中","大"],area=["Aちいき","Bちいき","Cちいき"],base=R(6,8)*100;const P=size.map((s,i)=>area.map((a,j)=>base+i*300+j*200));
+  const i1=R(0,2),j1=R(0,2),i2=R(0,2),j2=R(0,2);const tot=P[i1][j1]+P[i2][j2];
+  return{q:`宅配便の 料金表です。「${size[i1]}・${area[j1]}」と「${size[i2]}・${area[j2]}」の 荷物を 1つずつ 送ると、合計は いくらですか。`,table:tbl(["大きさ",...area],size.map((s,i)=>[s,...P[i].map(v=>yen(v)+"円")])),a:tot,u:"円",ex:`${yen(P[i1][j1])}＋${yen(P[i2][j2])}＝${yen(tot)}円。`}}},
+{u:"運賃",p:["hokkaido","shiga"],f:()=>{if(Math.random()<.5){const f=R(16,22)*10,inc=pick([20,30,40]),k=R(3,6),ans=f+(k-1)*inc;
+    return{q:`バスの 運賃は、1つ先の バス停までは ${f}円で、そこから バス停が 1つ ふえるごとに ${inc}円 ふえます。${k}つ先の バス停までは いくらですか。`,a:ans,u:"円",ex:`${f}＋${inc}×${k-1}＝${ans}円。`}}
+  const fare=R(18,45)*10,have=pick([3000,3500,4000,4500]),e=[R(5,9)*100,R(6,9)*100+50,R(3,6)*100];const left=have-e.reduce((a,b)=>a+b,0)-fare*2;if(left<0)return null;
+  return{q:`${yen(have)}円 もって 出かけました。入館料 ${e[0]}円、昼ごはん ${e[1]}円、おみやげ ${e[2]}円を はらい、電車は 行きも 帰りも 同じ 運賃でした。のこりは ${yen(left)}円 でした。電車の 片道の 運賃は いくらですか。`,a:fare,u:"円",ex:`使った お金は ${yen(have)}−${yen(left)}＝${yen(have-left)}円。電車代は ${yen(have-left)}−${e[0]}−${e[1]}−${e[2]}＝${fare*2}円。片道は ${fare*2}÷2＝${fare}円。`}}},
+{u:"レシピの人数",p:["saitama","hokkaido"],f:()=>{const dish=pick(["野菜スープ","やきそば","お好み焼き","カレー"]),it=pick([["肉","g",R(5,8)*10],["キャベツ","g",R(4,8)*10],["水","mL",R(10,20)*10],["にんじん","g",R(2,4)*10]]),k=Math.random();
+  if(k<.5){const n=R(3,6);return{q:`${dish} 1人分の ${it[0]}は ${it[2]}${it[1]}です。${n}人分では 何${it[1]} ですか。`,a:it[2]*n,u:it[1],ex:`${it[2]}×${n}＝${it[2]*n}${it[1]}。`}}
+  const n=pick([4,5,6]),m=pick([2,3]);return{q:`${dish} ${n}人分の ${it[0]}は ${it[2]*n}${it[1]}です。${m}人分では 何${it[1]} ですか。`,a:it[2]*m,u:it[1],ex:`1人分は ${it[2]*n}÷${n}＝${it[2]}${it[1]}。${m}人分は ${it[2]}×${m}＝${it[2]*m}${it[1]}。`}}},
+{u:"伝票のまちがい",p:["tokyo","osaka"],f:()=>{const p=R(8,25)*10,n=R(3,9),right=p*n,wrong=pick([right+100,right-100,right+10*R(1,9)]);
+  return{q:`注文の 控えに「1こ ${p}円 × ${n}こ ＝ ${yen(wrong)}円」と 書いて あります。正しい 金額は いくらですか。`,a:right,u:"円",ex:`${p}×${n}＝${yen(right)}円。${yen(wrong)}円は まちがいです。`}}},
+
+/* ---------- 文章題 ---------- */
+{u:"組み合わせ",p:["tokyo"],f:()=>{const a=pick([50,60]),b=pick([70,80,90]),n=R(6,10),y=R(2,n-2),tot=a*(n-y)+b*y;
+  return{q:`1こ ${a}円の ガムと 1こ ${b}円の あめを、あわせて ${n}こ 買うと ${tot}円 でした。あめは 何こ 買いましたか。`,a:y,u:"こ",ex:`ぜんぶ ガムなら ${a*n}円。${tot}−${a*n}＝${tot-a*n}円 多い。あめ 1こで ${b-a}円 ふえるので ${tot-a*n}÷${b-a}＝${y}こ。`}}},
+{u:"あまりと不足",p:["shiga","common"],f:()=>{const ppl=R(15,32),each=R(2,4),have=pick([50,60,80,100]),need=ppl*each,diff=have-need;
+  if(diff===0)return null;
+  return{q:`${ppl}人に 1人 ${each}まいずつ 紙を 配ります。紙は ${have}まい あります。\n${diff>0?"何まい あまりますか。":"何まい 足りませんか。"}`,a:Math.abs(diff),u:"まい",ex:`いる 紙は ${each}×${ppl}＝${need}まい。${diff>0?`${have}−${need}＝${diff}まい あまる。`:`${need}−${have}＝${-diff}まい 足りない。`}`}}},
+{u:"じゅん番",p:["shiga","hokkaido"],f:()=>{const n=R(10,25),f=R(3,n-2);return Math.random()<.5
+  ?{q:`${n}人が 1列に ならんで います。たろうさんは 前から ${f}番目です。後ろから 何番目ですか。`,a:n-f+1,u:"番目",ex:`${n}−${f}＋1＝${n-f+1}番目。自分も 数に 入れるので 1を たします。`}
+  :{q:`1列に ならんで います。はなこさんは 前から ${f}番目で、後ろから ${n-f+1}番目です。全部で 何人 いますか。`,a:n,u:"人",ex:`${f}＋${n-f+1}−1＝${n}人。はなこさんを 2回 数えて いるので 1を ひきます。`}}},
+{u:"何倍",p:["shiga","common"],f:()=>{const base=R(3,12)*100,t=R(2,5),k=Math.random();
+  return k<.5?{q:`かばんの ねだんは、さいふの ねだんの ${t}倍で ${yen(base*t)}円です。さいふは いくらですか。`,a:base,u:"円",ex:`${yen(base*t)}÷${t}＝${yen(base)}円。`}
+  :{q:`赤い テープは ${base/100}m、青い テープは その ${t}倍の 長さです。青い テープは 何m ですか。`,a:base/100*t,u:"m",ex:`${base/100}×${t}＝${base/100*t}m。`}}},
+{u:"速さと道のり",p:["tokyo"],f:()=>{if(Math.random()<.5){const v=pick([50,60,70,80]),m=R(8,20);return{q:`1分間に ${v}m 歩きます。${m}分間 歩くと 何m すすみますか。`,a:v*m,u:"m",ex:`${v}×${m}＝${v*m}m。`}}
+  const lap=pick([150,200,250]),n=R(5,9),tot=lap*n;return{q:`1しゅう ${lap}m の コースを ${n}しゅう 走りました。何km何m 走りましたか。`,parts:[Math.floor(tot/1000),tot%1000],us:["km","m"],ex:`${lap}×${n}＝${tot}m＝${Math.floor(tot/1000)}km${tot%1000}m。`}}},
+
+/* ---------- 図形 ---------- */
+{u:"面積",p:["common","shiga","saitama","tokyo"],f:()=>{const k=R(0,3);
+  if(k===0){const a=R(3,12),b=R(3,12);return{q:`たて ${a}cm、よこ ${b}cm の 長方形の 面積は 何cm² ですか。`,a:a*b,u:"cm²",ex:`長方形の 面積＝たて×よこ。${a}×${b}＝${a*b}cm²。`}}
+  if(k===1){const a=R(4,15);return{q:`1辺が ${a}cm の 正方形の 面積は 何cm² ですか。`,a:a*a,u:"cm²",ex:`1辺×1辺。${a}×${a}＝${a*a}cm²。`}}
+  if(k===2){const a=R(3,9),b=R(4,12);return{q:`面積が ${a*b}cm² で、よこが ${b}cm の 長方形が あります。たては 何cm ですか。`,a:a,u:"cm",ex:`たて＝面積÷よこ。${a*b}÷${b}＝${a}cm。`}}
+  const cols=R(4,6),rows=R(3,4),cx=R(1,cols-2),cy=R(1,rows-1);const cells=[];for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){if(!(x>=cols-cx&&y<cy))cells.push([x,y])}
+  return{q:`方眼の 1マスは 1cm² です。色の ついた 部分の 面積は 何cm² ですか。`,fig:gridSVG(cells,cols,rows),a:cells.length,u:"cm²",ex:`マスを 数えると ${cells.length}こ。だから ${cells.length}cm²。（${cols}×${rows}＝${cols*rows} から 欠けた ${cx*cy}マスを ひいても 求められます）`}}},
+{u:"三角形と四角形",p:["saitama"],f:()=>{const target=pick(["直角三角形","正方形","三角形"]);
+  const pool=["正方形","長方形","直角三角形","直角三角形2","三角形","台形"];const names=shuffle(pool).slice(0,5);
+  const isHit=n=>target==="三角形"?/三角形/.test(n):target==="直角三角形"?/^直角三角形/.test(n):n===target;
+  if(!names.some(isHit))return null;
+  const svg=`<div class="shapes">${names.map((n,i)=>`<figure><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="図形${KANA_LBL[i]}">${SHAPES[n]()}</svg><figcaption>${KANA_LBL[i]}</figcaption></figure>`).join("")}</div>`;
+  const hits=names.map((n,i)=>isHit(n)?i:-1).filter(i=>i>=0);
+  return{q:`${target}を ぜんぶ えらびましょう。（かどの しるしは 直角）`,fig:svg,c:names.map((_,i)=>KANA_LBL[i]),multi:hits,fixed:names.map((_,i)=>KANA_LBL[i]),ex:`${target==="三角形"?"3本の 直線で かこまれた 形が 三角形です。":target==="直角三角形"?"直角の かどが ある 三角形が 直角三角形です。":"4つの かどが 直角で、4つの 辺の 長さが 同じ 四角形が 正方形です。"}答えは ${hits.map(i=>KANA_LBL[i]).join("・")}。`}}},
+{u:"角度",p:["shiga","tokyo"],f:()=>{const k=Math.random();
+  if(k<.5){const a=pick([30,45,60,90]),b=pick([30,45,60,90].filter(x=>x!==a));return{q:`三角じょうぎの ${a}° と ${b}° の 角を あわせると 何度ですか。`,a:a+b,u:"°",ex:`${a}＋${b}＝${a+b}°。`}}
+  const a=R(3,16)*5;return{q:`一直線の 角は 180° です。そのうち ${a}° の 角を のぞくと、のこりの 角は 何度ですか。`,a:180-a,u:"°",ex:`180−${a}＝${180-a}°。`}}},
+
+/* ---------- 生活の場面（広島・大阪・東京） ---------- */
+{u:"おくれと到着時こく",p:["hiroshima","common"],f:()=>{const plan=R(7*12,9*12)*5,late=pick([10,15,20,25,30,35]),ans=plan+late,vehicle=pick(["電車","バス"]);
+  return{q:`駅の 放送です。「${tj(plan)}に 着く 予定の ${vehicle}は、${late}分 おくれて います。」\nこの ${vehicle}は 何時何分に 着きますか。`,c:opts(tj(ans),[tj(plan-late),tj(ans+10),tj(plan+late+60),tj(ans-5)]),ex:`${tj(plan)}に ${late}分 たして ${tj(ans)}。60分を こえたら 1時間 くり上げます。`}}},
+{u:"ふくろづめと売り上げ",p:["hiroshima","common"],f:()=>{const veg=pick(["じゃがいも","さつまいも","たまねぎ","トマト"]);
+  if(Math.random()<.5){const per=R(3,8),bags=R(4,9);return{q:`${veg}が ${per*bags}こ あります。1ふくろに ${per}こずつ 入れると、何ふくろ できますか。`,a:bags,u:"ふくろ",ex:`${per*bags}÷${per}＝${bags}ふくろ。`}}
+  const p=R(10,25)*10,n=R(2,4),pay=pick([500,1000]);if(p*n>=pay)return null;return{q:`${veg} 1ふくろ ${p}円を ${n}ふくろ 買って、${pay}円 出しました。おつりは いくらですか。`,a:pay-p*n,u:"円",ex:`${p}×${n}＝${p*n}円。${pay}−${p*n}＝${pay-p*n}円。`}}},
+{u:"品番と対応表",p:["hiroshima","osaka","tokyo"],f:()=>{const kinds=sample([["手ぶくろ"],["マスク"],["タオル"],["くつした"],["ぼうし"]],3).map((x,i)=>[x[0],"ABCDEFG"[R(0,6)]]);
+  const letters=sample(["A","B","C","D","E","F"],3);kinds.forEach((k,i)=>k[1]=letters[i]);
+  const colors=sample([["黒",12],["白",34],["赤",56],["青",78],["黄",90]],3);const ki=R(0,2),ci=R(0,2),ans=kinds[ki][1]+colors[ci][1];
+  const others=[kinds[(ki+1)%3][1]+colors[ci][1],kinds[ki][1]+colors[(ci+1)%3][1],colors[ci][1]+kinds[ki][1],kinds[(ki+2)%3][1]+colors[(ci+2)%3][1]];
+  return{q:`品番は「しゅるいの 記号」＋「色の 番号」で できて います。${colors[ci][0]}い ${kinds[ki][0]}の 品番は どれですか。`.replace("黄い","黄色い"),table:tbl(["しゅるい","記号"],kinds.map(k=>[k[0],k[1]]))+tbl(["色","番号"],colors.map(c=>[c[0],c[1]])),c:opts(ans,others),ex:`${kinds[ki][0]}は ${kinds[ki][1]}、${colors[ci][0]}は ${colors[ci][1]}。品番は ${ans}。`}}},
+{u:"乗りかえ案内",p:["hiroshima"],f:()=>{const routes=["ルート1","ルート2","ルート3"].map(n=>({n,t:R(25,60),y:R(22,48)*10,x:R(0,2)}));
+  const key=pick([["いちばん 早く 着く","t"],["運賃が いちばん 安い","y"],["乗りかえが いちばん 少ない","x"]]);const best=routes.reduce((a,b)=>b[key[1]]<a[key[1]]?b:a);
+  if(routes.filter(r=>r[key[1]]===best[key[1]]).length>1)return null;
+  return{q:`乗りかえ案内の 画面です。${key[0]}のは どれですか。`,table:tbl(["ルート","かかる時間","運賃","乗りかえ"],routes.map(r=>[r.n,r.t+"分",r.y+"円",r.x+"回"])),c:[best.n,...routes.filter(r=>r!==best).map(r=>r.n)],fixed:routes.map(r=>r.n),ex:`${key[0]}のは ${best.n}（${key[1]==="t"?best.t+"分":key[1]==="y"?best.y+"円":best.x+"回"}）です。`}}},
+{u:"路線図",p:["osaka"],f:()=>{const st=sample(["さくら","みどり","ひがし","こうえん","えきまえ","しろやま","かわぐち","みなと"],6).map(s=>s+"駅");const a=R(0,2),b=R(a+2,5),n=b-a;
+  const W=360,svg=`<svg class="wide" viewBox="0 0 ${W} 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="路線図"><line x1="25" y1="40" x2="${W-25}" y2="40" stroke="currentColor" stroke-width="5"/>${st.map((s,i)=>{const x=25+i*(W-50)/5;return `<circle cx="${x}" cy="40" r="8" style="fill:var(--sheet-bg,var(--card,#fff))" stroke="currentColor" stroke-width="3"/><text x="${x}" y="72" text-anchor="middle" font-size="12" fill="currentColor" font-family="sans-serif">${s.replace("駅","")}</text>`}).join("")}</svg>`;
+  return{q:`${st[a]}から ${st[b]}まで 電車に のります。${st[b]}は ${st[a]}から いくつ目の 駅ですか。`,fig:svg,a:n,u:"つ目",ex:`${st.slice(a+1,b+1).map(s=>s.replace("駅","")).join("→")} と 数えて ${n}つ目です。`}}},
+
+/* ---------- 表・グラフ ---------- */
+{u:"表の読み取り",p:["saitama","osaka","common"],f:()=>{const items=sample(["りんご","みかん","いちご","ぶどう","もも","バナナ"],5),vals=items.map(()=>R(2,11)),tot=vals.reduce((a,b)=>a+b,0),hid=R(0,4);
+  return{q:`クラスで すきな くだものを 調べました。表の「？」に 入る 人数は 何人ですか。`,table:tbl(["くだもの",...items,"合計"],[["人数",...vals.map((v,i)=>i===hid?"？":v),tot]]),a:vals[hid],u:"人",ex:`合計 ${tot}人から ほかの 人数を ひきます。${tot}−${vals.filter((_,i)=>i!==hid).join("−")}＝${vals[hid]}人。`}}},
+{u:"グラフの読み取り",p:["saitama","shiga","osaka","tokyo","hokkaido","hiroshima"],f:()=>{const k=Math.random();
+  if(k<.4){const ms=["4月","5月","6月","7月","8月","9月"],base=[14,18,21,25,27,23].map(v=>v+R(-2,2));const mx=base.indexOf(Math.max(...base));if(base.filter(v=>v===base[mx]).length>1)return null;
+    return{q:`ある 市の 月ごとの 平均気温の グラフです。いちばん 気温が 高いのは 何月ですか。`,fig:chartSVG(ms,[base],{kind:"line",unit:"℃",max:30,step:1,labelStep:5}),c:[ms[mx],...ms.filter((_,i)=>i!==mx).sort((a,b)=>base[ms.indexOf(b)]-base[ms.indexOf(a)]).slice(0,3)],ex:`点が いちばん 高い 位置に あるのは ${ms[mx]}（${base[mx]}℃）です。`}}
+  if(k<.7){const ms=["4月","5月","6月","7月","8月","9月"],a=[13,17,21,25,28,24].map(v=>v+R(-1,1)),b=[10,14,18,22,24,20].map(v=>v+R(-1,1)),i=R(0,5);
+    return{q:`A市と B市の 平均気温の グラフです。${ms[i]}の 気温の ちがいは 何度ですか。`,fig:chartSVG(ms,[a,b],{kind:"line",unit:"℃",max:30,step:1,labelStep:5,names:["A市","B市"]}),a:Math.abs(a[i]-b[i]),u:"℃",ex:`${ms[i]}は A市 ${a[i]}℃、B市 ${b[i]}℃。${Math.max(a[i],b[i])}−${Math.min(a[i],b[i])}＝${Math.abs(a[i]-b[i])}℃。`}}
+  const cats=sample(["サッカー","野球","水泳","バスケ","テニス","たっきゅう"],5),v=cats.map(()=>R(2,12)),i=R(0,4),j=(i+R(1,4))%5;
+  return{q:`すきな スポーツを 調べた ぼうグラフです。${cats[i]}と ${cats[j]}の 人数の ちがいは 何人ですか。`,fig:chartSVG(cats,[v],{kind:"bar",unit:"人",max:Math.max(15,Math.ceil(Math.max(...v)/5)*5),step:1,labelStep:5}),a:Math.abs(v[i]-v[j]),u:"人",ex:`${cats[i]}は ${v[i]}人、${cats[j]}は ${v[j]}人。ちがいは ${Math.abs(v[i]-v[j])}人。`}}},
+];
+
+/* ---------- kokugo.js ---------- */
+/* ============================================================
+   国語の問題（すべてオリジナル。県の出題傾向をもとに作成）
+   [ことば, 正解, まちがい×3, 説明, 出題傾向]
+   ============================================================ */
+const KB=[];
+let _kid=0;
+function addK(unit,p,o){KB.push({id:"k"+(++_kid),s:"kokugo",unit,p,...o})}
+
+/* ---- 漢字の読み ---- */
+[
+ ["来週の <u>予定</u>を たしかめる。","よてい",["よじょう","ようてい","よさだ"],["common","saitama"]],
+ ["<u>毎日</u> 運動を する。","まいにち",["まいび","ごとにち","まいひ"],["common","saitama"]],
+ ["<u>図書館</u>で 本を かりる。","としょかん",["ずしょかん","としょやかた","とがっかん"],["common","saitama"]],
+ ["会社に <u>電話</u>を かける。","でんわ",["でんは","てんわ","でんか"],["osaka","tokyo"]],
+ ["朝 8時に <u>出勤</u>する。","しゅっきん",["でつとめ","しゅつつとめ","しゅうきん"],["osaka"]],
+ ["きょうは <u>給食</u>の 当番です。","きゅうしょく",["きゅうしき","きゅうたべ","ごはん"],["osaka"]],
+ ["<u>封筒</u>に 切手を はる。","ふうとう",["ふうつつ","ほうとう","ふうどう"],["osaka","saitama"]],
+ ["書類に <u>住所</u>を 書く。","じゅうしょ",["すみところ","じゅうじょ","しゅうしょ"],["osaka","saitama"]],
+ ["<u>生年月日</u>を 書きましょう。","せいねんがっぴ",["せいねんげつにち","しょうねんがっぴ","うまれびっぴ"],["osaka"]],
+ ["<u>道具</u>を かたづける。","どうぐ",["みちぐ","どうく","とうぐ"],["common","osaka"]],
+ ["<u>安全</u>に 気を つけて 作業する。","あんぜん",["やすぜん","あんぜい","あんせん"],["common","hiroshima"]],
+ ["名前を よばれたら <u>返事</u>を する。","へんじ",["かえじ","へんごと","はんじ"],["common","hokkaido"]],
+ ["自分の 受検<u>番号</u>を 書く。","ばんごう",["ばんごお","ばんこう","ばんがう"],["saitama","osaka"]],
+ ["きょうの <u>気温</u>は 20度です。","きおん",["きあたた","けおん","きえん"],["saitama","hiroshima"]],
+ ["<u>自転車</u>で 学校へ 行く。","じてんしゃ",["じでんしゃ","じてんじゃ","じころぐるま"],["common"]],
+ ["<u>野菜</u>を 育てる。","やさい",["のな","やな","のさい"],["common","hiroshima"]],
+ ["<u>午前</u>9時に 集まる。","ごぜん",["ごまえ","うまぜん","ごせん"],["common","saitama"]],
+ ["<u>集合</u>時こくを まもる。","しゅうごう",["しゅごう","あつまりあい","しゅうこう"],["saitama","shiga"]],
+ ["<u>昼食</u>を とる。","ちゅうしょく",["ひるしょく","ちゅうじき","ひるたべ"],["shiga","osaka"]],
+ ["お皿を <u>洗</u>う。","あら",["はら","いわ","わら"],["shiga"]],
+ ["荷物を <u>運</u>ぶ。","はこ",["うん","よろこ","とぶ"],["common"]],
+ ["駅の <u>近</u>くに 住む。","ちか",["きん","とお","こん"],["common"]],
+ ["<u>仕事</u>を 手つだう。","しごと",["しじ","つかえごと","しこと"],["common","osaka"]],
+ ["<u>注意</u>して 道を わたる。","ちゅうい",["ちゅうおい","ちゅい","そそぎい"],["common","tokyo"]],
+].forEach(([s,a,w,p])=>addK("漢字の読み",p,{q:`――の 漢字の 読み方を えらびましょう。\n${s}`,c:[a,...w],ex:`「${s.match(/<u>(.*?)<\/u>/)[1]}」は「${a}」と 読みます。`,write:true}));
+
+/* ---- 漢字の書き ---- */
+[
+ ["<u>やま</u>に のぼる。","山",["出","止","上"],["common"]],
+ ["<u>みず</u>を のむ。","水",["氷","木","米"],["common"]],
+ ["<u>がっこう</u>へ 行く。","学校",["学交","字校","学枚"],["common","saitama"]],
+ ["<u>せんせい</u>に しつもんする。","先生",["先正","洗生","先主"],["common","saitama"]],
+ ["あしたの <u>てんき</u>は 晴れです。","天気",["天汽","夫気","天乞"],["saitama"]],
+ ["休み<u>じかん</u>に 本を 読む。","時間",["持間","時問","寺間"],["saitama","shiga"]],
+ ["<u>みち</u>を わたる。","道",["通","首","遠"],["common"]],
+ ["自分の <u>なまえ</u>を 書く。","名前",["名先","各前","名削"],["common","saitama"]],
+ ["<u>えき</u>で 友だちと 会う。","駅",["馬","訳","駆"],["saitama","hiroshima"]],
+ ["花の <u>みせ</u>で はたらく。","店",["庄","広","点"],["shiga","hiroshima"]],
+ ["<u>あさ</u> 早く おきる。","朝",["明","潮","期"],["common"]],
+ ["<u>からだ</u>を 動かす。","体",["休","本","件"],["common"]],
+ ["<u>あめ</u>が ふる。","雨",["両","雪","西"],["common"]],
+ ["友だちと <u>はなす</u>。","話す",["語す","談す","話なす"],["saitama"]],
+ ["日記を <u>かく</u>。","書く",["昼く","画く","害く"],["saitama"]],
+ ["<u>こうえん</u>で あそぶ。","公園",["公円","広園","工園"],["common","shiga"]],
+].forEach(([s,a,w,p])=>addK("漢字の書き",p,{q:`――の ことばを 漢字に すると どれですか。\n${s}`,c:[a,...w],ex:`「${s.match(/<u>(.*?)<\/u>/)[1]}」は「${a}」と 書きます。`,write:true}));
+
+/* ---- 同じ読みの漢字（滋賀・東京） ---- */
+[
+ ["駅前の パン屋が あした <u>かいてん</u>する。","開店",["回転","会店","開転"],"店を 開くのは「開店」。くるくる 回るのは「回転」。"],
+ ["コマが いきおいよく <u>かいてん</u>する。","回転",["開店","会転","回店"],"回るのは「回転」。店を 開くのは「開店」。"],
+ ["1年間で <u>しんちょう</u>が 5cm のびた。","身長",["新調","身調","深長"],"体の 高さは「身長」。新しく 作るのは「新調」。"],
+ ["入学に そなえて 服を <u>しんちょう</u>した。","新調",["身長","親調","新長"],"新しく 作るのは「新調」。"],
+ ["兄は 手先が <u>きよう</u>だ。","器用",["起用","気用","機用"],"上手に できるのは「器用」。役に つかせるのは「起用」。"],
+ ["新人の 選手を 試合に <u>きよう</u>する。","起用",["器用","記用","起要"],"役に つかせるのは「起用」。"],
+ ["市民会館で 劇の <u>こうえん</u>が ある。","公演",["公園","講園","広演"],"劇や 音楽を 見せるのは「公演」。遊ぶ 場所は「公園」。"],
+ ["テストの 点が <u>いがい</u>に よかった。","意外",["以外","意害","以外れ"],"思って いなかった ことは「意外」。それ ほかは「以外」。"],
+ ["わたし <u>いがい</u>は みんな 来た。","以外",["意外","移外","以害"],"それ ほかは「以外」。"],
+ ["チームの 調子が <u>こうちょう</u>だ。","好調",["校長","好長","高調"],"うまく いって いるのは「好調」。学校の 先生の いちばん 上は「校長」。"],
+].forEach(([s,a,w,ex])=>addK("同じ読みの漢字",["shiga","tokyo"],{q:`――の ことばに 合う 漢字は どれですか。\n${s}`,c:[a,...w],ex,write:true}));
+
+/* ---- 送りがな（埼玉） ---- */
+[
+ ["あたらしい","新しい",["新い","新らしい","新たらしい"]],
+ ["すくない","少ない",["少い","少くない","少なない"]],
+ ["おおい","多い",["多おい","多","多かい"]],
+ ["はじまる","始まる",["始る","始じまる","始めまる"]],
+ ["おわる","終わる",["終る","終おわる","終わわる"]],
+ ["おしえる","教える",["教る","教しえる","教おえる"]],
+ ["たのしい","楽しい",["楽い","楽のしい","楽ししい"]],
+ ["あかるい","明るい",["明い","明かるい","明るるい"]],
+ ["わかる","分かる",["分る","分わかる","分かかる"]],
+ ["わける","分ける",["分る","分かける","分けける"]],
+ ["なる（ベルが）","鳴る",["鳴なる","鳴","鳴るる"]],
+ ["ならす（ベルを）","鳴らす",["鳴す","鳴なす","鳴さす"]],
+ ["みじかい","短い",["短かい","短じかい","短"]],
+ ["きめる","決める",["決る","決きめる","決めめる"]],
+].forEach(([r,a,w])=>addK("送りがな",["saitama","shiga"],{q:`「${r}」を 漢字と 送りがなで 正しく 書いて いるのは どれですか。`,c:[a,...w],ex:`「${r.replace(/（.*）/,"")}」は「${a}」と 書きます。`,write:true}));
+
+/* ---- 部首・画数（東京） ---- */
+[
+ ["「休」「体」「作」に 共通する 部分の 名前は？","にんべん",["ぎょうにんべん","にすい","てへん"]],
+ ["「海」「池」「泳」に 共通する 部分の 名前は？","さんずい",["にすい","ごんべん","きへん"]],
+ ["「花」「草」「茶」に 共通する 部分の 名前は？","くさかんむり",["たけかんむり","うかんむり","あめかんむり"]],
+ ["「話」「語」「読」に 共通する 部分の 名前は？","ごんべん",["いとへん","にんべん","さんずい"]],
+ ["「林」「村」「校」に 共通する 部分の 名前は？","きへん",["のぎへん","てへん","ひへん"]],
+ ["「明」「時」「晴」に 共通する 部分の 名前は？","ひへん",["めへん","つきへん","きへん"]],
+].forEach(([q,a,w])=>addK("部首・画数",["tokyo"],{q,c:[a,...w],ex:`共通する 部分は「${a}」です。`}));
+[["山",3],["川",3],["木",4],["日",4],["目",5],["女",3],["水",4],["右",5],["生",5],["糸",6],["耳",6],["空",8]].forEach(([k,n])=>
+ addK("部首・画数",["tokyo"],{q:`「${k}」の 画数は いくつですか。`,c:[`${n}画`,`${n+1}画`,`${n-1}画`,`${n+2}画`],ex:`「${k}」は ${n}画です。`}));
+
+/* ---- かたかな ---- */
+[["ぱん","パン",["バン","ハン","ペン"]],["てれび","テレビ",["テレヒ","デレビ","テレピ"]],["こっぷ","コップ",["コプ","コッブ","ゴップ"]],["のーと","ノート",["ノト","ノーオ","ソート"]],["ばす","バス",["パス","ハス","バヌ"]],["けーき","ケーキ",["ケキ","ゲーキ","ケーギ"]],["すぷーん","スプーン",["スブーン","スプン","ヌプーン"]],["しゃつ","シャツ",["シヤツ","ツャツ","シャシ"]],["らじお","ラジオ",["ラヂオ","ラシオ","ヲジオ"]],["ちょこれーと","チョコレート",["チヨコレート","チョコレト","チョコレーオ"]],["かれーらいす","カレーライス",["カレライス","ガレーライス","カレーライヌ"]],["たおる","タオル",["タオレ","ダオル","クオル"]]]
+.forEach(([h,a,w])=>addK("かたかな",["common","hiroshima"],{q:`「${h}」を かたかなで 書くと どれですか。`,c:[a,...w],ex:`「${h}」は「${a}」と 書きます。のばす 音は「ー」、小さい 字や 点・まるに 気を つけます。`,write:true}));
+
+/* ---- ローマ字（埼玉・滋賀・北海道） ---- */
+/* 2025年（令和7年）内閣告示「ローマ字のつづり方」に合わせたヘボン式。
+   ふつうのことばの のばす音は ā・ū・ō などの記号、地名は ふだん使われる 書き方（Kyoto・Kobe など） */
+[["tobibako","とびばこ",["とびぱこ","とびばご","どびばこ"]],["happa","はっぱ",["はぱ","はっば","はあぱ"]],["kitte","きって",["きて","きっで","ぎって"]],["gakkō","がっこう",["がこう","かっこう","がっこ"]],["sakana","さかな",["さがな","しかな","さかの"]],["densha","でんしゃ",["でんさ","てんしゃ","でんしや"]],["kyūshoku","きゅうしょく",["きゅしょく","きゆうしょく","きゅうしゅく"]],["ringo","りんご",["りんこ","りご","りんがお"]],["tokei","とけい",["とけ","どけい","ときい"]],["shashin","しゃしん",["さしん","しやしん","しゃしい"]],["tsukue","つくえ",["すくえ","つぐえ","とくえ"]],["fune","ふね",["ふれ","ぶね","ほね"]]]
+.forEach(([r,a,w])=>addK("ローマ字",["saitama","shiga","hokkaido"],{q:`ローマ字を ひらがなに すると どれですか。\n<span class="roma">${r}</span>`,c:[a,...w],ex:`「${r}」は「${a}」。つまる 音は 子音を 2つ 重ね（kitte）、のばす 音は ā・ū・ō のように 上に 記号を つけて 書きます。`,write:true}));
+[["Saitama","さいたま",["さいだま","さいとま","さえたま"]],["Kyoto","きょうと",["きょうど","ぎょうと","きようと"]],["Hokkaido","ほっかいどう",["ほかいどう","ぽっかいどう","ほっがいどう"]],["Nagoya","なごや",["なこや","なごよ","ながや"]],["Kobe","こうべ",["こうぺ","ごうべ","こうめ"]],["Osaka","おおさか",["おおざか","おおさが","おおしか"]]]
+.forEach(([r,a,w])=>addK("ローマ字",["saitama","shiga","hokkaido"],{q:`ローマ字を ひらがなに すると どれですか。\n<span class="roma">${r}</span>`,c:[a,...w],ex:`「${r}」は「${a}」。地名は はじめを 大文字で 書きます。Kyoto・Kobe・Osaka のように、のばす 音の 記号を つけない 書き方が よく 使われます。`,write:true}));
+
+/* ---- 反対のことば ---- */
+[
+ ["「ながい」の 反対は？","みじかい",["ひくい","ちいさい","ほそい"],["common"]],
+ ["「おもい」の 反対は？","かるい",["よわい","ひくい","すくない"],["common"]],
+ ["「ほそい（えんぴつ）」の 反対は？","ふとい",["あつい","ながい","おもい"],["saitama"]],
+ ["「多い」の 反対は？","少ない",["小さい","低い","細い"],["saitama","shiga"]],
+ ["「始まる」の 反対は？","終わる",["止まる","休む","帰る"],["saitama","shiga"]],
+ ["「明るい」の 反対は？","暗い",["黒い","重い","弱い"],["saitama"]],
+ ["「勝つ」の 反対は？","負ける",["にげる","やめる","落ちる"],["saitama","tokyo"]],
+ ["「入る」の 反対は？","出る",["行く","帰る","開ける"],["common"]],
+ ["「近い」の 反対は？","遠い",["長い","高い","広い"],["saitama"]],
+ ["「（値段が）高い」の 反対は？","安い",["低い","少ない","小さい"],["common","tokyo"]],
+ ["「（せが）高い」の 反対は？","低い",["安い","短い","小さい"],["common","tokyo"]],
+ ["「上がる」の 反対は？","下がる",["落ちる","止まる","へる"],["saitama"]],
+ ["「暑い」の 反対は？","寒い",["冷たい","すずしい","ぬるい"],["saitama"]],
+ ["「売る」の 反対は？","買う",["もらう","かす","わたす"],["common","hiroshima"]],
+].forEach(([q,a,w,p])=>addK("反対のことば",p,{q,c:[a,...w],ex:`反対の 意味の ことばは「${a}」です。`,write:true}));
+
+/* ---- ものの数え方（埼玉） ---- */
+[["車が 2（　）","台"],["自転車が 3（　）","台"],["えんぴつが 5（　）","本"],["かさが 2（　）","本"],["鳥が 4（　）","羽"],["シャツが 3（　）","着"],["手紙が 2（　）","通"],["紙が 10（　）","まい"],["本が 3（　）","さつ"],["犬が 2（　）","ひき"],["くつが 1（　）","足"],["牛が 5（　）","頭"]]
+.forEach(([s,a])=>{const pool=["台","本","羽","着","通","まい","さつ","ひき","足","頭"].filter(x=>x!==a);
+ addK("ものの数え方",["saitama","common"],{q:`（　）に 入る ことばは どれですか。\n${s}`,c:[a,...sample(pool,3)],ex:`「${s.split("が")[0]}」は「${a}」で 数えます。`})});
+
+/* ---- 慣用句（埼玉：気・目・息／滋賀・東京・大阪） ---- */
+[
+ ["気が 長い","のんびりして いて、すぐに おこらない",["せっかちで すぐ おこる","気分が わるい","ねむくなる"],["saitama"]],
+ ["気が 短い","すぐに おこったり、いらいらしたりする",["のんびりして いる","気持ちが やさしい","わすれっぽい"],["saitama"]],
+ ["気が 合う","考え方や このみが 同じで、なかよく できる",["けんかを する","気分が よくなる","気を つける"],["saitama"]],
+ ["気を 配る","まわりの ことに 注意を はらう",["気持ちを くばって 配達する","気分が わるくなる","あきらめる"],["saitama"]],
+ ["目が ない","とても 大すきである",["よく 見えない","目を とじて いる","きらいである"],["saitama"]],
+ ["目を 通す","ざっと 読む",["目に ゴミが 入る","じっと にらむ","目が つかれる"],["saitama"]],
+ ["目が 回る","とても いそがしい",["ねむくなる","よく 見える","めまいの 病気"],["saitama"]],
+ ["目を 丸くする","びっくりする",["わらう","よく 見る","ねむそうに する"],["saitama"]],
+ ["息が 合う","おたがいの 気持ちや 動きが ぴったり 合う",["いきが くるしい","同じ 空気を すう","いっしょに 走る"],["saitama"]],
+ ["息を のむ","おどろいて、はっと する",["水を のむ","いきを とめて もぐる","ためいきを つく"],["saitama"]],
+ ["ひと息 つく","ひと休み する",["深く すいこむ","大声を 出す","いそぐ"],["saitama"]],
+ ["手を 貸す","手つだう",["手を さし出す","お金を かす","手を あらう"],["tokyo","shiga"]],
+ ["手が 足りない","はたらく 人が 足りない",["手が 小さい","手先が 器用でない","道具が ない"],["tokyo","shiga"]],
+ ["手を やく","どう したら よいか こまる",["料理を する","手を けがする","手つだう"],["tokyo","shiga"]],
+ ["顔が 広い","知り合いが たくさん いる",["顔が 大きい","よく わらう","有名な 顔"],["tokyo","shiga","osaka"]],
+ ["口が かたい","ひみつを ほかの 人に 話さない",["よく しゃべる","食べるのが おそい","口が いたい"],["tokyo","shiga","osaka"]],
+ ["耳が いたい","人の ことばが 自分の 弱いところを ついて いて 聞くのが つらい",["耳の 病気","大きな 音が する","よく 聞こえる"],["tokyo","shiga","osaka"]],
+].forEach(([w,a,x,p])=>addK("慣用句",p,{q:`「${w}」の 意味に いちばん 近いのは どれですか。`,c:[a,...x],ex:`「${w}」は「${a}」という 意味です。`}));
+
+/* ---- ことわざ（滋賀・東京・大阪） ---- */
+[
+ ["急がば 回れ","いそぐ ときほど、安全で たしかな 方法を えらぶ ほうが よい",["いそぐ ときは 走って 回る","回り道は いつも だめ","ゆっくりすると おくれる"]],
+ ["ちりも つもれば 山と なる","小さな ことでも つみかさなると 大きく なる",["ほこりは すぐ そうじする","山は ちりで できて いる","小さい ことは 気に しない"]],
+ ["さるも 木から 落ちる","じょうずな 人でも 失敗する ことが ある",["さるは 木のぼりが へた","高い ところは きけん","にげると 落ちる"]],
+ ["百聞は 一見に しかず","何回も 聞くより、一度 自分の 目で 見る ほうが よく わかる",["話を 百回 聞くと よい","見るより 聞く ほうが よい","目を いつも ひらく"]],
+ ["早起きは 三文の 徳","朝 早く おきると、何か よい ことが ある",["早く ねると 三回 よい","朝は おそく おきる","三文で 物が 買える"]],
+ ["石の 上にも 三年","つらくても がまんして つづければ、いつか うまく いく",["石は 三年で われる","すわると つかれる","三年 たつと あきる"]],
+ ["花より だんご","見て 楽しむ ものより、役に 立つ ものを えらぶ",["花も だんごも きらい","花の ほうが 大切","だんごを 花に かざる"]],
+ ["二度 ある ことは 三度 ある","同じ ことが 2回 あると、もう 一度 おこりやすい",["3回目は ない","2回で やめる","何でも 3回 する"]],
+].forEach(([w,a,x])=>addK("ことわざ",["shiga","tokyo","osaka"],{q:`「${w}」の 意味に いちばん 近いのは どれですか。`,c:[a,...x],ex:`「${w}」は、${a}という 意味です。`}));
+
+/* ---- 助詞（埼玉・北海道・広島・大阪） ---- */
+[
+ ["本（　）読む。","を",["は","に","で"],["saitama","hiroshima","common"]],
+ ["公園（　）遊ぶ。","で",["を","へ","が"],["saitama","hiroshima","common"]],
+ ["友だち（　）会う。","に",["を","で","の"],["saitama","common"]],
+ ["えんぴつ（　）字を 書く。","で",["を","が","へ"],["saitama","common"]],
+ ["空（　）青い。","が",["を","で","に"],["saitama","common"]],
+ ["母（　）いっしょに 出かける。","と",["を","で","が"],["saitama","hiroshima"]],
+ ["9時（　）会議が 始まる。","に",["を","で","の"],["saitama","osaka"]],
+ ["わたしの 弟（　）小学生です。","は",["を","へ","で"],["hiroshima","common"]],
+ ["がっこう（　）いく。（ひらがなの 書き方）","へ",["え","わ","を"],["hokkaido"]],
+ ["ぼく（　）げんきです。（ひらがなの 書き方）","は",["わ","え","お"],["hokkaido"]],
+ ["ほん（　）よむ。（ひらがなの 書き方）","を",["お","は","へ"],["hokkaido"]],
+].forEach(([s,a,w,p])=>addK("助詞",p,{q:`（　）に 入る ことばを えらびましょう。\n${s}`,c:[a,...w],ex:`「${s.replace("（　）",a).replace(/（.*）/,"")}」が 正しい 文です。`}));
+
+/* ---- 指示語（埼玉・東京・滋賀） ---- */
+[
+ ["駅の 前に 新しい パン屋が できました。<u>そこ</u>は いつも 人で いっぱいです。","パン屋",["駅","前","人"]],
+ ["たんじょう日に 青い ぼうしを もらいました。わたしは <u>それ</u>を かぶって 出かけました。","青い ぼうし",["たんじょう日","わたし","青い 空"]],
+ ["作業室には 大きな 機械が あります。<u>これ</u>を 使う ときは、先生に 声を かけます。","大きな 機械",["作業室","先生","声"]],
+ ["学校の うらに 小さな 畑が あります。<u>そこ</u>で ミニトマトを 育てて います。","小さな 畑",["学校","ミニトマト","うら山"]],
+ ["兄が 古い 自転車を なおして くれました。<u>それ</u>に のって 図書館へ 行きました。","古い 自転車",["兄","図書館","新しい 自転車"]],
+].forEach(([s,a,w])=>addK("指示語",["saitama","tokyo","shiga"],{passage:s,q:"――の ことばが さして いるのは 何ですか。",c:[a,...w],ex:`前の 文を 見ると、「${a}」の ことを さして います。`}));
+
+/* ---- つなぎことば ---- */
+[
+ ["雨が ふって きた。（　）、かさを さした。","だから",["でも","しかし","ところで"]],
+ ["一生けんめい 練習した。（　）、試合には 負けて しまった。","しかし",["だから","そして","つまり"]],
+ ["朝ごはんを 食べた。（　）、歯を みがいた。","そして",["しかし","でも","なぜなら"]],
+ ["きょうは 早く ねます。（　）、あしたは 遠足だからです。","なぜなら",["だから","そして","それとも"]],
+ ["ジュースに しますか。（　）、お茶に しますか。","それとも",["だから","しかし","つまり"]],
+ ["好きな くだものは 何ですか。（　）、りんごや みかんなどです。","たとえば",["しかし","だから","それとも"]],
+ ["電車が おくれた。（　）、ちこくして しまった。","そのため",["けれども","それとも","たとえば"]],
+ ["お店は 10時に 開きます。（　）、きょうは 休みです。","ただし",["だから","そして","なぜなら"]],
+].forEach(([s,a,w])=>addK("つなぎことば",["common","shiga","osaka","tokyo"],{q:`（　）に 入る ことばを えらびましょう。\n${s}`,c:[a,...w],ex:`前と 後ろの 文の つながりを 考えると「${a}」が 合います。`}));
+
+/* ---- 文の組み立て ---- */
+[
+ ["犬が 公園で 走る。","「だれが（何が）」に あたる ことばは どれですか。","犬が",["公園で","走る","公園"]],
+ ["妹が 庭で 花に 水を やる。","「だれが」に あたる ことばは どれですか。","妹が",["庭で","花に","水を"]],
+ ["大きな 船が ゆっくり 港に 入る。","「どうする」に あたる ことばは どれですか。","入る",["船が","ゆっくり","大きな"]],
+ ["きのう、ぼくは 駅で 先生に 会った。","「いつ」に あたる ことばは どれですか。","きのう",["駅で","先生に","会った"]],
+ ["赤い 花が たくさん さいた。","「どんな」花かを 表す ことばは どれですか。","赤い",["花が","たくさん","さいた"]],
+].forEach(([s,q,a,w])=>addK("文の組み立て",["common","saitama"],{passage:s,q,c:[a,...w],ex:`文の 中で その 役わりを して いるのは「${a}」です。`}));
+
+/* ---- ていねいなことば・あいさつ（北海道・広島） ---- */
+[
+ ["朝、学校で 先生に あいさつを します。いちばん よい 言い方は どれですか。","おはようございます。",["おはよう。","やあ。","おっす。"],["common","hokkaido"]],
+ ["仕事の 説明が よく わかりませんでした。どう 言えば よいですか。","すみません、もう一度 教えて ください。",["わからない。","もう いいです。","だまって 待つ。"],["common","hiroshima"]],
+ ["職員室に 入る ときの あいさつは どれですか。","失礼します。",["行ってきます。","いただきます。","ただいま。"],["hiroshima","hokkaido"]],
+ ["家を 出る ときの あいさつは どれですか。","行ってきます。",["失礼します。","おかえりなさい。","ごちそうさま。"],["hiroshima","hokkaido"]],
+ ["「見る」を ていねいに 言うと どれですか。","見ます",["見た","見ろ","見るよ"],["hokkaido"]],
+ ["「ある」を ていねいに 言うと どれですか。","あります",["あるよ","あった","あるさ"],["hokkaido"]],
+ ["電話に 出た ときの 言い方で よいのは どれですか。","はい、〇〇です。",["だれ？","なに？","もしもし、だれだよ。"],["saitama","osaka","common"]],
+ ["友だちが こまって います。声の かけ方で よいのは どれですか。","どうしたの？ 手つだおうか。",["知らない。","自分で やって。","早く して。"],["hiroshima"]],
+ ["仕事が 終わって 先に 帰る ときの あいさつは どれですか。","お先に 失礼します。",["行ってきます。","いただきます。","おやすみ。"],["osaka","common"]],
+].forEach(([q,a,w,p])=>addK("ていねいなことば",p,{q,c:[a,...w],ex:`この 場面では「${a}」が ふさわしい 言い方です。`}));
+
+/* ---- 辞書のじゅん番（東京）：作る型 ---- */
+const DICT=["あさがお","いぬ","うみ","えんぴつ","おにぎり","かさ","きつね","くるま","けしごむ","こども","さかな","しんぶん","すいか","せんせい","そら","たまご","ちず","つくえ","てがみ","とけい","なす","にんじん","ぬいぐるみ","ねこ","のり","はさみ","ひこうき","ふね","へや","ほし","まど","みかん","むし","めがね","もも","やま","ゆき","よる","りんご","わに"];
+
+/* ---- 電話のメモ（埼玉） ---- */
+[
+ {t:"（電話）「もしもし、田中です。山本さんは いらっしゃいますか。…では、伝えて ください。あしたの 会議は 3時から 4時に かわりました。」",qs:[["だれからの 電話ですか。","田中さん",["山本さん","会議の 人","わからない"]],["だれに 伝えますか。","山本さん",["田中さん","先生","自分"]],["用けんは 何ですか。","あしたの 会議が 4時からに かわった",["会議が 3時から 始まる","会議が 中止に なった","山本さんが 休む"]]]},
+ {t:"（電話）「こんにちは。みどり商店の 佐藤です。注文の タオル 20まいは、金曜日の 午前中に とどけます。木村さんに よろしく お伝え ください。」",qs:[["だれからの 電話ですか。","みどり商店の 佐藤さん",["木村さん","タオル屋の 木村さん","みどり商店の 店長"]],["とどくのは いつですか。","金曜日の 午前中",["木曜日の 午後","金曜日の 夜","土曜日の 午前中"]],["とどく ものは 何ですか。","タオル 20まい",["タオル 2まい","手紙 20まい","タオル 12まい"]]]},
+ {t:"（電話）「北山工場の 鈴木です。小林さんに 伝言を おねがいします。あしたの 見学は 雨でも 行います。9時半に 正門に 集まって ください。」",qs:[["集まる 時こくは いつですか。","9時半",["9時","10時半","8時半"]],["集まる 場所は どこですか。","正門",["うら門","駅前","体育館"]],["雨の 日は どう なりますか。","雨でも 見学を 行う",["見学は 中止","次の 日に なる","時こくが おそくなる"]]]},
+].forEach(({t,qs})=>qs.forEach(([q,a,w])=>addK("電話のメモ",["saitama","hiroshima"],{passage:t,q,c:[a,...w],ex:`電話の 中で「${a}」と わかります。メモには「いつ・だれから・だれに・用けん」を 書きます。`})));
+
+/* ---- 案内・実用文（埼玉・北海道・滋賀・広島） ---- */
+[
+ {t:"【パンづくり教室の お知らせ】\n日にち：11月8日（土）\n時間：午前10時〜午後0時30分\n場所：市民センター 2階 調理室\n持ち物：エプロン、三角きん、タオル\n参加費：300円（当日 はらいます）\nもうしこみ：11月1日までに 電話で",qs:[["教室が 終わる 時こくは いつですか。","午後0時30分",["午前10時","午後1時","午前11時30分"]],["持って いく ものに 入って いないのは どれですか。","ふでばこ",["エプロン","三角きん","タオル"]],["もうしこみの しめきりは いつですか。","11月1日",["11月8日","10月31日","11月7日"]],["参加費は いくらですか。","300円",["30円","3000円","いらない"]]]},
+ {t:"【校外学習の しおり】\n8:30　学校に 集合\n8:45　バスで 出発\n10:00　水族館に 到着・見学\n12:00　昼食（お弁当）\n13:30　水族館を 出発\n15:00　学校に 到着・解散\n※ 雨の 場合も 行います。水とうを わすれずに。",qs:[["学校を 出発するのは 何時ですか。","8時45分",["8時30分","10時","13時30分"]],["水族館に いる 時間は 何時間何分ですか。","3時間30分",["2時間","4時間","1時間30分"]],["雨の 日は どう なりますか。","雨でも 行う",["中止に なる","次の 日に なる","学校で 授業"]]]},
+ {t:"【図書室の きまり】\n・本は 2さつまで 2週間 かりられます。\n・かりる ときは カードを 出します。\n・図書室では 小さな 声で 話します。\n・飲み物や 食べ物は 持ちこみません。",qs:[["本は 何さつまで かりられますか。","2さつ",["1さつ","3さつ","何さつでも"]],["かりられる 期間は どれだけですか。","2週間",["1週間","2日","1か月"]]]},
+].forEach(({t,qs})=>qs.forEach(([q,a,w])=>addK("案内・実用文",["saitama","hokkaido","shiga","hiroshima"],{passage:t,q,c:[a,...w],ex:`案内の 中の 書いて ある ところを 見ると「${a}」と わかります。`})));
+
+/* ---- ルールの○×（埼玉） ---- */
+[
+ {t:"【スマートフォンの つかい方の きまり】\n① つかうのは 夜9時まで。\n② 食事中は つかわない。\n③ 知らない 人からの メッセージには 返事を しない。\n④ 写真を のせる ときは、家の 人に 聞いてから。",qs:[["夜9時30分に 動画を 見た。","×"],["食事が 終わってから ゲームを した。","○"],["知らない 人から メッセージが 来たので、すぐ 返事を した。","×"],["家の 人に 聞いてから、写真を のせた。","○"]]},
+ {t:"【作業室の きまり】\n① 作業の 前に 手を あらう。\n② 機械は 先生が いる ときだけ つかう。\n③ 終わったら 道具を もとの 場所に もどす。\n④ けがを したら すぐ 先生に 言う。",qs:[["先生が いない ときに 機械を つかった。","×"],["作業の 前に 手を あらった。","○"],["道具を つくえの 上に 出した まま 帰った。","×"],["指を 切ったので、すぐ 先生に 言った。","○"]]},
+].forEach(({t,qs})=>qs.forEach(([q,a])=>addK("ルールの○×",["saitama"],{passage:t,q:`きまりを 守って いれば ○、守って いなければ × を えらびましょう。\n${q}`,c:[a,a==="○"?"×":"○"],fixed:["○","×"],ex:`きまりと くらべると「${a}」です。`})));
+
+/* ---- 文章の読み取り ---- */
+[
+ {t:"たろうさんは 朝 七時に おきました。顔を あらって、パンを 食べました。そして、八時に 家を 出ました。",qs:[["たろうさんが 家を 出たのは 何時ですか。","八時",["七時","七時半","九時"]],["朝ごはんに 食べた ものは 何ですか。","パン",["ごはん","たまご","くだもの"]]]},
+ {t:"とうふは 大豆から 作られます。まず、大豆を 水に ひたして やわらかく します。次に、すりつぶして にます。そして、しぼった しるを かためると、とうふが できます。",qs:[["とうふは 何から 作られますか。","大豆",["小麦","米","牛乳"]],["大豆を 水に ひたすのは 何の ためですか。","やわらかく する ため",["きれいに する ため","かためる ため","色を つける ため"]],["いちばん さいごに することは 何ですか。","しるを かためる",["大豆を にる","大豆を 水に ひたす","大豆を すりつぶす"]]]},
+ {t:"わたしの 町では、ごみを 分けて 出します。もえる ごみは 月曜日と 木曜日、プラスチックは 水曜日、びんと かんは 金曜日です。ごみは 朝 8時までに 出します。",qs:[["プラスチックを 出す 日は 何曜日ですか。","水曜日",["月曜日","木曜日","金曜日"]],["ごみは 何時までに 出しますか。","朝 8時",["朝 9時","夜 8時","昼 12時"]]]},
+].forEach(({t,qs})=>qs.forEach(([q,a,w])=>addK("文章の読み取り",["common","saitama","shiga"],{passage:t,q,c:[a,...w],ex:`文章の 中に「${a}」に あたる ことが 書いて あります。`})));
+
+GENS.push({s:"kokugo",u:"辞書のじゅん番",p:["tokyo"],f:()=>{const firsts=new Set();const w=shuffle(DICT).filter(x=>!firsts.has(x[0])&&firsts.add(x[0])).slice(0,4);
+  const sorted=[...w].sort((a,b)=>a<b?-1:1),last=Math.random()<.3;const ans=last?sorted[3]:sorted[0];
+  return{q:`国語辞典で ${last?"いちばん あとに":"いちばん はじめに"} 出て くる ことばは どれですか。`,c:[ans,...w.filter(x=>x!==ans)],fixed:w,ex:`五十音の じゅん番（あいうえお…）で ならべると ${sorted.join("→")}。${last?"いちばん あと":"いちばん はじめ"}は「${ans}」です。`}}});
+
+/* ---------- saitama.js ---------- */
+/* ============================================================
+   埼玉県 職業学科・分校「数学」本番そっくり
+   公開問題（平成25〜令和7年度）の大問構成・数値の範囲・場面を分析して作った型。
+   問題文はすべてオリジナル。
+   ============================================================ */
+const SP=["saitama"];
+const pickN=(a,n)=>sample(a,n);
+const between=(lo,hi,f)=>{for(let t=0;t<200;t++){const v=f();if(v!==null&&v!==undefined)return v}return null};
+
+/* ---------- 図：はかり・ものさし・円・平行四辺形・方眼の図形 ---------- */
+function scaleSVG(max,val,unitStep=100){
+  const cx=110,cy=112,r=88,ang=v=>(-90+v/max*360)*Math.PI/180;let s=`<circle cx="${cx}" cy="${cy}" r="${r+10}" fill="none" stroke="currentColor" stroke-width="3"/>`;
+  const minor=unitStep/(max>=2000?10:5);
+  for(let v=0;v<max;v+=minor){const a=ang(v),big=v%unitStep===0;s+=`<line x1="${(cx+(big?r-14:r-7)*Math.cos(a)).toFixed(1)}" y1="${(cy+(big?r-14:r-7)*Math.sin(a)).toFixed(1)}" x2="${(cx+r*Math.cos(a)).toFixed(1)}" y2="${(cy+r*Math.sin(a)).toFixed(1)}" stroke="currentColor" stroke-width="${big?2.2:1}"/>`;
+    if(big&&(max<=1000||v%(unitStep*2)===0||v===0)){const lb=v===0?"0":v>=1000&&v%1000===0?`${v/1000}kg`:String(v);s+=`<text x="${(cx+(r-28)*Math.cos(a)).toFixed(1)}" y="${(cy+(r-28)*Math.sin(a)+4).toFixed(1)}" text-anchor="middle" font-size="10.5" fill="currentColor" font-family="sans-serif">${lb}</text>`}}
+  const a=ang(val);s+=`<line x1="${cx}" y1="${cy}" x2="${(cx+(r-6)*Math.cos(a)).toFixed(1)}" y2="${(cy+(r-6)*Math.sin(a)).toFixed(1)}" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="5" fill="currentColor"/>`;
+  s+=`<text x="${cx}" y="${cy+30}" text-anchor="middle" font-size="11" fill="currentColor" font-family="sans-serif">${max/1000}kg まで</text>`;
+  return `<svg viewBox="0 0 220 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="はかり">${s}</svg>`;
+}
+function rulerSVG(mm){
+  const W=360,x0=20,px=2.6;let s=`<rect x="${x0}" y="20" width="${mm*px}" height="22" fill="currentColor" fill-opacity=".25" stroke="currentColor" stroke-width="1.5"/><text x="${x0+mm*px/2}" y="36" text-anchor="middle" font-size="11" fill="currentColor" font-family="sans-serif">テープ</text>`;
+  s+=`<rect x="${x0-6}" y="46" width="${120*px+12}" height="40" fill="none" stroke="currentColor" stroke-width="1.5"/>`;
+  for(let i=0;i<=120;i++){const x=x0+i*px,h=i%10===0?16:i%5===0?11:7;s+=`<line x1="${x.toFixed(1)}" y1="46" x2="${x.toFixed(1)}" y2="${46+h}" stroke="currentColor" stroke-width="${i%10===0?1.6:.8}"/>`;if(i%10===0)s+=`<text x="${x.toFixed(1)}" y="78" text-anchor="middle" font-size="11" fill="currentColor" font-family="sans-serif">${i/10}</text>`}
+  return `<svg class="wide" viewBox="0 0 ${W} 92" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ものさし">${s}</svg>`;
+}
+function circleRowSVG(k,dia){const rr=26,W=60+rr*(k+1),cy=46;let s="";
+  for(let i=0;i<k;i++)s+=`<circle cx="${30+rr+i*rr}" cy="${cy}" r="${rr}" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="${30+rr+i*rr}" cy="${cy}" r="2.2" fill="currentColor"/>`;
+  s+=`<line x1="30" y1="${cy}" x2="${30+rr*(k+1)}" y2="${cy}" stroke="currentColor" stroke-width="1.5"/><text x="24" y="${cy+4}" text-anchor="end" font-size="13" font-weight="700" fill="currentColor" font-family="sans-serif">ア</text><text x="${36+rr*(k+1)}" y="${cy+4}" font-size="13" font-weight="700" fill="currentColor" font-family="sans-serif">イ</text>`;
+  return `<svg class="wide" viewBox="0 0 ${W+20} 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="円の図">${s}</svg>`}
+function circle2x2SVG(kind){const r=34,o=20;let s="";[[0,0],[1,0],[0,1],[1,1]].forEach(([i,j])=>s+=`<circle cx="${o+r+i*2*r}" cy="${o+r+j*2*r}" r="${r}" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="${o+r+i*2*r}" cy="${o+r+j*2*r}" r="2.4" fill="currentColor"/>`);
+  if(kind==="sq")s+=`<rect x="${o}" y="${o}" width="${4*r}" height="${4*r}" fill="none" stroke="currentColor" stroke-width="2.4"/>`;
+  else{const L=["A","B","C","D"];[[0,0],[1,0],[1,1],[0,1]].forEach(([i,j],k)=>s+=`<text x="${o+r+i*2*r+(i?8:-14)}" y="${o+r+j*2*r+(j?16:-6)}" font-size="13" font-weight="700" fill="currentColor" font-family="sans-serif">${L[k]}</text>`);
+    s+=`<path d="M${o+r} ${o+r}H${o+3*r}V${o+3*r}H${o+r}Z" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>`}
+  return `<svg viewBox="0 0 ${4*r+2*o} ${4*r+2*o}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="円の図">${s}</svg>`}
+function paraSVG(a,b,ang){const sc=24,dx=b*sc*Math.cos(ang*Math.PI/180),dy=b*sc*Math.sin(ang*Math.PI/180),x0=24,y0=24+dy;
+  const P=[[x0,y0],[x0+a*sc,y0],[x0+a*sc+dx,y0-dy],[x0+dx,y0-dy]];const L=["ア","イ","ウ","エ"];
+  let s=`<path d="M${P.map(p=>p.map(v=>v.toFixed(1)).join(" ")).join(" L")} Z" fill="none" stroke="currentColor" stroke-width="2.4"/>`;
+  P.forEach((p,i)=>s+=`<text x="${(p[0]+(i===0||i===3?-14:6)).toFixed(1)}" y="${(p[1]+(i<2?16:-4)).toFixed(1)}" font-size="13" font-weight="700" fill="currentColor" font-family="sans-serif">${L[i]}</text>`);
+  s+=`<text x="${(x0+a*sc/2).toFixed(1)}" y="${(y0+18).toFixed(1)}" text-anchor="middle" font-size="12" fill="currentColor" font-family="sans-serif">${a}cm</text>`;
+  s+=`<text x="${(x0+dx/2-22).toFixed(1)}" y="${(y0-dy/2+4).toFixed(1)}" font-size="12" fill="currentColor" font-family="sans-serif">${b}cm</text>`;
+  s+=`<text x="${(x0+18).toFixed(1)}" y="${(y0-6).toFixed(1)}" font-size="12" fill="currentColor" font-family="sans-serif">${ang}°</text>`;
+  s+=`<text x="${(P[1][0]-4).toFixed(1)}" y="${(y0-8).toFixed(1)}" text-anchor="end" font-size="13" font-weight="700" fill="currentColor" font-family="sans-serif">あ</text>`;
+  s+=`<text x="${(P[2][0]-10).toFixed(1)}" y="${(P[2][1]+18).toFixed(1)}" text-anchor="end" font-size="13" font-weight="700" fill="currentColor" font-family="sans-serif">い</text>`;
+  const W=x0+a*sc+dx+30,H=y0+28;return `<svg class="wide" viewBox="0 0 ${W.toFixed(0)} ${H.toFixed(0)}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="平行四辺形">${s}</svg>`}
+/* 方眼の上の図形（1マス1cm） */
+const GSHAPES={
+  "正方形":[[0,0],[3,0],[3,3],[0,3]],"長方形":[[0,0],[4,0],[4,2],[0,2]],"ひし形":[[2,0],[4,2],[2,4],[0,2]],
+  "平行四辺形":[[1,0],[4,0],[3,2],[0,2]],"台形":[[1,0],[3,0],[4,2],[0,2]],"直角三角形":[[0,0],[0,3],[3,3]],
+  "二等辺三角形":[[2,0],[4,3],[0,3]],"正三角形":null
+};
+const GPROP={"正方形":{eqAng:1,oppAng:1,par2:1},"長方形":{eqAng:1,oppAng:1,par2:1},"ひし形":{oppAng:1,par2:1},"平行四辺形":{oppAng:1,par2:1},"台形":{par1:1},"直角三角形":{},"二等辺三角形":{}};
+function gridShapesSVG(names){const c=20,cell=6,W=names.length*cell*c+20;let s="";
+  for(let x=0;x<=names.length*cell;x++)s+=`<line x1="${10+x*c}" y1="10" x2="${10+x*c}" y2="${10+5*c}" stroke="currentColor" stroke-opacity=".25"/>`;
+  for(let y=0;y<=5;y++)s+=`<line x1="10" y1="${10+y*c}" x2="${10+names.length*cell*c}" y2="${10+y*c}" stroke="currentColor" stroke-opacity=".25"/>`;
+  names.forEach((n,i)=>{const pts=GSHAPES[n].map(([x,y])=>`${10+(i*cell+1+x)*c},${10+(1+y)*c}`).join(" ");s+=`<polygon points="${pts}" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="2.2"/><text x="${10+(i*cell+3)*c}" y="${10+5*c+18}" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="sans-serif">${KANA_LBL[i]}</text>`});
+  return `<svg class="wide xwide" viewBox="0 0 ${W} ${5*c+40}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="方眼の図形">${s}</svg>`}
+/* 時刻表 */
+const ttable=(name,hours,mins)=>`<table class="qtable"><thead><tr><th colspan="2">${name}</th></tr><tr><th>時</th><th>分</th></tr></thead><tbody>${hours.map((h,i)=>`<tr><td>${h}</td><td style="text-align:left">${mins[i].map(m=>String(m).padStart(2,"0")).join("　")}</td></tr>`).join("")}</tbody></table>`;
+/* 折れ線（下限つき） */
+function lineChart(labels,series,{unit,min=0,max,step=1,labelStep=5,names,bars,barMax,barUnit}={}){
+  const W=380,H=240,L=42,Rm=bars?44:12,B=36,T=26,pw=W-L-Rm,ph=H-T-B,bw=pw/labels.length,y=v=>T+ph-((v-min)/(max-min))*ph;let s="";
+  for(let v=min;v<=max;v+=step){const mj=(v-min)%labelStep===0;s+=`<line x1="${L}" y1="${y(v).toFixed(1)}" x2="${W-Rm}" y2="${y(v).toFixed(1)}" stroke="currentColor" stroke-opacity="${mj?.45:.13}"/>`;if(mj)s+=`<text x="${L-5}" y="${(y(v)+4).toFixed(1)}" text-anchor="end" font-size="11" fill="currentColor" font-family="sans-serif">${v}</text>`}
+  s+=`<text x="${L-5}" y="${T-10}" text-anchor="end" font-size="11" fill="currentColor" font-family="sans-serif">(${unit})</text>`;
+  if(bars){const yb=v=>T+ph-(v/barMax)*ph;for(let v=0;v<=barMax;v+=barMax/6)s+=`<text x="${W-Rm+5}" y="${(yb(v)+4).toFixed(1)}" font-size="10" fill="currentColor" font-family="sans-serif">${v}</text>`;s+=`<text x="${W-Rm+5}" y="${T-10}" font-size="10" fill="currentColor" font-family="sans-serif">(${barUnit})</text>`;
+    bars.forEach((v,i)=>s+=`<rect x="${(L+bw*i+bw*.25).toFixed(1)}" y="${yb(v).toFixed(1)}" width="${(bw*.5).toFixed(1)}" height="${(T+ph-yb(v)).toFixed(1)}" fill="currentColor" fill-opacity=".3"/>`)}
+  labels.forEach((lb,i)=>s+=`<text x="${(L+bw*i+bw/2).toFixed(1)}" y="${H-B+16}" text-anchor="middle" font-size="${labels.length>9?10:12}" fill="currentColor" font-family="sans-serif">${lb}</text>`);
+  s+=`<line x1="${L}" y1="${T+ph}" x2="${W-Rm}" y2="${T+ph}" stroke="currentColor" stroke-width="1.5"/><line x1="${L}" y1="${T}" x2="${L}" y2="${T+ph}" stroke="currentColor" stroke-width="1.5"/>`;
+  series.forEach((vals,si)=>{s+=`<polyline points="${vals.map((v,i)=>`${(L+bw*i+bw/2).toFixed(1)},${y(v).toFixed(1)}`).join(" ")}" fill="none" stroke="currentColor" stroke-width="2.4" ${si?'stroke-dasharray="6 4"':""}/>`;
+    vals.forEach((v,i)=>s+=`<circle cx="${(L+bw*i+bw/2).toFixed(1)}" cy="${y(v).toFixed(1)}" r="3.4" fill="${si?"none":"currentColor"}" stroke="currentColor" stroke-width="1.5"/>`)});
+  if(names)names.forEach((n,i)=>s+=`<g transform="translate(${L+8+i*110},${T-14})"><line x1="0" y1="0" x2="22" y2="0" stroke="currentColor" stroke-width="2.4" ${i?'stroke-dasharray="6 4"':""}/><text x="27" y="4" font-size="11" fill="currentColor" font-family="sans-serif">${n}</text></g>`);
+  return `<svg class="wide" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="グラフ">${s}</svg>`}
+
+/* ============================================================
+   大問ごとの型。各関数は その大問の小問を まとめて返す
+   ============================================================ */
+const M=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+const SAI={
+/* 大問1 計算 7問 */
+1:()=>{const out=[];
+  out.push(between(0,0,()=>{if(Math.random()<.75){const a=R(23,69),b=R(17,69);if(a%10+b%10<10||a+b<80||a+b>125)return null;return{unit:"たし算",q:`${a} ＋ ${b} ＝`,a:a+b,ex:`一の位から 計算し、くり上がりに 気をつけます。${a}＋${b}＝${a+b}。`}}
+    const a=R(520,880),b=R(15,95);if(a+b>=1000||a%10+b%10<10)return null;return{unit:"たし算",q:`${a} ＋ ${b} ＝`,a:a+b,ex:`位を そろえて 計算します。${a}＋${b}＝${a+b}。`}}));
+  out.push(between(0,0,()=>{const a=R(560,960),b=R(150,a-300),d=a-b;if(a%10>=b%10||d<300)return null;return{unit:"ひき算",q:`${a} − ${b} ＝`,a:d,ex:`くり下がりに 気をつけます。${a}−${b}＝${d}。`}}));
+  out.push(between(0,0,()=>{const k=R(0,2);let a,b;if(k===0){a=R(4,9);b=R(23,79)}else if(k===1){a=R(23,79);b=R(4,9)}else{a=R(150,290);b=R(3,7)}const p=a*b;if(p<200||p>1800)return null;return{unit:"かけ算",q:`${a} × ${b} ＝`,a:p,ex:`${a}×${b}＝${p}。`}}));
+  out.push(between(0,0,()=>{const a=R(4,9),b=R(0,4),c=R(1,a-1),d=R(b+1,9),v=(a*10+b)-(c*10+d);if(v<5)return null;return{unit:"小数の計算",q:`${a}.${b} − ${c}.${d} ＝`,a:dec1(v),ex:`小数点を そろえて 計算します。0.1の 位で くり下がります。${a}.${b}−${c}.${d}＝${dec1(v)}。`}}));
+  out.push(between(0,0,()=>{const d=R(3,8),q=R(Math.ceil(100/d),Math.floor(999/d));if(q<15)return null;return{unit:"わり算",q:`${d*q} ÷ ${d} ＝`,a:q,ex:`筆算で 上の位から わります。${d}×${q}＝${d*q} なので ${q}。`}}));
+  out.push(between(0,0,()=>{const k=R(0,2);
+    if(k===0){const b=R(6,15),c=R(3,8),a=b*c+R(10,60);return{unit:"計算のじゅんじょ",q:`${a} − ${b} × ${c} ＝`,a:a-b*c,ex:`かけ算を 先に します。${b}×${c}＝${b*c}、${a}−${b*c}＝${a-b*c}。`}}
+    if(k===1){const a=R(3,12),b=R(4,10),d=R(2,6),q=R(2,Math.floor(a*b/1)),c=d*q;if(a*b-q<0||q>a*b)return null;return{unit:"計算のじゅんじょ",q:`${a} × ${b} − ${c} ÷ ${d} ＝`,a:a*b-q,ex:`かけ算と わり算を 先に します。${a}×${b}＝${a*b}、${c}÷${d}＝${q}。${a*b}−${q}＝${a*b-q}。`}}
+    const a=R(1,9)*10,b=R(2,9)*10,c=R(2,9);return{unit:"計算のじゅんじょ",q:`${a} ＋ ${b} × ${c} ＝`,a:a+b*c,ex:`かけ算を 先に します。${b}×${c}＝${b*c}、${a}＋${b*c}＝${a+b*c}。`}}));
+  out.push(between(0,0,()=>{const d=pick([5,7,9]),k=R(0,2),F=(w,n)=>n?fr(w,n,d):String(w),txt=(w,n)=>(w?w+"と":"")+n+"/"+d;
+    let q,tot;
+    if(k===0){const a=R(2,4),b=R(2,d-1),c=R(1,a-1),e=R(1,b-1);q=`${fr(a,b,d)} − ${fr(c,e,d)} ＝`;tot=(a*d+b)-(c*d+e)}
+    else if(k===1){const a=R(1,3),b=R(2,d-1),e=R(d-b,d-1);if(e<1)return null;q=`${fr(a,b,d)} ＋ ${fr(0,e,d)} ＝`;tot=a*d+b+e}
+    else{const x=R(1,d-1);q=`1 − ${fr(0,x,d)} ＝`;tot=d-x}
+    const ans=frNorm(tot,d),alt=[frNorm(tot+d,d),frNorm(tot+1,d),frNorm(Math.max(1,tot-1),d),frNorm(tot,d+1)];
+    return{unit:"分数の計算",q,c:opts(ans,alt),printBox:true,ex:`分母は そのまま、分子を 計算します。整数と 分数を 分けて 考えます。答えは ${ans.replace(/\[\[f:(\d*):(\d+):(\d+)\]\]/,(m,w,n,dd)=>(w?w+"と":"")+n+"/"+dd)}。`}}));
+  return out;},
+
+/* 大問2 単位えらび 3問 */
+2:()=>{const ITEMS={len:[["学校の プールの 長さ","25","m"],["中学生の 身長","158","cm"],["富士山の 高さ","3776","m"],["えんぴつの 長さ","17","cm"],["マラソンの 道のり","42.195","km"],["けしゴムの あつさ","12","mm"],["さいたま市から 東京駅までの 道のり","30","km"]],
+    wt:[["高校1年生の 体重","54","kg"],["りんご 1この 重さ","280","g"],["1円玉 1まいの 重さ","1","g"],["ランドセルの 重さ","1.2","kg"],["かぜぐすり 1じょうの 重さ","200","mg"]],
+    vol:[["ペットボトルの お茶","500","mL"],["大きい ペットボトルの 水","1.5","L"],["給食の 牛乳","200","mL"],["カップラーメンに 入れる お湯","300","mL"],["おふろの お湯","200","L"],["コップ 1ぱいの 水","2","dL"]],
+    tmp:[["熊谷市の 夏の 最高気温","41.1","℃"],["人の 体温","36.5","℃"]],
+    area:[["サッカーコートの 広さ","7140","m²"],["埼玉県の 広さ","3798","km²"],["教室の ゆかの 広さ","64","m²"]]};
+  const UN={len:["mm","cm","m","km"],wt:["mg","g","kg"],vol:["mL","dL","L"],tmp:["℃"],area:["cm²","m²","km²"]};
+  const dims=Math.random()<.5?["len","wt","vol"]:shuffle(["len","wt","vol","tmp","area"]).slice(0,3);
+  const all=[...new Set(Object.keys(UN).filter(k=>Math.random()<.6||dims.includes(k)).flatMap(k=>UN[k]))];
+  return dims.map(dm=>{const it=pick(ITEMS[dm]);const same=UN[dm].filter(u=>u!==it[2]);const other=all.filter(u=>!UN[dm].includes(u));
+    const c=[it[2],...shuffle(same).slice(0,3),...shuffle(other)].slice(0,4);
+    return{unit:"単位えらび",q:`□に 合う 単位を 書きましょう。\n${it[0]}　…　${it[1]}□`,c,printList:all,ex:`${it[0]}は ${it[1]}${it[2]}です。`}});},
+
+/* 大問3 数・量・図形 5問 */
+3:()=>{const out=[];
+  out.push(between(0,0,()=>{if(Math.random()<.75){const d=[R(1,9),R(0,9),R(0,9),R(0,9),R(0,9)];const z=R(1,4);d[z]=0;if(d.filter(x=>x===0).length>2)return null;const n=+d.join("");return{unit:"大きな数・漢数字",q:`「${kanjiNum(n)}」を 数字で 書きましょう。`,a:n,ex:`${kanjiNum(n)}＝${n}。読まない 位には 0を 書きます。`}}
+    const k=R(12,48);return{unit:"大きな数・漢数字",q:`10を ${k}こ 集めた 数は いくつですか。`,a:k*10,ex:`10が ${k}こで ${k*10}。`}}));
+  out.push(Math.random()<.25?between(0,0,()=>{const k=R(0,1);if(k===0){const m=R(2,4),sec=R(1,5)*10;return{unit:"時間のかん算",q:`${m}分${sec}秒は 何秒ですか。`,a:m*60+sec,u:"秒",ex:`1分＝60秒。60×${m}＋${sec}＝${m*60+sec}秒。`}}
+    const base=pick([2000,3000,5000,10000]),v=base-pick([10,20,50,100]);const lbl=base>=10000?"人":"円";
+    return{unit:"四捨五入",q:`${v}${lbl}は、およそ いくらと いえますか。`,c:[base+lbl,(base-500)+lbl,(base-1000)+lbl],fixed:[(base-1000)+lbl,(base-500)+lbl,base+lbl],ex:`${v}は ${base}に とても 近いので、およそ ${base}${lbl}です。`}})
+   :between(0,0,()=>{const n=R(1201,9749),pl=Math.random()<.7?"百":"千",u=pl==="百"?100:1000,r=Math.round(n/u)*u;if(r%1000===0&&pl==="百"&&Math.random()<.5)return null;return{unit:"四捨五入",q:`${n} を 四捨五入して、${pl}の位までの がい数に しましょう。`,a:r,ex:`${pl==="百"?"十":"百"}の位を 見て、${Math.floor(n/(u/10))%10>=5?"切り上げ":"切り捨て"}ます。${r}。`}}));
+  out.push(Math.random()<.5?(()=>{const mm=R(3,11)*10;return{unit:"目もりの読み取り",q:"ものさしの 0の ところから テープを おきました。テープの 長さは 何cmですか。",fig:rulerSVG(mm),a:mm/10,u:"cm",ex:`テープの はしは ${mm/10}の 目もりです。${mm/10}cm。`}})()
+    :(()=>{const v=R(4,36)*50;return{unit:"目もりの読み取り",q:"はかりに りんごを のせました。何gを さして いますか。",fig:scaleSVG(2000,v,100),a:v,u:"g",ex:`大きい 目もりは 100g、小さい 目もりは 10gです。はりは ${v}gを さして います。`}})());
+  out.push(between(0,0,()=>{const y=2026,m=R(1,12),d=R(1,22),D=new Date(y,m-1,d),wd=D.getDay(),Y=R(0,6);
+    if(Math.random()<.65){const toSun=7-wd,E=new Date(y,m-1,d+toSun+Y);return{unit:"カレンダー",q:`${m}月${d}日は ${WD[wd]}曜日です。次の 週の ${WD[Y]}曜日は 何月何日ですか。（週は 日曜日から 始まります）`,parts:[E.getMonth()+1,E.getDate()],us:["月","日"],ex:`次の 日曜日は ${d+toSun>new Date(y,m,0).getDate()?"次の月の ":""}${new Date(y,m-1,d+toSun).getDate()}日。その 週の ${WD[Y]}曜日は ${E.getMonth()+1}月${E.getDate()}日です。`}}
+    const n=R(7,12),E=new Date(y,m-1,d+n),s=x=>`${x.getMonth()+1}月${x.getDate()}日 ${WD[x.getDay()]}曜日`,F=k=>{const z=new Date(E);z.setDate(z.getDate()+k);return s(z)};
+    return{unit:"カレンダー",q:`${m}月${d}日は ${WD[wd]}曜日です。その ${n}日後は 何月何日 何曜日ですか。`,c:opts(s(E),[`${E.getMonth()+1}月${E.getDate()}日 ${WD[(E.getDay()+1)%7]}曜日`,F(1),F(-1),F(7)]),ex:`7日後は 同じ ${WD[wd]}曜日。${n}日後は ${s(E)}です。`}}));
+  out.push((()=>{const k=R(0,2);
+    if(k===0){const n=R(3,5),dia=pick([4,6,8,10]);return{unit:"円と長さ",q:`直径 ${dia}cmの 同じ 大きさの 円が ${n}こ、となりの 円の 中心を 通るように ならんで います。直線アイの 長さは 何cmですか。`,fig:circleRowSVG(n,dia),a:dia+dia/2*(n-1),u:"cm",ex:`直径 ${dia}cmに、半径 ${dia/2}cmが ${n-1}こ ぶん たします。${dia}＋${dia/2}×${n-1}＝${dia+dia/2*(n-1)}cm。`}}
+    if(k===1){const r=R(2,6),sq=Math.random()<.5;return sq?{unit:"円と長さ",q:`半径 ${r}cmの 円が 4こ、正方形の 中に ぴったり 入って います。正方形の 1辺は 何cmですか。`,fig:circle2x2SVG("sq"),a:r*4,u:"cm",ex:`1辺には 直径が 2つ ならびます。${r*2}×2＝${r*4}cm。`}
+      :{unit:"円と長さ",q:`半径 ${r}cmの 円が 4こ くっついて います。4つの 円の 中心を むすんだ 四角形ABCDの まわりの 長さは 何cmですか。`,fig:circle2x2SVG("abcd"),a:r*8,u:"cm",ex:`1辺は 半径2つぶんで ${r*2}cm。まわりは ${r*2}×4＝${r*8}cm。`}}
+    return between(0,0,()=>{const n=R(3,6),t=pick([120,150,180]),room=R(8,14);const gap=(room*100-t*n)/(n+1);if(gap<=0||!Number.isInteger(gap)||gap%5)return null;
+      return{unit:"円と長さ",q:`横の 長さが ${room}mの 部屋に、長さ ${t}cmの つくえを ${n}台、横に 1れつに ならべます。かべと つくえの 間、つくえと つくえの 間を すべて 同じに します。間の 長さは 何cmですか。`,a:gap,u:"cm",ex:`${room}m＝${room*100}cm。つくえの 合計は ${t}×${n}＝${t*n}cm。のこり ${room*100-t*n}cmを ${n+1}つの 間に 分けて ${gap}cm。`}});})());
+  return out;},
+
+/* 大問4 表 2問（同じ表） */
+4:()=>{const k=R(0,2);
+  if(k===0){return between(0,0,()=>{const theme=pick([["すきな 給食",["カレー","ラーメン","すし","ハンバーグ","からあげ"]],["すきな 飲み物",["お茶","水","ソーダ","オレンジジュース","牛乳"]],["すきな スポーツ",["サッカー","野球","バスケ","水泳","たっきゅう"]]]);
+    const its=theme[1].slice(0,R(4,5)),v=its.map(()=>R(3,14)),tot=v.reduce((a,b)=>a+b,0),h=R(0,its.length-1);if(tot<28||tot>42)return null;
+    const t=tbl([theme[0],...its,"合計"],[["人数",...v.map((x,i)=>i===h?"？":x),tot]]);
+    const pairs=[];its.forEach((_,i)=>its.forEach((_,j)=>{if(i!==j&&i!==h&&j!==h&&v[i]%v[j]===0&&v[i]/v[j]>=2)pairs.push([i,j])}));
+    const q2=pairs.length&&Math.random()<.6?(([i,j])=>({unit:"表の読み取り",q:`${its[i]}が すきな 人は、${its[j]}が すきな 人の 何倍ですか。`,a:v[i]/v[j],u:"倍",ex:`${v[i]}÷${v[j]}＝${v[i]/v[j]}倍。`}))(pick(pairs))
+      :(()=>{const ok=its.map((_,i)=>i).filter(i=>i!==h);const [i,j]=sample(ok,2);return{unit:"表の読み取り",q:`${its[i]}と ${its[j]}の 人数の ちがいは 何人ですか。`,a:Math.abs(v[i]-v[j]),u:"人",ex:`${Math.max(v[i],v[j])}−${Math.min(v[i],v[j])}＝${Math.abs(v[i]-v[j])}人。`}})();
+    return [{unit:"表の読み取り",q:`${theme[0]}を 調べました。「？」に 入る 人数は 何人ですか。`,a:v[h],u:"人",ex:`合計 ${tot}人から ほかの 人数を ひきます。${tot}−${v.filter((_,i)=>i!==h).join("−")}＝${v[h]}人。`},q2].map(x=>({...x,table:t}))})}
+  if(k===1){const a=R(8,15),b=R(5,12),c=R(5,12),d=R(4,10),f=pick(["トマト","にんじん","ピーマン"]),g=pick(["キャベツ","なす","かぼちゃ"]);
+    const t=`<table class="qtable"><thead><tr><th></th><th>${g}が すき</th><th>${g}が きらい</th><th>合計</th></tr></thead><tbody><tr><th>${f}が すき</th><td>${a}</td><td>${b}</td><td>${a+b}</td></tr><tr><th>${f}が きらい</th><td>${c}</td><td>${d}</td><td>？</td></tr><tr><th>合計</th><td>${a+c}</td><td>${b+d}</td><td>${a+b+c+d}</td></tr></tbody></table>`;
+    return [{unit:"表の読み取り",q:`${f}も ${g}も どちらも すきな 人は 何人ですか。`,a:a,u:"人",table:t,ex:`「${f}が すき」の 行と「${g}が すき」の 列が 交わる ところです。${a}人。`},
+      {unit:"表の読み取り",q:`表の「？」に 入る、${f}が きらいな 人は 全部で 何人ですか。`,a:c+d,u:"人",table:t,ex:`${c}＋${d}＝${c+d}人。`}]}
+  return between(0,0,()=>{const A=[...Array(9)].map(()=>pick([0,0,0,1,1,2,3,4])),B=[...Array(8)].map(()=>pick([0,0,0,1,1,2,3]));const hi=R(3,7);const tA=A.reduce((x,y)=>x+y,0),tB=B.reduce((x,y)=>x+y,0);if(tA<=tB||tA-tB>5||A[hi]===0)return null;
+    const t=`<table class="qtable"><thead><tr><th></th>${[...Array(9)].map((_,i)=>`<th>${i+1}</th>`).join("")}<th>計</th></tr></thead><tbody><tr><th>A</th>${A.map((v,i)=>`<td>${i===hi?"ア":v}</td>`).join("")}<td>${tA}</td></tr><tr><th>B</th>${B.map(v=>`<td>${v}</td>`).join("")}<td>イ</td><td></td></tr></tbody></table>`;
+    return [{unit:"表の読み取り",q:"野球の 得点板です。アに 入る 点数は 何点ですか。",a:A[hi],u:"点",table:t,ex:`Aチームの 合計 ${tA}点から ほかの 回の 点を ひいて ${A[hi]}点。`},
+      {unit:"表の読み取り",q:"Bチームが 9回に 何点 以上 取れば 勝ちますか。いちばん 少ない 点数を 答えましょう。",a:tA-tB+1,u:"点",table:t,ex:`Bは 8回までで ${tB}点。同じ 点では 勝てないので ${tA}−${tB}＋1＝${tA-tB+1}点。`}]});},
+
+/* 大問5 さいふと買い物 3問 */
+5:()=>{return between(0,0,()=>{const m=[[1000,1],[500,R(0,2)],[100,R(3,6)],[50,R(1,3)],[10,R(2,7)],[5,R(0,3)],[1,R(0,7)]];const tot=m.reduce((s,[v,n])=>s+v*n,0);if(tot<1500||tot>2800)return null;
+  const t=tbl(["お金","まい数"],m.filter(x=>x[1]).map(([v,n])=>[v>=1000?"1000円さつ":`${v}円玉`,`${n}まい`]));
+  const q1={unit:"お金の合計",q:"さいふの 中の お金は 全部で いくらですか。",a:tot,u:"円",ex:m.filter(x=>x[1]).map(([v,n])=>`${v}×${n}＝${v*n}`).join("、")+`。合計 ${tot}円。`};
+  const A=pick([["おにぎり",R(12,16)*10],["パン",R(15,22)*10],["ジュース",R(12,16)*10]]),B=pick([["お茶",R(10,15)*10],["ガム",R(5,9)*10+4],["ノート",R(15,25)*10]]);
+  const na=R(2,4),nb=R(1,3),bag=Math.random()<.4?3:0,spend=A[1]*na+B[1]*nb+bag;if(spend>=tot-100)return null;
+  const q2={unit:"買い物とのこり",q:`${A[0]}（1こ ${A[1]}円）を ${na}こと、${B[0]}（1こ ${B[1]}円）を ${nb}こ 買いました。${bag?"レジぶくろ（3円）も 買いました。":""}代金は いくらですか。`,a:spend,u:"円",ex:`${A[1]}×${na}＋${B[1]}×${nb}${bag?"＋3":""}＝${spend}円。`};
+  const left=tot-spend,k=R(0,2);
+  if(k===2){const its=sample([["ノート"],["コンパス"],["のり"],["はさみ"],["ボールペン"]],4).map(x=>x[0]);const pr=its.map(()=>Math.max(10,Math.round((left+R(-150,150))/10)*10));if(new Set(pr).size<4||pr.every(p=>p>left)||pr.every(p=>p<=left)||pr.some(p=>p===left))return null;
+    const lab=its.map((x,i)=>`${x}（${pr[i]}円）`),hits=pr.map((p,i)=>p<=left?i:-1).filter(i=>i>=0);
+    return [q1,q2,{unit:"買い物とのこり",q:"のこりの お金で 1つだけ 買う とき、買える 品物を ぜんぶ えらびましょう。",c:lab,multi:hits,fixed:lab,ex:`のこりは ${tot}−${spend}＝${left}円。${left}円 いかの 品物を えらびます。`}].map(x=>({...x,table:t}))}
+  const q3=k===0?{unit:"買い物とのこり",q:"買い物の あと、さいふに のこって いる お金は いくらですか。",a:left,u:"円",ex:`${tot}−${spend}＝${left}円。`}
+    :(()=>{const p=R(10,14)*10;return{unit:"買い物とのこり",q:`のこりの お金で、1本 ${p}円の だんごは いちばん 多くて 何本 買えますか。`,a:Math.floor(left/p),u:"本",ex:`のこりは ${tot}−${spend}＝${left}円。${left}÷${p}＝${Math.floor(left/p)} あまり ${left%p}。だから ${Math.floor(left/p)}本。`}})();
+  return [q1,q2,q3].map(x=>({...x,table:t}));});},
+
+/* 大問6 時刻表と時こく 3問 */
+6:()=>{return between(0,0,()=>{const ride=pick([25,30,35]),walk=pick([10,15,20]),arr=pick([10*60+30,11*60]),place=pick(["映画館","野球場","美術館","市民ホール"]),veh=pick(["バス","電車"]),st=pick(["大宮駅","川口駅","浦和駅"]);
+  const mins=sample([...Array(12)].map((_,i)=>i*5+R(0,4)),R(5,6)).sort((a,b)=>a-b);const hs=[Math.floor(arr/60)-2,Math.floor(arr/60)-1,Math.floor(arr/60)];
+  const atSt=arr-walk,latest=atSt-ride;
+  const week=Math.random()<.35,day=week?pick(["平日","土曜日","日曜日"]):"";const cols=week?{"平日":mins,"土・日・祝":sample(mins,3).sort((a,b)=>a-b)}:null;const use=week?(day==="平日"?cols["平日"]:cols["土・日・祝"]):mins;
+  let best=null;hs.forEach(h=>use.forEach(m=>{const t=h*60+m;if(t<=latest)best=t}));if(best===null||best===latest)return null;
+  if(week){let wrong=null;hs.forEach(h=>(day==="平日"?cols["土・日・祝"]:cols["平日"]).forEach(m=>{const t=h*60+m;if(t<=latest)wrong=t}));if(wrong===best)return null}
+  const t=week?`<table class="qtable"><thead><tr><th colspan="3">${st}行きの ${veh}</th></tr><tr><th>時</th><th>平日</th><th>土・日・祝</th></tr></thead><tbody>${hs.map(h=>`<tr><td>${h}</td><td style="text-align:left">${cols["平日"].map(m=>String(m).padStart(2,"0")).join(" ")}</td><td style="text-align:left">${cols["土・日・祝"].map(m=>String(m).padStart(2,"0")).join(" ")}</td></tr>`).join("")}</tbody></table>`:ttable(`${st}行きの ${veh}`,hs,hs.map(()=>mins));
+  const q1={unit:"出発時こく（逆算）",q:`${place}に ${tj(arr)}に 着きたいです。${st}から ${place}までは 歩いて ${walk}分 かかります。${st}には おそくとも 何時何分までに 着けば よいですか。`,parts:[Math.floor(atSt/60),atSt%60],us:["時","分"],pre:"午前",ex:`${tj(arr)}の ${walk}分前は ${tj(atSt)}。`};
+  const q2={unit:"時刻表",q:`${week?`きょうは ${day}です。`:""}家の 近くから ${veh}に のると、${st}まで ${ride}分 かかります。${tj(atSt)}までに ${st}に 着くには、おそくとも 何時何分の ${veh}に のれば よいですか。`,parts:[Math.floor(best/60),best%60],us:["時","分"],pre:"午前",ex:`${tj(atSt)}の ${ride}分前は ${tj(latest)}。それより 前で いちばん おそい ${veh}は ${tj(best)}です。`};
+  const start=pick([13*60+R(0,5)*10,14*60+R(0,4)*5]),d=R(13,22)*5,end=start+d;
+  const q3={unit:"かかった時間",q:`${tj(start)}に 家を 出て、帰って きた ときの 時計は 下のように なって いました。家を 出てから 何時間何分 たちましたか。`,fig:clockSVG(Math.floor(end/60)%12,end%60),parts:[Math.floor(d/60),d%60],us:["時間","分"],ex:`時計は ${tj(end)}を さして います。${tj(start)}から ${dur(d)}です。`};
+  return [{...q1,table:t},{...q2,table:t},q3];});},
+
+/* 大問7 図形 3問 */
+7:()=>{if(Math.random()<.4){const a=R(4,6),b=R(3,a-1),ang=pick([60,70,50,65]);const fig=paraSVG(a,b,ang);
+    return [{unit:"平行四辺形",q:"平行四辺形 アイウエの 辺ウエの 長さは 何cmですか。",fig,a:a,u:"cm",ex:`平行四辺形の 向かい合う 辺の 長さは 等しいので、辺アイと 同じ ${a}cmです。`},
+      {unit:"平行四辺形",q:"角いの 大きさは 何度ですか。",fig,a:ang,u:"°",ex:`向かい合う 角の 大きさは 等しいので ${ang}°です。`},
+      {unit:"平行四辺形",q:"角あと 角いの 大きさを たすと 何度ですか。",fig,a:180,u:"°",ex:`となり合う 角を たすと 180°です。`}]}
+  const names=shuffle(["正方形","長方形","ひし形","平行四辺形","台形","直角三角形","二等辺三角形"]).slice(0,6);const fig=gridShapesSVG(names);const L=names.map((_,i)=>KANA_LBL[i]);
+  const ti=R(0,5),nm=names[ti];const pool=["正方形","長方形","ひし形","平行四辺形","台形","直角三角形","二等辺三角形","正三角形"];
+  const prop=pick([["4つの 角の 大きさが すべて 等しい","eqAng"],["向かい合う 角が それぞれ 等しい","oppAng"],["平行な 辺が 1組だけの","par1"]]);
+  const hits=names.map((n,i)=>GPROP[n][prop[1]]?i:-1).filter(i=>i>=0);
+  const rect=names.indexOf("長方形")>=0?names.indexOf("長方形"):names.indexOf("正方形");
+  const out=[{unit:"三角形と四角形",q:`${L[ti]}の 図形の 名前を えらびましょう。`,fig,c:[nm,...shuffle(pool.filter(x=>x!==nm)).slice(0,3)],printBox:true,ex:`${L[ti]}は ${nm}です。`}];
+  if(hits.length)out.push({unit:"三角形と四角形",q:`${prop[0]}${prop[1]==="par1"?"四角形":"図形"}を ぜんぶ えらびましょう。`,fig,c:L,multi:hits,fixed:L,ex:`あてはまるのは ${hits.map(i=>L[i]).join("・")}です。`});
+  if(rect>=0){const pts=GSHAPES[names[rect]],w=Math.max(...pts.map(p=>p[0])),h=Math.max(...pts.map(p=>p[1]));out.push({unit:"面積",q:`方眼の 1マスは 1cmです。${L[rect]}の 面積は 何cm²ですか。`,fig,a:w*h,u:"cm²",ex:`たて ${h}cm、よこ ${w}cm。${h}×${w}＝${w*h}cm²。`})}
+  while(out.length<3){const j=(ti+out.length)%6;out.push({unit:"三角形と四角形",q:`${L[j]}の 図形の 名前を えらびましょう。`,fig,c:[names[j],...shuffle(pool.filter(x=>x!==names[j])).slice(0,3)],printBox:true,ex:`${L[j]}は ${names[j]}です。`})}
+  return out.slice(0,3);},
+
+/* 大問8 レシピ 3問（同じ表）／荷物の料金表 */
+8:()=>{if(Math.random()<.3){return between(0,0,()=>{const item=pick(["ぬいぐるみ","本","おもちゃ"]),one=R(6,9)*50,box=R(2,4)*100,n=2,tot=box+one*n;const fees=[200,240,480,720,960,1200].map(v=>v+R(0,2)*10);const lim=[1000,1200,1400,1600,1800,2000];const idx=lim.findIndex(l=>tot<=l);if(idx<0||tot<=900)return null;
+    const t=tbl(["重さ",...lim.map(l=>`${l}gまで`)],[["料金",...fees.map(f=>f+"円")]]);
+    return [{unit:"目もりの読み取り",q:`${item} 1この 重さを はかりました。何gですか。`,fig:scaleSVG(1000,one,100),a:one,u:"g",ex:`大きい 目もりは 100g、小さい 目もりは 20gです。${one}gです。`},
+      {unit:"料金表",q:`${box}gの 箱に ${item}を ${n}こ 入れました。全部で 何gですか。`,a:tot,u:"g",ex:`${box}＋${one}×${n}＝${tot}g。`},
+      {unit:"料金表",q:"この 荷物を 送る 料金は いくらですか。",table:t,a:fees[idx],u:"円",ex:`${tot}gは「${lim[idx]}gまで」に 入るので ${fees[idx]}円です。`}]})}
+  return between(0,0,()=>{const n=pick([6,7,8]),dish=pick(["ぶた汁","肉じゃが","野菜スープ","お好み焼き","カレー"]);
+  const g1=pick([["玉ねぎ","g"],["キャベツ","g"],["ぶた肉","g"],["じゃがいも","g"]]),a=R(5,24)*5;
+  const fracs=[[1,2],[1,4],[3,4],[2,7],[4,7],[1,3],[2,3]].filter(([x,y])=>(n*x)%y===0);if(!fracs.length)return null;const [fx,fy]=pick(fracs),fitem=pick(["コンソメ","にんじん","じゃがいも"]),fu=fitem==="コンソメ"?"こ":fitem==="にんじん"?"本":"こ";
+  const conv=Math.random()<.5?{it:"水",u1:"mL",v:R(10,25)*10,u2:"L",f:x=>x/1000}:{it:"小麦粉",u1:"g",v:R(10,25)*10,u2:"kg",f:x=>x/1000};
+  const other=[["しょうゆ","大さじ1","大さじ"+n],["たまご","1こ",n+"こ"]];
+  const rows=[[g1[0],"（ア）",`${a*n}${g1[1]}`],[fitem,`${fx}/${fy}${fu}`,"（イ）"],[conv.it,`${conv.v}${conv.u1}`,"（ウ）"],pick(other)];
+  const t=`<table class="qtable"><thead><tr><th>${dish}の 材料</th><th>1人分</th><th>${n}人分</th></tr></thead><tbody>${shuffle(rows).map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</tbody></table>`;
+  const tot=conv.v*n,cv=conv.f(tot);
+  return [{unit:"レシピの人数",q:`（ア）に 入る 数は いくつですか。`,a:a,u:g1[1],table:t,ex:`${n}人分が ${a*n}${g1[1]}なので、1人分は ${a*n}÷${n}＝${a}${g1[1]}。`},
+    {unit:"レシピの人数",q:`（イ）に 入る 数は いくつですか。`,a:n*fx/fy,u:fu,table:t,ex:`${fx}/${fy}×${n}＝${n*fx/fy}${fu}。`},
+    {unit:"レシピの人数",q:`（ウ）に 入る 量は 何${conv.u2}ですか。`,a:String(cv),u:conv.u2,table:t,ex:`${conv.v}×${n}＝${tot}${conv.u1}。1000${conv.u1}＝1${conv.u2}なので ${cv}${conv.u2}。`}];});},
+
+/* 大問9 グラフ 4問（同じグラフ） */
+9:()=>{const k=R(0,3);
+  if(k===3){return between(0,0,()=>{const P=[80,60,110,180,160,240,320,350,270,240,140,70].map(v=>Math.max(30,v+R(-3,3)*10));const mx=Math.max(...P),mn=Math.min(...P);if(P.filter(x=>x===mx).length>1||P.filter(x=>x===mn).length>1)return null;
+    const pairs=[];P.forEach((v,i)=>P.forEach((w,j)=>{if(i<j&&v===w)pairs.push([i,j])}));if(pairs.length!==1)return null;const i=R(0,11),fig=chartSVG(M.map(x=>x.replace("月","")),[P],{kind:"bar",unit:"mm",max:400,step:10,labelStep:100});
+    return [{unit:"グラフの読み取り",q:`ある 市の 月ごとの 降水量の ぼうグラフです。${M[i]}の 降水量は 何mmですか。`,a:P[i],u:"mm",ex:`${M[i]}の ぼうは ${P[i]}mmの 目もりまで あります。小さい 目もりは 10mmです。`},
+      {unit:"グラフの読み取り",q:"いちばん 多い 月と いちばん 少ない 月の ちがいは 何mmですか。",a:mx-mn,u:"mm",ex:`${mx}−${mn}＝${mx-mn}mm。`},
+      {unit:"グラフの読み取り",q:"降水量が 同じ 2つの 月は どれですか。",c:opts(`${M[pairs[0][0]]}と${M[pairs[0][1]]}`,[`${M[(pairs[0][0]+1)%12]}と${M[pairs[0][1]]}`,`${M[pairs[0][0]]}と${M[(pairs[0][1]+1)%12]}`,`${M[(pairs[0][0]+11)%12]}と${M[(pairs[0][1]+11)%12]}`]),ex:`どちらも ${P[pairs[0][0]]}mmです。`},
+      {unit:"グラフの読み取り",q:"降水量が いちばん 多いのは 何月ですか。",c:opts(M[P.indexOf(mx)],[M[(P.indexOf(mx)+1)%12],M[(P.indexOf(mx)+11)%12],M[P.indexOf(mn)]]),ex:`いちばん 高い ぼうは ${M[P.indexOf(mx)]}です。`}].map(x=>({...x,fig,grp:"g9"}))})}
+  if(k===0){return between(0,0,()=>{const base=[4,6,10,15,20,23,27,28,24,18,12,7].map(v=>v+R(-2,2));const mx=Math.max(...base),mn=Math.min(...base);if(base.filter(v=>v===mx).length>1||base.filter(v=>v===mn).length>1)return null;
+    const i=R(2,9);const same=base.map((v,j)=>j!==i&&v===base[i]?j:-1).filter(j=>j>=0);
+    const fig=lineChart(M.map(x=>x.replace("月","")),[base],{unit:"度",max:30,step:1,labelStep:5});const city=pick(["S市","K市","T市"]);
+    const qs=[{unit:"グラフの読み取り",q:`${city}の 月ごとの 気温の グラフです。たての じくは 何を 表して いますか。`,c:["気温","降水量","月","人数"],ex:"たての じくの 単位は「度」なので 気温です。"},
+      {unit:"グラフの読み取り",q:`${M[i]}の 気温は 何度ですか。`,a:base[i],u:"度",ex:`${M[i]}の 点は ${base[i]}度の 目もりに あります。`},
+      same.length===1?{unit:"グラフの読み取り",q:`${M[i]}と 同じ 気温の 月は 何月ですか。`,c:opts(M[same[0]],M.filter((_,j)=>j!==i&&j!==same[0]).sort(()=>Math.random()-.5)),ex:`${base[i]}度の 月を さがすと ${M[same[0]]}です。`}
+        :{unit:"グラフの読み取り",q:"気温が いちばん 高いのは 何月ですか。",c:opts(M[base.indexOf(mx)],[M[(base.indexOf(mx)+11)%12],M[(base.indexOf(mx)+1)%12],M[base.indexOf(mn)]]),ex:`いちばん 高い 点は ${M[base.indexOf(mx)]}（${mx}度）です。`},
+      {unit:"グラフの読み取り",q:"いちばん 高い 気温と いちばん 低い 気温の ちがいは 何度ですか。",a:mx-mn,u:"度",ex:`${mx}−${mn}＝${mx-mn}度。`}];
+    return qs.map(x=>({...x,fig,grp:"g9"}))})}
+  if(k===1){return between(0,0,()=>{const A=[6,7,10,15,20,23,27,29,25,19,13,8].map(v=>v+R(-1,1)),B=[23,23,21,18,15,13,12,13,15,18,20,22].map(v=>v+R(-1,1));const D=A.map((v,i)=>Math.abs(v-B[i])),dm=Math.max(...D);if(D.filter(x=>x===dm).length>1)return null;
+    const i=R(3,9),fig=lineChart(M.map(x=>x.replace("月","")),[A,B],{unit:"度",max:30,step:1,labelStep:5,names:["A市","B市"]});const rA=Math.max(...A)-Math.min(...A),rB=Math.max(...B)-Math.min(...B);if(rA===rB)return null;
+    return [{unit:"グラフの読み取り",q:`B市（点線）の ${M[i]}の 気温は 何度ですか。`,a:B[i],u:"度",ex:`点線の ${M[i]}の 点は ${B[i]}度です。`},
+      {unit:"グラフの読み取り",q:"2つの 市の 気温の ちがいが いちばん 大きいのは 何月ですか。",c:opts(M[D.indexOf(dm)],[M[(D.indexOf(dm)+1)%12],M[(D.indexOf(dm)+6)%12],M[(D.indexOf(dm)+11)%12]]),ex:`${M[D.indexOf(dm)]}は ${A[D.indexOf(dm)]}度と ${B[D.indexOf(dm)]}度で、ちがいは ${dm}度です。`},
+      {unit:"グラフの読み取り",q:"1年の いちばん 高い 気温と いちばん 低い 気温の ちがいが 大きいのは どちらの 市ですか。",c:[rA>rB?"A市":"B市",rA>rB?"B市":"A市"],fixed:["A市","B市"],ex:`A市は ${rA}度、B市は ${rB}度の ちがいです。`},
+      {unit:"グラフの読み取り",q:`A市（実線）の ${M[i]}と ${M[i+1]}の 気温の ちがいは 何度ですか。`,a:Math.abs(A[i+1]-A[i]),u:"度",ex:`${A[i]}度と ${A[i+1]}度で、ちがいは ${Math.abs(A[i+1]-A[i])}度です。`}].map(x=>({...x,fig,grp:"g9"}))})}
+  return between(0,0,()=>{const T=[5,6,10,14,19,22,26,28,24,19,13,8].map(v=>v+R(-1,1)),P=[40,60,100,120,130,170,150,120,200,160,90,40].map(v=>v+R(-1,1)*10);const pm=Math.max(...P);if(P.filter(x=>x===pm).length>1)return null;
+    const i=R(2,9),fig=lineChart(M.map(x=>x.replace("月","")),[T],{unit:"度",max:30,step:1,labelStep:5,bars:P,barMax:300,barUnit:"mm"});
+    return [{unit:"グラフの読み取り",q:"左の たての じく（折れ線）は 何を 表して いますか。",c:["気温","降水量","人数","月"],ex:"左の じくの 単位は「度」なので 気温です。"},
+      {unit:"グラフの読み取り",q:"右の たての じく（ぼう）は 何を 表して いますか。",c:["降水量","気温","人数","時間"],ex:"右の じくの 単位は「mm」で、雨の 量（降水量）です。"},
+      {unit:"グラフの読み取り",q:"降水量が いちばん 多いのは 何月ですか。",c:opts(M[P.indexOf(pm)],[M[T.indexOf(Math.max(...T))],M[(P.indexOf(pm)+1)%12],M[(P.indexOf(pm)+11)%12]]),ex:`ぼうが いちばん 高いのは ${M[P.indexOf(pm)]}です。`},
+      {unit:"グラフの読み取り",q:`${M[i]}の 気温は 何度ですか。`,a:T[i],u:"度",ex:`折れ線の ${M[i]}の 点は ${T[i]}度です。`}].map(x=>({...x,fig,grp:"g9"}))});}
+};
+const SAI_TITLES=["次の 計算を しましょう。","□に 合う 単位を 書きましょう。","次の 問題に 答えましょう。","表を 見て 答えましょう。","さいふの 中の お金と 買い物の 問題です。","時刻表と 時計を 見て 答えましょう。","図形の 問題に 答えましょう。","料理の 材料の 表を 見て 答えましょう。","グラフを 見て 答えましょう。"];
+const SAI_PTS=[2,2,2,2,1,1,1,1,1];
+function buildSaitamaMath(){const out=[];
+  for(let s=1;s<=9;s++){let qs=null;for(let t=0;t<20&&!qs;t++){try{qs=SAI[s]()}catch(e){qs=null}if(qs&&qs.some(x=>!x))qs=null}
+    (qs||[]).forEach(q=>{const o={s:"sugaku",p:SP,gen:true,sai:true,...q,sec:s-1,pt:SAI_PTS[s-1]};if(o.a!==undefined)o.a=String(o.a);o.id="sai|"+s+"|"+o.q+"|"+(o.a||o.c?.[0]||o.parts?.join());out.push(o)})}
+  return out;}
+/* 埼玉ミックス・単元えらびにも そっくりの型を 入れる */
+for(let s=1;s<=9;s++){const probe=()=>{for(let t=0;t<20;t++){try{const r=SAI[s]();if(r&&r.every(Boolean))return r}catch(e){}}return null};
+  const units=[...new Set([...Array(40)].flatMap(()=>(probe()||[]).map(q=>q.unit)))];
+  units.forEach(u=>GENS.push({u,p:SP,sai:true,f:()=>{for(let t=0;t<60;t++){const r=probe();if(!r)continue;const c=r.filter(q=>q.unit===u);if(c.length)return pick(c)}return null}}));}
+
+/* ---------- review_kokugo.js ---------- */
+/* ============================================================
+   小学校のふくしゅう：国語（初級・中級・上級）
+   特別支援の国語教材の章立てに合わせた オリジナル問題
+   ============================================================ */
+const RB=[];let _rid=0;
+function addR(s,lv,unit,o){RB.push({id:"r"+(++_rid),s,lv,unit,p:["review"],...o})}
+const EMO=e=>`<div class="big-emoji" aria-hidden="true">${e}</div>`;
+
+/* ===================== 初級 ===================== */
+// ことばを よもう（絵→ことば）
+[["🐟","さかな",["さくら","かさな"]],["🐕","いぬ",["いね","ぬい"]],["🍎","りんご",["りんこ","いんご"]],["🚗","くるま",["くまる","ぐるま"]],["🌸","さくら",["さかな","くらさ"]],["🐱","ねこ",["ねご","れこ"]],["☂️","かさ",["さか","かき"]],["🦒","きりん",["きいん","りきん"]],["👟","くつ",["つく","くち"]],["🍙","おにぎり",["おにきり","おにぎい"]],["🐘","ぞう",["そう","ぞお"]],["📘","ほん",["ぽん","ほむ"]]]
+.forEach(([e,a,w])=>addR("kokugo","初級","ことばを よもう",{q:"えに あう ことばは どれ？",fig:EMO(e),c:[a,...w],ex:`「${a}」です。`}));
+// てんてん・まる
+[["🔑","かぎ",["かき"]],["🦆","あひる",["あびる"]],["🐼","ぱんだ",["はんだ","ばんだ"]],["🍓","いちご",["いちこ"]],["🐦","すずめ",["すすめ"]],["🎈","ふうせん",["ぶうせん","ぷうせん"]],["🍳","たまご",["たまこ"]],["🌼","たんぽぽ",["たんほほ","たんぼぼ"]]]
+.forEach(([e,a,w])=>addR("kokugo","初級","てんてん・まる",{q:"えに あう ことばは どれ？",fig:EMO(e),c:[a,...w],ex:`「${a}」。てん（゛）や まる（゜）に 気を つけよう。`}));
+// ちいさい字
+[["🚂","きしゃ",["きしや","きっしゃ"]],["🎫","きっぷ",["きつぷ","きぷ"]],["👨‍⚕️","いしゃ",["いしや","いっしゃ"]],["🦗","ばった",["ばつた","ばた"]],["🍫","ちょこ",["ちよこ","ちこ"]],["🚒","しょうぼうしゃ",["しようぼうしや","しょうぼうしや"]],["🐿️","りす",["りっす","りゅす"]],["🎺","らっぱ",["らつぱ","らぱ"]]]
+.forEach(([e,a,w])=>addR("kokugo","初級","ちいさい っ ゃ ゅ ょ",{q:"ただしい かきかたは どれ？",fig:EMO(e),c:[a,...w],ex:`「${a}」。ちいさく かく 字に 気を つけよう。`}));
+// カタカナ
+[["そ","ソ",["ン","ツ"]],["し","シ",["ツ","ソ"]],["ぬ","ヌ",["ス","メ"]],["わ","ワ",["ク","ウ"]],["ね","ネ",["ホ","オ"]],["る","ル",["レ","ロ"]],["め","メ",["ヌ","ナ"]],["ち","チ",["テ","ナ"]]]
+.forEach(([h,a,w])=>addR("kokugo","初級","カタカナ",{q:`「${h}」の カタカナは どれ？`,c:[a,...w],ex:`「${h}」は「${a}」です。`}));
+[["🍮","プリン",["ブリン","プリソ"]],["🍕","ピザ",["ビザ","ピサ"]],["🎂","ケーキ",["ケキ","ゲーキ"]],["⚽","サッカー",["サカー","ザッカー"]],["🍔","ハンバーガー",["ハンバガー","ハソバーガー"]],["🎹","ピアノ",["ビアノ","ピアソ"]]]
+.forEach(([e,a,w])=>addR("kokugo","初級","カタカナ",{q:"えに あう カタカナの ことばは どれ？",fig:EMO(e),c:[a,...w],ex:`「${a}」です。のばす 音は「ー」。`}));
+// ことばを つくろう（ならべかえ）
+[["🐄","うし"],["🐎","うま"],["🍊","みかん"],["🌙","つき"],["🐸","かえる"],["🍌","ばなな"],["🚌","ばす"],["🐢","かめ"]].forEach(([e,w])=>
+ addR("kokugo","初級","ことばを つくろう",{q:"えに あう ことばに なるように、字を ならべよう。",fig:EMO(e),seq:[...w],sep:"",ex:`「${w}」です。`}));
+// はじめての かん字
+[["⬆️ うえ","上",["下","右"]],["⬇️ した","下",["上","左"]],["👉 みぎ","右",["左","石"]],["👈 ひだり","左",["右","友"]],["🔟 じゅう","十",["千","七"]],["☀️ にち（ひ）","日",["目","月"]],["🌙 つき","月",["日","用"]],["💧 みず","水",["氷","木"]],["🔥 ひ","火",["人","大"]],["🌳 き","木",["本","水"]],["👁️ め","目",["日","耳"]],["👂 みみ","耳",["目","口"]]]
+.forEach(([y,a,w])=>addR("kokugo","初級","はじめての かん字",{q:`「${y}」の かん字は どれ？`,c:[a,...w],ex:`「${y.split(" ")[1]}」は「${a}」と かきます。`}));
+[["あに","兄",["弟","姉"]],["いもうと","妹",["姉","弟"]],["ちち","父",["母","兄"]],["はは","母",["父","毎"]]].forEach(([y,a,w])=>addR("kokugo","初級","はじめての かん字",{q:`「${y}」の かん字は どれ？`,c:[a,...w],ex:`「${y}」は「${a}」。`}));
+// 文と絵
+[["くつを はく。","👟",["🛁","📺"]],["てを あらう。","🧼",["🍙","🚲"]],["はを みがく。","🪥",["🧹","📖"]],["ほんを よむ。","📖",["🎵","⚽"]],["ねる。","🛏️",["🍽️","🚿"]],["ごはんを たべる。","🍚",["🧦","✏️"]],["じてんしゃに のる。","🚲",["🚗","🛁"]],["あめが ふる。","🌧️",["☀️","❄️"]]]
+.forEach(([s,a,w])=>addR("kokugo","初級","文と え",{q:`「${s}」に あう えは どれ？`,c:[a,...w],ex:`「${s}」は ${a} です。`}));
+// だれ・なに・いつ・どこ・どうした
+const SENT=[{t:"いもうとが こうえんで りんごを たべました。",だれ:"いもうと",どこ:"こうえん",なに:"りんご",どうした:"たべました"},
+ {t:"きのう、ぼくは かわらで たこを あげました。",いつ:"きのう",だれ:"ぼく",どこ:"かわら",なに:"たこ",どうした:"あげました"},
+ {t:"どようびに おかあさんと スーパーへ いきました。",いつ:"どようび",だれと:"おかあさん",どこ:"スーパー",どうした:"いきました"},
+ {t:"あさ、おとうとが にわで みずを まきました。",いつ:"あさ",だれ:"おとうと",どこ:"にわ",なに:"みず",どうした:"まきました"},
+ {t:"せんせいが きょうしつで えほんを よみました。",だれ:"せんせい",どこ:"きょうしつ",なに:"えほん",どうした:"よみました"},
+ {t:"なつやすみに おじいちゃんの いえへ いきました。",いつ:"なつやすみ",どこ:"おじいちゃんの いえ",どうした:"いきました"}];
+const QW={"だれ":"だれが","いつ":"いつ","どこ":"どこで（どこへ）","なに":"なにを","どうした":"どうしましたか（どうした）","だれと":"だれと"};
+SENT.forEach(S=>{const keys=Object.keys(S).filter(k=>k!=="t");keys.forEach(k=>{const wrong=keys.filter(x=>x!==k).map(x=>S[x]).slice(0,3);
+  addR("kokugo","初級","だれ・なに・いつ・どこ",{passage:S.t,q:`「${QW[k]}」に あたる ことばは どれ？`,c:[S[k],...wrong],ex:`「${S[k]}」です。`})})});
+// どんな・どうして
+[["つめたい ジュースを のんだ。","どんな ジュース？","つめたい",["あまい","あつい"]],["あかい ふうせんが とんで いった。","どんな ふうせん？","あかい",["おおきい","あおい"]],["おなかが すいたので パンを たべた。","どうして パンを たべたの？","おなかが すいたから",["パンが すきだから","あさだから"]],["あめが ふって きたので かさを さした。","どうして かさを さしたの？","あめが ふって きたから",["かさが あたらしいから","はれて いたから"]],["ねつが あったので がっこうを やすんだ。","どうして やすんだの？","ねつが あったから",["にちようびだから","あそびたかったから"]]]
+.forEach(([s,q,a,w])=>addR("kokugo","初級","どんな・どうして",{passage:s,q,c:[a,...w],ex:`文に「${a.replace(/から$/,"")}」と かいて あります。`}));
+// 助詞
+[["さかな（　）およぐ。","が",["を","へ"]],["がっこう（　）いきます。","へ",["え","を"]],["ほん（　）よみます。","を",["お","が"]],["わたし（　）げんきです。","は",["わ","を"]],["ともだち（　）あそぶ。","と",["を","へ"]],["おばあさん（　）てがみを かく。","に",["を","が"]],["こうえん（　）あそぶ。","で",["を","が"]],["いぬ（　）ほえる。","が",["を","に"]]]
+.forEach(([s,a,w])=>addR("kokugo","初級","は・が・を・に・へ",{q:`（　）に はいる ことばは どれ？\n${s}`,c:[a,...w],ex:`「${s.replace("（　）",a)}」が ただしい 文です。`}));
+// じゅんばん（手順）
+[["はみがき",["はブラシを もつ","はみがきこを つける","はを みがく","くちを ゆすぐ"]],["てあらい",["みずで てを ぬらす","せっけんを つける","よく こする","みずで ながす","タオルで ふく"]],["カップめん",["おゆを わかす","ふたを あける","おゆを いれる","3ぷん まつ"]],["かいもの",["かごを もつ","しなものを えらぶ","レジに ならぶ","おかねを はらう"]],["かさを かりる",["「かさを かして くれない？」","「いいよ、どうぞ。」","「ありがとう。」","「どういたしまして。」"]]]
+.forEach(([t,s])=>addR("kokugo","初級","じゅんばん",{q:`「${t}」の じゅんばんに ならべよう。`,seq:s,ex:`${s.join(" → ")}。`}));
+// はんたいの ことば
+[["🐭 ちいさい","おおきい",["ながい","おもい"]],["🔥 あつい","つめたい",["あかるい","ふとい"]],["🌞 あかるい","くらい",["しろい","ちかい"]],["📏 ながい","みじかい",["ほそい","ひくい"]],["🏃 はやい","おそい",["ちいさい","かるい"]],["🎒 おもい","かるい",["よわい","すくない"]]]
+.forEach(([w,a,x])=>addR("kokugo","初級","はんたいの ことば",{q:`「${w.split(" ")[1]}」の はんたいは どれ？`,fig:EMO(w.split(" ")[0]),c:[a,...x],ex:`「${w.split(" ")[1]}」⇔「${a}」です。`}));
+// ていねいに・こんなとき
+[["「おはよう。」を ていねいに いうと？","おはようございます。",["おはよっす。","おはよう だよ。"]],["「それ とって。」を ていねいに いうと？","それを とって ください。",["それ とれ。","それを とったよ。"]],["「ありがとう。」を ていねいに いうと？","ありがとうございます。",["ありがと。","どうも だよ。"]],["「これは なに？」を ていねいに いうと？","これは なんですか。",["これ なんだよ。","なに これ。"]]]
+.forEach(([q,a,w])=>addR("kokugo","初級","ていねいに いおう",{q,c:[a,...w],ex:`「${a}」が ていねいな いいかたです。`}));
+[["🥛 ともだちの ふくを ぬらして しまった。","ごめんね。だいじょうぶ？",["しらない。","わらう。"]],["✏️ けしゴムを かりたい。","けしゴムを かして くれる？",["けしゴム ちょうだい。","だまって とる。"]],["🎁 プレゼントを もらった。","ありがとう。",["いらない。","ふうん。"]],["🚪 しょくいんしつに はいる。","しつれいします。",["ただいま。","いってきます。"]],["🍽️ ごはんを たべる まえ。","いただきます。",["ごちそうさま。","おやすみ。"]]]
+.forEach(([s,a,w])=>addR("kokugo","初級","こんなとき なんて いう？",{q:"こんなとき、なんて いう？",passage:s,c:[a,...w],ex:`「${a}」と いいます。`}));
+
+/* ===================== 中級 ===================== */
+[["🎹","ピアノ",["ピヤノ","ピアソ"]],["🎻","バイオリン",["バイオリソ","パイオリン"]],["🏀","バスケットボール",["バスケトボール","パスケットボール"]],["🥝","キウイ",["キウィー","キュイ"]]]
+.forEach(([e,a,w])=>addR("kokugo","中級","カタカナと 音の ことば",{q:"えに あう ことばは どれ？",fig:EMO(e),c:[a,...w],ex:`「${a}」です。`}));
+[["ガラスが（　）と われた。","ガシャン",["ザーザー","ワンワン"]],["雨が（　）ふって いる。","ザーザー",["ガシャン","ピカピカ"]],["犬が（　）ほえた。","ワンワン",["ニャーニャー","コケコッコー"]],["ドアを（　）と たたく。","トントン",["ゴロゴロ","チュンチュン"]],["かみなりが（　）なる。","ゴロゴロ",["トントン","ワンワン"]]]
+.forEach(([s,a,w])=>addR("kokugo","中級","カタカナと 音の ことば",{q:`（　）に 合う 音の ことばは どれですか。\n${s}`,c:[a,...w],ex:`「${a}」が 合います。`}));
+[[["さんま","まぐろ","あじ"],"すずめ","魚"],[["すずめ","からす","はと"],"きんぎょ","鳥"],[["さくら","チューリップ","ひまわり"],"にんじん","花"],[["かぶとむし","ちょう","とんぼ"],"かえる","虫"],[["りんご","みかん","ぶどう"],"きゅうり","くだもの"],[["シャツ","ズボン","くつした"],"テレビ","着る もの"]]
+.forEach(([g,x,k])=>addR("kokugo","中級","なかま分け",{q:"なかまに 入らない ものは どれですか。",c:[x,...g],ex:`${g.join("・")}は ${k}の なかま。「${x}」は ちがいます。`}));
+[["🐺","おおかみ",["おうかみ"]],["👨","おとうさん",["おとおさん"]],["👃🩸","はなぢ",["はなじ"]],["🧊","こおり（氷）",["こうり（氷）"]],["🔢","とお（十）",["とう（十）"]],["🧵","ちぢむ",["ちじむ"]]]
+.forEach(([e,a,w])=>addR("kokugo","中級","かなづかい",{q:"正しい かなづかいは どれですか。",fig:EMO(e),c:[a,...w],ex:`「${a}」が 正しい 書き方です。`}));
+[["八日","ようか",["はちにち","やっか"]],["二十日","はつか",["にじゅうにち","ふつか"]],["一日（月の はじめ）","ついたち",["いちにち","ひとひ"]],["四日","よっか",["よんにち","しにち"]],["一人","ひとり",["いちにん","いちり"]],["二人","ふたり",["ににん","にり"]]]
+.forEach(([k,a,w])=>addR("kokugo","中級","数え方",{q:`「${k}」の 読み方は どれですか。`,c:[a,...w],ex:`「${k}」は「${a}」と 読みます。`}));
+[["🐟🐟🐟","3びき",["3まい","3本"]],["✏️✏️","2本",["2こ","2まい"]],["📄📄📄📄","4まい",["4本","4さつ"]],["🚗🚗","2台",["2ひき","2本"]],["📚📚📚","3さつ",["3まい","3台"]],["🐦🐦","2羽",["2ひき","2本"]]]
+.forEach(([e,a,w])=>addR("kokugo","中級","数え方",{q:"数え方が 正しいのは どれですか。",fig:EMO(e),c:[a,...w],ex:`「${a}」と 数えます。`}));
+[["😄（声を 出して 大わらい）","げらげら",["しくしく","めそめそ"]],["😢（しずかに なく）","しくしく",["げらげら","にこにこ"]],["✨（星が 光る）","きらきら",["ざあざあ","どんどん"]],["😊（うれしそう）","にこにこ",["いらいら","しくしく"]],["😠（おこって いる）","いらいら",["にこにこ","わくわく"]]]
+.forEach(([s,a,w])=>addR("kokugo","中級","様子と 気持ちの ことば",{q:`${s}　に 合う ことばは どれですか。`,c:[a,...w],ex:`「${a}」が 合います。`}));
+[["足が ぼうに なる","とても つかれる",["足が かたくなる","足が 長くなる"]],["かたを おとす","がっかりする",["かたが いたい","にもつを おろす"]],["むねが はずむ","わくわくする",["むねが いたい","息が くるしい"]],["顔から 火が 出る","とても はずかしい",["顔が あつい","かぜを ひく"]]]
+.forEach(([w,a,x])=>addR("kokugo","中級","様子と 気持ちの ことば",{q:`「${w}」は どんな 気持ちですか。`,c:[a,...x],ex:`「${w}」は「${a}」という 意味です。`}));
+[["白い ねこが ねて いる。","ねこが","ねて いる"],["弟が 公園で 走る。","弟が","走る"],["この 花は とても きれいだ。","花は","きれいだ"],["わたしの 父は 先生です。","父は","先生です"],["大きな 船が 港に つく。","船が","つく"]]
+.forEach(([s,sub,pre])=>{const words=s.replace("。","").split(" ");const others=words.filter(w=>w!==sub&&!pre.includes(w)).slice(0,2);
+  addR("kokugo","中級","主語と 述語",{passage:s,q:"主語（何が・だれが）は どれですか。",c:[sub,...others,pre].slice(0,4),ex:`「${sub}」が 主語です。`});
+  addR("kokugo","中級","主語と 述語",{passage:s,q:"述語（どうする・どんなだ・なんだ）は どれですか。",c:[pre,sub,...others].slice(0,4),ex:`「${pre}」が 述語です。`})});
+[["自分の 手に 持って いる 本","この 本",["その 本","あの 本"]],["話して いる 相手の そばに ある 本","その 本",["この 本","あの 本"]],["二人から はなれた 遠くに ある 山","あの 山",["この 山","その 山"]],["どれか わからない ものを たずねる","どの 本",["この 本","あの 本"]]]
+.forEach(([s,a,w])=>addR("kokugo","中級","こそあど",{q:`${s}を さす ことばは どれですか。`,c:[a,...w],ex:`「${a}」を 使います。`}));
+[["ねこが かびんを たおした。→ かびんが ねこに（　）。","たおされた",["たおした","たおれた"]],["先生が 弟に 教えた。→ 弟が 先生に（　）。","教わった",["教えた","教えられた"]],["ぼくが 妹に あめを あげた。→ 妹が ぼくに あめを（　）。","もらった",["あげた","くれた"]],["母が わたしを よんだ。→ わたしが 母に（　）。","よばれた",["よんだ","よびました"]]]
+.forEach(([s,a,w])=>addR("kokugo","中級","言い方が 変わる",{q:`（　）に 入る ことばは どれですか。\n${s}`,c:[a,...w],ex:`立場が 変わると「${a}」に なります。`}));
+[["雨が ふった。（　）、運動会は 中止に なった。","だから",["しかし","それとも"]],["練習を がんばった。（　）、試合に 負けた。","でも",["だから","すると"]],["ドアを 開けた。（　）、ねこが とびこんで きた。","すると",["しかし","それとも"]],["この ケーキは おいしい。（　）、ねだんも 安い。","そのうえ",["しかし","だから"]],["パンに しますか。（　）、ごはんに しますか。","それとも",["だから","すると"]]]
+.forEach(([s,a,w])=>addR("kokugo","中級","つなぎことば",{q:`（　）に 入る ことばは どれですか。\n${s}`,c:[a,...w],ex:`前と 後ろの つながりから「${a}」が 合います。`}));
+[{t:"けんたさんは 毎朝 6時に おきます。犬の 散歩を してから、朝ごはんを 食べます。学校には 8時に 着きます。",qs:[["けんたさんは 毎朝 6時に おきる。","○"],["朝ごはんを 食べてから 散歩を する。","×"],["学校には 8時に 着く。","○"]]},
+ {t:"わたしの 町の 図書館は 月曜日が 休みです。本は 一人 5さつまで、2週間 かりられます。",qs:[["図書館は 月曜日が 休みだ。","○"],["本は 10さつまで かりられる。","×"],["本を かりられるのは 2週間だ。","○"]]}]
+.forEach(({t,qs})=>qs.forEach(([q,a])=>addR("kokugo","中級","正しく 読もう（○×）",{passage:t,q:`文章に 合って いれば ○、合わなければ ×。\n${q}`,c:[a,a==="○"?"×":"○"],fixed:["○","×"],ex:`文章と くらべると「${a}」です。`})));
+[["shika","しか",["すか","しく"]],["kitte","きって",["きて","きいて"]],["shashin","しゃしん",["しやしん","さしん"]],["gakkō","がっこう",["がこう","かっこう"]],["tokei","とけい",["とけ","ときい"]],["densha","でんしゃ",["でんしや","てんしゃ"]],["chikyū","ちきゅう",["ちきゅ","しきゅう"]],["Ohayō.","おはよう。",["おはよ。","おやすみ。"]],["Arigatō.","ありがとう。",["ありがと。","あいがとう。"]]]
+.forEach(([r,a,w])=>addR("kokugo","中級","ローマ字",{q:`ローマ字を 読みましょう。\n<span class="roma">${r}</span>`,c:[a,...w],ex:`「${r}」は「${a}」です。${/[āīūēō]/.test(r)?"ō や ū の 上の 記号は のばす 音の しるしです。":""}`}));
+[["いぬ","inu",["inn","imu"]],["ねこ","neko",["neco","nako"]],["すし","sushi",["susi","sasi"]],["つくえ","tsukue",["tukue","sukue"]],["ふね","fune",["hune","fume"]],["きょうと","Kyoto",["Kiyoto","kyoto"]],["こうべ","Kobe",["kobe","Kove"]],["さいたま","Saitama",["saitama","Saitamma"]]]
+.forEach(([h,a,w])=>addR("kokugo","中級","ローマ字",{q:`「${h}」を ローマ字で 書くと どれですか。`,c:[a,...w],ex:`「${a}」です。${/^[A-Z]/.test(a)?"地名は はじめを 大文字で 書きます。":"「し」は shi、「つ」は tsu、「ふ」は fu と 書きます。"}`}));
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach((L,i,arr)=>{if(i%3===0)addR("kokugo","中級","アルファベット",{q:`「${L.toLowerCase()}」の 大文字は どれですか。`,c:[L,...sample(arr.filter(x=>x!==L),3)],ex:`「${L.toLowerCase()}」の 大文字は「${L}」。`});
+  if(i%4===1&&i<25)addR("kokugo","中級","アルファベット",{q:`「${L}」の 次の 文字は どれですか。`,c:[arr[i+1],...sample(arr.filter(x=>x!==arr[i+1]&&x!==L),2)],ex:`${L} の 次は ${arr[i+1]}。`})});
+[["強い","つよい",["きょうい","よわい"]],["強弱","きょうじゃく",["つよよわ","ごうじゃく"]],["前後","ぜんご",["まえあと","ぜんこう"]],["売買","ばいばい",["うりかい","ばいかい"]],["遠近","えんきん",["とおちか","おんきん"]],["上下","じょうげ",["うえした","じょうか"]],["左右","さゆう",["ひだりみぎ","さう"]],["親友","しんゆう",["おやとも","しんとも"]]]
+.forEach(([k,a,w])=>addR("kokugo","中級","漢字の 読み",{q:`「${k}」の 読み方は どれですか。`,c:[a,...w],ex:`「${k}」は「${a}」と 読みます。`}));
+[["木へん（き）の 漢字は どれですか。","林",["作","語","海"]],["さんずいの 漢字は どれですか。","池",["休","花","話"]],["にんべんの 漢字は どれですか。","休",["林","池","草"]],["ごんべんの 漢字は どれですか。","読",["校","泳","体"]],["「明るい」の 反対は どれですか。","暗い",["黒い","重い"]],["「まける」を 正しく 書いて いるのは どれですか。","負ける",["負る","負かる"]],["「きめる」を 正しく 書いて いるのは どれですか。","決める",["決る","決ある"]]]
+.forEach(([q,a,w])=>addR("kokugo","中級","部首・送りがな・反対語",{q,c:[a,...w],ex:`答えは「${a}」です。`}));
+[["いちばん 前に 🐰、その すぐ 後ろに 🐶、いちばん 後ろに 🐱。","🐰🐶🐱".match(/\p{Extended_Pictographic}/gu)],["🐼は まん中。🐸は 🐼の 前。🐻は いちばん 後ろ。","🐸🐼🐻".match(/\p{Extended_Pictographic}/gu)],["🍎の 右に 🍌、🍌の 右に 🍇。","🍎🍌🍇".match(/\p{Extended_Pictographic}/gu)]]
+.forEach(([t,s])=>addR("kokugo","中級","指示どおりに ならべる",{passage:t,q:"言われた とおりに 前（左）から ならべましょう。",seq:s,sep:"",ex:`${s.join(" ")} の じゅんです。`}));
+[["カレーライスの 作り方",["材料を 切る","肉と 野菜を いためる","水を 入れて にる","ルーを 入れる"]],["学校までの 道",["家を 出る","信号を わたる","公園の 前を 通る","学校に 着く"]],["お面の 作り方",["紙に 顔を かく","はさみで 切る","目の あなを あける","ゴムを つける"]]]
+.forEach(([t,s])=>addR("kokugo","中級","じゅんじょよく",{q:`「${t}」を、「はじめに → 次に → それから → 最後に」の じゅんに ならべましょう。`,seq:s,ex:s.join(" → ")}));
+
+/* ===================== 上級 ===================== */
+[["先生が 来る。（尊敬）","いらっしゃる",["まいる","来るよ"]],["先生が 食べる。（尊敬）","めし上がる",["いただく","食う"]],["先生が 見る。（尊敬）","ごらんになる",["拝見する","見るよ"]],["（わたしが）先生の 家に 行く。（けんじょう）","うかがう",["いらっしゃる","行くよ"]],["（わたしが）ごちそうを 食べる。（けんじょう）","いただく",["めし上がる","食う"]],["（わたしが）作品を 見る。（けんじょう）","拝見する",["ごらんになる","見るさ"]],["（わたしが）先生に 言う。（けんじょう）","申し上げる",["おっしゃる","言うよ"]],["「行くよ。」を ていねい語に","行きます。",["行け。","行くさ。"]]]
+.forEach(([s,a,w])=>addR("kokugo","上級","敬語",{q:`次の 文に 合う 敬語は どれですか。\n${s}`,c:[a,...w],ex:`「${a}」を 使います。`}));
+[["口が かたい","ひみつを 守る",["口が 開かない","よく しゃべる"]],["口を すべらす","うっかり 言っては いけない ことを 言う",["転ぶ","早口で 話す"]],["目が 高い","よい ものを 見分ける 力が ある",["背が 高い","目が いたい"]],["耳を うたがう","聞いた ことが 信じられない",["耳が 聞こえない","耳を そうじする"]],["耳が いたい","自分の 欠点を 言われて つらい",["耳の 病気","大きな 音"]],["手を 焼く","あつかいに こまる",["料理を する","手を やけどする"]],["鼻が 高い","ほこらしい",["鼻が 大きい","においが わかる"]]]
+.forEach(([w,a,x])=>addR("kokugo","上級","慣用句",{q:`「${w}」の 意味は どれですか。`,c:[a,...x],ex:`「${w}」は「${a}」という 意味です。`}));
+[["さるも 木から 落ちる","名人でも 失敗する ことが ある",["さるは 木のぼりが へた","高い 所は あぶない"]],["ねこに 小判","ねうちの わからない 人には 役に 立たない",["ねこは お金が すき","ねこを 大切に"]],["ぶたに 真珠","ねうちの わからない 人には 役に 立たない",["ぶたは 宝物が すき","真珠は 安い"]],["ちりも つもれば 山と なる","小さな ことも つみ重なると 大きく なる",["そうじを しよう","山は ちりで できる"]],["石の 上にも 三年","がまんして 続ければ、いつか 実を 結ぶ",["石は 三年で われる","三年 すわる"]],["急がば 回れ","急ぐ ときこそ 安全な 方法を とる",["走って 回る","遠回りは だめ"]]]
+.forEach(([w,a,x])=>addR("kokugo","上級","ことわざ",{q:`「${w}」の 意味は どれですか。`,c:[a,...x],ex:`「${w}」は「${a}」という 意味です。`}));
+[["眼鏡","めがね",["がんきょう","めかがみ"]],["果物","くだもの",["かもの","はてもの"]],["今日","きょう",["いまび","こんび"]],["明日","あした（あす）",["めいにち","あかび"]],["上手","じょうず",["うえて","じょうしゅ"]],["大人","おとな",["だいじん","おおひと"]]]
+.forEach(([k,a,w])=>addR("kokugo","上級","特別な 読み方・熟語",{q:`「${k}」の 読み方は どれですか。`,c:[a,...w],ex:`「${k}」は 特別な 読み方で「${a}」。`}));
+[["「人＋人」を 一つの ことばに すると？","人々",["人人々","々人"]],["反対の 意味の 漢字を 組み合わせた 熟語は どれですか。","高低",["道路","読書"]],["にた 意味の 漢字を 組み合わせた 熟語は どれですか。","道路",["高低","登山"]],["四字熟語として 正しい ならびは どれですか。","東西南北",["南北東西","西東北南"]],["「〜を」に あたる 字が 下に くる 熟語は どれですか。","読書",["高低","道路"]]]
+.forEach(([q,a,w])=>addR("kokugo","上級","特別な 読み方・熟語",{q,c:[a,...w],ex:`答えは「${a}」です。`}));
+[["お湯が（あつい）。","熱い",["暑い","厚い"]],["夏は（あつい）。","暑い",["熱い","厚い"]],["（あつい）本を 読む。","厚い",["暑い","熱い"]],["まどを（あける）。","開ける",["明ける","空ける"]],["夜が（あける）。","明ける",["開ける","空ける"]],["写真を（うつす）。","写す",["移す","映す"]],["つくえを となりの 部屋に（うつす）。","移す",["写す","映す"]],["（いがい）な 結果に なった。","意外",["以外","意害"]]]
+.forEach(([s,a,w])=>addR("kokugo","上級","まちがえやすい 漢字",{q:`（　）の ことばに 合う 漢字は どれですか。\n${s}`,c:[a,...w],ex:`この 文では「${a}」です。`}));
+[["⛰️","山",["川","出"]],["🌧️","雨",["両","雪"]],["🌲","木",["本","休"]],["🐟","魚",["鳥","馬"]],["🐎","馬",["鳥","魚"]],["🎋","竹",["林","草"]],["🚪","門",["間","問"]],["☀️","日",["目","白"]]]
+.forEach(([e,a,w])=>addR("kokugo","上級","漢字の 成り立ち",{q:"絵から できた 漢字は どれですか。",fig:EMO(e),c:[a,...w],ex:`${e} の 形から できた 漢字は「${a}」です。`}));
+[["たしかめる","確かめる",["確める","確しかめる"]],["こころよい","快い",["快よい","快ろよい"]],["あらためる","改める",["改る","改ためる"]],["みちびく","導く",["導びく","導ちびく"]],["おさめる（税金を）","納める",["納る","納さめる"]]]
+.forEach(([r,a,w])=>addR("kokugo","上級","送りがな（5・6年）",{q:`「${r}」を 正しく 書いて いるのは どれですか。`,c:[a,...w],ex:`「${a}」と 書きます。`}));
+[["ろうかを 走るな。","命令や 禁止の 文",["質問の 文","感動の 文"]],["あなたは 何年生ですか。","質問の 文",["命令や 禁止の 文","言い切りの 文"]],["なんて きれいな 夕日だろう。","感動の 文",["質問の 文","命令や 禁止の 文"]],["きょうは 晴れです。","言い切りの 文",["感動の 文","質問の 文"]]]
+.forEach(([s,a,w])=>addR("kokugo","上級","文法",{q:`「${s}」は どんな 文ですか。`,c:[a,...w],ex:`「${a}」です。`}));
+[["「富士山」は どの なかまの ことばですか。","固有名詞（名前）",["動詞","形容詞"]],["「走る」は どの なかまの ことばですか。","動詞（動きを 表す）",["名詞","形容詞"]],["「寒い」は どの なかまの ことばですか。","形容詞（様子を 表す）",["動詞","名詞"]]]
+.forEach(([q,a,w])=>addR("kokugo","上級","文法",{q,c:[a,...w],ex:`答えは「${a}」。`}));
+[["古池や 蛙飛びこむ 水の音","蛙",["古池","水"],"春"],["菜の花や 月は東に 日は西に","菜の花",["月","日"],"春"],["柿くへば 鐘が鳴るなり 法隆寺","柿",["鐘","法隆寺"],"秋"],["雪とけて 村いっぱいの 子どもかな","雪とけて",["村","子ども"],"春"],["名月を 取ってくれろと 泣く子かな","名月",["子","泣く"],"秋"]]
+.forEach(([h,k,w,se])=>{addR("kokugo","上級","俳句",{passage:h,q:"この 俳句の 季語は どれですか。",c:[k,...w],ex:`季語は「${k}」で、季節は ${se}です。`});
+  addR("kokugo","上級","俳句",{passage:h,q:"この 俳句の 季節は いつですか。",c:[se,...["春","夏","秋","冬"].filter(x=>x!==se)],fixed:["春","夏","秋","冬"],ex:`季語「${k}」から ${se}と わかります。`})});
+[["古池や","蛙飛びこむ","水の音"],["菜の花や","月は東に","日は西に"],["柿くへば","鐘が鳴るなり","法隆寺"]].forEach(h=>addR("kokugo","上級","俳句",{q:"5・7・5の 正しい じゅんに ならべましょう。",seq:h,sep:" ",ex:`「${h.join(" ")}」。5・7・5の リズムで 読みます。`}));
+[{t:"【マラソン大会の お知らせ】\n日時：11月15日（土）午前9時 スタート\n場所：市民運動公園\n参加できる 人：小学5年生〜中学3年生\n参加費：500円（当日 受付で はらう）\n※ 雨の 場合は 11月16日に 行います。",qs:[["スタートの 時こくは いつですか。","午前9時",["午前10時","午後9時"]],["参加費は いくらですか。","500円",["50円","5000円"]],["雨の 場合は どう なりますか。","11月16日に 行う",["中止に なる","時間が おそくなる"]]]},
+ {t:"【ごみの 出し方】\nもえる ごみ：月曜日・木曜日\nプラスチック：水曜日\nびん・かん：第2・第4 金曜日\n朝 8時までに 出して ください。",qs:[["もえる ごみを 水曜日に 出しても よいですか。","いいえ",["はい","わからない"]],["プラスチックを 出す 日は いつですか。","水曜日",["月曜日","金曜日"]],["ごみは 何時までに 出しますか。","朝 8時",["朝 9時","夜 8時"]]]}]
+.forEach(({t,qs})=>qs.forEach(([q,a,w])=>addR("kokugo","上級","お知らせを 読む",{passage:t,q,c:[a,...w],ex:`お知らせの 中に 書いて あります。答えは「${a}」。`})));
+[["（電話）「お母さんは いらっしゃいますか。」","今 出かけて います。ご用件を うかがいましょうか。",["いないよ。","知りません。"]],["（お店）「店内で お召し上がりですか。」","持ち帰りで おねがいします。",["うん。","なんで？"]],["（駅）きっぷの 買い方が わからない。","すみません、きっぷの 買い方を 教えて ください。",["だまって 待つ。","大声で さけぶ。"]],["（先生に）しゅくだいを わすれた。","しゅくだいを わすれました。あした 出します。",["知らない。","友だちの せいです。"]]]
+.forEach(([s,a,w])=>addR("kokugo","上級","電話・お店の やりとり",{passage:s,q:"どう こたえると よいですか。",c:[a,...w],ex:`「${a}」が ていねいで よい 答え方です。`}));
+[["😞 試合に 負けて がっかりしている 友だち","次は きっと 勝てるよ。いっしょに 練習しよう。",["負けたね。","弱いね。"]],["😟 なやんで いる 友だち","どうしたの？ 話を 聞くよ。",["ほうっておく。","早く して。"]],["😢 おもちゃが こわれて ないて いる 弟","いっしょに なおして みよう。",["泣かないで、うるさい。","しらない。"]]]
+.forEach(([s,a,w])=>addR("kokugo","上級","気持ちを 考えて 話す",{passage:s,q:"どんな 声を かけると よいですか。",c:[a,...w],ex:`相手の 気持ちを 考えた ことばは「${a}」です。`}));
+[["どうして 歯を みがくの？","むし歯に ならないように するため",["歯ブラシが あるから","夜だから"]],["どうして 手を あらうの？","ばいきんを おとして、病気を ふせぐため",["手が かわくから","せっけんが すきだから"]],["どうして 信号を 守るの？","事故に あわないように するため",["信号が 光るから","おこられるから"]]]
+.forEach(([q,a,w])=>addR("kokugo","上級","理由を 考える",{q,c:[a,...w],ex:`理由は「${a}」です。`}));
+[["さいふ","さかな","さくら"],["かさ","かぎ","かに"],["とけい","とまと","とり"],["はさみ","はし","はな"]].forEach(ws=>{const s=[...ws].sort((a,b)=>a<b?-1:1);
+  addR("kokugo","上級","国語辞典の じゅん",{q:"国語辞典に 出て くる じゅんに ならべましょう。",seq:s,ex:`2字目の 五十音で くらべます。${s.join(" → ")}。`})});
+[["🐱","cat",["dog","cap"]],["🐶","dog",["cat","doll"]],["🍎","apple",["orange","pen"]],["👁️","eye",["ear","egg"]],["📖","book",["box","bag"]],["🧢🧢🧢 How many?","three",["two","five"]],["🌙 夜に 会った ときの あいさつ","Good evening.",["Good morning.","Thank you."]],["☀️ 朝の あいさつ","Good morning.",["Good night.","See you."]],["🕒 What time is it?","It's three o'clock.",["I'm three.","It's Monday."]]]
+.forEach(([e,a,w])=>addR("kokugo","上級","はじめての 英語",{q:e.length<=3?"絵に 合う 英語は どれですか。":"合う 英語は どれですか。",fig:e.length<=3?EMO(e):"",passage:e.length>3?e:undefined,c:[a,...w],ex:`「${a}」です。`}));
+
+/* ---------- review_sansu.js ---------- */
+/* ============================================================
+   小学校のふくしゅう：算数（初級・中級・上級）
+   特別支援の算数教材の章立てに合わせた オリジナル問題（数字は毎回かわる）
+   ============================================================ */
+const RG=(lv,u,f)=>GENS.push({s:"sugaku",lv,u,p:["review"],f});
+const YOMI=n=>{const d=["","いち","に","さん","よん","ご","ろく","なな","はち","きゅう"];if(n<10)return d[n]||"ぜろ";if(n<20)return "じゅう"+d[n-10];return d[Math.floor(n/10)]+"じゅう"+d[n%10]};
+const EM=["🍎","🍊","🍓","🐟","🚗","⭐","🎈","🐤","🍙","🌷"];
+const emo=(e,n)=>`<div class="emorow" aria-label="${n}こ">${Array(n).fill(e).join(" ")}</div>`;
+const COIN={1:"1円",5:"5円",10:"10円",50:"50円",100:"100円",500:"500円"};
+const gcd=(a,b)=>b?gcd(b,a%b):a, lcm=(a,b)=>a/gcd(a,b)*b;
+
+/* ===================== 初級（小1〜2） ===================== */
+RG("初級","かずを よもう",()=>{const n=R(1,20),a=YOMI(n),w=[YOMI(n+1),YOMI(Math.max(1,n-1)),YOMI(n<10?n+10:n-10)];return{q:`「${n}」の よみかたは どれ？`,c:opts(a,w),ex:`${n}は「${a}」と よみます。`}});
+RG("初級","いくつ あるかな",()=>{const e=pick(EM),n=R(3,15);return{q:"いくつ ありますか。",fig:emo(e,n),a:n,u:"こ",ex:`1つずつ かぞえると ${n}こです。`}});
+RG("初級","いくつ あるかな",()=>{const [e1,e2]=sample(EM,2),a=R(2,6),b=R(2,6),list=shuffle([...Array(a).fill(e1),...Array(b).fill(e2)]);return{q:`${e2} は いくつ ありますか。`,fig:`<div class="emorow">${list.join(" ")}</div>`,a:b,u:"こ",ex:`${e2}だけ かぞえると ${b}こです。`}});
+RG("初級","どっちが おおきい",()=>{const a=R(1,20);let b=R(1,20);if(a===b)b=a+1;const big=Math.random()<.6;const ans=big?Math.max(a,b):Math.min(a,b);return{q:`${big?"おおきい":"ちいさい"} ほうは どっち？`,c:[String(ans),String(ans===a?b:a)],fixed:[String(a),String(b)],ex:`${Math.min(a,b)}より ${Math.max(a,b)}の ほうが おおきいです。`}});
+RG("初級","いくつと いくつ",()=>{const n=R(3,10),a=R(1,n-1);return Math.random()<.5?{q:`${n}は ${a}と □`,a:n-a,ex:`${a}と ${n-a}で ${n}。`}:{q:`${n}は □と ${n-a}`,a:a,ex:`${a}と ${n-a}で ${n}。`}});
+RG("初級","かずの じゅんばん",()=>{const s=R(1,90),seq=[s,s+1,s+2,s+3];const h=R(1,2);return{q:`□に はいる かずは？\n${seq.map((v,i)=>i===h?"□":v).join("、")}`,a:seq[h],ex:`1ずつ ふえるので ${seq[h]}。`}});
+RG("初級","かずの じゅんばん",()=>{const v=sample([...Array(20)].map((_,i)=>i+1),4).sort((a,b)=>a-b);return{q:"ちいさい じゅんに ならべよう。",seq:v.map(String),ex:v.join(" → ")}});
+RG("初級","100までの かず",()=>{const n=R(21,99);return Math.random()<.5?{q:`${n}の 十のくらいの 数字は？`,a:Math.floor(n/10),ex:`${n}は 10が ${Math.floor(n/10)}こと 1が ${n%10}こ。`}:{q:`10を ${Math.floor(n/10)}こと 1を ${n%10}こ あわせた かずは？`,a:n,ex:`${n}です。`}});
+RG("初級","なんばんめ",()=>{const row=sample(["🐶","🐱","🐰","🐻","🐼","🐸","🐵"],R(5,6)),k=R(1,3),from=pick(["ひだり","みぎ"]);const ans=from==="ひだり"?row[k-1]:row[row.length-k];return{q:`${from}から ${k}ばんめは どれ？`,fig:`<div class="emorow">${row.join(" ")}</div>`,c:[ans,...row.filter(x=>x!==ans).slice(0,3)],ex:`${from}から かぞえて ${k}ばんめは ${ans}です。`}});
+RG("初級","カレンダー",()=>{const D=new Date(2026,R(0,11),R(3,25)),w=pick([["あした",1],["あさって",2],["きのう",-1],["おととい",-2],["1しゅうかんご",7]]),E=new Date(D);E.setDate(D.getDate()+w[1]);const s=x=>`${x.getMonth()+1}がつ${x.getDate()}にち（${WD[x.getDay()]}）`;const F=k=>{const z=new Date(D);z.setDate(D.getDate()+k);return s(z)};return{q:`きょうは ${s(D)}。${w[0]}は？`,c:opts(s(E),[F(-w[1]),F(w[1]+1),F(w[1]-1)]),ex:`${w[0]}は ${s(E)}です。`}});
+RG("初級","おかね",()=>{const set=[[100,R(0,3)],[50,R(0,1)],[10,R(1,5)],[5,R(0,1)],[1,R(0,4)]].filter(x=>x[1]);const t=set.reduce((s,[v,n])=>s+v*n,0);return{q:"ぜんぶで なんえん？",table:tbl(["おかね","まいすう"],set.map(([v,n])=>[COIN[v]+"だま",n+"まい"])),a:t,u:"円",ex:set.map(([v,n])=>`${v}×${n}`).join("＋")+`＝${t}円`}});
+RG("初級","とけい",()=>{const h=R(1,12),m=pick([0,0,30,30,15,45,5,10,20,25,35,40,50,55]),f=(H,Mn)=>`${H}じ${Mn?Mn+"ふん":""}`;const ans=f(h,m);return{q:"なんじ なんぷん？",fig:clockSVG(h,m),c:opts(ans,[f(h%12+1,m),f(m/5||12,h*5%60),f(h,(m+30)%60),f((h+10)%12+1,m)]),ex:`みじかい はりが「じ」、ながい はりが「ふん」。${ans}です。`}});
+RG("初級","じかんの けいさん",()=>{const k=R(0,2);if(k===0){const h=R(7,11),m=R(0,5)*5,d=pick([10,15,20,30]);const t=h*60+m+d;return{q:`${h}じ${m?m+"ふん":""}の ${d}ぷんごは？`,parts:[Math.floor(t/60),t%60],us:["じ","ふん"],ex:`${d}ぷん すすめて ${Math.floor(t/60)}じ${t%60}ふん。`}}
+  if(k===1){const v=pick([65,70,75,80,90,100]);return{q:`${v}ぷんは なんじかん なんぷん？`,parts:[Math.floor(v/60),v%60],us:["じかん","ぷん"],ex:`60ぷん＝1じかん。${v}ぷん＝1じかん${v-60}ぷん。`}}
+  const s=R(8*6,15*6)*10,d=R(1,5)*10;return{q:`${tj(s,false)}に でて、${tj(s+d,false)}に つきました。なんぷん かかった？`,a:d,u:"ふん",ex:`${d}ぷん です。`}});
+RG("初級","たしざん",()=>{const lim=pick([10,20]),a=R(1,lim-2),b=R(1,lim-a);return{q:`${a} ＋ ${b} ＝`,a:a+b,ex:`${a}と ${b}で ${a+b}。`}});
+RG("初級","たしざん",()=>{const [e1,e2]=sample(EM,2),a=R(2,6),b=R(1,5);return{q:`${e1}が ${a}こ、${e2}が ${b}こ。あわせて いくつ？`,fig:emo(e1,a)+emo(e2,b),a:a+b,u:"こ",ex:`${a}＋${b}＝${a+b}。`}});
+RG("初級","10を つくる たしざん",()=>{const a=R(6,9),b=R(10-a+1,9),x=10-a;return Math.random()<.5?{q:`${a} ＋ ${b} を けいさん しよう。\n${a}は あと □で 10に なる。`,a:x,ex:`${a}＋${x}＝10。だから ${b}を ${x}と ${b-x}に わけます。`}:{q:`${a} ＋ ${b} ＝`,a:a+b,ex:`${b}を ${x}と ${b-x}に わける。${a}＋${x}＝10、10＋${b-x}＝${a+b}。`}});
+RG("初級","ひきざん",()=>{const lim=pick([10,20]),a=R(3,lim),b=R(1,a-1);return{q:`${a} − ${b} ＝`,a:a-b,ex:`${a}から ${b}を とると ${a-b}。`}});
+RG("初級","ひきざん",()=>{const e=pick(EM),a=R(5,12),b=R(1,a-2);return{q:`${e}が ${a}こ あります。${b}こ たべました。のこりは いくつ？`,fig:emo(e,a),a:a-b,u:"こ",ex:`${a}−${b}＝${a-b}。`}});
+RG("初級","10から ひく ひきざん",()=>{const a=R(11,18),b=R(a-9,9);if(a%10>=b)return null;return{q:`${a} − ${b} ＝`,a:a-b,ex:`10から ${b}を ひいて ${10-b}。のこりの ${a-10}と あわせて ${a-b}。`}});
+RG("初級","3つの かずの けいさん",()=>{const a=R(1,9),b=R(1,9),c=R(1,9),k=R(0,2);if(k===0)return{q:`${a} ＋ ${b} ＋ ${c} ＝`,a:a+b+c,ex:`まえから じゅんに。${a}＋${b}＝${a+b}、${a+b}＋${c}＝${a+b+c}。`};
+  const s=a+b+c;if(k===1)return{q:`${s} − ${a} − ${b} ＝`,a:c,ex:`${s}−${a}＝${s-a}、${s-a}−${b}＝${c}。`};return{q:`${a+b} − ${b} ＋ ${c} ＝`,a:a+c,ex:`まえから じゅんに。${a+b}−${b}＝${a}、${a}＋${c}＝${a+c}。`}});
+RG("初級","ひっさん（たし・ひき）",()=>{if(Math.random()<.5){const a=R(12,78),b=R(11,99-a);return{q:`${a} ＋ ${b} ＝`,a:a+b,ex:`くらいを そろえて、一のくらいから けいさん。${a+b}。`}}const a=R(30,98),b=R(11,a-5);return{q:`${a} − ${b} ＝`,a:a-b,ex:`くらいを そろえて、一のくらいから けいさん。${a-b}。`}});
+RG("初級","ぶんしょうもんだい",()=>{const k=R(0,4),n=pick(["あめ","シール","えんぴつ","カード"]);
+  if(k===0){const a=R(3,9),b=R(3,9);return{q:`${n}が ${a}こ と ${b}こ あります。ぜんぶで なんこ？`,a:a+b,u:"こ",ex:`あわせるので たしざん。${a}＋${b}＝${a+b}。`}}
+  if(k===1){const a=R(8,15),b=R(2,a-2);return{q:`${n}が ${a}こ ありました。${b}こ つかいました。のこりは なんこ？`,a:a-b,u:"こ",ex:`へるので ひきざん。${a}−${b}＝${a-b}。`}}
+  if(k===2){const a=R(8,15),b=R(2,a-3);return{q:`あかい ${n}は ${a}こ、あおい ${n}は ${b}こ。ちがいは なんこ？`,a:a-b,u:"こ",ex:`ちがいは ひきざん。${a}−${b}＝${a-b}。`}}
+  if(k===3){const a=R(3,8),b=R(2,8);return{q:`${n}を ${a}こ あげたら、のこりが ${b}こに なりました。はじめに なんこ ありましたか。`,a:a+b,u:"こ",ex:`のこりと あげた ぶんを たします。${b}＋${a}＝${a+b}。`}}
+  const a=R(5,12),b=R(2,5),c=R(2,6);return{q:`バスに ${a}にん のって います。${b}にん おりて、${c}にん のりました。いま なんにん？`,a:a-b+c,u:"にん",ex:`${a}−${b}＋${c}＝${a-b+c}。`}});
+RG("初級","おかいもの",()=>{const its=sample([["パン",R(8,15)*10],["ぎゅうにゅう",R(8,12)*10],["おにぎり",R(10,15)*10],["ジュース",R(10,14)*10],["ガム",R(4,8)*10]],2),t=its[0][1]+its[1][1],pay=t<=200?200:t<=300?300:500;
+  return Math.random()<.5?{q:`${its[0][0]}（${its[0][1]}えん）と ${its[1][0]}（${its[1][1]}えん）を かいます。ぜんぶで なんえん？`,a:t,u:"円",ex:`${its[0][1]}＋${its[1][1]}＝${t}えん。`}:{q:`${its[0][0]}（${its[0][1]}えん）と ${its[1][0]}（${its[1][1]}えん）を かって、${pay}えん だしました。おつりは？`,a:pay-t,u:"円",ex:`ぜんぶで ${t}えん。${pay}−${t}＝${pay-t}えん。`}});
+RG("初級","かたち",()=>{const sh=pick([["まる","⚪"],["さんかく","🔺"],["しかく","🟥"]]);return{q:`「${sh[0]}」は どれ？`,c:[sh[1],...["⚪","🔺","🟥"].filter(x=>x!==sh[1])],ex:`${sh[0]}は ${sh[1]}。`}});
+
+/* ===================== 中級（小3〜4） ===================== */
+RG("中級","3けた・4けたの 数",()=>{const n=Math.random()<.5?R(101,999):R(1001,9999);const d=String(n).split("");const z=R(1,d.length-1);d[z]="0";const m=+d.join("");return{q:`「${kanjiNum(m)}」を 数字で 書きましょう。`,a:m,ex:`${kanjiNum(m)}＝${m}。`}});
+RG("中級","3けた・4けたの 数",()=>{const s=pick([10,100,500,1000]),b=R(1,8)*s,seq=[b,b+s,b+2*s,b+3*s];return{q:`□に 入る 数は？\n${seq.map((v,i)=>i===2?"□":v).join("、")}`,a:seq[2],ex:`${s}ずつ ふえて います。`}});
+RG("中級","大きな数",()=>{const man=R(11,999),rest=R(0,9)*1000;const n=man*10000+rest;return{q:`「${kanjiNum(n)}」を 数字で 書きましょう。`,a:n,ex:`${kanjiNum(n)}＝${n.toLocaleString("ja-JP")}。`}});
+RG("中級","3けたの たし算・ひき算",()=>Math.random()<.5?(()=>{const a=R(158,689),b=R(145,999-a);return{q:`${a} ＋ ${b} ＝`,a:a+b,ex:`筆算で くり上がりに 気を つけます。${a+b}。`}})():(()=>{const a=R(402,953),b=R(128,a-100);return{q:`${a} − ${b} ＝`,a:a-b,ex:`筆算で くり下がりに 気を つけます。${a-b}。`}})());
+RG("中級","計算の じゅんばん",()=>{const k=R(0,2);if(k===0){const a=R(30,60),b=R(10,a-5),c=R(2,b-1);return{q:`${a} − ( ${b} − ${c} ) ＝`,a:a-(b-c),ex:`( )の 中を 先に。${b}−${c}＝${b-c}、${a}−${b-c}＝${a-b+c}。`}}
+  if(k===1){const a=R(2,9),b=R(2,9),c=R(2,9);return{q:`${a} ＋ ${b} × ${c} ＝`,a:a+b*c,ex:`かけ算を 先に。${b}×${c}＝${b*c}、${a}＋${b*c}＝${a+b*c}。`}}
+  const d=R(2,6),q=R(2,9),a=R(2,20);return{q:`${a} ＋ ${d*q} ÷ ${d} ＝`,a:a+q,ex:`わり算を 先に。${d*q}÷${d}＝${q}、${a}＋${q}＝${a+q}。`}});
+RG("中級","九九",()=>{const a=R(1,9),b=R(1,9);return{q:`${a} × ${b} ＝`,a:a*b,ex:`${a}の だんで ${a*b}。`}});
+RG("中級","九九",()=>{const e=pick(["🍊","🍪","🍬"]),a=R(2,5),b=R(2,5);return{q:`1さらに ${a}こずつ、${b}さら あります。ぜんぶで いくつ？`,fig:Array(b).fill(emo(e,a)).join(""),a:a*b,u:"こ",ex:`${a}×${b}＝${a*b}。`}});
+RG("中級","かけ算の 筆算",()=>{const k=R(0,2);let a,b;if(k===0){a=R(12,98);b=R(2,9)}else if(k===1){a=R(102,489);b=R(2,9)}else{a=R(12,59);b=R(12,39)}return{q:`${a} × ${b} ＝`,a:a*b,ex:`筆算で 計算します。${a}×${b}＝${a*b}。`}});
+RG("中級","わり算",()=>{const b=R(2,9),q=R(1,9);return{q:`${b*q} ÷ ${b} ＝`,a:q,ex:`${b}×${q}＝${b*q} なので ${q}。`}});
+RG("中級","わり算",()=>{const it=pick(["クッキー","えんぴつ","カード"]),b=R(2,6),q=R(2,8);return Math.random()<.5?{q:`${it}が ${b*q}まい あります。${b}人で 同じ 数ずつ 分けると、1人 何まい？`,a:q,u:"まい",ex:`${b*q}÷${b}＝${q}。`}:{q:`${it}が ${b*q}まい あります。${b}まいずつ 分けると、何人に 分けられますか。`,a:q,u:"人",ex:`${b*q}÷${b}＝${q}。`}});
+RG("中級","あまりの ある わり算",()=>{const b=R(3,9),q=R(2,9),r=R(1,b-1),a=b*q+r;return{q:`${a} ÷ ${b} ＝ □ あまり ○`,parts:[q,r],us:["あまり",""],ex:`${b}×${q}＝${b*q}、${a}−${b*q}＝${r}。たしかめ：${b}×${q}＋${r}＝${a}。`}});
+RG("中級","わり算の 筆算",()=>{const b=R(2,9),q=R(12,99);if(b*q>999)return null;return{q:`${b*q} ÷ ${b} ＝`,a:q,ex:`たてる→かける→ひく→おろす の じゅんに 計算します。${q}。`}});
+RG("中級","かけ算・わり算の 文章問題",()=>{const k=R(0,3);
+  if(k===0){const p=R(4,9)*10+5,n=R(3,8);return{q:`1こ ${p}円の パンを ${n}こ 買います。代金は いくらですか。`,a:p*n,u:"円",ex:`${p}×${n}＝${p*n}円。`}}
+  if(k===1){const d=R(2,4);return{q:`えんぴつ 1ダースは 12本です。${d}ダースでは 何本ですか。`,a:12*d,u:"本",ex:`12×${d}＝${12*d}本。`}}
+  if(k===2){const b=R(3,8),t=R(2,6);return{q:`${b*t}は ${b}の 何倍ですか。`,a:t,u:"倍",ex:`${b*t}÷${b}＝${t}倍。`}}
+  const n=R(3,6),p=R(3,9)*10;return{q:`ガムが ${n}こで ${n*p}円です。1こは いくらですか。`,a:p,u:"円",ex:`${n*p}÷${n}＝${p}円。`}});
+RG("中級","長さ",()=>{const k=R(0,3);if(k===0){const c=R(2,15),m=R(1,9);return{q:`${c}cm${m}mm は 何mm ですか。`,a:c*10+m,u:"mm",ex:`1cm＝10mm。${c*10}＋${m}＝${c*10+m}mm。`}}
+  if(k===1){const mm=R(12,98);return{q:`${mm}mm は 何cm何mm ですか。`,parts:[Math.floor(mm/10),mm%10],us:["cm","mm"],ex:`10mm＝1cm。${Math.floor(mm/10)}cm${mm%10}mm。`}}
+  if(k===2){const a=R(1,4),b=R(1,9)*100,c=R(1,3),d=R(1,9)*100;const t=a*1000+b+c*1000+d;return{q:`${a}km${b}m ＋ ${c}km${d}m ＝`,parts:[Math.floor(t/1000),t%1000],us:["km","m"],ex:`m どうし たして ${b+d}m。${Math.floor(t/1000)}km${t%1000}m。`}}
+  const mm=R(3,11)*10;return{q:"テープの 長さは 何cm ですか。",fig:rulerSVG(mm),a:mm/10,u:"cm",ex:`${mm/10}cmです。`}});
+RG("中級","重さ",()=>{const k=R(0,2);if(k===0){const v=R(4,19)*50;return{q:"はかりは 何gを さして いますか。",fig:scaleSVG(1000,v,100),a:v,u:"g",ex:`${v}gです。`}}
+  if(k===1){const a=R(1,3),b=R(1,9)*100,c=R(1,2),d=R(1,9)*100,t=(a+c)*1000+b+d;return{q:`${a}kg${b}g ＋ ${c}kg${d}g ＝`,parts:[Math.floor(t/1000),t%1000],us:["kg","g"],ex:`g どうし たして ${b+d}g。${Math.floor(t/1000)}kg${t%1000}g。`}}
+  const g=R(12,48)*100;return{q:`${g}g は 何kg何g ですか。`,parts:[Math.floor(g/1000),g%1000],us:["kg","g"],ex:`1000g＝1kg。`}});
+RG("中級","かさ",()=>{const k=R(0,2);if(k===0){const d=R(11,39);return{q:`${d}dL は 何L何dL ですか。`,parts:[Math.floor(d/10),d%10],us:["L","dL"],ex:`10dL＝1L。`}}
+  if(k===1){const a=R(1,9)*100,b=R(1,9)*100,t=a+b;return{q:`${a}mL ＋ ${b}mL ＝`,parts:[Math.floor(t/1000),t%1000],us:["L","mL"],ex:`${t}mL＝${Math.floor(t/1000)}L${t%1000}mL。`}}
+  const l=R(2,7);return{q:`${l}L は 何mL ですか。`,a:l*1000,u:"mL",ex:`1L＝1000mL。`}});
+RG("中級","三角形・四角形",()=>{const it=pick([["4つの 辺の 長さが 同じで、4つの かどが 直角","正方形"],["4つの かどが 直角で、向かい合う 辺の 長さが 同じ","長方形"],["直角の かどが ある 三角形","直角三角形"],["3本の 直線で かこまれた 形","三角形"],["4本の 直線で かこまれた 形","四角形"]]);return{q:`${it[0]}の 形の 名前は？`,c:[it[1],...["正方形","長方形","直角三角形","三角形","四角形"].filter(x=>x!==it[1]).slice(0,3)],ex:`${it[1]}です。`}});
+RG("中級","はこの 形・角度・円",()=>{const k=R(0,3);if(k===0)return{q:"さいころの 向かい合う 面の 数を たすと いくつ？",a:7,ex:"さいころは 向かい合う 面の 和が 7です。"};
+  if(k===1){const r=R(2,9);return{q:`半径 ${r}cmの 円の 直径は 何cm？`,a:r*2,u:"cm",ex:`直径＝半径×2。${r*2}cm。`}}
+  if(k===2){const a=pick([30,45,60,90]),b=pick([30,45,60,90].filter(x=>x!==a));return{q:`三角じょうぎの ${a}° と ${b}° を あわせると 何度？`,a:a+b,u:"°",ex:`${a}＋${b}＝${a+b}°。`}}
+  return{q:"直方体の 面は いくつ？",c:["6","8","12","4"],ex:"直方体の 面は 6、辺は 12、頂点は 8です。"}});
+
+/* ===================== 上級（小4〜6・中1の入り口） ===================== */
+RG("上級","小数の しくみ",()=>{const k=R(0,2);if(k===0){const n=R(12,99);return{q:`0.1が ${n}こで いくつ？`,a:dec1(n),ex:`0.1が 10こで 1。${dec1(n)}。`}}
+  if(k===1){const a=R(1,9)*100+R(10,99),b=a+pick([-4,-1,1,3,5]);const x=(a/100).toFixed(2),y=(b/100).toFixed(2);return{q:`大きい ほうは？`,c:[a>b?x:y,a>b?y:x],fixed:[x,y],ex:`小数第二位まで くらべます。`}}
+  const t=R(1,9),o=R(1,9),d=R(1,9);return{q:`10が ${t}こ、1が ${o}こ、0.1が ${d}こで いくつ？`,a:`${t}${o}.${d}`,ex:`${t}${o}.${d}です。`}});
+RG("上級","小数の たし算・ひき算",()=>{const x=R(12,95),y=R(5,60);return Math.random()<.5?{q:`${dec1(x)} ＋ ${dec1(y)} ＝`,a:dec1(x+y),ex:`小数点を そろえて 計算します。`}:(()=>{const a=Math.max(x,y)+R(1,30),b=Math.min(x,y);return{q:`${dec1(a)} − ${dec1(b)} ＝`,a:dec1(a-b),ex:`小数点を そろえて 計算します。`}})()});
+RG("上級","小数の かけ算・わり算",()=>{const k=R(0,2);if(k===0){const x=R(11,49),b=R(2,9);return{q:`${dec1(x)} × ${b} ＝`,a:String(+(x*b/10).toFixed(1)),ex:`${x}×${b}＝${x*b}。小数点を 1けた 動かして ${+(x*b/10).toFixed(1)}。`}}
+  if(k===1){const b=R(2,9),q=R(11,49);return{q:`${dec1(b*q)} ÷ ${b} ＝`,a:dec1(q),ex:`商の 小数点は わられる数の 小数点の 真上に。${dec1(q)}。`}}
+  const x=R(11,29),y=R(2,9);return{q:`${dec1(x)} × 0.${y} ＝`,a:String(+(x*y/100).toFixed(2)),ex:`${x}×${y}＝${x*y}。小数点を 2けた 動かして ${+(x*y/100).toFixed(2)}。`}});
+RG("上級","分数の しくみ",()=>{const d=R(3,9),w=R(1,3),n=R(1,d-1),imp=w*d+n;return Math.random()<.5?{q:`${fr(0,imp,d)} を 帯分数に すると？`,c:opts(fr(w,n,d),[fr(w+1,n,d),fr(w,(n+1)%d||1,d),fr(n,w,d)]),ex:`${imp}÷${d}＝${w} あまり ${n}。`}:{q:`${fr(w,n,d)} を 仮分数に すると？`,c:opts(fr(0,imp,d),[fr(0,w*n+d,d),fr(0,imp+1,d),fr(0,w+n,d)]),ex:`${d}×${w}＋${n}＝${imp}。`}});
+RG("上級","倍数・約数",()=>{const k=R(0,1);if(k===0){const a=pick([4,6,8,9,10,12]),b=pick([3,4,6,8,15].filter(x=>x!==a));return{q:`${a}と ${b}の 最小公倍数は？`,a:lcm(a,b),ex:`${a}と ${b}の 公倍数の うち いちばん 小さいのは ${lcm(a,b)}。`}}
+  const g=pick([2,3,4,6]),a=g*R(2,6),b=g*R(2,6);if(a===b)return null;return{q:`${a}と ${b}の 最大公約数は？`,a:gcd(a,b),ex:`どちらも わりきれる いちばん 大きい 数は ${gcd(a,b)}。`}});
+RG("上級","約分・通分",()=>{const n=R(1,5),d=R(n+1,9),k=R(2,5);if(gcd(n,d)!==1)return null;return{q:`${fr(0,n*k,d*k)} を 約分すると？`,c:opts(fr(0,n,d),[fr(0,n*k/2>=1?Math.max(1,Math.floor(n*k/2)):1,d*k),fr(0,n+1,d),fr(0,n,d+1)]),ex:`分子と 分母を ${k}で わります。`}});
+RG("上級","分数の 計算",()=>{const pairs=[[2,3],[3,4],[2,5],[4,5],[3,5],[2,7],[3,8],[5,6]];const [d1,d2]=sample([2,3,4,5,6],2),n1=R(1,d1-1),n2=R(1,d2-1),L=lcm(d1,d2);const N=n1*L/d1+n2*L/d2,g=gcd(N,L);const ans=N>=L?frNorm(N/g,L/g):fr(0,N/g,L/g);
+  return{q:`${fr(0,n1,d1)} ＋ ${fr(0,n2,d2)} ＝`,c:opts(ans,[fr(0,n1+n2,d1+d2),fr(0,N,L+1),frNorm(N/g+1,L/g)]),ex:`通分して ${fr(0,n1*L/d1,L)}＋${fr(0,n2*L/d2,L)}。`}});
+RG("上級","角と 図形",()=>{const k=R(0,1);if(k===0){const a=R(30,80),b=R(30,150-a);return{q:`三角形の 2つの 角が ${a}° と ${b}° です。のこりの 角は 何度？`,a:180-a-b,u:"°",ex:`三角形の 角の 和は 180°。180−${a}−${b}＝${180-a-b}°。`}}
+  const a=R(70,110),b=R(70,110),c=R(60,110);if(360-a-b-c<=0)return null;return{q:`四角形の 3つの 角が ${a}°、${b}°、${c}° です。のこりの 角は 何度？`,a:360-a-b-c,u:"°",ex:`四角形の 角の 和は 360°。`}});
+RG("上級","面積",()=>{const k=R(0,3);if(k===0){const b=R(4,12),h=R(3,9),s=h+R(1,3);return{q:`底辺 ${b}cm、高さ ${h}cm（ななめの 辺は ${s}cm）の 平行四辺形の 面積は？`,a:b*h,u:"cm²",ex:`平行四辺形＝底辺×高さ。${b}×${h}＝${b*h}cm²。ななめの 辺は 使いません。`}}
+  if(k===1){const b=R(2,10)*2,h=R(3,9);return{q:`底辺 ${b}cm、高さ ${h}cmの 三角形の 面積は？`,a:b*h/2,u:"cm²",ex:`三角形＝底辺×高さ÷2。${b*h/2}cm²。`}}
+  if(k===2){const a=R(2,6),b=R(a+1,10),h=R(2,8)*2;return{q:`上底 ${a}cm、下底 ${b}cm、高さ ${h}cmの 台形の 面積は？`,a:(a+b)*h/2,u:"cm²",ex:`(上底＋下底)×高さ÷2。(${a}＋${b})×${h}÷2＝${(a+b)*h/2}cm²。`}}
+  const r=R(2,6);return{q:`半径 ${r}cmの 円の 面積は？（円周率は 3.14）`,a:String(+(r*r*3.14).toFixed(2)),u:"cm²",ex:`半径×半径×3.14。${r}×${r}×3.14＝${+(r*r*3.14).toFixed(2)}cm²。`}});
+RG("上級","体積",()=>{const a=R(2,9),b=R(2,9),c=R(2,9);return Math.random()<.7?{q:`たて ${a}cm、よこ ${b}cm、高さ ${c}cmの 直方体の 体積は？`,a:a*b*c,u:"cm³",ex:`${a}×${b}×${c}＝${a*b*c}cm³。`}:{q:`1辺 ${a}cmの 立方体の 体積は？`,a:a*a*a,u:"cm³",ex:`${a}×${a}×${a}＝${a*a*a}cm³。`}});
+RG("上級","単位換算・がい数",()=>{const k=R(0,3);if(k===0){const v=R(12,95)/10;return{q:`${v}km は 何m ですか。`,a:Math.round(v*1000),u:"m",ex:`1km＝1000m。`}}
+  if(k===1){const g=R(1,9)*50;return{q:`${g}g は 何kg ですか。`,a:String(g/1000),u:"kg",ex:`1000g＝1kg。${g}g＝${g/1000}kg。`}}
+  if(k===2){const n=R(1201,9849);return{q:`${n}を 四捨五入して、百の位までの がい数に しましょう。`,a:Math.round(n/100)*100,ex:`十の位を 見ます。`}}
+  const lo=R(10,20),hi=lo+R(3,6);return{q:`「${lo}以上 ${hi}未満」の 整数は 何こ ありますか。`,a:hi-lo,u:"こ",ex:`${lo}から ${hi-1}まで。${hi-lo}こ。`}});
+RG("上級","割合・百分率",()=>{const k=R(0,2);if(k===0){const all=pick([20,25,40,50]),p=pick([10,20,25,30,40,50,60,75,80]);const part=all*p/100;if(!Number.isInteger(part))return null;return{q:`${all}人の うち ${part}人は 何％ですか。`,a:p,u:"％",ex:`${part}÷${all}＝${p/100}。${p}％。`}}
+  if(k===1){const pr=R(5,30)*100,w=pick([1,2,3,5]);return{q:`${pr}円の ${w}割引きは いくらですか。`,a:pr*(10-w)/10,u:"円",ex:`${pr}×${(10-w)/10}＝${pr*(10-w)/10}円。`}}
+  const base=R(2,8)*100,p=pick([10,20,30,50]);return{q:`${base}円の ${p}％は いくらですか。`,a:base*p/100,u:"円",ex:`${base}×${p/100}＝${base*p/100}円。`}});
+RG("上級","比・平均・単位量あたり",()=>{const k=R(0,2);if(k===0){const v=[R(60,95),R(60,95),R(60,95),R(60,95)];const s=v.reduce((a,b)=>a+b,0);if(s%4)return null;return{q:`テストの 点が ${v.join("点、")}点です。平均は 何点？`,a:s/4,u:"点",ex:`合計 ${s}÷4＝${s/4}点。`}}
+  if(k===1){const a=R(2,5),b=R(2,7),m=R(2,5);if(gcd(a,b)!==1)return null;return{q:`${a}:${b} ＝ ${a*m}:□`,a:b*m,ex:`前の 数が ${m}倍なので、後ろも ${m}倍。`}}
+  const n1=R(4,8),p1=R(6,9)*10,n2=n1+R(1,3),p2=p1-R(1,2)*10;return{q:`みかん ${n1}こ ${n1*p1}円と、${n2}こ ${n2*p2}円。1こあたり 安いのは どちら？`,c:[`${n2}こ ${n2*p2}円`,`${n1}こ ${n1*p1}円`],ex:`1こ ${p1}円と ${p2}円。${n2}この ほうが 安い。`}});
+RG("上級","速さ",()=>{const k=R(0,2),v=pick([40,50,60,80]),t=R(2,5);if(k===0)return{q:`${v*t}kmを ${t}時間で 走りました。時速は 何km？`,a:v,u:"km",ex:`速さ＝道のり÷時間。${v*t}÷${t}＝${v}。`};
+  if(k===1){const vm=pick([60,70,80]),d=vm*R(10,30);return{q:`分速 ${vm}mで ${d}m 歩くと 何分 かかる？`,a:d/vm,u:"分",ex:`時間＝道のり÷速さ。${d}÷${vm}＝${d/vm}分。`}}
+  return{q:`時速 ${v}kmで ${t}時間 走ると 何km？`,a:v*t,u:"km",ex:`道のり＝速さ×時間。${v}×${t}＝${v*t}km。`}});
+RG("上級","正負の数",()=>{const a=R(-9,9),b=R(-9,9),k=R(0,2),S=x=>x<0?`(${x})`:`(+${x})`;if(!a||!b)return null;
+  if(k===0)return{q:`${S(a)} ＋ ${S(b)} ＝`,a:a+b,ex:`数直線で 考えます。${a+b}。`};if(k===1)return{q:`${S(a)} − ${S(b)} ＝`,a:a-b,ex:`ひく数の 符号を かえて たします。${a-b}。`};return{q:`${S(a)} × ${S(b)} ＝`,a:a*b,ex:`同じ 符号なら ＋、ちがう 符号なら −。${a*b}。`}});
+RG("上級","文字の 式",()=>{const k=R(0,2);if(k===0){const n=R(3,9);return{q:`1本 x円の ペンを ${n}本 買う ときの 代金を 式で 表すと？`,c:[`${n}x 円`,`x＋${n} 円`,`x÷${n} 円`,`${n}＋x 円`],ex:`x×${n}＝${n}x。`}}
+  if(k===1){const n=R(2,6);return{q:`x cm の テープを ${n}人で 同じ 長さに 分けた 1人分は？`,c:[`x/${n} cm`,`${n}x cm`,`x−${n} cm`],ex:`x÷${n}＝x/${n}。`}}
+  const a=R(2,6),x=R(2,9),b=R(1,20);return{q:`x＝${x} の とき、${a}x＋${b} の 値は？`,a:a*x+b,ex:`${a}×${x}＋${b}＝${a*x+b}。`}});
+
+const UNITS={
+  sugaku:[
+    ["計算",["たし算","ひき算","かけ算","わり算","小数の計算","分数の計算","計算のじゅんじょ","□にあてはまる数","計算の記号"]],
+    ["数と単位",["大きな数・漢数字","四捨五入","目もりの読み取り","単位えらび","単位のかん算"]],
+    ["時計・時間",["時計の読み方","時こく","時間のかん算","かかった時間","出発時こく（逆算）","おくれと到着時こく","時刻表","カレンダー"]],
+    ["お金・くらし",["お金の合計","買い物とのこり","予算内の買い物","わりびき","料金表","運賃","レシピの人数","ふくろづめと売り上げ","伝票のまちがい","品番と対応表","乗りかえ案内","路線図"]],
+    ["文章題",["組み合わせ","あまりと不足","じゅん番","何倍","速さと道のり"]],
+    ["図形",["面積","三角形と四角形","平行四辺形","角度","円と長さ"]],
+    ["表・グラフ",["表の読み取り","グラフの読み取り"]],
+  ],
+  kokugo:[
+    ["漢字",["漢字の読み","漢字の書き","同じ読みの漢字","送りがな","部首・画数"]],
+    ["ことば",["かたかな","ローマ字","反対のことば","ものの数え方","慣用句","ことわざ","ていねいなことば","辞書のじゅん番"]],
+    ["文法",["助詞","指示語","つなぎことば","文の組み立て"]],
+    ["読み取り",["文章の読み取り","電話のメモ","案内・実用文","ルールの○×"]],
+  ]
+};
+const SUBJ={sugaku:"数学",kokugo:"国語"};
+const PREFS=[["saitama","埼玉県"],["tokyo","東京都"],["hokkaido","北海道"],["shiga","滋賀県"],["osaka","大阪府"],["aichi","愛知県"],["hiroshima","広島県"]];
+const PNAME=Object.fromEntries([...PREFS,["common","基本"]]);
+const MARKS=["ア","イ","ウ","エ","オ","カ"];
+GENS.forEach(g=>{g.s=g.s||"sugaku"});
+
+/* 埼玉 本番そっくり（大問の構成は公開問題の分析にもとづく） */
+const MOCK_OLD={
+  sugaku:{time:40,secs:[
+    {t:"次の 計算を しましょう。",pt:2,u:["たし算","ひき算","かけ算","小数の計算","わり算","計算のじゅんじょ","分数の計算"]},
+    {t:"（　）に 合う 単位を 書きましょう。",pt:2,u:["単位えらび","単位えらび","単位えらび"]},
+    {t:"数や 量の 問題に 答えましょう。",pt:2,u:["大きな数・漢数字","四捨五入","目もりの読み取り","カレンダー","単位のかん算"]},
+    {t:"表を 見て 答えましょう。",pt:2,u:["表の読み取り","表の読み取り"]},
+    {t:"お金の 問題に 答えましょう。",pt:1,u:["お金の合計","買い物とのこり","買い物とのこり"]},
+    {t:"時こくと 時間の 問題に 答えましょう。",pt:1,u:["出発時こく（逆算）","時刻表","かかった時間"]},
+    {t:"図形の 問題に 答えましょう。",pt:1,u:["三角形と四角形","三角形と四角形","面積"]},
+    {t:"料理の 材料の 問題に 答えましょう。",pt:1,u:["レシピの人数","レシピの人数","レシピの人数"]},
+    {t:"グラフを 見て 答えましょう。",pt:1,u:["グラフの読み取り","グラフの読み取り","グラフの読み取り","グラフの読み取り"]},
+  ]},
+};
+const MOCK={
+  sugaku:{time:40,secs:SAI_TITLES.map((t,i)=>({t,pt:SAI_PTS[i],u:Array([7,3,5,2,3,3,3,3,4][i]).fill("")}))},
+  kokugo:{time:40,secs:[
+    {t:"漢字の 読みと 書きの 問題です。",pt:1,u:["漢字の読み","漢字の読み","漢字の読み","漢字の読み","漢字の書き","漢字の書き","漢字の書き","漢字の書き"]},
+    {t:"ローマ字を ひらがなに しましょう。",pt:1,u:["ローマ字","ローマ字","ローマ字"]},
+    {t:"ことばの 問題に 答えましょう。",pt:1,pick:[["送りがな","送りがな","送りがな","送りがな"],["反対のことば","反対のことば","反対のことば","反対のことば"],["ものの数え方","ものの数え方","ものの数え方","ものの数え方"]]},
+    {t:"慣用句の 意味を えらびましょう。",pt:1,u:["慣用句","慣用句","慣用句","慣用句","慣用句"]},
+    {t:"（　）に 入る ことばを えらびましょう。",pt:1,u:["助詞","助詞","助詞","助詞"]},
+    {t:"文章を 読んで 答えましょう。",pt:2,grp:pick.bind(null,["電話のメモ","文章の読み取り"])},
+    {t:"お知らせを 読んで 答えましょう。",pt:2,grp:()=>"案内・実用文"},
+    {t:"きまりを 読んで 答えましょう。",pt:1,grp:()=>"ルールの○×"},
+  ]}
+};
+
+/* ============================================================
+   保存（この端末だけ）
+   ============================================================ */
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let missMap=new Map(store.get("bunko-miss3",[]));
+let prefs=store.get("bunko-prefs",{furi:true,large:false});
+const saveMiss=()=>store.set("bunko-miss3",[...missMap].slice(-300));
+function applyPrefs(){document.documentElement.dataset.furi=prefs.furi?"on":"off";document.documentElement.dataset.size=prefs.large?"large":"normal";store.set("bunko-prefs",prefs)}
+const DEFAULT_VIDEOS=(()=>{try{return JSON.parse(document.getElementById("video-data").textContent)}catch(e){return {}}})();
+let videos=store.get("bunko-videos2",null)||JSON.parse(JSON.stringify(DEFAULT_VIDEOS));
+const saveVideos=()=>store.set("bunko-videos2",videos);
+const REIWA=new Date().getFullYear()-2018+(new Date().getMonth()<3?-1:0);
+function defaultCfg(kind){return{subject:"sugaku",src:"zenkoku",pref:"tokyo",mode:"units",units:null,count:10,timer:false,
+  ttype:"small",term:2,exam:"期末",nendo:`令和${REIWA}年度`,title:"",furiPrint:true,writeMode:true,answers:true,
+  cover:kind==="test",coverDate:"",coverFields:["学年・組","番号","名前"],coverTime:"",coverNotes:"・問題は 全部で ○問 あります。\n・答えは 答えの らんに 書きましょう。\n・終わったら 見直しを しましょう。"}}
+function printCfgFrom(cfg,extra={}){return{...defaultCfg("test"),...cfg,ttype:"practice",title:"",cover:false,answers:true,writeMode:false,furiPrint:prefs.furi,backKind:"practice",...extra}}
+function loadCfg(kind){const c=Object.assign(defaultCfg(kind),store.get("bunko-cfg3-"+kind,{}));return c}
+function saveCfg(kind,c){store.set("bunko-cfg3-"+kind,c)}
+
+/* ============================================================
+   問題を集める
+   ============================================================ */
+KB.push(...RB);
+const RUNITS={
+  sugaku:{"初級":[["かず",["かずを よもう","いくつ あるかな","どっちが おおきい","いくつと いくつ","かずの じゅんばん","100までの かず","なんばんめ"]],["くらし",["カレンダー","おかね","とけい","じかんの けいさん","おかいもの"]],["けいさん",["たしざん","10を つくる たしざん","ひきざん","10から ひく ひきざん","3つの かずの けいさん","ひっさん（たし・ひき）"]],["ぶんしょう・かたち",["ぶんしょうもんだい","かたち"]]],
+    "中級":[["数",["3けた・4けたの 数","大きな数"]],["計算",["3けたの たし算・ひき算","計算の じゅんばん","九九","かけ算の 筆算","わり算","あまりの ある わり算","わり算の 筆算","かけ算・わり算の 文章問題"]],["単位",["長さ","重さ","かさ"]],["図形",["三角形・四角形","はこの 形・角度・円"]]],
+    "上級":[["小数・分数",["小数の しくみ","小数の たし算・ひき算","小数の かけ算・わり算","分数の しくみ","倍数・約数","約分・通分","分数の 計算"]],["図形",["角と 図形","面積","体積"]],["くらしの 算数",["単位換算・がい数","割合・百分率","比・平均・単位量あたり","速さ"]],["中学の 準備",["正負の数","文字の 式"]]]},
+  kokugo:{"初級":[["もじ・ことば",["ことばを よもう","てんてん・まる","ちいさい っ ゃ ゅ ょ","カタカナ","ことばを つくろう","はじめての かん字"]],["文",["文と え","だれ・なに・いつ・どこ","どんな・どうして","は・が・を・に・へ","じゅんばん"]],["くらしの ことば",["はんたいの ことば","ていねいに いおう","こんなとき なんて いう？"]]],
+    "中級":[["ことば",["カタカナと 音の ことば","なかま分け","かなづかい","数え方","様子と 気持ちの ことば"]],["文の きまり",["主語と 述語","こそあど","言い方が 変わる","つなぎことば"]],["読む",["正しく 読もう（○×）","指示どおりに ならべる","じゅんじょよく"]],["ローマ字・漢字",["ローマ字","アルファベット","漢字の 読み","部首・送りがな・反対語"]]],
+    "上級":[["ことばの きまり",["敬語","慣用句","ことわざ","文法"]],["漢字",["特別な 読み方・熟語","まちがえやすい 漢字","漢字の 成り立ち","送りがな（5・6年）","国語辞典の じゅん"]],["読む・話す",["お知らせを 読む","電話・お店の やりとり","気持ちを 考えて 話す","理由を 考える","俳句"]],["英語",["はじめての 英語"]]]}
+};
+const LEVELS=["初級","中級","上級"];
+const catalog=cfg=>cfg.src==="review"?RUNITS[cfg.subject][cfg.level||"初級"]:UNITS[cfg.subject];
+const subjName=cfg=>cfg.src==="review"&&cfg.subject==="sugaku"?"算数":SUBJ[cfg.subject];
+const matchSrc=(o,cfg)=>{const p=o.p||[];if(cfg.src==="review")return p.includes("review")&&o.lv===(cfg.level||"初級");if(p.includes("review"))return false;
+  return cfg.src==="zenkoku"?true:cfg.src==="saitama"?p.includes("saitama"):p.includes(cfg.pref)};
+function unitsFor(cfg){
+  const has=new Set();
+  GENS.filter(g=>g.s===cfg.subject&&matchSrc(g,cfg)).forEach(g=>has.add(g.u));
+  KB.filter(q=>q.s===cfg.subject&&matchSrc(q,cfg)).forEach(q=>has.add(q.unit));
+  return catalog(cfg).map(([g,us])=>[g,us.filter(u=>has.has(u))]).filter(([g,us])=>us.length);
+}
+const bankCount=(cfg,u)=>KB.filter(q=>q.s===cfg.subject&&q.unit===u&&matchSrc(q,cfg)).length;
+const genFor=(cfg,u)=>GENS.filter(g=>g.s===cfg.subject&&g.u===u&&matchSrc(g,cfg));
+function makeGen(g){for(let t=0;t<30;t++){const r=g.f();if(!r)continue;
+  const q={s:g.s,unit:g.u,p:g.p,lv:g.lv,gen:true,...r};if(r.a!==undefined)q.a=String(r.a);
+  q.id="g|"+g.u+"|"+r.q+"|"+(r.c?r.c[0]:"")+(r.fig?"|"+String(r.a??r.c?.join()):"")+(r.table?"|"+r.table.length:"");return q}return null}
+function prep(q){const o={...q};if(o.c){o.order=o.fixed?[...o.fixed]:shuffle(o.c)}if(o.seq){let t=shuffle(o.seq),k=0;while(t.join()===o.seq.join()&&k++<10)t=shuffle(o.seq);o.tiles=t}return o}
+
+function buildSet(cfg){
+  if(cfg.mode==="mock") return buildMock(cfg.subject);
+  const avail=unitsFor(cfg).flatMap(x=>x[1]);
+  const units=(cfg.units||avail).filter(u=>avail.includes(u));
+  if(!units.length) return [];
+  const out=[],seen=new Set();
+  const bank={};units.forEach(u=>bank[u]=shuffle(KB.filter(q=>q.s===cfg.subject&&q.unit===u&&matchSrc(q,cfg))));
+  let order=shuffle(units),i=0,guard=0;
+  while(out.length<cfg.count&&guard<cfg.count*30){guard++;
+    const u=order[i++%order.length];let q=null;
+    const gens=genFor(cfg,u);
+    const useBank=bank[u].length&&(!gens.length||Math.random()<.5);
+    if(useBank) q=bank[u].shift();
+    else if(gens.length) q=makeGen(pick(gens));
+    if(!q) { if(units.every(x=>!bank[x].length&&!genFor(cfg,x).length)) break; continue; }
+    const key=q.id||q.q;if(seen.has(key))continue;seen.add(key);out.push(q);
+  }
+  const ord=catalog(cfg).flatMap(x=>x[1]);
+  out.sort((a,b)=>ord.indexOf(a.unit)-ord.indexOf(b.unit));
+  // 同じ文章の問題は つづけて ならべる
+  const grouped=[];out.forEach(q=>{if(q.passage){const j=grouped.findIndex(x=>x.passage===q.passage);if(j>=0){let k=j;while(k+1<grouped.length&&grouped[k+1].passage===q.passage)k++;grouped.splice(k+1,0,q);return}}grouped.push(q)});
+  return grouped.map(prep);
+}
+function buildMock(subject){
+  if(subject==="sugaku") return buildSaitamaMath().map(prep);
+  const cfg={subject,src:"saitama"};const out=[];
+  MOCK[subject].secs.forEach((sec,si)=>{
+    let us=sec.u||(sec.pick?pick(sec.pick):null);
+    if(sec.grp){const unit=sec.grp();const items=KB.filter(q=>q.s===subject&&q.unit===unit&&q.p.includes("saitama"));
+      const ps=[...new Set(items.map(q=>q.passage))];const P=pick(ps);items.filter(q=>q.passage===P).forEach(q=>out.push({...q,sec:si,pt:sec.pt}));return;}
+    const used=new Set();
+    us.forEach(u=>{let q=null;for(let t=0;t<20&&!q;t++){
+      let gens=GENS.filter(g=>g.s===subject&&g.u===u&&g.p.includes("saitama"));if(!gens.length)gens=GENS.filter(g=>g.s===subject&&g.u===u);
+      const bank=KB.filter(q=>q.s===subject&&q.unit===u&&q.p.includes("saitama")&&!used.has(q.id));
+      let c=gens.length?makeGen(pick(gens)):bank.length?pick(bank):null;
+      if(!c){const gb=KB.filter(q=>q.s===subject&&q.unit===u&&!used.has(q.id));c=gb.length?pick(gb):null}
+      if(c&&!used.has(c.id||c.q)){used.add(c.id||c.q);q=c}}
+      if(q) out.push({...q,sec:si,pt:sec.pt});});
+  });
+  return out.map(prep);
+}
+
+
+/* ---------- 外から使う入口 ---------- */
+const plain=s=>String(s).replace(/\{([^|}]+)\|([^}]+)\}/g,"$1").replace(/\[\[f:(\d*):(\d+):(\d+)\]\]/g,(m,w,n,d)=>(w?w+"と":"")+n+"/"+d).replace(/<[^>]+>/g,"").replace(/\n/g," ");
+const rubyHTML=s=>String(s).replace(/\{([^|}]+)\|([^}]+)\}/g,"<ruby>$1<rt>$2</rt></ruby>");
+const API={
+  UNITS, RUNITS, PREFS, MOCK, SAI_TITLES, SAI_PTS,
+  bank: KB,               // 決まった問題（国語・ふくしゅう国語）
+  generators: GENS,       // 数字が毎回かわる問題の作り方（数学・算数）
+  /* 1問つくる：subject "sugaku"|"kokugo"、unit 単元名、opts.trend 県コード、opts.level "初級"|"中級"|"上級" */
+  generate(subject,unit,opts={}){
+    let gs=GENS.filter(g=>g.s===subject&&g.u===unit);
+    if(opts.level) gs=gs.filter(g=>g.lv===opts.level); else gs=gs.filter(g=>!(g.p||[]).includes("review"));
+    if(opts.trend){const t=gs.filter(g=>(g.p||[]).includes(opts.trend));if(t.length)gs=t}
+    return gs.length?makeGen(pick(gs)):null;
+  },
+  /* 条件にあう問題をまとめて（buildSet と同じ）。cfg 例：{subject:"sugaku",src:"zenkoku",units:["たし算"],count:10} */
+  buildSet:(cfg)=>buildSet(Object.assign({mode:"units",count:10,src:"zenkoku",pref:"tokyo",units:null},cfg)),
+  saitamaMathMock:()=>buildSaitamaMath().map(prep),   // 埼玉 本番そっくり 数学（9大問・33問）
+  saitamaKokugoMock:()=>buildMock("kokugo"),          // 埼玉 本番そっくり 国語（8大問）
+  answerText, plain, rubyHTML
+};
+function answerText(q){
+  if(q.seq) return q.seq.join(q.sep??" → ");
+  if(q.multi) return q.multi.map(i=>q.c[i]).join("・");
+  if(q.c) return q.c[0];
+  if(q.parts) return (q.pre||"")+q.parts.map((v,i)=>v+(q.us[i]||"")).join("");
+  return q.a+(q.u||"");
+}
+if(typeof module!=="undefined"&&module.exports) module.exports=API; else root.BUNKO=API;
+})(typeof globalThis!=="undefined"?globalThis:this);
 // ================= 特別支援学校 入試の島（埼玉県立 特別支援学校 高等部 職業学科・分校の 入学選考むけ）=================
 // 埼玉県「問題作成要領」の はんい（国語・数学とも 小1〜小4）に あわせた オリジナル問題。過去問は つかわない。
 const TKX='💡 ポイント';
@@ -8067,17 +9326,44 @@ const TK_MEN=[['面接の へやに 入る ときは？','ドアを ノックし
  ['身だしなみで 大切な ことは？','シャツの ボタンを とめ、かみを ととのえる',['シャツを 出しっぱなしに する','ぼうしを かぶったまま','くつの かかとを ふむ']]];
 function tkMensetsu(){const m=pick(TK_MEN);return tkC(`🙇 ${m[0]}`,m[1],m[2],`ポイント：${m[1]}`,{thr:14})}
 
-// ---------------- ステージの 出しかた ----------------
-const TKK=[tkKotoba,tkKanban,tkRead,tkKotobazukai],TKS=[tkCalc,tkTime,tkMoney,tkMeasure];
-function tkQ(ri,si){const kok=()=>pick(TKK)(),sug=()=>pick(TKS)();
-  if(ri===0)return si>=0&&si<4?TKK[si]():kok();
-  if(ri===1)return si>=0&&si<4?TKS[si]():sug();
-  if(si===0)return kok();if(si===1)return sug();if(si===3)return tkMensetsu();
-  return Math.random()<.5?kok():sug()}
-const tkGacha=()=>tkQ(2,2);
+// ---------------- ステージの 出しかた（分校入試 問題ジェネレーター BUNKO を つかう）----------------
+// BUNKO：埼玉県の 職業学科・分校入学選考の 公開問題（H25〜R7）の 大問構成・数値の範囲・場面を 分析して 作った オリジナル問題の ジェネレーター
+const BK=()=>(typeof globalThis!=='undefined'&&globalThis.BUNKO)||null;
+const bkFr=s=>String(s).replace(/\[\[f:(\d*):(\d+):(\d+)\]\]/g,(m,w,n,d)=>`${w?`<span class="bkw">${w}</span>`:''}<span class="bkfr"><i>${n}</i><i>${d}</i></span>`);
+const bkH=s=>bkFr(BK().rubyHTML(String(s==null?'':s))).replace(/\n/g,'<br>');
+const bkP=s=>BK().plain(String(s==null?'':s)).trim();
+function bkPerm(a){const out=[a.join('')],seen=new Set(out);for(let t=0;t<60&&out.length<4;t++){const p=shuf(a).join('');if(!seen.has(p)){seen.add(p);out.push(p)}}return out}
+function bkParts(q){const us=q.us||[],pre=q.pre||'',fmt=v=>pre+v.map((x,i)=>x+(us[i]||'')).join(''),ans=fmt(q.parts),c=new Set([ans]);
+  const step=u=>u==='分'?5:u==='g'?100:u==='mL'?100:1,lim=(u,v)=>u==='分'?v>=0&&v<60:u==='日'?v>=1&&v<=31:u==='月'?v>=1&&v<=12:u==='時'?v>=0&&v<=23:u==='g'?v>=0&&v<1000:v>=0;
+  for(let t=0;t<80&&c.size<4;t++){const v=[...q.parts],i=r(0,v.length-1),k=pick([-2,-1,1,2])*step(us[i]);v[i]=+v[i]+k;if(v.every((x,j)=>lim(us[j],x)))c.add(fmt(v))}
+  return{a:ans,ch:shuf([...c])}}
+function bkMulti(q){const n=q.c.length,ok=q.multi.slice().sort(),key=a=>a.slice().sort().map(i=>bkP(q.c[i])).join('・'),ans=key(ok),c=new Set([ans]);
+  for(let t=0;t<80&&c.size<4;t++){const k=Math.max(1,Math.min(n,ok.length+pick([-1,0,0,1]))),s=shuf([...Array(n).keys()]).slice(0,k);c.add(key(s))}return{a:ans,ch:shuf([...c])}}
+// BUNKO の 1問 → ゲームの 1問
+function bkToGame(q,label){let head='';if(label)head+=`<span class="bksec">${label}</span>`;if(q.passage)head+=`<span class="tkpass">${bkH(q.passage)}</span>`;if(q.fig)head+=`<span class="bkfig">${q.fig}</span>`;if(q.table)head+=`<span class="bktab">${q.table}</span>`;
+  const qt=bkH(q.q),ex=bkH(q.ex||''),tall=!!(q.passage||q.fig||q.table),o={ex,exh:TKX,thr:tall?30:20,tall};
+  if(q.seq){const p=bkPerm(q.seq);return Object.assign({html:`${head}<span class="qtx tkq">${qt}</span><span class="tklist"><span>${shuf(q.seq).join(' ・ ')}</span></span>`,a:p[0],ch:shuf(p),ne:1},o)}
+  if(q.multi&&q.c){const m=bkMulti(q);return Object.assign({html:`${head}<span class="qtx tkq">${qt}</span><span class="tklist">${q.c.map(x=>`<span>${bkH(x)}</span>`).join('')}</span>`,a:m.a,ch:m.ch,ne:1},o)}
+  if(q.parts){const m=bkParts(q);return Object.assign({html:`${head}<span class="qtx tkq">${qt}</span>`,a:m.a,ch:m.ch,ne:1},o)}
+  if(q.c){const list=(q.fixed||shuf(q.c)).map(bkP),a=bkP(q.c[0]);return Object.assign({html:`${head}<span class="qtx tkq">${qt}</span>`,a,ch:[...new Set(list)],ne:1,big:list.every(x=>x.length<=3)},o)}
+  return Object.assign(QX(`${head}<span class="tkq">${qt}</span>${q.u?`<small class="bku">（こたえは ${q.u}で）</small>`:''}`,String(q.a)),o)}
+const TK_GROUPS={kokugo:[['漢字'],['ことば'],['文法'],['読み取り']],keisan:[['計算'],['数と単位'],['図形'],['表・グラフ']],kurashi:[['時計・時間'],['お金・くらし'],['文章題'],['時計・時間','お金・くらし']]};
+function bkUnits(subject,groups){const U=BK().UNITS[subject];return U.filter(([g])=>groups.includes(g)).flatMap(([,us])=>us)}
+function bkOne(subject,groups){const B=BK(),us=shuf(bkUnits(subject,groups));for(const u of us){for(const src of ['saitama','zenkoku']){try{const s=B.buildSet({subject,units:[u],count:1,src});if(s&&s[0])return bkToGame(s[0])}catch(e){}}}return null}
+const TKMQ={kokugo:[],sugaku:[]};
+function bkMock(subject){const B=BK();if(!TKMQ[subject].length)TKMQ[subject]=(subject==='sugaku'?B.saitamaMathMock():B.saitamaKokugoMock()).slice();const q=TKMQ[subject].shift(),sec=B.MOCK[subject].secs[q.sec];
+  return bkToGame(q,`${subject==='sugaku'?'数学':'国語'} 大問${q.sec+1}${sec&&sec.t?'：'+sec.t:''}`)}
+function tkQ(ri,si){if(!BK())return tkMensetsu();
+  const one=(sub,key,i)=>{const g=TK_GROUPS[key];const q=bkOne(sub,i>=0&&i<g.length?g[i]:pick(g));return q||tkMensetsu()};
+  if(ri===0){if(si===3&&Math.random()<.25)return tkKanban();return one('kokugo','kokugo',si)}
+  if(ri===1)return one('sugaku','keisan',si);
+  if(ri===2)return one('sugaku','kurashi',si);
+  if(si===0)return bkMock('kokugo');if(si===1)return bkMock('sugaku');if(si===2)return tkMensetsu();
+  return Math.random()<.5?one('kokugo','kokugo',-1):one('sugaku',pick(['keisan','kurashi']),-1)}
+const tkGacha=()=>tkQ(3,3);
 PACKS.push({id:'tokushi',n:'特別支援学校 入試の島',i:'🌸',c:'#d8487e',map:'kentei',bg:'#ffd6e6',lab:'コース',ken:1,land:['#ffe0ec','#f7b8d0','#e890b4'],top:'🌸',deco:['📝','🕐','💴','📏','🚸','🙇'],
-  desc:'埼玉県立 特別支援学校 高等部（職業学科・分校）の 入学選考に むけた れんしゅう。国語・数学は 小学1〜4年の はんいで、かんばん・チラシ・とけい・おかねの 問題も。面接の れんしゅうも できるよ',
-  regions:[['国語',['かんじ・ことば','かんばん・チラシ','よみとり','ことばづかい'],'国語'],['数学',['けいさん','とけい・カレンダー','おかね','はかる・ずけい・グラフ'],'数学'],['もぎ しけん',['国語 もぎ','数学 もぎ','国語と 数学','面接 れんしゅう'],'本番']]});
+  desc:'埼玉県立 特別支援学校 高等部（職業学科・分校）の 入学選考に むけた れんしゅう。県の 公開問題の 形を 分析して 作った オリジナル問題で、国語・数学の 本番そっくり もぎしけんと 面接の れんしゅうも できるよ',
+  regions:[['国語',['漢字','ことば','文法','読み取り'],'国語'],['数学 けいさん',['計算','数と単位','図形','表・グラフ'],'数学'],['数学 くらし',['時計・時間','お金・くらし','文章題','時計と お金'],'数学'],['もぎ しけん',['国語 本番そっくり','数学 本番そっくり','面接 れんしゅう','ぜんぶ まぜる'],'本番']]});
 PACK.tokushi=PACKS[PACKS.length-1];KEN.add('tokushi');
 document.head.insertAdjacentHTML('beforeend',`<style>
 .q .tkq{display:block;font:900 clamp(15px,4.4vw,19px)/1.55 var(--body);color:var(--ink);text-align:left}
@@ -8092,6 +9378,12 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .tkpic{display:block;margin:0 auto 6px}.tkpic svg{display:block;margin:0 auto;width:min(130px,32vw,17dvh);height:auto}.tkpic svg.tkbar{width:min(260px,70vw,30dvh)}
 .tkcoins{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:6px}.tkcoins span{display:flex;align-items:center;gap:3px;font:900 13px var(--body)}
 .tkcoins b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;font:900 10px var(--body);color:#5a4a20;background:#d8c070;border:2px solid #a89040}.tkcoins b.c100,.tkcoins b.c50{background:#d8dde4;border-color:#9aa4b0;color:#3a4450}.tkcoins b.c10{background:#c8844a;border-color:#8a5a2a;color:#fff}.tkcoins b.c1{background:#eef0f2;border-color:#b8c0c8;color:#555}.tkcoins b.c500{background:#e8cf80}
+.bksec{display:block;margin:0 auto 4px;width:max-content;max-width:100%;padding:1px 10px;border-radius:99px;background:#d8487e;color:#fff;font:900 11px var(--body)}
+.bkfig{display:block;margin:0 auto 6px;color:var(--ink)}.bkfig svg{display:block;margin:0 auto;max-width:100%;width:min(340px,86vw);height:auto;max-height:26dvh}.bkfig .big-emoji{font-size:48px;text-align:center}
+.bktab{display:block;margin:0 auto 6px;max-width:100%;max-height:24dvh;overflow:auto}.bktab table{margin:0 auto;border-collapse:collapse;font:800 12px/1.4 var(--body);background:#fff}.bktab th,.bktab td{border:1.5px solid #8a6a3a;padding:3px 7px;text-align:center}.bktab th{background:#f4ede0}
+.bkfr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px}.bkfr i{font-style:normal}.bkfr i:first-child{border-bottom:2px solid currentColor;padding:0 2px}
+.q .tkq u,.q .tkpass u{text-decoration:underline!important;text-decoration-thickness:2px!important;text-underline-offset:4px;color:#c8402a}
+.bku{display:block;font:800 12px var(--body);color:var(--muted)}.q ruby rt{font-size:.5em}
 </style>`);
 // ---------------- ガチャ：1日5回まで ----------------
 const G_MAX=5;
