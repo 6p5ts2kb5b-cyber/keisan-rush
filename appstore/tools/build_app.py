@@ -30,8 +30,8 @@ def rep(a, b, count=1):
     s = s.replace(a, b)
 
 # 1) 古着編を 外す
-rep("const pkList=()=>['kanken','suken','eiken','chu','sea','land','sky','asia','eu','oki','west','east','jpn','ura']",
-    "const pkList=()=>['kanken','suken','eiken','chu','sea','land','sky','asia','eu','oki','ura']")
+rep("const pkList=()=>['tokushi','kanken','suken','eiken','chu','sea','land','sky','asia','eu','oki','west','east','jpn','ura']",
+    "const pkList=()=>['tokushi','kanken','suken','eiken','chu','sea','land','sky','asia','eu','oki','ura']")
 
 # 2) 裏機能（たま）
 rep("const devTama=()=>slotName()==='たま';",
